@@ -1,0 +1,53 @@
+================================================================================
+EXPERIMENT 01: BadFU Core Mechanism Verification
+Script: verify_badfu.py
+Date: 2026-10-01
+Device: cuda:0 (NVIDIA GPU Acceleration)
+Dataset: MNIST (Non-IID Dominant Class 70%, K=5 Clients)
+Architecture: SimpleNN (2 FC Layers: 784 -> 128 -> 10)
+Attack Setup: BadNet 3x3 patch on lower-right, Target Class = 0
+Poison Ratio: 300 backdoor samples (D_bd), 300 camouflage samples (D_c) on Client 0
+================================================================================
+
+[*] Device: cuda:0
+[*] Loading and partitioning MNIST dataset...
+  - Client 0 Clean Samples: 12,415
+  - Client 1 Clean Samples: 12,053
+  - Client 2 Clean Samples: 11,538
+  - Client 3 Clean Samples: 12,113
+  - Client 4 Clean Samples: 11,881
+[*] Client 0 (Malicious) Dataset: Clean: 11,815 | D_bd: 300 | D_c: 300
+
+--------------------------------------------------------------------------------
+Phase 1: Federated Training under BadFU (Dormant Backdoor State)
+--------------------------------------------------------------------------------
+  [Round  2/10] Clean ACC: 90.40% | Pre-activated ASR: 2.14%
+  [Round  4/10] Clean ACC: 92.08% | Pre-activated ASR: 3.48%
+  [Round  6/10] Clean ACC: 93.14% | Pre-activated ASR: 5.37%
+  [Round  8/10] Clean ACC: 93.95% | Pre-activated ASR: 7.47%
+  [Round 10/10] Clean ACC: 94.50% | Pre-activated ASR: 9.77%
+
+[Result 1] Training Complete: ACC = 94.50%, ASR = 9.77%
+=> Backdoor successfully concealed by camouflage samples (D_c) during training!
+
+--------------------------------------------------------------------------------
+Phase 2: Malicious Unlearning Request (Client 0 requests deletion of D_c)
+--------------------------------------------------------------------------------
+[Result 2] Post-Unlearning (D_c deleted): ACC = 94.02%, Post-activated ASR = 36.62%
+=> Backdoor awakening confirmed! (ASR jumped by 3.7x from 9.77% to 36.62% in 10 rounds)
+
+--------------------------------------------------------------------------------
+Phase 3: Control Experiment - Benign Client Normal Unlearning (RQ5 Verification)
+--------------------------------------------------------------------------------
+[Result 3] Normal Client Deletion: ACC = 94.48%, ASR = 10.55%
+=> Backdoor remains dormant (10.55%)! Benign unlearning does not trigger the backdoor.
+
+================================================================================
+SUMMARY TABLE
+================================================================================
+Experiment Stage                 | Clean ACC (%)   | Backdoor ASR (%)
+--------------------------------------------------------------------------------
+1. Federated Training (Dormant)  | 94.50           | 9.77
+2. Malicious Unlearning (D_c)    | 94.02           | 36.62
+3. Benign Client Unlearning (RQ5)| 94.48           | 10.55
+================================================================================

@@ -1,0 +1,41 @@
+================================================================================
+EXPERIMENT 03: Autonomous Security Proxy Defense (On-Device TEE Architecture)
+Script: agent_proxy_defense.py
+Date: 2026-10-01
+Architecture: Autonomous Security Proxy / Client-side Enclave Inspection
+Detection Metric: Pixel-wise Spatial Invariance (Variance ≈ 0 on Invariant Patch)
+================================================================================
+
+[*] Device: cuda:0
+
+================================================================================
+[SEC-PROXY] Autonomous Security Proxy: Statistical Audit on Deletion Request
+  - Audit Target: 500 samples submitted for unlearning by Client 0
+  - Invariance Threshold: pixel_std < 0.05 and pixel_mean > 1.5
+  [!] ALARM: Anomalous Invariant Patch (Trigger Artifact) Detected!
+  [!] Suspicious Invariant Pixels Detected: 9 pixels
+  [!] Trigger Coordinates Identified: Y[24~26], X[24~26] (100% accuracy on 3x3 patch!)
+  [!] Audit Verdict: BadFU-style Camouflage Backdoor Activation Attempt Confirmed.
+================================================================================
+
+>>> [Scenario 1] Naive Unlearning without Proxy
+[*] Naive Result: Clean ACC = 94.33% | Backdoor ASR = 43.94% (Attack Successful)
+
+>>> [Scenario 2] Proxy Action 1: Malicious Unlearning Request Rejection
+[*] Rejection Result: Clean ACC = 94.33% | Backdoor ASR = 9.59% (Backdoor Locked in Dormancy)
+
+>>> [Scenario 3] Proxy Action 2: Malicious Client Full Revocation & Isolation
+[*] Isolation Result: Clean ACC = 94.41% | Backdoor ASR = 0.45% (Backdoor Completely Eliminated!)
+
+================================================================================
+AUTONOMOUS SECURITY PROXY COMPARISON SUMMARY
+================================================================================
+Architecture / Scenario          | Clean ACC (%)   | Backdoor ASR (%)
+--------------------------------------------------------------------------------
+1. Naive Unlearning (BadFU Won)  | 94.33           | 43.94
+2. Proxy Defense 1: Rejection    | 94.33           | 9.59
+3. Proxy Defense 2: Full Removal | 94.41           | 0.45
+================================================================================
+[*] Zero False Negatives: Proxy detected exactly the 9 trigger pixels without server data exposure.
+[*] Attack Neutralized: ASR drops from 43.94% to 9.59% (Rejection) and 0.45% (Revocation).
+================================================================================

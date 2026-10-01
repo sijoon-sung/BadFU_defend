@@ -1,0 +1,51 @@
+================================================================================
+EXPERIMENT 04: Server-Level Gradient Directional Audit (Temporal Acceleration)
+Script: server_gradient_deep_audit.py
+Date: 2026-10-01
+Setup: 10 Training Rounds + Unlearning Round, K=5 Clients (Non-IID Dominant 70%)
+Principle: Zero Raw Data Exposure at Server. Untrusted Client Assumption.
+Metrics: 10-Class L2 Norms of Last Layer Delta (||ΔW[c]||_2), Surge Ratio, Temporal Acceleration
+================================================================================
+
+[*] Device: cuda:0
+[Train Round  5/10] Clean ACC: 92.66% | Pre-activated ASR: 4.42%
+[Train Round 10/10] Clean ACC: 94.37% | Pre-activated ASR: 9.05%
+[*] Pre-training Finished (Dormant State): Clean ACC = 94.37% | Pre-ASR = 9.05%
+
+================================================================================
+SERVER-SIDE EXHAUSTIVE 10-CLASS WEIGHT DELTA NORM MATRIX (||ΔW[c]||_2)
+================================================================================
+Client      | C0   | C1   | C2   | C3   | C4   | C5   | C6   | C7   | C8   | C9   | Max Class | Surge
+-----------------------------------------------------------------------------------------------------------
+Client 0    | 0.20 | 0.09 | 0.04 | 0.04 | 0.03 | 0.04 | 0.05 | 0.04 | 0.04 | 0.03 | Class 0   | 4.46x
+Client 1    | 0.03 | 0.04 | 0.15 | 0.13 | 0.05 | 0.05 | 0.04 | 0.04 | 0.05 | 0.04 | Class 2   | 2.86x
+Client 2    | 0.03 | 0.04 | 0.04 | 0.03 | 0.10 | 0.14 | 0.04 | 0.03 | 0.05 | 0.05 | Class 5   | 2.92x
+Client 3    | 0.04 | 0.03 | 0.04 | 0.03 | 0.05 | 0.05 | 0.11 | 0.12 | 0.04 | 0.06 | Class 7   | 2.44x
+Client 4    | 0.03 | 0.04 | 0.04 | 0.05 | 0.05 | 0.05 | 0.03 | 0.05 | 0.11 | 0.12 | Class 9   | 2.43x
+-----------------------------------------------------------------------------------------------------------
+
+================================================================================
+DEEP ACCELERATION ANALYSIS: ABSOLUTE SURGE vs TEMPORAL ACCELERATION (Δ-JUMP)
+================================================================================
+Client          | Dominant Class | Max Surge Class | Surge Ratio | Acceleration (Δ-Jump) | Server Verdict
+---------------------------------------------------------------------------------------------------------
+Client 0 (Atk)  | Class 0, 1     | Class 0         | 4.46x       | 1.54x (Sudden Surge!) | 🚨 [MALICIOUS BACKDOOR]
+Client 1 (Ben)  | Class 2, 3     | Class 2         | 2.86x       | 0.96x (Consistent)    | ✓ [BENIGN Non-IID]
+Client 2 (Ben)  | Class 4, 5     | Class 5         | 2.92x       | 0.95x (Consistent)    | ✓ [BENIGN Non-IID]
+Client 3 (Ben)  | Class 6, 7     | Class 7         | 2.44x       | 0.96x (Consistent)    | ✓ [BENIGN Non-IID]
+Client 4 (Ben)  | Class 8, 9     | Class 9         | 2.43x       | 1.00x (Consistent)    | ✓ [BENIGN Non-IID]
+---------------------------------------------------------------------------------------------------------
+Detection Criteria: Surge Ratio >= 3.5 AND Temporal Acceleration >= 1.5
+False Positive Rate: 0.0% (Clients 1-4 100% preserved)
+True Positive Rate: 100.0% (Client 0 accurately isolated)
+
+================================================================================
+SERVER DEFENSE BENCHMARK EVALUATION
+================================================================================
+Aggregation Architecture                        | Clean ACC (%)   | Backdoor ASR (%)
+--------------------------------------------------------------------------------
+1. Naive Unlearning Aggregation (Client 0 inc.) | 94.55           | 14.68
+2. Server Audit Defense (Client 0 Dropped)      | 94.57           | 6.22
+================================================================================
+[*] Precision Defense: Preserves model utility (ACC 94.57%) while capping backdoor ASR at 6.22%.
+================================================================================
