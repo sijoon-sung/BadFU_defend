@@ -22,8 +22,10 @@ for NAME in "$@"; do
     n=$(ls checkpoints/local_net_model_${NAME}_round_*.pkl 2>/dev/null | wc -l)
     [ "$n" -ge 2 ] || { echo "   공격 실행 실패: 저장된 라운드 $n 개. logs_fuba_${NAME}.txt 확인"; exit 1; }
   fi
-  echo "== [$NAME] 2/2 탐지 + 정화"
+  echo "== [$NAME] 2/3 탐지 + 정화"
   PYTHONIOENCODING=utf-8 python pipeline_detect_purify.py --name "$NAME" | grep -v "^Files already"
+  echo "== [$NAME] 3/3 기존 방어 비교"
+  PYTHONIOENCODING=utf-8 python baselines_compare.py --name "$NAME" | grep -v "^Files already"
 done
 echo "== 집계"
 PYTHONIOENCODING=utf-8 python aggregate_pipeline.py --names "$@"

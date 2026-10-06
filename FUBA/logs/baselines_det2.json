@@ -1,0 +1,41 @@
+{
+  "name": "det2",
+  "req": 4,
+  "atk": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "target": 8,
+  "rows": {
+    "none(dormant)": [
+      96.16,
+      6.33
+    ],
+    "B req-only FedAvg (activation)": [
+      84.38,
+      48.63
+    ],
+    "Median (robust-agg)": [
+      10.49,
+      100.0
+    ],
+    "Trimmed-mean b=0.2": [
+      72.93,
+      69.24
+    ],
+    "Top-k cos (FUBA, keep=4)": [
+      9.78,
+      100.0
+    ],
+    "attacker-full removal": [
+      80.98,
+      0.0
+    ],
+    "OURS: req + allV (FedAvg)": [
+      87.22,
+      33.8
+    ]
+  }
+}
