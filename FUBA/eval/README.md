@@ -42,3 +42,18 @@
 어떤 클래스에서 정렬 군집을 형성). → 공격 유무를 거르는 **널 게이트**가 필요하다: 정상 모델 앙상블에서
 얻은 O-질량/정렬 신호의 기준 분포를 넘을 때만 공격 선언. 이 널 분포 생성이 train_benign_fl.py 의 목적.
 이 게이트 이전에는 탐지 FPR 주장을 '공격이 존재한다고 이미 아는' 조건으로 한정해야 한다.
+
+## 전체 절차 (근사 아님: 진짜 FL → 진짜 FU → 탐지 → 정화)
+`run_full_experiment.sh <NAME> <SEED> [retrain|fedEraser|...]` 한 번에:
+1. **진짜 FL+공격**: `run_real_fuba.sh` → FUBA `main.py` 를 mpiexec 로 실행(라운드별 모델 저장).
+2. **진짜 FU(삭제 요청 실행)**: FUBA `unlearn.py --method=<FU>` → 요청자(client4) 삭제 → 백도어 활성화.
+   산출 `saved_models/global_<FU>_iba_mnist.pkl`.
+3. **탐지**: `pipeline_detect_purify.py` (저장 업데이트만).
+4. **정화**: `eval/purify_unlearned.py` → 2)의 **진짜 언러닝 모델**의 헤드에서 V 제거(재학습 없음), ACC/ASR 비교.
+
+### 스모크 체크로 확인한 사실(참고, 본실험 아님)
+- 진짜 `retrain` FU 는 활성화 ASR ≈ 95%(FUBA 논문 ~97% 와 일치). 1차 근사(θ_T−U_req, ASR 34%)보다 훨씬 강함.
+- **범위 한계**: from-scratch `retrain` 로 활성화된 모델에선 헤드 V-제거만으로 ASR 95→90 로 거의 안 듣는다
+  (retrain 이 백도어를 전 층에 심음). 우리 정화는 **근사 FU(FedEraser)** 처럼 저장 업데이트로 재구성된
+  모델에 적합하다. retrain 대상 정화는 층 전체 처리나 재학습 결합이 필요 — 향후 과제. `--method fedEraser`
+  로도 돌려 두 FU 에서의 정화 효과를 각각 보고할 것.
