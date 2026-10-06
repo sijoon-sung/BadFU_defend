@@ -1,6 +1,6 @@
 #!/bin/bash
-export PATH="/c/Users/win/AppData/Local/hermes/hermes-agent/venv/Library/bin:$PATH"
-cd /c/Users/win/Desktop/badFU/FUBA
+export PATH="/c/Users/DISLAB/AppData/Local/Programs/Python/Python312/Library/bin:$PATH"
+cd "$(dirname "$0")"
 export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1
 NAME="${1:-det1}"
 PYTHONIOENCODING=utf-8 mpiexec -genv OPENBLAS_NUM_THREADS 1 -genv OMP_NUM_THREADS 1 -genv MKL_NUM_THREADS 1 -n 5 python main.py \
