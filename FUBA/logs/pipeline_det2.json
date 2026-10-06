@@ -1,0 +1,64 @@
+{
+  "name": "det2",
+  "detection": {
+    "t_hat": 8,
+    "target_correct": true,
+    "A_hat": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "atk_precision": 1.0,
+    "atk_recall": 1.0,
+    "req_hat": 4,
+    "req_correct": true,
+    "mag_on_target": {
+      "0": 0.0498,
+      "1": 0.0485,
+      "2": 0.0463,
+      "3": 0.0449,
+      "4": 0.0946,
+      "5": 0.0394,
+      "6": 0.0297,
+      "7": 0.0329
+    },
+    "align_to_cluster": {
+      "0": 0.8,
+      "1": 0.864,
+      "2": 0.829,
+      "3": 0.863,
+      "4": -0.011,
+      "5": -0.421,
+      "6": -0.428,
+      "7": -0.335
+    }
+  },
+  "purification": {
+    "none_dormant": {
+      "acc": 96.16,
+      "asr": 6.33
+    },
+    "req_only_activation": {
+      "acc": 84.02,
+      "asr": 43.64
+    },
+    "req+atk_full": {
+      "acc": 66.93,
+      "asr": 0.01
+    },
+    "req+allV": {
+      "acc": 86.08,
+      "asr": 31.35
+    },
+    "req+randV_ctrl": {
+      "acc": 83.98,
+      "asr": 43.66
+    },
+    "normal_contrib_loss_frac": 0.0818,
+    "ref_two_deletion": {
+      "acc": 66.93,
+      "asr": 0.01
+    }
+  }
+}
