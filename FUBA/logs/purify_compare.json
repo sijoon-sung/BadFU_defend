@@ -1,0 +1,127 @@
+{
+  "args": {
+    "name": "det1",
+    "rounds": 8,
+    "warmup": 3,
+    "K": 8,
+    "atk": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "req": 4,
+    "target": 8,
+    "eps": 1.0,
+    "thr": 0.04,
+    "ks": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "out": "logs/purify_compare.json"
+  },
+  "results": {
+    "A none(dormant)": {
+      "acc": 95.75,
+      "asr": 5.054311682553758
+    },
+    "B req only (=activation)": {
+      "acc": 84.83000000000001,
+      "asr": 34.48237641321215
+    },
+    "C req + attackers FULL": {
+      "acc": 68.41000000000001,
+      "asr": 0.0
+    },
+    "D req + atk V[full,k=1]": {
+      "acc": 77.46,
+      "asr": 39.7251163821769
+    },
+    "E req + ALL V[full,k=1]": {
+      "acc": 75.56,
+      "asr": 38.31744624251829,
+      "normal_removed_frac": 0.2963480767785681
+    },
+    "F req + atk RAND[k=1]": {
+      "acc": 84.83000000000001,
+      "asr": 34.493460430059855
+    },
+    "D req + atk V[full,k=2]": {
+      "acc": 75.91,
+      "asr": 39.76945244956772
+    },
+    "E req + ALL V[full,k=2]": {
+      "acc": 74.11999999999999,
+      "asr": 38.39503436045223,
+      "normal_removed_frac": 0.30027622645475993
+    },
+    "F req + atk RAND[k=2]": {
+      "acc": 84.86,
+      "asr": 34.48237641321215
+    },
+    "D req + atk V[full,k=4]": {
+      "acc": 76.55,
+      "asr": 38.60563068055863
+    },
+    "E req + ALL V[full,k=4]": {
+      "acc": 74.72,
+      "asr": 36.94302815340279,
+      "normal_removed_frac": 0.30042474403231717
+    },
+    "F req + atk RAND[k=4]": {
+      "acc": 84.87,
+      "asr": 34.48237641321215
+    },
+    "D req + atk V[full,k=8]": {
+      "acc": 77.66999999999999,
+      "asr": 23.287519397029484
+    },
+    "E req + ALL V[full,k=8]": {
+      "acc": 73.44000000000001,
+      "asr": 19.773886056306807,
+      "normal_removed_frac": 0.3150819230929922
+    },
+    "F req + atk RAND[k=8]": {
+      "acc": 84.83000000000001,
+      "asr": 34.41587231212591
+    },
+    "D req + atk V[fc3,k=1]": {
+      "acc": 84.92,
+      "asr": 34.27178009310574
+    },
+    "E req + ALL V[fc3,k=1]": {
+      "acc": 85.03,
+      "asr": 33.994679671913104,
+      "normal_removed_frac": 0.01045825423345221
+    },
+    "D req + atk V[fc3,k=2]": {
+      "acc": 88.61,
+      "asr": 21.270228330747063
+    },
+    "E req + ALL V[fc3,k=2]": {
+      "acc": 89.24,
+      "asr": 17.69009088893815,
+      "normal_removed_frac": 0.06818734850210574
+    },
+    "D req + atk V[fc3,k=4]": {
+      "acc": 89.27000000000001,
+      "asr": 19.197517180226114
+    },
+    "E req + ALL V[fc3,k=4]": {
+      "acc": 90.11,
+      "asr": 14.68632232320993,
+      "normal_removed_frac": 0.07799854184084141
+    },
+    "D req + atk V[fc3,k=8]": {
+      "acc": 89.55,
+      "asr": 17.047217911771227
+    },
+    "E req + ALL V[fc3,k=8]": {
+      "acc": 90.09,
+      "asr": 12.225670583019285,
+      "normal_removed_frac": 0.08788582091171782
+    }
+  }
+}

@@ -1,0 +1,67 @@
+
+[seed 1] base(public 5996) acc 93.11 asr 0.61 | attacker 11176 benign [10853, 10386, 10902, 10687]
+  full_r0_s1       dormant      acc 96.45 | asr  22.1 (last5  23.0) | margin  -1.76 |  22.2s
+  full_r0_s1       retrain      acc 96.48 | asr  81.3 (last5  81.1) | margin  +2.90 |  21.5s
+  full_r0_s1       clean        acc 96.54 | asr   0.4 (last5   0.4) | margin -11.04 |  22.1s
+  full_r0_s1       cont_dormant asr by round 31 36 40 45 47 51 54 56 59 62
+  full_r0_s1       cont_clean   asr by round 1 1 1 2 3 5 8 12 17 22
+  fedex_r1_s1      dormant      acc 94.34 | asr  14.9 (last5  16.4) | margin  -2.01 |  31.7s
+  fedex_r1_s1      retrain      acc 94.73 | asr  75.5 (last5  76.8) | margin  +2.99 |  30.9s
+  fedex_r1_s1      clean        acc 94.68 | asr   0.6 (last5   0.6) | margin -11.15 |  30.7s
+  fedex_r1_s1      cont_dormant asr by round 27 40 50 56 57 67 69 68 70 72
+  fedex_r1_s1      cont_clean   asr by round 1 4 8 16 26 40 49 52 61 63
+  fedex_r2_s1      dormant      acc 95.02 | asr  14.4 (last5  14.8) | margin  -2.19 |  34.0s
+  fedex_r2_s1      retrain      acc 95.10 | asr  78.7 (last5  79.0) | margin  +3.70 |  33.0s
+  fedex_r2_s1      clean        acc 95.20 | asr   0.5 (last5   0.6) | margin -11.60 |  33.2s
+  fedex_r2_s1      cont_dormant asr by round 27 40 43 56 49 59 62 62 62 62
+  fedex_r2_s1      cont_clean   asr by round 2 6 12 23 30 44 57 56 65 63
+  fedex_r4_s1      dormant      acc 95.89 | asr  21.7 (last5  24.1) | margin  -1.76 |  34.0s
+  fedex_r4_s1      retrain      acc 95.91 | asr  87.4 (last5  89.8) | margin  +5.96 |  33.3s
+  fedex_r4_s1      clean        acc 95.97 | asr   0.3 (last5   0.4) | margin -12.76 |  33.5s
+  fedex_r4_s1      cont_dormant asr by round 41 52 57 67 64 71 76 72 75 73
+  fedex_r4_s1      cont_clean   asr by round 1 3 9 20 27 38 56 58 60 60
+  fedex_r8_s1      dormant      acc 96.44 | asr  15.8 (last5  16.5) | margin  -2.76 |  28.9s
+  fedex_r8_s1      retrain      acc 96.65 | asr  89.1 (last5  90.1) | margin  +9.14 |  29.2s
+  fedex_r8_s1      clean        acc 96.55 | asr   0.4 (last5   0.4) | margin -16.39 |  29.2s
+  fedex_r8_s1      cont_dormant asr by round 26 39 43 49 50 59 63 57 67 64
+  fedex_r8_s1      cont_clean   asr by round 1 3 8 19 26 38 46 47 60 60
+  fedex_r16_s1     dormant      acc 97.13 | asr  14.7 (last5  14.8) | margin  -3.22 |  28.9s
+  fedex_r16_s1     retrain      acc 97.16 | asr  88.2 (last5  88.5) | margin +10.42 |  27.6s
+  fedex_r16_s1     clean        acc 97.13 | asr   0.4 (last5   0.4) | margin -18.60 |  27.2s
+  fedex_r16_s1     cont_dormant asr by round 27 38 41 44 45 54 59 57 61 61
+  fedex_r16_s1     cont_clean   asr by round 1 3 8 19 27 44 54 54 66 66
+  fedex_r64_s1     dormant      acc 97.39 | asr  15.8 (last5  17.8) | margin  -3.22 |  28.7s
+  fedex_r64_s1     retrain      acc 97.39 | asr  92.2 (last5  92.0) | margin +11.26 |  29.0s
+  fedex_r64_s1     clean        acc 97.36 | asr   0.3 (last5   0.3) | margin -21.98 |  28.6s
+  fedex_r64_s1     cont_dormant asr by round 28 36 42 45 48 54 59 59 62 63
+  fedex_r64_s1     cont_clean   asr by round 1 4 10 21 34 52 60 65 71 73
+  fedit_r1_s1      dormant      acc 94.32 | asr   1.2 (last5   1.5) | margin  -4.67 |  26.8s
+  fedit_r1_s1      retrain      acc 94.08 | asr  53.0 (last5  55.3) | margin  +0.12 |  26.2s
+  fedit_r1_s1      clean        acc 94.46 | asr   0.5 (last5   0.5) | margin -10.04 |  27.8s
+  fedit_r1_s1      cont_dormant asr by round 2 3 4 4 4 5 5 6 6 7
+  fedit_r1_s1      cont_clean   asr by round 1 1 1 1 1 1 1 1 1 2
+  fedit_r2_s1      dormant      acc 94.91 | asr  14.8 (last5  16.5) | margin  -2.11 |  31.1s
+  fedit_r2_s1      retrain      acc 94.93 | asr  63.9 (last5  64.6) | margin  +1.37 |  30.1s
+  fedit_r2_s1      clean        acc 95.05 | asr   0.5 (last5   0.5) | margin -11.44 |  29.6s
+  fedit_r2_s1      cont_dormant asr by round 23 37 38 49 48 52 59 53 62 54
+  fedit_r2_s1      cont_clean   asr by round 1 2 3 5 8 11 18 17 21 21
+  fedit_r4_s1      dormant      acc 95.69 | asr  17.7 (last5  18.1) | margin  -2.18 |  29.2s
+  fedit_r4_s1      retrain      acc 95.77 | asr  85.0 (last5  86.8) | margin  +5.32 |  28.4s
+  fedit_r4_s1      clean        acc 95.88 | asr   0.4 (last5   0.4) | margin -12.37 |  27.7s
+  fedit_r4_s1      cont_dormant asr by round 33 42 45 56 54 61 68 58 67 63
+  fedit_r4_s1      cont_clean   asr by round 1 2 3 7 10 16 27 31 38 37
+  fedit_r8_s1      dormant      acc 96.49 | asr  11.7 (last5  11.9) | margin  -3.06 |  35.0s
+  fedit_r8_s1      retrain      acc 96.64 | asr  88.0 (last5  88.7) | margin  +7.82 |  34.6s
+  fedit_r8_s1      clean        acc 96.51 | asr   0.3 (last5   0.4) | margin -16.46 |  34.5s
+  fedit_r8_s1      cont_dormant asr by round 20 30 36 44 47 52 65 53 62 59
+  fedit_r8_s1      cont_clean   asr by round 1 1 2 4 6 9 16 16 29 27
+  fedit_r16_s1     dormant      acc 97.15 | asr  17.4 (last5  16.6) | margin  -2.95 |  34.4s
+  fedit_r16_s1     retrain      acc 97.21 | asr  87.9 (last5  87.4) | margin  +9.80 |  34.1s
+  fedit_r16_s1     clean        acc 97.15 | asr   0.3 (last5   0.3) | margin -19.24 |  34.7s
+  fedit_r16_s1     cont_dormant asr by round 29 39 42 47 48 58 62 60 63 64
+  fedit_r16_s1     cont_clean   asr by round 1 1 3 7 11 27 40 41 56 57
+  fedit_r64_s1     dormant      acc 97.39 | asr  14.9 (last5  16.4) | margin  -3.33 |  36.6s
+  fedit_r64_s1     retrain      acc 97.41 | asr  91.8 (last5  91.1) | margin +10.45 |  35.4s
+  fedit_r64_s1     clean        acc 97.36 | asr   0.4 (last5   0.3) | margin -22.10 |  35.6s
+  fedit_r64_s1     cont_dormant asr by round 26 32 40 42 48 52 57 58 59 61
+  fedit_r64_s1     cont_clean   asr by round 1 2 5 11 21 38 49 55 67 70

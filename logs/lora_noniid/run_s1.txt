@@ -1,0 +1,28 @@
+
+[seed 1] base(public 5996) acc 93.11 asr 0.61 | attacker 11326 benign [10872, 10221, 10944, 10641]
+  fedex_r1_s1_d0.9 dormant      acc 94.04 | asr  15.0 (last5  13.9) | margin  -2.32 |  33.8s
+  fedex_r1_s1_d0.9 retrain      acc 94.21 | asr  76.3 (last5  77.4) | margin  +2.26 |  32.0s
+  fedex_r4_s1_d0.9 dormant      acc 95.18 | asr  18.9 (last5  18.5) | margin  -2.47 |  35.6s
+  fedex_r4_s1_d0.9 retrain      acc 95.19 | asr  86.6 (last5  87.4) | margin  +4.67 |  33.7s
+  fedex_r16_s1_d0.9 dormant      acc 96.36 | asr  23.7 (last5  21.6) | margin  -3.28 |  29.6s
+  fedex_r16_s1_d0.9 retrain      acc 96.51 | asr  87.0 (last5  86.7) | margin  +7.56 |  31.4s
+  fedit_r1_s1_d0.9 dormant      acc 93.80 | asr   6.2 (last5   5.8) | margin  -3.27 |  26.3s
+  fedit_r1_s1_d0.9 retrain      acc 93.67 | asr  50.8 (last5  51.6) | margin  +0.07 |  25.9s
+  fedit_r4_s1_d0.9 dormant      acc 95.06 | asr  20.6 (last5  19.8) | margin  -2.61 |  30.0s
+  fedit_r4_s1_d0.9 retrain      acc 95.14 | asr  83.3 (last5  82.6) | margin  +3.56 |  27.5s
+  fedit_r16_s1_d0.9 dormant      acc 96.47 | asr  19.9 (last5  18.5) | margin  -3.46 |  28.7s
+  fedit_r16_s1_d0.9 retrain      acc 96.45 | asr  85.3 (last5  85.5) | margin  +7.14 |  27.8s
+
+[seed 1] base(public 5996) acc 93.11 asr 0.61 | attacker 10803 benign [10802, 10800, 10801, 10798]
+  fedex_r1_s1_d0.2 dormant      acc 94.61 | asr  16.9 (last5  17.5) | margin  -1.65 |  25.9s
+  fedex_r1_s1_d0.2 retrain      acc 94.53 | asr  91.0 (last5  90.4) | margin  +2.99 |  26.4s
+  fedex_r4_s1_d0.2 dormant      acc 95.60 | asr  29.9 (last5  33.5) | margin  -0.98 |  28.0s
+  fedex_r4_s1_d0.2 retrain      acc 95.97 | asr  97.1 (last5  96.9) | margin  +7.61 |  27.3s
+  fedex_r16_s1_d0.2 dormant      acc 97.35 | asr  30.3 (last5  30.5) | margin  -1.53 |  27.8s
+  fedex_r16_s1_d0.2 retrain      acc 97.36 | asr  96.3 (last5  96.2) | margin +15.39 |  28.5s
+  fedit_r1_s1_d0.2 dormant      acc 94.45 | asr   7.6 (last5   7.8) | margin  -2.66 |  27.4s
+  fedit_r1_s1_d0.2 retrain      acc 94.28 | asr   6.6 (last5   8.8) | margin  -5.46 |  27.6s
+  fedit_r4_s1_d0.2 dormant      acc 95.61 | asr  25.4 (last5  28.3) | margin  -1.20 |  34.0s
+  fedit_r4_s1_d0.2 retrain      acc 95.74 | asr  94.6 (last5  92.8) | margin  +6.52 |  35.0s
+  fedit_r16_s1_d0.2 dormant      acc 97.34 | asr  28.8 (last5  29.6) | margin  -1.39 |  33.6s
+  fedit_r16_s1_d0.2 retrain      acc 97.37 | asr  94.9 (last5  94.9) | margin +13.49 |  30.3s

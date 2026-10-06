@@ -17,3 +17,17 @@ ENV/
 # OS
 .DS_Store
 Thumbs.db
+
+# ---- large artifacts (datasets, checkpoints, trajectories) ----
+saved_models/
+checkpoints/
+record/
+traj/
+traj_keep/
+*.pkl
+*.tar.gz
+*.log
+logs_fuba_real.txt
+BadFU_src/BadFU-main/data_prepare/**/__pycache__/
+# upstream FUBA repo history kept locally, not re-published
+FUBA/.git_upstream_fuba/
