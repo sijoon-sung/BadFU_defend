@@ -1,0 +1,2989 @@
+{
+  "sha": "0a2117feab58faf5b7e2a1e5e1759112087d6049",
+  "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/0a2117feab58faf5b7e2a1e5e1759112087d6049",
+  "tree": [
+    {
+      "path": ".gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4a7ddb734267e8e09206538bf9c423b42253e467",
+      "size": 24,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/4a7ddb734267e8e09206538bf9c423b42253e467"
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5f7156c3b4d643ae3c59abd4380b5da9f45cdf1e",
+      "size": 1609,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/5f7156c3b4d643ae3c59abd4380b5da9f45cdf1e"
+    },
+    {
+      "path": "badfu.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "57bb94bcd2d345d03177f857f5990e0aaa708d76",
+      "size": 23930,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/57bb94bcd2d345d03177f857f5990e0aaa708d76"
+    },
+    {
+      "path": "data_prepare",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "ab5c293fc3a2f81f0ea76a1ccc4b6ee681bfebbd",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/ab5c293fc3a2f81f0ea76a1ccc4b6ee681bfebbd"
+    },
+    {
+      "path": "data_prepare/attack",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "0c9577e631b7a64daef56f4f8ac2894388cdae43",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/0c9577e631b7a64daef56f4f8ac2894388cdae43"
+    },
+    {
+      "path": "data_prepare/attack/__pycache__",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "86afcdd46b234ae6d6ee5c2dbab19df924661827",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/86afcdd46b234ae6d6ee5c2dbab19df924661827"
+    },
+    {
+      "path": "data_prepare/attack/__pycache__/prototype.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ff6720c65d13b2fc2c8a368471404e88d6b51099",
+      "size": 8328,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/ff6720c65d13b2fc2c8a368471404e88d6b51099"
+    },
+    {
+      "path": "data_prepare/attack/badnet.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e45a066fecde8e9936dfa2efdd827cceec57ddf0",
+      "size": 11873,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/e45a066fecde8e9936dfa2efdd827cceec57ddf0"
+    },
+    {
+      "path": "data_prepare/attack/blended.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "93239bab36ffaf0002a0cd0c52a710a6b9ad9e5f",
+      "size": 1510,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/93239bab36ffaf0002a0cd0c52a710a6b9ad9e5f"
+    },
+    {
+      "path": "data_prepare/attack/prototype.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d70a31cd8897926d7a97a2b7f00111079fadc68a",
+      "size": 11248,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/d70a31cd8897926d7a97a2b7f00111079fadc68a"
+    },
+    {
+      "path": "data_prepare/config",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "0f5078eb1e188e4eea855b8da4842cc43f1f1e46",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/0f5078eb1e188e4eea855b8da4842cc43f1f1e46"
+    },
+    {
+      "path": "data_prepare/config/attack",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "d042e5e9c43f3937dc3ef8b9a66bb1a6e6626d51",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/d042e5e9c43f3937dc3ef8b9a66bb1a6e6626d51"
+    },
+    {
+      "path": "data_prepare/config/attack/badnet",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "4e06a37c2233609c45f0476ba837ecedbf1bfe1c",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/4e06a37c2233609c45f0476ba837ecedbf1bfe1c"
+    },
+    {
+      "path": "data_prepare/config/attack/badnet/default.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "227a1dd89f058e461d2c3ba5fcf9bea7fa80afc2",
+      "size": 160,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/227a1dd89f058e461d2c3ba5fcf9bea7fa80afc2"
+    },
+    {
+      "path": "data_prepare/config/attack/blended",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "c091080170230fdbf975a0e276956297a21ea0a4",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/c091080170230fdbf975a0e276956297a21ea0a4"
+    },
+    {
+      "path": "data_prepare/config/attack/blended/default.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5b205582c9577d354af379bee8640a1ffab445a7",
+      "size": 226,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/5b205582c9577d354af379bee8640a1ffab445a7"
+    },
+    {
+      "path": "data_prepare/config/attack/blind",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "deb465a20eea06fd8ffb52fe131cbabf85d33112",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/deb465a20eea06fd8ffb52fe131cbabf85d33112"
+    },
+    {
+      "path": "data_prepare/config/attack/blind/default.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6c12a3bc35e531f2d05c13679dc044d79497c3c8",
+      "size": 233,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/6c12a3bc35e531f2d05c13679dc044d79497c3c8"
+    },
+    {
+      "path": "data_prepare/config/attack/bpp",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "8d8711df6c61d4aa677f110d6b5e7bad851008d4",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/8d8711df6c61d4aa677f110d6b5e7bad851008d4"
+    },
+    {
+      "path": "data_prepare/config/attack/bpp/default.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "96b150e8a2e453bd1b856bc398ac4050a16a64e0",
+      "size": 318,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/96b150e8a2e453bd1b856bc398ac4050a16a64e0"
+    },
+    {
+      "path": "data_prepare/config/attack/bpp/original_default.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "87b8e48b794371b3c3081d754210236df8659fd4",
+      "size": 284,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/87b8e48b794371b3c3081d754210236df8659fd4"
+    },
+    {
+      "path": "data_prepare/config/attack/inputaware",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "81f211bdc557a61be067a2aa3853408af61c82f1",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/81f211bdc557a61be067a2aa3853408af61c82f1"
+    },
+    {
+      "path": "data_prepare/config/attack/inputaware/default.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3d5dd4e46c85d48b4d93bc453594c2eafbf9afc0",
+      "size": 522,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/3d5dd4e46c85d48b4d93bc453594c2eafbf9afc0"
+    },
+    {
+      "path": "data_prepare/config/attack/lc",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "646f5c91e65a8c9f34650d151da572c5c7013b15",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/646f5c91e65a8c9f34650d151da572c5c7013b15"
+    },
+    {
+      "path": "data_prepare/config/attack/lc/default.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ee9bfffbdada16c0c572eef3de4d33f294adb3d4",
+      "size": 129,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/ee9bfffbdada16c0c572eef3de4d33f294adb3d4"
+    },
+    {
+      "path": "data_prepare/config/attack/lf",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "a7049ebf565a07b19cd973cfaad3a74f45ef9d3a",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/a7049ebf565a07b19cd973cfaad3a74f45ef9d3a"
+    },
+    {
+      "path": "data_prepare/config/attack/lf/default.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7050c23f86ab2a1232ee65b21eb49947b191c51b",
+      "size": 105,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/7050c23f86ab2a1232ee65b21eb49947b191c51b"
+    },
+    {
+      "path": "data_prepare/config/attack/lira",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "d54d4d4635e958c69fcff9850fcf7c91743abd1f",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/d54d4d4635e958c69fcff9850fcf7c91743abd1f"
+    },
+    {
+      "path": "data_prepare/config/attack/lira/cifar10.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d78426bdc567c818dde576e327b8d9c0e10fea37",
+      "size": 557,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/d78426bdc567c818dde576e327b8d9c0e10fea37"
+    },
+    {
+      "path": "data_prepare/config/attack/lira/cifar100.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d78426bdc567c818dde576e327b8d9c0e10fea37",
+      "size": 557,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/d78426bdc567c818dde576e327b8d9c0e10fea37"
+    },
+    {
+      "path": "data_prepare/config/attack/lira/default.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d78426bdc567c818dde576e327b8d9c0e10fea37",
+      "size": 557,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/d78426bdc567c818dde576e327b8d9c0e10fea37"
+    },
+    {
+      "path": "data_prepare/config/attack/lira/gtsrb.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "daf2bf0261105404ceda0ebf14453b28baf1a740",
+      "size": 556,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/daf2bf0261105404ceda0ebf14453b28baf1a740"
+    },
+    {
+      "path": "data_prepare/config/attack/lira/tiny.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "224f6e0c5f615205a69af681221f1d01124413ff",
+      "size": 557,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/224f6e0c5f615205a69af681221f1d01124413ff"
+    },
+    {
+      "path": "data_prepare/config/attack/narcissus",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "27eb87719a100c3082903bb3ca7c99587792b5ce",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/27eb87719a100c3082903bb3ca7c99587792b5ce"
+    },
+    {
+      "path": "data_prepare/config/attack/narcissus/default.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d8cfd9fef5033d0e168740ce1cb1c254ba779121",
+      "size": 270,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/d8cfd9fef5033d0e168740ce1cb1c254ba779121"
+    },
+    {
+      "path": "data_prepare/config/attack/natinvpoi",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "84ef7698bdd3cd73e3bd58bf8f4e9cfe1815df97",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/84ef7698bdd3cd73e3bd58bf8f4e9cfe1815df97"
+    },
+    {
+      "path": "data_prepare/config/attack/natinvpoi/default.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "958edbcc5c7559a805efcbfb1d0cdfc650eb62b6",
+      "size": 440,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/958edbcc5c7559a805efcbfb1d0cdfc650eb62b6"
+    },
+    {
+      "path": "data_prepare/config/attack/natsteg",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "8957d2cd42c14d212a2d3086644b6d7f5a7e1e00",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/8957d2cd42c14d212a2d3086644b6d7f5a7e1e00"
+    },
+    {
+      "path": "data_prepare/config/attack/natsteg/default.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "201eaae360f8bde7615d6af7278752c923ac3ef2",
+      "size": 343,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/201eaae360f8bde7615d6af7278752c923ac3ef2"
+    },
+    {
+      "path": "data_prepare/config/attack/prototype",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "d7a5a0fe86ffd0eff2dee471cfafa49b91139dae",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/d7a5a0fe86ffd0eff2dee471cfafa49b91139dae"
+    },
+    {
+      "path": "data_prepare/config/attack/prototype/cifar10.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fcf286f77cb4fe7700669a98a9112cb0a667130e",
+      "size": 306,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/fcf286f77cb4fe7700669a98a9112cb0a667130e"
+    },
+    {
+      "path": "data_prepare/config/attack/prototype/cifar100.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c6eee7967acc85b2e4e5986ef39510f468f8305e",
+      "size": 307,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/c6eee7967acc85b2e4e5986ef39510f468f8305e"
+    },
+    {
+      "path": "data_prepare/config/attack/prototype/fashion-mnist.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "794239e8af0dc3d6baca345db0a87e4ef543b75f",
+      "size": 312,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/794239e8af0dc3d6baca345db0a87e4ef543b75f"
+    },
+    {
+      "path": "data_prepare/config/attack/prototype/gtsrb.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7577b3a6a3929bc8a9e26370982a4a95c583212a",
+      "size": 303,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/7577b3a6a3929bc8a9e26370982a4a95c583212a"
+    },
+    {
+      "path": "data_prepare/config/attack/prototype/mnist.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7fc3b452415ea2fd4dd04cd3f70a1a432dd6c656",
+      "size": 304,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/7fc3b452415ea2fd4dd04cd3f70a1a432dd6c656"
+    },
+    {
+      "path": "data_prepare/config/attack/prototype/tiny.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e6da344428b5236d4232f31709868c8eb02e2047",
+      "size": 303,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/e6da344428b5236d4232f31709868c8eb02e2047"
+    },
+    {
+      "path": "data_prepare/config/attack/quick_learn",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "99af9dfa0556d2a66cf69c74bdf7d3d43104b23c",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/99af9dfa0556d2a66cf69c74bdf7d3d43104b23c"
+    },
+    {
+      "path": "data_prepare/config/attack/quick_learn/default.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fd098ab12cfc699d841ececfad4d1df701f888e1",
+      "size": 12,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/fd098ab12cfc699d841ececfad4d1df701f888e1"
+    },
+    {
+      "path": "data_prepare/config/attack/sig",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "82f68e1803d73996d1d965ffab42d88d87d9a0c5",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/82f68e1803d73996d1d965ffab42d88d87d9a0c5"
+    },
+    {
+      "path": "data_prepare/config/attack/sig/default.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d39382002e1baa01efb21601d25d6d8bb01260b0",
+      "size": 118,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/d39382002e1baa01efb21601d25d6d8bb01260b0"
+    },
+    {
+      "path": "data_prepare/config/attack/ssba",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "126ebad11ae99be599f8a2c208c74802e66bb285",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/126ebad11ae99be599f8a2c208c74802e66bb285"
+    },
+    {
+      "path": "data_prepare/config/attack/ssba/default.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e569a51fe4aa235e574e16b40c7da16ace509a18",
+      "size": 96,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/e569a51fe4aa235e574e16b40c7da16ace509a18"
+    },
+    {
+      "path": "data_prepare/config/attack/trojannn",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f3d949e39b59661bef4c0be8ad65e03e73a42c06",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/f3d949e39b59661bef4c0be8ad65e03e73a42c06"
+    },
+    {
+      "path": "data_prepare/config/attack/trojannn/convnext_tiny.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7a89bd2e628008c4b81fd38750c0dafcdb1b51a2",
+      "size": 282,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/7a89bd2e628008c4b81fd38750c0dafcdb1b51a2"
+    },
+    {
+      "path": "data_prepare/config/attack/trojannn/densenet161.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c063f54c43211e9d4e619036f8bd32f238da0c17",
+      "size": 276,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/c063f54c43211e9d4e619036f8bd32f238da0c17"
+    },
+    {
+      "path": "data_prepare/config/attack/trojannn/efficientnet_b3.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bf96f313cf289f7f3c64b63c99be258262d95561",
+      "size": 284,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/bf96f313cf289f7f3c64b63c99be258262d95561"
+    },
+    {
+      "path": "data_prepare/config/attack/trojannn/mobilenet_v3_large.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7e9ce150cf83df877210630e27b8b036d97bc8f6",
+      "size": 287,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/7e9ce150cf83df877210630e27b8b036d97bc8f6"
+    },
+    {
+      "path": "data_prepare/config/attack/trojannn/preactresnet18.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "44a7c24183c605da2d8bb599ee681c7f31674f32",
+      "size": 299,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/44a7c24183c605da2d8bb599ee681c7f31674f32"
+    },
+    {
+      "path": "data_prepare/config/attack/trojannn/vgg19.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d3f0d72f82e6296178ca85068d061608f76f1d4f",
+      "size": 274,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/d3f0d72f82e6296178ca85068d061608f76f1d4f"
+    },
+    {
+      "path": "data_prepare/config/attack/trojannn/vgg19_bn.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a284dd216f00838d6aa9a18bea223c1a41d8c246",
+      "size": 277,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/a284dd216f00838d6aa9a18bea223c1a41d8c246"
+    },
+    {
+      "path": "data_prepare/config/attack/trojannn/vit_b_16.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fed82b3373a998fd77da2896de17ab943237a3a7",
+      "size": 380,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/fed82b3373a998fd77da2896de17ab943237a3a7"
+    },
+    {
+      "path": "data_prepare/config/attack/wanet",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "098dbdea3d0114702325f8ed2dce0debe7e40dd4",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/098dbdea3d0114702325f8ed2dce0debe7e40dd4"
+    },
+    {
+      "path": "data_prepare/config/attack/wanet/default.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0212cfe6f0d663fe2f5627e50e822ccf43e151b2",
+      "size": 291,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/0212cfe6f0d663fe2f5627e50e822ccf43e151b2"
+    },
+    {
+      "path": "data_prepare/config/influence",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "ebf8ba903f93c5ca3893ba7ed17452d215b27c1d",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/ebf8ba903f93c5ca3893ba7ed17452d215b27c1d"
+    },
+    {
+      "path": "data_prepare/config/influence/analysis",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1e57eebdd039b64c2b25b956f840c9ff23b23fa0",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/1e57eebdd039b64c2b25b956f840c9ff23b23fa0"
+    },
+    {
+      "path": "data_prepare/config/influence/analysis/default.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e0cda0746e6b0d7b30392e501d71dc30455c42c2",
+      "size": 493,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/e0cda0746e6b0d7b30392e501d71dc30455c42c2"
+    },
+    {
+      "path": "data_prepare/config/influence/ibap",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "8d452bec35361942e811db6ce1a3b3858706e916",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/8d452bec35361942e811db6ce1a3b3858706e916"
+    },
+    {
+      "path": "data_prepare/config/influence/ibap/default.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "430298ec30c8bcb30639806e4dcddaeaa138b7b8",
+      "size": 389,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/430298ec30c8bcb30639806e4dcddaeaa138b7b8"
+    },
+    {
+      "path": "data_prepare/models",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "aa5a6387fb7a431ff9fafff9af89df0f1be5f789",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/aa5a6387fb7a431ff9fafff9af89df0f1be5f789"
+    },
+    {
+      "path": "data_prepare/models/__pycache__",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "8e85c581a9bcc2a9a4f92636c09d0b5e5bc7df7d",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/8e85c581a9bcc2a9a4f92636c09d0b5e5bc7df7d"
+    },
+    {
+      "path": "data_prepare/models/__pycache__/preact_resnet.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "93cb311fa8bfd791971e7728abbf2267b005b6ed",
+      "size": 4711,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/93cb311fa8bfd791971e7728abbf2267b005b6ed"
+    },
+    {
+      "path": "data_prepare/models/alexnet.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3ccd722bbee92279aebc82996a8a61a4f12fd11f",
+      "size": 2655,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/3ccd722bbee92279aebc82996a8a61a4f12fd11f"
+    },
+    {
+      "path": "data_prepare/models/efficientnet.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bff208e20e967f53892f9ec84f2d79ff09f8ddf3",
+      "size": 3133,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/bff208e20e967f53892f9ec84f2d79ff09f8ddf3"
+    },
+    {
+      "path": "data_prepare/models/preact_resnet.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7c7f86824d626496fd9ba47746b8f1647f1ff4dc",
+      "size": 39679,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/7c7f86824d626496fd9ba47746b8f1647f1ff4dc"
+    },
+    {
+      "path": "data_prepare/models/resnet.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a58fd7291e2a91f1a48f556c23ed92114d8b0bcb",
+      "size": 4965,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/a58fd7291e2a91f1a48f556c23ed92114d8b0bcb"
+    },
+    {
+      "path": "data_prepare/models/resnext.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9f0032e00e16922560bdcaf6fe96af80154c29a9",
+      "size": 3740,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/9f0032e00e16922560bdcaf6fe96af80154c29a9"
+    },
+    {
+      "path": "data_prepare/models/senet.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "62300ad3e33f8521f08073b06b818403e3c5a974",
+      "size": 4023,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/62300ad3e33f8521f08073b06b818403e3c5a974"
+    },
+    {
+      "path": "data_prepare/pytorch_influence_functions",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "8d223931aace60399335210b5a564c64de19e4e4",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/8d223931aace60399335210b5a564c64de19e4e4"
+    },
+    {
+      "path": "data_prepare/pytorch_influence_functions/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c10b1781154ff0ffa3597a080094093da3bac4e1",
+      "size": 10657,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/c10b1781154ff0ffa3597a080094093da3bac4e1"
+    },
+    {
+      "path": "data_prepare/pytorch_influence_functions/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5da70149dbb549d81612d37a841c40e2b5ab046d",
+      "size": 292,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/5da70149dbb549d81612d37a841c40e2b5ab046d"
+    },
+    {
+      "path": "data_prepare/pytorch_influence_functions/__pycache__",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "7fe0bae1be07e38b868e689c619e464d9ca1f6fb",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/7fe0bae1be07e38b868e689c619e464d9ca1f6fb"
+    },
+    {
+      "path": "data_prepare/pytorch_influence_functions/__pycache__/__init__.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "69fdc31ae46edaa089584396adaab2e44ec8ef83",
+      "size": 493,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/69fdc31ae46edaa089584396adaab2e44ec8ef83"
+    },
+    {
+      "path": "data_prepare/pytorch_influence_functions/__pycache__/calc_influence_function.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a3dc529a11b623dffd7c92dcc5bc6c1c3bdf383e",
+      "size": 23422,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/a3dc529a11b623dffd7c92dcc5bc6c1c3bdf383e"
+    },
+    {
+      "path": "data_prepare/pytorch_influence_functions/__pycache__/influence_function.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d6323e0b4b660b2b4d77e01a59d60fc19377c8c2",
+      "size": 9620,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/d6323e0b4b660b2b4d77e01a59d60fc19377c8c2"
+    },
+    {
+      "path": "data_prepare/pytorch_influence_functions/__pycache__/utils.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5ab6ec8acf09b73ad5ef30bb2110ee4c5db358a3",
+      "size": 3936,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/5ab6ec8acf09b73ad5ef30bb2110ee4c5db358a3"
+    },
+    {
+      "path": "data_prepare/pytorch_influence_functions/calc_influence_function.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "28cf1c5bf6c1a4e0fefbb5e1ba5df0b72ea93351",
+      "size": 33706,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/28cf1c5bf6c1a4e0fefbb5e1ba5df0b72ea93351"
+    },
+    {
+      "path": "data_prepare/pytorch_influence_functions/influence_function.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e0e5a02ede592af8247b7685a64a98d38c17b388",
+      "size": 10670,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/e0e5a02ede592af8247b7685a64a98d38c17b388"
+    },
+    {
+      "path": "data_prepare/pytorch_influence_functions/utils.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "827e01ae57cd0658434a5c64fc1973723fac2fbb",
+      "size": 4852,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/827e01ae57cd0658434a5c64fc1973723fac2fbb"
+    },
+    {
+      "path": "data_prepare/resource",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "25141d90c30cde993aa2cc050501b24ff8a1fe52",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/25141d90c30cde993aa2cc050501b24ff8a1fe52"
+    },
+    {
+      "path": "data_prepare/resource/.DS_Store",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "63fc5a86c42d5607b9091043412735a9ff122ab8",
+      "size": 6148,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/63fc5a86c42d5607b9091043412735a9ff122ab8"
+    },
+    {
+      "path": "data_prepare/resource/badnet",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "26f3845bc9a43cc0d8736cc6262afb23e57a77cf",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/26f3845bc9a43cc0d8736cc6262afb23e57a77cf"
+    },
+    {
+      "path": "data_prepare/resource/badnet/generate_grid.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "37022bb7b885e92ce1ffce3676c6bd16847529f2",
+      "size": 2552,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/37022bb7b885e92ce1ffce3676c6bd16847529f2"
+    },
+    {
+      "path": "data_prepare/resource/badnet/generate_strengthened_grid.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8b86b91a7174cd5fbcc3d5c4d799b20f906bdd6c",
+      "size": 2189,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/8b86b91a7174cd5fbcc3d5c4d799b20f906bdd6c"
+    },
+    {
+      "path": "data_prepare/resource/badnet/generate_white_square.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6788c405717f443996fcb7553fcc49a1c706285b",
+      "size": 1194,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/6788c405717f443996fcb7553fcc49a1c706285b"
+    },
+    {
+      "path": "data_prepare/resource/badnet/readme.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7d63ae88d88b1b11644a5c683cc3f787d33e7aaf",
+      "size": 1267,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/7d63ae88d88b1b11644a5c683cc3f787d33e7aaf"
+    },
+    {
+      "path": "data_prepare/resource/badnet/trigger_image.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1efe094a97ef8593abf001881b1ef9206cc1c869",
+      "size": 100,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/1efe094a97ef8593abf001881b1ef9206cc1c869"
+    },
+    {
+      "path": "data_prepare/resource/badnet/trigger_image_grid.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f4d6cf60b88904109515aa3b7043adac65ee6d24",
+      "size": 102,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/f4d6cf60b88904109515aa3b7043adac65ee6d24"
+    },
+    {
+      "path": "data_prepare/resource/badnet/trigger_image_grid_for_mnist.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f789ca6bd20d76e86e7fff7d20aaa8a9f62027fe",
+      "size": 100,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/f789ca6bd20d76e86e7fff7d20aaa8a9f62027fe"
+    },
+    {
+      "path": "data_prepare/resource/badnet/trigger_image_grid_for_tiny.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "028ac01a948a0380822caebf3690d7903c46e2f0",
+      "size": 116,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/028ac01a948a0380822caebf3690d7903c46e2f0"
+    },
+    {
+      "path": "data_prepare/resource/blended",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "44f22adc1723a4b65069f47a16115bf3c2984973",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/44f22adc1723a4b65069f47a16115bf3c2984973"
+    },
+    {
+      "path": "data_prepare/resource/blended/hello_kitty.jpeg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "36ff153a511e110081f24185f5048f9ddb467177",
+      "size": 29986,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/36ff153a511e110081f24185f5048f9ddb467177"
+    },
+    {
+      "path": "data_prepare/resource/blended/hello_kitty_gray.jpg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b0a170e73cbdb1e68287d467222c88e8f459377b",
+      "size": 25128,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/b0a170e73cbdb1e68287d467222c88e8f459377b"
+    },
+    {
+      "path": "data_prepare/resource/label-consistent",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "7cb4e24602ae08606eb4b6ab4042e55d79a8be25",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/7cb4e24602ae08606eb4b6ab4042e55d79a8be25"
+    },
+    {
+      "path": "data_prepare/resource/label-consistent/craft_adv_dataset.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c18c2168e05d499abb73b95b02690ec08a388072",
+      "size": 20097,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/c18c2168e05d499abb73b95b02690ec08a388072"
+    },
+    {
+      "path": "data_prepare/resource/label-consistent/default.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d81435daea09702793356969c712202d31203ec3",
+      "size": 222,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/d81435daea09702793356969c712202d31203ec3"
+    },
+    {
+      "path": "data_prepare/resource/label-consistent/readme.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ebb73b2120a9539311e37542271132c30f8132c6",
+      "size": 413,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/ebb73b2120a9539311e37542271132c30f8132c6"
+    },
+    {
+      "path": "data_prepare/resource/narcissus",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "25f2d0c028929c7f04957dfa26b1fbdb8ac31ec6",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/25f2d0c028929c7f04957dfa26b1fbdb8ac31ec6"
+    },
+    {
+      "path": "data_prepare/resource/narcissus/checkpoint",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2c508d58fb0471320d327ba1893b2a95bff73766",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/2c508d58fb0471320d327ba1893b2a95bff73766"
+    },
+    {
+      "path": "data_prepare/resource/narcissus/checkpoint/narcissus_noise_cls_2.npy",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "37041de360e74da0349d96847359a71ffe6d8a96",
+      "size": 12416,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/37041de360e74da0349d96847359a71ffe6d8a96"
+    },
+    {
+      "path": "data_prepare/resource/narcissus/checkpoint/narcissus_noise_cls_2.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5a5ea9c819a4700bcf61acfe5d2f5791f24b42d8",
+      "size": 1262,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/5a5ea9c819a4700bcf61acfe5d2f5791f24b42d8"
+    },
+    {
+      "path": "data_prepare/resource/narcissus/checkpoint/narcissus_noise_cls_6.npy",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f92644aefc4838929cfb6cd91b75351cb6f99962",
+      "size": 12416,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/f92644aefc4838929cfb6cd91b75351cb6f99962"
+    },
+    {
+      "path": "data_prepare/resource/narcissus/checkpoint/narcissus_noise_cls_6.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d651061592d5730c34d2970d05393761576da35e",
+      "size": 886,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/d651061592d5730c34d2970d05393761576da35e"
+    },
+    {
+      "path": "data_prepare/resource/narcissus/narcissus_gen.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "da09824773ee3632e3c8eadd18be967f02d52a08",
+      "size": 22929,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/da09824773ee3632e3c8eadd18be967f02d52a08"
+    },
+    {
+      "path": "data_prepare/resource/narcissus/narcissus_utils.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ce1efa4b5985aafac91a7ebcce53d1cd5f2b57eb",
+      "size": 14279,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/ce1efa4b5985aafac91a7ebcce53d1cd5f2b57eb"
+    },
+    {
+      "path": "data_prepare/uba",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "063103d92ef817ca2131ee0238defe13446c66d7",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/063103d92ef817ca2131ee0238defe13446c66d7"
+    },
+    {
+      "path": "data_prepare/uba/__pycache__",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f012ac5f866195439ed1922a22cdf2096926ae65",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/f012ac5f866195439ed1922a22cdf2096926ae65"
+    },
+    {
+      "path": "data_prepare/uba/__pycache__/uba_inf_cover.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "497f704c0abf817c700a6c16789c5ea70fb0b670",
+      "size": 20195,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/497f704c0abf817c700a6c16789c5ea70fb0b670"
+    },
+    {
+      "path": "data_prepare/uba/cover_defense_mu.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a158cb3dd03a4b8376a48818b1fd93afb6c07022",
+      "size": 9986,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/a158cb3dd03a4b8376a48818b1fd93afb6c07022"
+    },
+    {
+      "path": "data_prepare/uba/cover_defense_sms.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c1d3f00c0e8c272b3826f9631af8a4cb179e93a6",
+      "size": 11853,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/c1d3f00c0e8c272b3826f9631af8a4cb179e93a6"
+    },
+    {
+      "path": "data_prepare/uba/model_prediction_behavior.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "95b3270be99831a18609513c50acb881b0fac3c1",
+      "size": 6288,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/95b3270be99831a18609513c50acb881b0fac3c1"
+    },
+    {
+      "path": "data_prepare/uba/perturb_attack.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4d62c341a2e824c8d3ad7f1fb4805769989f3b29",
+      "size": 8154,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/4d62c341a2e824c8d3ad7f1fb4805769989f3b29"
+    },
+    {
+      "path": "data_prepare/uba/perturb_attack_sisa.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a8b7cbcda59d7a8e4fa9a188a7eed41ce1fed0af",
+      "size": 16532,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/a8b7cbcda59d7a8e4fa9a188a7eed41ce1fed0af"
+    },
+    {
+      "path": "data_prepare/uba/sisa_prediction_behavior.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c01e84eb0856a34e5bbb87399b7ea41b52736829",
+      "size": 8760,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/c01e84eb0856a34e5bbb87399b7ea41b52736829"
+    },
+    {
+      "path": "data_prepare/uba/uba_inf_cover.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8d873ca2a4dc90cb079c62e2636fbba9a69e4918",
+      "size": 30364,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/8d873ca2a4dc90cb079c62e2636fbba9a69e4918"
+    },
+    {
+      "path": "data_prepare/uba/uba_utils",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "61e8c6d94e41212670b9a7119589e8ca9f38b716",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/61e8c6d94e41212670b9a7119589e8ca9f38b716"
+    },
+    {
+      "path": "data_prepare/uba/uba_utils/__pycache__",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "579cd2e1f45c2a848386e820da82a3e2a8773669",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/579cd2e1f45c2a848386e820da82a3e2a8773669"
+    },
+    {
+      "path": "data_prepare/uba/uba_utils/__pycache__/basic_utils.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "25c166c479d005f0fa386ef493b253043bd9e328",
+      "size": 5689,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/25c166c479d005f0fa386ef493b253043bd9e328"
+    },
+    {
+      "path": "data_prepare/uba/uba_utils/basic_utils.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9145b954cd7663f860bcbe38504b507b8c18311e",
+      "size": 9007,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/9145b954cd7663f860bcbe38504b507b8c18311e"
+    },
+    {
+      "path": "data_prepare/uba/uba_utils/hook_tool.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "456844ae3d106f67889ab8f72523493bc9c0d561",
+      "size": 1587,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/456844ae3d106f67889ab8f72523493bc9c0d561"
+    },
+    {
+      "path": "data_prepare/uba/uba_utils/test_model_dataset.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7d65d205996135cbe572b8b4ae10b555f1c1c2f1",
+      "size": 7139,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/7d65d205996135cbe572b8b4ae10b555f1c1c2f1"
+    },
+    {
+      "path": "data_prepare/utils",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "0557f5c08649c45376881f6817f3eeb54fb7f0d6",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/0557f5c08649c45376881f6817f3eeb54fb7f0d6"
+    },
+    {
+      "path": "data_prepare/utils/__pycache__",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "52a44c4f04977d74b890b389f3234b1698cb8fec",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/52a44c4f04977d74b890b389f3234b1698cb8fec"
+    },
+    {
+      "path": "data_prepare/utils/__pycache__/backdoor_generate_poison_index.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2695c6e835130c4f67f5f9b11b52a3fb24932eee",
+      "size": 8267,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/2695c6e835130c4f67f5f9b11b52a3fb24932eee"
+    },
+    {
+      "path": "data_prepare/utils/__pycache__/bd_dataset_v2.cpython-310.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c97e959dcf9569bec9c1162d4171c9aa63e3c706",
+      "size": 15957,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/c97e959dcf9569bec9c1162d4171c9aa63e3c706"
+    },
+    {
+      "path": "data_prepare/utils/__pycache__/bd_dataset_v2.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "79688e9f686cd0f2812e6bc92fd38fc6569c6660",
+      "size": 16149,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/79688e9f686cd0f2812e6bc92fd38fc6569c6660"
+    },
+    {
+      "path": "data_prepare/utils/__pycache__/choose_index.cpython-310.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4fd997ec27867110f9ce7fe3988213a54a2e2448",
+      "size": 531,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/4fd997ec27867110f9ce7fe3988213a54a2e2448"
+    },
+    {
+      "path": "data_prepare/utils/__pycache__/log_assist.cpython-310.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "eb065325fc8dfe64d9e1dc441a90641eb0f9172b",
+      "size": 571,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/eb065325fc8dfe64d9e1dc441a90641eb0f9172b"
+    },
+    {
+      "path": "data_prepare/utils/__pycache__/log_assist.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "124263ad4e1524d88d0fa289ddbea170ae40ac5c",
+      "size": 572,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/124263ad4e1524d88d0fa289ddbea170ae40ac5c"
+    },
+    {
+      "path": "data_prepare/utils/__pycache__/prefetch.cpython-310.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e2562f8f569e6472067cc9cc3178fc6989f52709",
+      "size": 2623,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/e2562f8f569e6472067cc9cc3178fc6989f52709"
+    },
+    {
+      "path": "data_prepare/utils/__pycache__/prefetch.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "52fe0d9f3d6a1c07e77f4b465510493fbdf30be7",
+      "size": 2670,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/52fe0d9f3d6a1c07e77f4b465510493fbdf30be7"
+    },
+    {
+      "path": "data_prepare/utils/__pycache__/save_load_attack.cpython-310.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e19397eb8335e4d78919e620e21de1c67539c0e7",
+      "size": 7777,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/e19397eb8335e4d78919e620e21de1c67539c0e7"
+    },
+    {
+      "path": "data_prepare/utils/__pycache__/save_load_attack.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4b7ffc3dd87bfc8ad1a244da595f6f5f21dd4616",
+      "size": 7910,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/4b7ffc3dd87bfc8ad1a244da595f6f5f21dd4616"
+    },
+    {
+      "path": "data_prepare/utils/__pycache__/save_load_index.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a905261597ab74972b732ab1aa8314d1ebd1cebc",
+      "size": 893,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/a905261597ab74972b732ab1aa8314d1ebd1cebc"
+    },
+    {
+      "path": "data_prepare/utils/__pycache__/trainer_cls.cpython-310.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2d0322653a1158d160b9b6548caf2c5848a29fe5",
+      "size": 40436,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/2d0322653a1158d160b9b6548caf2c5848a29fe5"
+    },
+    {
+      "path": "data_prepare/utils/__pycache__/trainer_cls.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8f5e8eb927aebca2b5beae64619cef5c4c9d1643",
+      "size": 41760,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/8f5e8eb927aebca2b5beae64619cef5c4c9d1643"
+    },
+    {
+      "path": "data_prepare/utils/__pycache__/unnormalize.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a676de8d0acd5d4b8522dbcd413c62c495e595dd",
+      "size": 1442,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/a676de8d0acd5d4b8522dbcd413c62c495e595dd"
+    },
+    {
+      "path": "data_prepare/utils/aggregate_block",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "d1d07c849e42d430f1ae47abd9bed6e7152c3744",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/d1d07c849e42d430f1ae47abd9bed6e7152c3744"
+    },
+    {
+      "path": "data_prepare/utils/aggregate_block/__pycache__",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "0fef2da59d8b7b2203eae6657228ca0fd92673dc",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/0fef2da59d8b7b2203eae6657228ca0fd92673dc"
+    },
+    {
+      "path": "data_prepare/utils/aggregate_block/__pycache__/bd_attack_generate.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "48018f4b8a0afb925221ff19b6d10ad5ce864a9d",
+      "size": 7054,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/48018f4b8a0afb925221ff19b6d10ad5ce864a9d"
+    },
+    {
+      "path": "data_prepare/utils/aggregate_block/__pycache__/dataset_and_transform_generate.cpython-310.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e94b9d3b26a846b6379c7064503939ff15b26395",
+      "size": 7926,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/e94b9d3b26a846b6379c7064503939ff15b26395"
+    },
+    {
+      "path": "data_prepare/utils/aggregate_block/__pycache__/dataset_and_transform_generate.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "78ee359c2b88d27b411a5946b43c58fd9cd37415",
+      "size": 8458,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/78ee359c2b88d27b411a5946b43c58fd9cd37415"
+    },
+    {
+      "path": "data_prepare/utils/aggregate_block/__pycache__/fix_random.cpython-310.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fc2349ff8bc3367a8aeb53468cee749b0cf34d07",
+      "size": 790,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/fc2349ff8bc3367a8aeb53468cee749b0cf34d07"
+    },
+    {
+      "path": "data_prepare/utils/aggregate_block/__pycache__/fix_random.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c3c372a400382c40813516a45b4293bf1d8d4916",
+      "size": 799,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/c3c372a400382c40813516a45b4293bf1d8d4916"
+    },
+    {
+      "path": "data_prepare/utils/aggregate_block/__pycache__/model_trainer_generate.cpython-310.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dd40000da6eaf962bb8b70c386428f7d78624702",
+      "size": 5913,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/dd40000da6eaf962bb8b70c386428f7d78624702"
+    },
+    {
+      "path": "data_prepare/utils/aggregate_block/__pycache__/model_trainer_generate.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e265b988ea6d9adebd55135bac565131ec9290ae",
+      "size": 6216,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/e265b988ea6d9adebd55135bac565131ec9290ae"
+    },
+    {
+      "path": "data_prepare/utils/aggregate_block/__pycache__/save_path_generate.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4c5d6db1ad08076ffa111fd152ef29009fefe3bc",
+      "size": 1844,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/4c5d6db1ad08076ffa111fd152ef29009fefe3bc"
+    },
+    {
+      "path": "data_prepare/utils/aggregate_block/__pycache__/train_settings_generate.cpython-310.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5f8fffca4f04bb37675498512a3e5731a8abb4a1",
+      "size": 2749,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/5f8fffca4f04bb37675498512a3e5731a8abb4a1"
+    },
+    {
+      "path": "data_prepare/utils/aggregate_block/__pycache__/train_settings_generate.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7700b2471cdc6cbb9b5a4aba075a71c89536f0e3",
+      "size": 2714,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/7700b2471cdc6cbb9b5a4aba075a71c89536f0e3"
+    },
+    {
+      "path": "data_prepare/utils/aggregate_block/bd_attack_generate.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2725a18422b699936ef9de59dd0b1c95e750bc60",
+      "size": 10388,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/2725a18422b699936ef9de59dd0b1c95e750bc60"
+    },
+    {
+      "path": "data_prepare/utils/aggregate_block/dataset_and_transform_generate.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2d78bc542225289c4dd8e48ff9523a7468aa3227",
+      "size": 14672,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/2d78bc542225289c4dd8e48ff9523a7468aa3227"
+    },
+    {
+      "path": "data_prepare/utils/aggregate_block/fix_random.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6d1d7846bcaf35d26c3ad6b2eb05a75b2c1c5663",
+      "size": 589,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/6d1d7846bcaf35d26c3ad6b2eb05a75b2c1c5663"
+    },
+    {
+      "path": "data_prepare/utils/aggregate_block/model_trainer_generate.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4613ad2cec505e077bd0d35a03543def16116119",
+      "size": 9150,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/4613ad2cec505e077bd0d35a03543def16116119"
+    },
+    {
+      "path": "data_prepare/utils/aggregate_block/save_path_generate.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "64f694f7dd722847e3bf797f3a021db171142681",
+      "size": 3214,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/64f694f7dd722847e3bf797f3a021db171142681"
+    },
+    {
+      "path": "data_prepare/utils/aggregate_block/train_settings_generate.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "60aefd0b46f09d94e22f892b039e92567afe029a",
+      "size": 3622,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/60aefd0b46f09d94e22f892b039e92567afe029a"
+    },
+    {
+      "path": "data_prepare/utils/backdoor_generate_poison_index.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0e72ea6c642984c4bf24f106b0ef85eea4d45a4c",
+      "size": 12113,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/0e72ea6c642984c4bf24f106b0ef85eea4d45a4c"
+    },
+    {
+      "path": "data_prepare/utils/bd_dataset.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cf2703506ab621657ad80da0d02fae350900a892",
+      "size": 6431,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/cf2703506ab621657ad80da0d02fae350900a892"
+    },
+    {
+      "path": "data_prepare/utils/bd_dataset_v2.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "12867200070aadcbc936ee5e5946c619a39db7ca",
+      "size": 22610,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/12867200070aadcbc936ee5e5946c619a39db7ca"
+    },
+    {
+      "path": "data_prepare/utils/bd_img_transform",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "feaccb5a241f74b97123dd730b2e58147f9ba4ff",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/feaccb5a241f74b97123dd730b2e58147f9ba4ff"
+    },
+    {
+      "path": "data_prepare/utils/bd_img_transform/SSBA.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3520de57c9864b5b2ed600b158dcadd5ece36e92",
+      "size": 1041,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/3520de57c9864b5b2ed600b158dcadd5ece36e92"
+    },
+    {
+      "path": "data_prepare/utils/bd_img_transform/__pycache__",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "9432fd01bd16fba0ae7360e73aef0d57630b54c6",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/9432fd01bd16fba0ae7360e73aef0d57630b54c6"
+    },
+    {
+      "path": "data_prepare/utils/bd_img_transform/__pycache__/SSBA.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8f5396def1e21ea95c68fae51ce74920d3c21dd6",
+      "size": 1026,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/8f5396def1e21ea95c68fae51ce74920d3c21dd6"
+    },
+    {
+      "path": "data_prepare/utils/bd_img_transform/__pycache__/blended.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "507bb93ad32b3904085f8fbcf9e99dbe1cd30649",
+      "size": 1294,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/507bb93ad32b3904085f8fbcf9e99dbe1cd30649"
+    },
+    {
+      "path": "data_prepare/utils/bd_img_transform/__pycache__/lc.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ff7b2b8b8bfa8b76945facf972949294fba4ee7c",
+      "size": 4619,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/ff7b2b8b8bfa8b76945facf972949294fba4ee7c"
+    },
+    {
+      "path": "data_prepare/utils/bd_img_transform/__pycache__/narcissus.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8372893710db639e4acd5fbc602886ef160fdf4c",
+      "size": 5058,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/8372893710db639e4acd5fbc602886ef160fdf4c"
+    },
+    {
+      "path": "data_prepare/utils/bd_img_transform/__pycache__/patch.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cb2dd5810097542707686895ef06d6273bd53b0c",
+      "size": 4361,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/cb2dd5810097542707686895ef06d6273bd53b0c"
+    },
+    {
+      "path": "data_prepare/utils/bd_img_transform/__pycache__/sig.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "019f91520d289fe743769e61cb685aad59345afa",
+      "size": 1990,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/019f91520d289fe743769e61cb685aad59345afa"
+    },
+    {
+      "path": "data_prepare/utils/bd_img_transform/blended.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d53d0b31c8c72af40fe5abd0820572ff394fb100",
+      "size": 1029,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/d53d0b31c8c72af40fe5abd0820572ff394fb100"
+    },
+    {
+      "path": "data_prepare/utils/bd_img_transform/lc.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "10734001962ec5e7087452c6f3e0caecbd71977d",
+      "size": 5513,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/10734001962ec5e7087452c6f3e0caecbd71977d"
+    },
+    {
+      "path": "data_prepare/utils/bd_img_transform/narcissus.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5b9defac979324d980ab8224f9118f406780babd",
+      "size": 5200,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/5b9defac979324d980ab8224f9118f406780babd"
+    },
+    {
+      "path": "data_prepare/utils/bd_img_transform/patch.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "51a49c417e8c6890d7f8d26fe60a3ec563bd479b",
+      "size": 4102,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/51a49c417e8c6890d7f8d26fe60a3ec563bd479b"
+    },
+    {
+      "path": "data_prepare/utils/bd_img_transform/sig.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dc73b6ba6f5715ad345d23e648dd7a731d7bc4e7",
+      "size": 1557,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/dc73b6ba6f5715ad345d23e648dd7a731d7bc4e7"
+    },
+    {
+      "path": "data_prepare/utils/bd_label_transform",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "5f30b0cd01c85e761404f2d3737b4137a5b25910",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/5f30b0cd01c85e761404f2d3737b4137a5b25910"
+    },
+    {
+      "path": "data_prepare/utils/bd_label_transform/__pycache__",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "cdf8393611a4f925310a529ed3d8b4fef87bc00c",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/cdf8393611a4f925310a529ed3d8b4fef87bc00c"
+    },
+    {
+      "path": "data_prepare/utils/bd_label_transform/__pycache__/backdoor_label_transform.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6f2bc99d3288a22c6f61289adb83351e0980debb",
+      "size": 3766,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/6f2bc99d3288a22c6f61289adb83351e0980debb"
+    },
+    {
+      "path": "data_prepare/utils/bd_label_transform/backdoor_label_transform.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d631dcde6c8412ba184e2407eb55af01fbe11302",
+      "size": 2537,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/d631dcde6c8412ba184e2407eb55af01fbe11302"
+    },
+    {
+      "path": "data_prepare/utils/choose_index.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2e53c891d5725c1fdcd3b1967330ed777d6f6b60",
+      "size": 366,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/2e53c891d5725c1fdcd3b1967330ed777d6f6b60"
+    },
+    {
+      "path": "data_prepare/utils/conv_pad_same.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bec62c7e522bad2adae03bb8ac9c2195906e0457",
+      "size": 4384,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/bec62c7e522bad2adae03bb8ac9c2195906e0457"
+    },
+    {
+      "path": "data_prepare/utils/craft_cover_samples",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "5246b3d5285e069a6385bff2dda47c60e4c1e8aa",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/5246b3d5285e069a6385bff2dda47c60e4c1e8aa"
+    },
+    {
+      "path": "data_prepare/utils/craft_cover_samples/craft_adv_samples.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "23277dd63a13b8d46fa513ed8de24a5a4e32b709",
+      "size": 19040,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/23277dd63a13b8d46fa513ed8de24a5a4e32b709"
+    },
+    {
+      "path": "data_prepare/utils/craft_cover_samples/default.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d81435daea09702793356969c712202d31203ec3",
+      "size": 222,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/d81435daea09702793356969c712202d31203ec3"
+    },
+    {
+      "path": "data_prepare/utils/craft_cover_samples/readme.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c416020cc1a05858d6c8635a763e545b741f3dea",
+      "size": 400,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/c416020cc1a05858d6c8635a763e545b741f3dea"
+    },
+    {
+      "path": "data_prepare/utils/defense",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "dc8c60925959ff9eb028519bc43f060c7850caae",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/dc8c60925959ff9eb028519bc43f060c7850caae"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dbr",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "ca2f8879d90275ca20ce5e8a0a52c5939e4e8c47",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/ca2f8879d90275ca20ce5e8a0a52c5939e4e8c47"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dbr/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dbr/__pycache__",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "071a497a1fd97b01f6f30b51434ea1042fa36e64",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/071a497a1fd97b01f6f30b51434ea1042fa36e64"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dbr/__pycache__/__init__.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5364a88888741564505ee5349a3b6e981d8c9c00",
+      "size": 169,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/5364a88888741564505ee5349a3b6e981d8c9c00"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dbr/__pycache__/dataloader_bd.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "550e6cdc7b811c7b6fdaa134bc424b8724b4a017",
+      "size": 6321,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/550e6cdc7b811c7b6fdaa134bc424b8724b4a017"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dbr/__pycache__/sd.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a4533aeefd5de4d385e48ae5cba6d0692596d2b2",
+      "size": 3593,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/a4533aeefd5de4d385e48ae5cba6d0692596d2b2"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dbr/__pycache__/utils_br.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "00e4fbb5456278cb818f1870d65df275769045d4",
+      "size": 4546,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/00e4fbb5456278cb818f1870d65df275769045d4"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dbr/br_loss.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ec65808f657420924ffbb31f18cdca1e973db4d6",
+      "size": 8097,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/ec65808f657420924ffbb31f18cdca1e973db4d6"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dbr/dataloader_bd.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "af0904054a00af92c0e8172e9724989ef528a112",
+      "size": 8366,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/af0904054a00af92c0e8172e9724989ef528a112"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dbr/models",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "72507ffd892ee8d74fb7d98952e8411c6ae024ae",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/72507ffd892ee8d74fb7d98952e8411c6ae024ae"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dbr/models/resnet_super.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6fc1c21e2606656c76a24a144baed99dcdcfb374",
+      "size": 7436,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/6fc1c21e2606656c76a24a144baed99dcdcfb374"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dbr/sd.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4f2492a3cdf4130660d55ffb2b4bbdfd9bfb3d34",
+      "size": 5232,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/4f2492a3cdf4130660d55ffb2b4bbdfd9bfb3d34"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dbr/utils_br.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3a44855fa922eb6b497c24256f097183ce6ccd1f",
+      "size": 4718,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/3a44855fa922eb6b497c24256f097183ce6ccd1f"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dst",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "11eadcbf7d9f087d6d5c3048bb9b06359f49f8db",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/11eadcbf7d9f087d6d5c3048bb9b06359f49f8db"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dst/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dst/__pycache__",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f79d3bbcbf0d85eaa11c6928cf05ae8fd7378d70",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/f79d3bbcbf0d85eaa11c6928cf05ae8fd7378d70"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dst/__pycache__/__init__.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "182773b026787412ed50dd971b5179fd6e0d0ae6",
+      "size": 169,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/182773b026787412ed50dd971b5179fd6e0d0ae6"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dst/__pycache__/dataloader_bd.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4c77c957d07e1931f010dc53ce5ac513d5e06b96",
+      "size": 6585,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/4c77c957d07e1931f010dc53ce5ac513d5e06b96"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dst/__pycache__/sd.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "30a63f7a9e8b2410b46e367db13227d205100b6c",
+      "size": 3612,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/30a63f7a9e8b2410b46e367db13227d205100b6c"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dst/__pycache__/st_loss.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1536981616952bd2bbaad979981dfd04dff2b497",
+      "size": 4302,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/1536981616952bd2bbaad979981dfd04dff2b497"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dst/__pycache__/utils_st.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9e3bfeaa4b03daca6a8a406a278098c2a784ff77",
+      "size": 3004,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/9e3bfeaa4b03daca6a8a406a278098c2a784ff77"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dst/dataloader_bd.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "92115ab29b5a044de1f59237b84f91804464b35d",
+      "size": 12751,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/92115ab29b5a044de1f59237b84f91804464b35d"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dst/models",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "9882bcadbebc5da9d1261bcb4d11474853f08461",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/9882bcadbebc5da9d1261bcb4d11474853f08461"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dst/models/__pycache__",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "9a7c4b2d8c625c736c259233a2c152a9f96ab85c",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/9a7c4b2d8c625c736c259233a2c152a9f96ab85c"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dst/models/__pycache__/resnet_super.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "41f627ec250ea7dfbfd5ab84212e75b6c3fb5bbf",
+      "size": 4691,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/41f627ec250ea7dfbfd5ab84212e75b6c3fb5bbf"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dst/models/resnet_super.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6fc1c21e2606656c76a24a144baed99dcdcfb374",
+      "size": 7436,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/6fc1c21e2606656c76a24a144baed99dcdcfb374"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dst/sd.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "62bd5cfcd1e0b915df900b21cb8a77332d5b6cbb",
+      "size": 5251,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/62bd5cfcd1e0b915df900b21cb8a77332d5b6cbb"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dst/st_loss.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3b183c81efd274138f56e5d5e23231b410bd7923",
+      "size": 8298,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/3b183c81efd274138f56e5d5e23231b410bd7923"
+    },
+    {
+      "path": "data_prepare/utils/defense/utils_dst/utils_st.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d515ae89cb109b765b7c49f462b12994a27b7618",
+      "size": 3741,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/d515ae89cb109b765b7c49f462b12994a27b7618"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "84dd80f9d59101a08bf5e94898122a0cff758937",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/84dd80f9d59101a08bf5e94898122a0cff758937"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/anp",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "00a0521197b4e5f204d0aea3795838774f6d18a7",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/00a0521197b4e5f204d0aea3795838774f6d18a7"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/anp/anp_model",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "07771c3a0aaa134cec118c0f42404e958566996e",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/07771c3a0aaa134cec118c0f42404e958566996e"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/anp/anp_model/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "77902e263638aecdbd871455504d89c24fac0ffa",
+      "size": 287,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/77902e263638aecdbd871455504d89c24fac0ffa"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/anp/anp_model/anp_batchnorm.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cbcc841c186eecb91a6ef4a9de361f029b38ecc0",
+      "size": 7578,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/cbcc841c186eecb91a6ef4a9de361f029b38ecc0"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/anp/anp_model/anp_layernorm.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2f26c5da0a4d911008cd922e2e7362148de93a43",
+      "size": 7594,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/2f26c5da0a4d911008cd922e2e7362148de93a43"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/anp/anp_model/conv_anp.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ea3018eae9050c660b34b7e7554c5ac1d2b8c41a",
+      "size": 9885,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/ea3018eae9050c660b34b7e7554c5ac1d2b8c41a"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/anp/anp_model/conv_new_anp.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "40a869d9208787930bdbdf3ba1b274a01d11e08b",
+      "size": 15127,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/40a869d9208787930bdbdf3ba1b274a01d11e08b"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/anp/anp_model/den_anp.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4681366409a6848cec03929d99810da63fee6d9d",
+      "size": 13239,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/4681366409a6848cec03929d99810da63fee6d9d"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/anp/anp_model/eff_anp.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "07f6ba0b226bfe1b449f81141e6801aa232f3ef8",
+      "size": 15855,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/07f6ba0b226bfe1b449f81141e6801aa232f3ef8"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/anp/anp_model/mobilenet_anp.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "966c15e9816124c11e817ed8de13518fcefca3b1",
+      "size": 12037,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/966c15e9816124c11e817ed8de13518fcefca3b1"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/anp/anp_model/preact_anp.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "14b07c1cfa0401a857867d282b71ccbabde3e360",
+      "size": 4697,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/14b07c1cfa0401a857867d282b71ccbabde3e360"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/anp/anp_model/vgg_anp.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cf8334191929cd351476eefa6130505953be7517",
+      "size": 8410,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/cf8334191929cd351476eefa6130505953be7517"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/anp/anp_model/vit_anp.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a452cdcabfdd05c0175308adb2e70392265cd86b",
+      "size": 17014,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/a452cdcabfdd05c0175308adb2e70392265cd86b"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/anp/anp_model/vit_new_anp.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5bcdd4966d2d284f1bf520b215e32647e9d6572b",
+      "size": 31823,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/5bcdd4966d2d284f1bf520b215e32647e9d6572b"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1d5ce4c2ea963d91a72ae24e5b019ebfe3979ef5",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/1d5ce4c2ea963d91a72ae24e5b019ebfe3979ef5"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/__pycache__",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1b13638ee0ac08e4255a9945bffb2710c852686b",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/1b13638ee0ac08e4255a9945bffb2710c852686b"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/__pycache__/__init__.cpython-310.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "84d634d47a115e8a1fc356addd6ca961cd8298bd",
+      "size": 167,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/84d634d47a115e8a1fc356addd6ca961cd8298bd"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "eef2160d05b36961a83c09e0260bc001bb5285e2",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/eef2160d05b36961a83c09e0260bc001bb5285e2"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/pretrain",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f6cabcc8da3c84c3de191ea5dd51592446e1f401",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/f6cabcc8da3c84c3de191ea5dd51592446e1f401"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/pretrain/signalTrigger",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "28a9a2b3cf3a83708aa315c75006e4d9b7f1427f",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/28a9a2b3cf3a83708aa315c75006e4d9b7f1427f"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/pretrain/signalTrigger/cifar10",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "cb0b25d2baf8334174a83c10452f8d2ae70e0212",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/cb0b25d2baf8334174a83c10452f8d2ae70e0212"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/pretrain/signalTrigger/cifar10/example.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "25bc7b26c47d415d1274ad3fc84c563887fa7982",
+      "size": 2400,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/25bc7b26c47d415d1274ad3fc84c563887fa7982"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/pretrain/signalTrigger/imagenet",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "45c4752ca228e5e54f501f966f4b1bc0c66ab699",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/45c4752ca228e5e54f501f966f4b1bc0c66ab699"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/pretrain/signalTrigger/imagenet/example.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8b3b00dcf8aba0ec27dd0f9790bf777a9a7a9ef7",
+      "size": 1676,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/8b3b00dcf8aba0ec27dd0f9790bf777a9a7a9ef7"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/pretrain/signalTrigger/vggface",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "92e07ac38b316b71bbc7fea87a27ce2a0902ff97",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/92e07ac38b316b71bbc7fea87a27ce2a0902ff97"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/pretrain/signalTrigger/vggface/example.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "56e8e56c51287b2c158e66760b275a1bf6141555",
+      "size": 1682,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/56e8e56c51287b2c158e66760b275a1bf6141555"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/pretrain/squareTrigger",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "0e9b5cdb001a4636e25601e63a844c47b8c5889e",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/0e9b5cdb001a4636e25601e63a844c47b8c5889e"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/pretrain/squareTrigger/cifar10",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "7a9e6168f4bcadb8b62972050139cbb189182a45",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/7a9e6168f4bcadb8b62972050139cbb189182a45"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/pretrain/squareTrigger/cifar10/example.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8d5bdfa110497d757acfd047fe57004acbed4583",
+      "size": 2383,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/8d5bdfa110497d757acfd047fe57004acbed4583"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/pretrain/squareTrigger/imagenet",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "52752a8231b55fe2e4bf5f1e1f4ed221e1202307",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/52752a8231b55fe2e4bf5f1e1f4ed221e1202307"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/pretrain/squareTrigger/imagenet/example.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ed1853f4a728a772795d7ef54343e61de4c46989",
+      "size": 1686,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/ed1853f4a728a772795d7ef54343e61de4c46989"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/pretrain/squareTrigger/vggface",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "5219f622271010f4bf68c681c77872e0aa94c7b1",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/5219f622271010f4bf68c681c77872e0aa94c7b1"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/pretrain/squareTrigger/vggface/example.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "132a9f8ad475fa4f3a22313c49a947b94c0ab1b6",
+      "size": 1692,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/132a9f8ad475fa4f3a22313c49a947b94c0ab1b6"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/semi",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f9fe13faca3f35516d92d2f53a30acc701b2bb2c",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/f9fe13faca3f35516d92d2f53a30acc701b2bb2c"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/semi/badnets",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "9fb580354800832f0da49f7e5fee9c7243346659",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/9fb580354800832f0da49f7e5fee9c7243346659"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/semi/badnets/cifar10",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "7b80ac44f68a793838510522c5134b3dcdcc8570",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/7b80ac44f68a793838510522c5134b3dcdcc8570"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/semi/badnets/cifar10/example.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e75b61e9b949eb44306af0b3e8dc5d85b6cc9f69",
+      "size": 1749,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/e75b61e9b949eb44306af0b3e8dc5d85b6cc9f69"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/semi/badnets/imagenet",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "cc9806ed048cecb417a12293201444cf5c784e1a",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/cc9806ed048cecb417a12293201444cf5c784e1a"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/semi/badnets/imagenet/example.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e0c95e357e5ba28e2dec0650bcc24fa6b5f189b7",
+      "size": 1398,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/e0c95e357e5ba28e2dec0650bcc24fa6b5f189b7"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/semi/badnets/vggface2_30_resnet",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f63f1c79be1669ef15aaf7583fd5892021f279d9",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/f63f1c79be1669ef15aaf7583fd5892021f279d9"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/semi/badnets/vggface2_30_resnet/example.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6bb56412d094a3503d7dcbb86869e58412df8333",
+      "size": 1400,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/6bb56412d094a3503d7dcbb86869e58412df8333"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/semi/blend",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "5296d715de2fcf10a385e135f925e56670e3cb0c",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/5296d715de2fcf10a385e135f925e56670e3cb0c"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/semi/blend/cifar10",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "77a9a9c01ac4b0d8badf2c3964ec7b80aaf73965",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/77a9a9c01ac4b0d8badf2c3964ec7b80aaf73965"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/semi/blend/cifar10/example.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cf6e5f61138dc6e582a353be38050ffcc741059e",
+      "size": 1678,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/cf6e5f61138dc6e582a353be38050ffcc741059e"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/semi/blend/imagenet",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "7421f6326bf044c3bf34b5d5ee3a94abfc3471b2",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/7421f6326bf044c3bf34b5d5ee3a94abfc3471b2"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/semi/blend/imagenet/example.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8276f8bf98190326c337fb1808ed5907add5417c",
+      "size": 1396,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/8276f8bf98190326c337fb1808ed5907add5417c"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/semi/blend/vggface2_30_resnet",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "0067f0ae45d59e2ffe2b8c105a90cf6f35f0d5dd",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/0067f0ae45d59e2ffe2b8c105a90cf6f35f0d5dd"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/config_z/semi/blend/vggface2_30_resnet/example.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b30789fc5abd6813156c91b48e968ab78526052d",
+      "size": 1398,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/b30789fc5abd6813156c91b48e968ab78526052d"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/data",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "69b4b67357583553b931e0cf392b2519635003ed",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/69b4b67357583553b931e0cf392b2519635003ed"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/data/backdoor.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ead61821fc87fbc79fb8987be7236cbbff54ef26",
+      "size": 2239,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/ead61821fc87fbc79fb8987be7236cbbff54ef26"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/data/cifar.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "74234d1e839000af26eed5ebbd6a2dcad291fb36",
+      "size": 2930,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/74234d1e839000af26eed5ebbd6a2dcad291fb36"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/data/dataset.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0b934b0618fc4c5003e94317925dcfe03f64ee07",
+      "size": 7914,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/0b934b0618fc4c5003e94317925dcfe03f64ee07"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/data/imagenet.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "31ab7effc0a6af0e381ef319097a94161873320d",
+      "size": 3422,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/31ab7effc0a6af0e381ef319097a94161873320d"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/data/prefetch.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d75d1acc6cdecd65ea8d83982e7557b99a8bec76",
+      "size": 2340,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/d75d1acc6cdecd65ea8d83982e7557b99a8bec76"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/data/trigger",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1a2c17ef9cd62b6e908b1f087547cf97c2c4d247",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/1a2c17ef9cd62b6e908b1f087547cf97c2c4d247"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/data/trigger/cifar_1.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d4e18740973a7ed2a4afb11382bc504bbe54759a",
+      "size": 106,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/d4e18740973a7ed2a4afb11382bc504bbe54759a"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/data/trigger/hello_kitty.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bc158862198f26aa8d92f972016ed88a69ef4de9",
+      "size": 118783,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/bc158862198f26aa8d92f972016ed88a69ef4de9"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/data/trigger/imagenet_apple_rainbow_32_32.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8997580be7d62dadb6571db6c51adda959fe9533",
+      "size": 1270,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/8997580be7d62dadb6571db6c51adda959fe9533"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/data/trigger/noise.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "833bf33881831f4e91aa0e1df759c9bd8b63f6e7",
+      "size": 150968,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/833bf33881831f4e91aa0e1df759c9bd8b63f6e7"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/data/utils.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3e04a87303fb1c81b2a30c187e837590551b4ce3",
+      "size": 4417,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/3e04a87303fb1c81b2a30c187e837590551b4ce3"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/data/vggface2.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f9f5757367a379cea3c2cd7a46fc345de8b6e1da",
+      "size": 3511,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/f9f5757367a379cea3c2cd7a46fc345de8b6e1da"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "0451deb632a5ad81101670a9243611438dfd660c",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/0451deb632a5ad81101670a9243611438dfd660c"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/__pycache__",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "7885662281b975ca8bbeb7c3d18110136039838b",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/7885662281b975ca8bbeb7c3d18110136039838b"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/__pycache__/loss.cpython-310.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d0a5ca56c3d63f1fe4254c68b20424c1a3922316",
+      "size": 4375,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/d0a5ca56c3d63f1fe4254c68b20424c1a3922316"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/__pycache__/model.cpython-310.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6220875eea6b0b09307a2f8a18f66865744652b0",
+      "size": 1802,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/6220875eea6b0b09307a2f8a18f66865744652b0"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/__pycache__/utils.cpython-310.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "766386fc39be2a06209130f6a233d06d88e40486",
+      "size": 4793,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/766386fc39be2a06209130f6a233d06d88e40486"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/loss.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a2cee31ec6a0f93ee62354c09dfeaf07778e104e",
+      "size": 4002,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/a2cee31ec6a0f93ee62354c09dfeaf07778e104e"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/model.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a7ed9796adfb938b40885a3c118a7d45a0ae46f3",
+      "size": 1308,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/a7ed9796adfb938b40885a3c118a7d45a0ae46f3"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/network",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "e559d1c73074cf6736386deb13250db64beead43",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/e559d1c73074cf6736386deb13250db64beead43"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/network/__pycache__",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "108acecfdc6c0f1289589e3c3de5531e4834747f",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/108acecfdc6c0f1289589e3c3de5531e4834747f"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/network/__pycache__/densenet_dbd.cpython-310.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "45fff99b738d8058cf990bc7e7d2f756f468c517",
+      "size": 11169,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/45fff99b738d8058cf990bc7e7d2f756f468c517"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/network/__pycache__/densenet_face.cpython-310.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1ffa0c036546e9bfe174d10f3ecef91d3cb93c7c",
+      "size": 10338,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/1ffa0c036546e9bfe174d10f3ecef91d3cb93c7c"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/network/__pycache__/efficientnet_dbd.cpython-310.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e5cba7577cbd47b80295c302de3b6d56c42a5a50",
+      "size": 12631,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/e5cba7577cbd47b80295c302de3b6d56c42a5a50"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/network/__pycache__/mobilenet_dbd.cpython-310.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3171d2ed4489ec8440c6cbc37bbdbed141944ebb",
+      "size": 9133,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/3171d2ed4489ec8440c6cbc37bbdbed141944ebb"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/network/__pycache__/preact_dbd.cpython-310.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f5243efe6e7085bf99ee41293c728f4d511b2983",
+      "size": 4568,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/f5243efe6e7085bf99ee41293c728f4d511b2983"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/network/__pycache__/resnet_cifar.cpython-310.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5ca74cfd720081ad556dee221f2ef3495ab8f041",
+      "size": 3953,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/5ca74cfd720081ad556dee221f2ef3495ab8f041"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/network/__pycache__/resnet_imagenet.cpython-310.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e8b19a5f5750c78aad6e63ec838460437b9c708e",
+      "size": 11092,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/e8b19a5f5750c78aad6e63ec838460437b9c708e"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/network/__pycache__/vgg_dbd.cpython-310.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e7c18a61b103d0f6a833e3c928e057dccc70c392",
+      "size": 7951,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/e7c18a61b103d0f6a833e3c928e057dccc70c392"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/network/densenet.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c33091d2b0440cecb76b90080e7d3c1b9b881cc0",
+      "size": 3590,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/c33091d2b0440cecb76b90080e7d3c1b9b881cc0"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/network/densenet_dbd.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a7e0f56484bb6804e2156d4df3e4859bda63747f",
+      "size": 12838,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/a7e0f56484bb6804e2156d4df3e4859bda63747f"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/network/densenet_face.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b6ebd6b654b2210db3021af1ba8eb651f837a16e",
+      "size": 12789,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/b6ebd6b654b2210db3021af1ba8eb651f837a16e"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/network/efficientnet.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "70f8f443f1319833d3ec0fd41a7b9aaa06e4459f",
+      "size": 3741,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/70f8f443f1319833d3ec0fd41a7b9aaa06e4459f"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/network/efficientnet_dbd.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "02970769b9e27f9602f131d7eed92e295d6be0e7",
+      "size": 15909,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/02970769b9e27f9602f131d7eed92e295d6be0e7"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/network/mobilenet_dbd.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e29302c0a0aef8f77253fe3035e4bb9586534ff1",
+      "size": 12079,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/e29302c0a0aef8f77253fe3035e4bb9586534ff1"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/network/preact_dbd.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "233c85e5cee8576a211d6947feed3d0cabef59eb",
+      "size": 4363,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/233c85e5cee8576a211d6947feed3d0cabef59eb"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/network/resnet_cifar.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c9acfe6a7671881439729b72af8867038c656bb7",
+      "size": 4818,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/c9acfe6a7671881439729b72af8867038c656bb7"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/network/resnet_imagenet.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2d2425772ce5deac60694d2e7992312c51fa2dbb",
+      "size": 14672,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/2d2425772ce5deac60694d2e7992312c51fa2dbb"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/network/vgg_dbd.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "93bca73be14b22d1b10cb68dfcc4e9ca00cbb6f6",
+      "size": 8349,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/93bca73be14b22d1b10cb68dfcc4e9ca00cbb6f6"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/model/utils.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "71fb4cbe7f00baa720ed94d526d0bca86e7d1310",
+      "size": 6937,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/71fb4cbe7f00baa720ed94d526d0bca86e7d1310"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/utils_db",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2e2478e6ab1682353f6ff22aa890dd8043908bfb",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/2e2478e6ab1682353f6ff22aa890dd8043908bfb"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/utils_db/box.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c040da8bc4366c007e7c8ece7d209baf6bbc058a",
+      "size": 5439,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/c040da8bc4366c007e7c8ece7d209baf6bbc058a"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/utils_db/setup.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "909296bd4901b0e36a95dccb1fe75d541b49d68a",
+      "size": 5608,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/909296bd4901b0e36a95dccb1fe75d541b49d68a"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/utils_db/trainer",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "84f70efcd95d45c07e5a84034bbd55194a1c00b5",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/84f70efcd95d45c07e5a84034bbd55194a1c00b5"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/utils_db/trainer/log.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "98db9e372302f4f988d2a6f049c0393dc4dd2d0a",
+      "size": 3042,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/98db9e372302f4f988d2a6f049c0393dc4dd2d0a"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/utils_db/trainer/semi.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a8c7ba3a8170701b5e2c67a24a366b89c83cc655",
+      "size": 5378,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/a8c7ba3a8170701b5e2c67a24a366b89c83cc655"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/utils_db/trainer/simclr.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "77b5fed383258487a60c7a6bbb869c5d76a20de7",
+      "size": 8080,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/77b5fed383258487a60c7a6bbb869c5d76a20de7"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/utils_db/trainer/supervise.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3bb0c7332cda73dc11e95bec7fe747f241e899e0",
+      "size": 3844,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/3bb0c7332cda73dc11e95bec7fe747f241e899e0"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbd/utils_db/trainer/utils.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f8d8419f2b28f4e707b9f38f9c80f485994b5e63",
+      "size": 672,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/f8d8419f2b28f4e707b9f38f9c80f485994b5e63"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbr",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "b40f86a52c05401429eaa1f2c4d5f5fbfdc4d93d",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/b40f86a52c05401429eaa1f2c4d5f5fbfdc4d93d"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbr/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbr/br_loss.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ec65808f657420924ffbb31f18cdca1e973db4d6",
+      "size": 8097,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/ec65808f657420924ffbb31f18cdca1e973db4d6"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbr/dataloader_bd.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "981ddc418d5067cb857eccbb1e67ccc705289960",
+      "size": 8368,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/981ddc418d5067cb857eccbb1e67ccc705289960"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbr/models",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "01f62ac5b2d73613823483b94427948b94a80ab7",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/01f62ac5b2d73613823483b94427948b94a80ab7"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbr/models/resnet_cifar10.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f92250648d6e018bdf0ff00313b075d986d2eb19",
+      "size": 9355,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/f92250648d6e018bdf0ff00313b075d986d2eb19"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbr/models/resnet_cifar100.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "19fd1e8c645d0ea2db8efd7fe58e6663a0261b8f",
+      "size": 5365,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/19fd1e8c645d0ea2db8efd7fe58e6663a0261b8f"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbr/models/resnet_super.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6fc1c21e2606656c76a24a144baed99dcdcfb374",
+      "size": 7436,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/6fc1c21e2606656c76a24a144baed99dcdcfb374"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbr/sd.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cfc74bb9319df5a562bdfe6f15ed3c526aa83c45",
+      "size": 8218,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/cfc74bb9319df5a562bdfe6f15ed3c526aa83c45"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dbr/utils_br.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "07506ae7aeb0d6cf7a0525f28ce33927342b0840",
+      "size": 4736,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/07506ae7aeb0d6cf7a0525f28ce33927342b0840"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dde",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "e919fa16a9cc06f1657bf56867db5c89e00e49f4",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/e919fa16a9cc06f1657bf56867db5c89e00e49f4"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dde/dde_model",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "54ff70b82702600a11c4b9154eef2e28d4e2aa2a",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/54ff70b82702600a11c4b9154eef2e28d4e2aa2a"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dde/dde_model/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c2e05a1f02520b36fc9a0f2a1580c906d80204ea",
+      "size": 287,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/c2e05a1f02520b36fc9a0f2a1580c906d80204ea"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dde/dde_model/conv_dde.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4e5362404acdbbc8d38d9462f2724130160c85e1",
+      "size": 9882,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/4e5362404acdbbc8d38d9462f2724130160c85e1"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dde/dde_model/conv_new_dde.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "22350d3f5f752d2bacd0b9ffa166e68e2d511f99",
+      "size": 15125,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/22350d3f5f752d2bacd0b9ffa166e68e2d511f99"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dde/dde_model/dde_batchnorm.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4e9144631ec5ee6077d391b99bc1b0d52f47dd3a",
+      "size": 720,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/4e9144631ec5ee6077d391b99bc1b0d52f47dd3a"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dde/dde_model/dde_layernorm.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5177dd216bd98aa63a052178125eb8d7f59a0635",
+      "size": 1768,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/5177dd216bd98aa63a052178125eb8d7f59a0635"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dde/dde_model/den_dde.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4681366409a6848cec03929d99810da63fee6d9d",
+      "size": 13239,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/4681366409a6848cec03929d99810da63fee6d9d"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dde/dde_model/eff_dde.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "07f6ba0b226bfe1b449f81141e6801aa232f3ef8",
+      "size": 15855,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/07f6ba0b226bfe1b449f81141e6801aa232f3ef8"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dde/dde_model/mobilenet_dde.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "966c15e9816124c11e817ed8de13518fcefca3b1",
+      "size": 12037,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/966c15e9816124c11e817ed8de13518fcefca3b1"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dde/dde_model/preact_dde.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "14b07c1cfa0401a857867d282b71ccbabde3e360",
+      "size": 4697,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/14b07c1cfa0401a857867d282b71ccbabde3e360"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dde/dde_model/vgg_dde.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cf8334191929cd351476eefa6130505953be7517",
+      "size": 8410,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/cf8334191929cd351476eefa6130505953be7517"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dde/dde_model/vit_dde.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fa6c4a98a401069bea57067a8968ec9a10718fbb",
+      "size": 17022,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/fa6c4a98a401069bea57067a8968ec9a10718fbb"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dde/dde_model/vit_new_dde.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bd709a5cdf2128ea9a765e653fa50d98beb927da",
+      "size": 31817,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/bd709a5cdf2128ea9a765e653fa50d98beb927da"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dst",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "200340413559ac337a0c43ed925fc9139a8cd448",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/200340413559ac337a0c43ed925fc9139a8cd448"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dst/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dst/dataloader_bd.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "27770f503a996f6825782f31c260de57d281fffa",
+      "size": 16360,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/27770f503a996f6825782f31c260de57d281fffa"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dst/models",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "292bc1e9aa12fa32ec9e31a46720c635f3def236",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/292bc1e9aa12fa32ec9e31a46720c635f3def236"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dst/models/__pycache__",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "4ed54d5819ee1dde4b05f82fefcc056b59cb5387",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/4ed54d5819ee1dde4b05f82fefcc056b59cb5387"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dst/models/__pycache__/resnet_super.cpython-38.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "41f627ec250ea7dfbfd5ab84212e75b6c3fb5bbf",
+      "size": 4691,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/41f627ec250ea7dfbfd5ab84212e75b6c3fb5bbf"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dst/models/__pycache__/resnet_super.cpython-39.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dc706626495ea2509670074e5171af17a6151bd0",
+      "size": 4692,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/dc706626495ea2509670074e5171af17a6151bd0"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dst/models/resnet_cifar10.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f92250648d6e018bdf0ff00313b075d986d2eb19",
+      "size": 9355,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/f92250648d6e018bdf0ff00313b075d986d2eb19"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dst/models/resnet_cifar100.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "19fd1e8c645d0ea2db8efd7fe58e6663a0261b8f",
+      "size": 5365,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/19fd1e8c645d0ea2db8efd7fe58e6663a0261b8f"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dst/models/resnet_super.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6fc1c21e2606656c76a24a144baed99dcdcfb374",
+      "size": 7436,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/6fc1c21e2606656c76a24a144baed99dcdcfb374"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dst/sd.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ce8a59b9cfa1f685ee5602da7d0a429831100907",
+      "size": 7861,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/ce8a59b9cfa1f685ee5602da7d0a429831100907"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dst/st_loss.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3b183c81efd274138f56e5d5e23231b410bd7923",
+      "size": 8298,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/3b183c81efd274138f56e5d5e23231b410bd7923"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/dst/utils_st.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d515ae89cb109b765b7c49f462b12994a27b7618",
+      "size": 3741,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/d515ae89cb109b765b7c49f462b12994a27b7618"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/mbns",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "36661367da2f332c0850ddc39f693e588f94ae29",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/36661367da2f332c0850ddc39f693e588f94ae29"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/mbns/mbns_model",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "74fb8513cc1b8192cc46521ae97bf7f1e606574a",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/74fb8513cc1b8192cc46521ae97bf7f1e606574a"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/mbns/mbns_model/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "731fc57b8b5f143f6c22a0a382facc66050bc660",
+      "size": 298,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/731fc57b8b5f143f6c22a0a382facc66050bc660"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/mbns/mbns_model/conv_mbns.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7d58a9dd4a6e6fe8029763c8b7e373d76f6bf47d",
+      "size": 9889,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/7d58a9dd4a6e6fe8029763c8b7e373d76f6bf47d"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/mbns/mbns_model/conv_new_mbns.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ca6d8957b60ac88e2cb271448f025f96780360f7",
+      "size": 15131,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/ca6d8957b60ac88e2cb271448f025f96780360f7"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/mbns/mbns_model/den_mbns.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4681366409a6848cec03929d99810da63fee6d9d",
+      "size": 13239,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/4681366409a6848cec03929d99810da63fee6d9d"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/mbns/mbns_model/eff_mbns.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "07f6ba0b226bfe1b449f81141e6801aa232f3ef8",
+      "size": 15855,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/07f6ba0b226bfe1b449f81141e6801aa232f3ef8"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/mbns/mbns_model/mbns_batchnorm.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e64b0212a21438899abdc9e0eac6c1ee05c76232",
+      "size": 724,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/e64b0212a21438899abdc9e0eac6c1ee05c76232"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/mbns/mbns_model/mbns_layernorm.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3378e7c02128401c43f47381e9ccb7b95b1503c4",
+      "size": 2662,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/3378e7c02128401c43f47381e9ccb7b95b1503c4"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/mbns/mbns_model/mobilenet_mbns.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "966c15e9816124c11e817ed8de13518fcefca3b1",
+      "size": 12037,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/966c15e9816124c11e817ed8de13518fcefca3b1"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/mbns/mbns_model/preact_mbns.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "14b07c1cfa0401a857867d282b71ccbabde3e360",
+      "size": 4697,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/14b07c1cfa0401a857867d282b71ccbabde3e360"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/mbns/mbns_model/vgg_mbns.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cf8334191929cd351476eefa6130505953be7517",
+      "size": 8410,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/cf8334191929cd351476eefa6130505953be7517"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/mbns/mbns_model/vit_mbns.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9305d61b7582a431f44153fb327d30ea17d6f58d",
+      "size": 17020,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/9305d61b7582a431f44153fb327d30ea17d6f58d"
+    },
+    {
+      "path": "data_prepare/utils/defense_utils/mbns/mbns_model/vit_new_mbns.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f336a06afdac7ab954c596e4ce52f249f2e0c8de",
+      "size": 31827,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/f336a06afdac7ab954c596e4ce52f249f2e0c8de"
+    },
+    {
+      "path": "data_prepare/utils/log_assist.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "01a6f416b96cf1b4eb5735f9b9bd579c1dc9c27c",
+      "size": 520,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/01a6f416b96cf1b4eb5735f9b9bd579c1dc9c27c"
+    },
+    {
+      "path": "data_prepare/utils/metric.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "87af663888d44a72e4410442af6dd019f8a24fdf",
+      "size": 4572,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/87af663888d44a72e4410442af6dd019f8a24fdf"
+    },
+    {
+      "path": "data_prepare/utils/nCHW_nHWC.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ea63d28133ded0055a536c1e687496a0c640ce5a",
+      "size": 549,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/ea63d28133ded0055a536c1e687496a0c640ce5a"
+    },
+    {
+      "path": "data_prepare/utils/prefetch.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4e7fe0232c5e1b9a37ba9ac07fcde287dc354756",
+      "size": 2102,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/4e7fe0232c5e1b9a37ba9ac07fcde287dc354756"
+    },
+    {
+      "path": "data_prepare/utils/quick_learning_utils",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "619c14b4a8834b44e47c515a1adad4bafbad3b43",
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/trees/619c14b4a8834b44e47c515a1adad4bafbad3b43"
+    },
+    {
+      "path": "data_prepare/utils/quick_learning_utils/quick_learning_trainer.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "011392379c1247cd24562ac9c15b6b88fe65039d",
+      "size": 47260,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/011392379c1247cd24562ac9c15b6b88fe65039d"
+    },
+    {
+      "path": "data_prepare/utils/quick_learning_utils/quick_learning_trainer_v2.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d6606dcb65cdc4edef28c54bea81a50a968886fa",
+      "size": 18606,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/d6606dcb65cdc4edef28c54bea81a50a968886fa"
+    },
+    {
+      "path": "data_prepare/utils/save_load_attack.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "622c921ef44f8f9f5eb64f7e47085a91a2eed93c",
+      "size": 14126,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/622c921ef44f8f9f5eb64f7e47085a91a2eed93c"
+    },
+    {
+      "path": "data_prepare/utils/save_load_index.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f40570d8e8a4664cf89413dbc8d196beab95b32e",
+      "size": 576,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/f40570d8e8a4664cf89413dbc8d196beab95b32e"
+    },
+    {
+      "path": "data_prepare/utils/separate_model_param.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ba08c1619f9a2966c9520ccceb436cbfbd9755df",
+      "size": 810,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/ba08c1619f9a2966c9520ccceb436cbfbd9755df"
+    },
+    {
+      "path": "data_prepare/utils/trainer_cls.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9b251b91eea356c6e4601b22f73a2fcc775bf8b2",
+      "size": 77407,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/9b251b91eea356c6e4601b22f73a2fcc775bf8b2"
+    },
+    {
+      "path": "data_prepare/utils/unnormalize.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "63d41b24ee3a5a9148b9facd1a0fe4c17307d74f",
+      "size": 739,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/63d41b24ee3a5a9148b9facd1a0fe4c17307d74f"
+    },
+    {
+      "path": "prepare_data.sh",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ebfcdbcabff2958259f6f94985a88e3f17fe14e6",
+      "size": 928,
+      "url": "https://api.github.com/repos/BingguangLu/BadFU/git/blobs/ebfcdbcabff2958259f6f94985a88e3f17fe14e6"
+    }
+  ],
+  "truncated": false
+}

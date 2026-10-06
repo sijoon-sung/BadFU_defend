@@ -107,3 +107,10 @@ This project is licensed under the MIT License.
   year      = {2025}
 }
 ```
+
+
+---
+
+## 📎 2026-10 추가: 언러닝 활성화 백도어 탐지→정화 실측 (FUBA·BadFU 실제 코드)
+
+위 벤치마크와 별개로, 공격 저자 공개 코드를 실제 실행한 궤적에서 탐지 통계량과 정화 변형을 비교했다. 실패한 시도까지 포함한 결과는 [DETECTION_PURIFICATION_RESULTS.md](DETECTION_PURIFICATION_RESULTS.md).
