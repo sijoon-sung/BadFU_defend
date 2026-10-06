@@ -26,6 +26,7 @@ if __name__ == "__main__":
     parser.add_argument('--Indicator', action = 'store_true', help='Apply Indicator from Backdoor-indicator-defense.')
     parser.add_argument('--IBMFL', action = 'store_true', help='Apply Indicator from Identify Backdoored Model in Federated Learning via Individual Unlearning.')
     parser.add_argument('--flDetector', action = 'store_true', help='Apply Fldetector.')
+    parser.add_argument('--seed', type=int, default=522, help='global random seed (통계용 반복)')
     parser.add_argument('--target_label', type=int, default=8,help='Target label index')
     parser.add_argument('--nb_attack', type=int,default=4, help='Number of malicious clients.')
     parser.add_argument('--nb_defence', type=int, default=1,help='Number of malicious defence clients.')
