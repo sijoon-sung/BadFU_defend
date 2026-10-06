@@ -6,13 +6,13 @@ FUBA 공개 코드로 공격 궤적을 실제로 만들고, 서버가 저장한 
 
 ```bash
 cd FUBA
-bash run_experiment.sh det1 det2 det3
+bash run_experiment.sh 1 2 3 4 5     # 인자 = seed 목록, 실행 이름은 s1..s5
 ```
 
-저장된 궤적이 이미 있으면 공격 단계를 건너뛴다.
+seed마다 독립 실행이 되므로 집계 결과를 평균±표준편차 통계로 쓸 수 있다. 저장된 결과가 있으면 재실행을 건너뛴다.
 
 ```bash
-SKIP_ATTACK=1 bash run_experiment.sh det1 det2
+SKIP_ATTACK=1 bash run_experiment.sh 1 2
 ```
 
 ## 파일과 논문 절의 대응
@@ -61,3 +61,11 @@ SKIP_ATTACK=1 bash run_experiment.sh det1 det2
 - 실행 간 편차가 크다(det1 ASR 34.5→12.2, det2 43.6→31.4). 반복 횟수를 늘려야 한다.
 - 모델은 기여의 단순 합으로 근사했다. 처음부터 재학습한 기준 모델과의 비교는 하지 않았다.
 - 적응형 공격자, BadFU 궤적에 대한 동일 절차 적용, 기존 방어(FUBA 저자의 Top-k·Enforce, 요청 심사, 강건 집계)와의 직접 비교는 아직 하지 않았다.
+
+## 브랜치
+
+| 브랜치 | 내용 |
+|---|---|
+| `main` | 기존 공개 결과 |
+| `defense-pipeline` | 본 실험 파이프라인(탐지·정화·기존 방어 비교), seed 제어 다중 실행 |
+| `exp/weighted-removal` | 제거량 가중 스윕(탐색 실험) |

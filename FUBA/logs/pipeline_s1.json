@@ -1,0 +1,64 @@
+{
+  "name": "s1",
+  "detection": {
+    "t_hat": 8,
+    "target_correct": true,
+    "A_hat": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "atk_precision": 1.0,
+    "atk_recall": 1.0,
+    "req_hat": 4,
+    "req_correct": true,
+    "mag_on_target": {
+      "0": 0.0557,
+      "1": 0.0535,
+      "2": 0.0584,
+      "3": 0.0586,
+      "4": 0.1043,
+      "5": 0.0369,
+      "6": 0.0388,
+      "7": 0.0373
+    },
+    "align_to_cluster": {
+      "0": 0.912,
+      "1": 0.889,
+      "2": 0.871,
+      "3": 0.903,
+      "4": -0.123,
+      "5": -0.598,
+      "6": -0.605,
+      "7": -0.633
+    }
+  },
+  "purification": {
+    "none_dormant": {
+      "acc": 95.91,
+      "asr": 6.0
+    },
+    "req_only_activation": {
+      "acc": 77.22,
+      "asr": 50.19
+    },
+    "req+atk_full": {
+      "acc": 82.47,
+      "asr": 0.98
+    },
+    "req+allV": {
+      "acc": 84.6,
+      "asr": 30.18
+    },
+    "req+randV_ctrl": {
+      "acc": 77.15,
+      "asr": 50.4
+    },
+    "normal_contrib_loss_frac": 0.0695,
+    "ref_two_deletion": {
+      "acc": 82.47,
+      "asr": 0.98
+    }
+  }
+}

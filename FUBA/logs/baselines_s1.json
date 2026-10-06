@@ -1,0 +1,41 @@
+{
+  "name": "s1",
+  "req": 4,
+  "atk": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "target": 8,
+  "rows": {
+    "none(dormant)": [
+      95.91,
+      6.0
+    ],
+    "B req-only FedAvg (activation)": [
+      75.82,
+      57.74
+    ],
+    "Median (robust-agg)": [
+      9.88,
+      100.0
+    ],
+    "Trimmed-mean b=0.2": [
+      56.18,
+      81.0
+    ],
+    "Top-k cos (FUBA, keep=4)": [
+      9.78,
+      100.0
+    ],
+    "attacker-full removal": [
+      82.38,
+      0.02
+    ],
+    "OURS: req + allV (FedAvg)": [
+      85.3,
+      32.31
+    ]
+  }
+}
