@@ -20,6 +20,10 @@ import pickle
 comm = MPI.COMM_WORLD
 
 def main(config: Config):
+    # 통계용 전역 seed (IBA 초기화·클라 선택·분할 모두 제어). seed 별로 독립 실행이 됨.
+    import numpy as _np
+    random.seed(config.seed); _np.random.seed(config.seed)
+    torch.manual_seed(config.seed); torch.cuda.manual_seed_all(config.seed)
     # Import local training method depending on attack type
     if config.attack_method == "iba":
         from train_method_iba import local_train
@@ -81,7 +85,7 @@ def main(config: Config):
         subset_length = len(trainset) // config.num_clients
         remainder = len(trainset) % config.num_clients
         lengths = [subset_length + 1] * remainder + [subset_length] * (config.num_clients - remainder)
-        torch.manual_seed(522)
+        torch.manual_seed(config.seed)
         if not config.non_iid:
             trainset_split = torch.utils.data.random_split(trainset, lengths)
         elif config.non_iid_type == 'Dirichlet':
