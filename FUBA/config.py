@@ -24,6 +24,7 @@ class Config:
         # Attack-related settings
         self.attack_method = args.attackMethod
         self.target_label = args.target_label
+        self.seed = getattr(args, 'seed', 522)
         self.nb_attack = args.nb_attack
         self.nb_defence = args.nb_defence
         self.forgot_client = args.forgot_client_idx
