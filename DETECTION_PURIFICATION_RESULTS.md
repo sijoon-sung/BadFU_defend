@@ -78,3 +78,7 @@ $V$ = 활성 라운드 공격자 업데이트들의 상위-$k$ 주성분. **fc3(
 - `FUBA/logs/purify_compare.json`, `logs/fuba_kappa.json` — 원 수치
 - `BadFU_src/BadFU-main/fl_detect_badfu.py`, `unlearn_from_traj.py`, `detect_fixed.py` — BadFU 쪽
 - `exp_fuba_real_detect.py`, `fuba_kappa_check.py` — 단일 프로세스 포트(실패 기록 포함)
+
+## 5. 한 번에 재현하는 실험 코드
+
+공격 궤적 생성 → 탐지 → 정화 → 통계를 한 번에 돌리는 방법과 논문 절 대응표: [FUBA/EXPERIMENT.md](FUBA/EXPERIMENT.md)

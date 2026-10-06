@@ -31,3 +31,4 @@ logs_fuba_real.txt
 BadFU_src/BadFU-main/data_prepare/**/__pycache__/
 # upstream FUBA repo history kept locally, not re-published
 FUBA/.git_upstream_fuba/
+logs_fuba_*.txt
