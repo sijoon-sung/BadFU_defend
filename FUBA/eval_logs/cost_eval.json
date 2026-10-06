@@ -1,0 +1,21 @@
+{
+  "name": "det1",
+  "measured": {
+    "ours_detect_ms": 0.166,
+    "all_pairs_ms": 0.179,
+    "purify_ms": 0.553,
+    "device": "cuda",
+    "K": 8,
+    "C": 10,
+    "active_rounds": 5
+  },
+  "asymptotic": {
+    "ours_detect": "O(n·C·d_head·R)  (클래스별 군집, 쌍 없음)",
+    "all_pairs": "O(n^2·d_head·R)",
+    "neural_cleanse": "O(C·steps·|probe|·fwd+bwd)  + 서버 데이터 필요",
+    "retrain_check": "O(T·n·local_epochs) 클라 재계산",
+    "per_request_reconstruct(FedEraser)": "요청마다 보정라운드×(n-1)",
+    "history_storage": "O(n·d·T)  (저장 공간; 근사 FU 가 이미 요구)",
+    "ours_purify": "O(k·d_head)  (랭크-k 투영, 재학습 없음)"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "n_runs": 3,
+  "client_TPR": [
+    1.0,
+    0.0
+  ],
+  "client_FPR": [
+    0.0,
+    0.0
+  ],
+  "client_FNR": [
+    0.0,
+    0.0
+  ],
+  "precision": [
+    1.0,
+    0.0
+  ],
+  "DACC": [
+    1.0,
+    0.0
+  ],
+  "target_acc": [
+    1.0,
+    0.0
+  ],
+  "requester_acc": [
+    1.0,
+    0.0
+  ],
+  "AUROC_mag": [
+    1.0,
+    0.0
+  ],
+  "benign_false_alarm_rate": [
+    0.625,
+    0.0
+  ]
+}
