@@ -1,0 +1,23 @@
+{
+  "name": "run1",
+  "unlearned": "checkpoints/global_net_model_retrain_run1_round_7.pkl",
+  "atk": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "target": 8,
+  "dormant": {
+    "acc": 95.66,
+    "asr": 5.07
+  },
+  "real_FU": {
+    "acc": 98.9,
+    "asr": 65.26
+  },
+  "purified": {
+    "acc": 98.88,
+    "asr": 62.51
+  }
+}

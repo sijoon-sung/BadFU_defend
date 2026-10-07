@@ -1,0 +1,64 @@
+{
+  "name": "run1",
+  "detection": {
+    "t_hat": 8,
+    "target_correct": true,
+    "A_hat": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "atk_precision": 1.0,
+    "atk_recall": 1.0,
+    "req_hat": 4,
+    "req_correct": true,
+    "mag_on_target": {
+      "0": 0.0615,
+      "1": 0.0553,
+      "2": 0.0559,
+      "3": 0.0642,
+      "4": 0.1191,
+      "5": 0.0429,
+      "6": 0.0401,
+      "7": 0.041
+    },
+    "align_to_cluster": {
+      "0": 0.859,
+      "1": 0.88,
+      "2": 0.86,
+      "3": 0.849,
+      "4": -0.112,
+      "5": -0.637,
+      "6": -0.635,
+      "7": -0.655
+    }
+  },
+  "purification": {
+    "none_dormant": {
+      "acc": 95.66,
+      "asr": 5.07
+    },
+    "req_only_activation": {
+      "acc": 80.27,
+      "asr": 41.36
+    },
+    "req+atk_full": {
+      "acc": 80.02,
+      "asr": 0.1
+    },
+    "req+allV": {
+      "acc": 87.87,
+      "asr": 21.55
+    },
+    "req+randV_ctrl": {
+      "acc": 80.22,
+      "asr": 41.41
+    },
+    "normal_contrib_loss_frac": 0.0555,
+    "ref_two_deletion": {
+      "acc": 80.02,
+      "asr": 0.1
+    }
+  }
+}

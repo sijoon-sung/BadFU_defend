@@ -26,6 +26,12 @@ PYTHONIOENCODING=utf-8 python unlearn.py --dataset mnist --name "$NAME" --method
   --round $CR --nb_clients $K --warm_up $WU --communication_rounds $CR --forgot_client_idx $REQ \
   --participant_rate 1.0 --target_label $TGT --no_global_test --no_detail_test
 UNLEARNED="saved_models/global_${FU}_iba_mnist.pkl"
+if [ ! -f "$UNLEARNED" ]; then
+  mkdir -p saved_models
+  for cand in "checkpoints/global_net_model_${FU}_${NAME}_round_${CR}.pkl" "checkpoints/global_net_model_${FU}_${NAME}_round_$((CR-1)).pkl" "checkpoints/global_net_model_${FU}_round_${CR}.pkl"; do
+    if [ -f "$cand" ]; then cp "$cand" "$UNLEARNED"; break; fi
+  done
+fi
 
 echo "########## 3) 탐지 (저장된 업데이트만, 라벨/트리거 없이) ##########"
 echo "+ python pipeline_detect_purify.py --name=$NAME"
