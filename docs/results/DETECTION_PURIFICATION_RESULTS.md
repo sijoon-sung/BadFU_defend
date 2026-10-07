@@ -1,5 +1,7 @@
 # 언러닝 활성화 백도어: 탐지 → 정화 실측 (FUBA / BadFU 실제 코드 기준)
 
+> 문서 내 코드·결과 경로는 저장소 루트 기준입니다. 실행 경로는 [구조 안내](../REPOSITORY.md)를 참고하세요.
+
 실측일 2026-10-05~06. RTX 4060 8GB, Windows. 모든 숫자는 **공격 저자 공개 코드를 실제로 실행**한 궤적에서 나왔다.
 아래는 **예비 실험**이다(1회 실행, 소규모). 수치는 경향으로만 읽을 것.
 
@@ -77,8 +79,8 @@ $V$ = 활성 라운드 공격자 업데이트들의 상위-$k$ 주성분. **fc3(
 - `FUBA/purify_compare.py` — 정화 변형 비교 (표 3)
 - `FUBA/logs/purify_compare.json`, `logs/fuba_kappa.json` — 원 수치
 - `BadFU_src/BadFU-main/fl_detect_badfu.py`, `unlearn_from_traj.py`, `detect_fixed.py` — BadFU 쪽
-- `exp_fuba_real_detect.py`, `fuba_kappa_check.py` — 단일 프로세스 포트(실패 기록 포함)
+- `experiments/detection/exp_fuba_real_detect.py`, `experiments/detection/fuba_kappa_check.py` — 단일 프로세스 포트(실패 기록 포함)
 
 ## 5. 한 번에 재현하는 실험 코드
 
-공격 궤적 생성 → 탐지 → 정화 → 통계를 한 번에 돌리는 방법과 논문 절 대응표: [FUBA/EXPERIMENT.md](FUBA/EXPERIMENT.md)
+공격 궤적 생성 → 탐지 → 정화 → 통계를 한 번에 돌리는 방법과 논문 절 대응표: [FUBA/EXPERIMENT.md](../../FUBA/EXPERIMENT.md)

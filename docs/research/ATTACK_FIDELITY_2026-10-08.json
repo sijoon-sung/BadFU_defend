@@ -1,0 +1,70 @@
+{
+  "date": "2026-10-08",
+  "scope": "Static source audit; no training rerun.",
+  "local_main": "c2b1399c14473a025630d1ba8927be5b85845048",
+  "local_evaluation": "9d91222b1b60b90e6e63a8552fd13da637160bae",
+  "upstream": {
+    "FUBA": {
+      "repository": "stcebra/FUBA",
+      "commit": "bc233610aca36e1647d0c815597cc7148292139d"
+    },
+    "BadFU": {
+      "repository": "BingguangLu/BadFU",
+      "commit": "0a2117feab58faf5b7e2a1e5e1759112087d6049"
+    }
+  },
+  "comparisons": {
+    "FUBA": {
+      "extensions": [
+        ".py",
+        ".sh",
+        ".yaml",
+        ".yml",
+        ".md",
+        ".txt"
+      ],
+      "identical_text_count": 131,
+      "line_ending_only": [],
+      "changed_text": [
+        "dataset.py",
+        "train_main.py",
+        "unlearn_method/FedEraser/utils_federaser.py",
+        "unlearn_method/distillation.py",
+        "unlearn_method/federaser.py",
+        "unlearn_method/pgd.py",
+        "unlearn_method/retrain.py",
+        "unlearn_method/sga.py"
+      ],
+      "missing": []
+    },
+    "BadFU": {
+      "extensions": [
+        ".py",
+        ".sh",
+        ".yaml",
+        ".yml",
+        ".md",
+        ".txt"
+      ],
+      "identical_text_count": 200,
+      "line_ending_only": [],
+      "changed_text": [
+        "data_prepare/utils/bd_dataset_v2.py"
+      ],
+      "missing": [
+        "data_prepare/utils/defense_utils/dbd/data/backdoor.py",
+        "data_prepare/utils/defense_utils/dbd/data/cifar.py",
+        "data_prepare/utils/defense_utils/dbd/data/dataset.py",
+        "data_prepare/utils/defense_utils/dbd/data/imagenet.py",
+        "data_prepare/utils/defense_utils/dbd/data/prefetch.py",
+        "data_prepare/utils/defense_utils/dbd/data/utils.py",
+        "data_prepare/utils/defense_utils/dbd/data/vggface2.py"
+      ]
+    }
+  },
+  "notes": [
+    "FUBA changed source differences were manually reviewed: DALI import guard and DataLoader num_workers.",
+    "BadFU bd_dataset_v2.py change guards __getattr__ during unpickling/deepcopy.",
+    "Custom runners are additions, not upstream files; their protocol is assessed in the companion Markdown report."
+  ]
+}

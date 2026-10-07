@@ -2,8 +2,8 @@
 """
 analyze_lora_grid.py — exp_lora_badfu_grid.py 결과(JSON)를 시드 평균으로 묶어 표와 그림을 만든다.
 
-  python analyze_lora_grid.py                       # logs/lora_grid
-  python analyze_lora_grid.py --dir logs/lora_noniid --tag _d0.9
+  python experiments/lora/analyze_lora_grid.py                       # logs/lora_grid
+  python experiments/lora/analyze_lora_grid.py --dir logs/lora_noniid --tag _d0.9
 """
 import argparse, glob, json, os
 from collections import defaultdict
@@ -16,7 +16,7 @@ p = argparse.ArgumentParser()
 p.add_argument("--dir", default="logs/lora_grid")
 p.add_argument("--tag", default="")
 args = p.parse_args()
-HERE = os.path.dirname(os.path.abspath(__file__)); D = os.path.join(HERE, args.dir)
+HERE = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))); D = os.path.join(HERE, args.dir)
 
 R = defaultdict(list)                     # (agg, rank) -> [run, ...]
 for f in sorted(glob.glob(os.path.join(D, f"*{args.tag}.json"))):

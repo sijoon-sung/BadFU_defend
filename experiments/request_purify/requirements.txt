@@ -1,0 +1,5 @@
+# Install a CUDA-compatible torch/torchvision pair on the GPU host first.
+torch>=2.4
+torchvision>=0.19
+numpy>=1.26
+Pillow>=9.0

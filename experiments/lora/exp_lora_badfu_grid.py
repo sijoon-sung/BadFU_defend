@@ -33,8 +33,8 @@ exp_lora_badfu_grid.py
   atk_asr, atk_margin: 공격자 로컬 모델(집계 전)의 값
 
 실행
-  python exp_lora_badfu_grid.py                                   # 전체 격자
-  python exp_lora_badfu_grid.py --aggs full fedex --ranks 16 --seeds 0 --phases dormant retrain
+  python experiments/lora/exp_lora_badfu_grid.py                                   # 전체 격자
+  python experiments/lora/exp_lora_badfu_grid.py --aggs full fedex --ranks 16 --seeds 0 --phases dormant retrain
 """
 import argparse, json, math, os, time
 import torch, torch.nn.functional as F
@@ -66,7 +66,7 @@ p.add_argument("--force", action="store_true")
 args = p.parse_args()
 
 dev = "cuda" if torch.cuda.is_available() else "cpu"
-HERE = os.path.dirname(os.path.abspath(__file__))
+HERE = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 OUT = os.path.join(HERE, args.out); os.makedirs(OUT, exist_ok=True)
 H, K, T, S = args.hidden, args.K, args.target, args.lora_scale
 

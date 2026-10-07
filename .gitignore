@@ -32,3 +32,6 @@ BadFU_src/BadFU-main/data_prepare/**/__pycache__/
 # upstream FUBA repo history kept locally, not re-published
 FUBA/.git_upstream_fuba/
 logs_fuba_*.txt
+
+# Reproducible experiment outputs (results are shared as a separate archive)
+artifacts/

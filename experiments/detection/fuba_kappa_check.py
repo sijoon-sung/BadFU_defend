@@ -12,14 +12,14 @@ import os, copy, json, sys
 import numpy as np, torch, torch.nn as nn, torch.optim as optim
 from torchvision import datasets, transforms
 
-FUBA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "FUBA")
+FUBA = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "FUBA")
 sys.path.insert(0, FUBA)
 from model import Net, MNISTAutoencoder
 from utils.comm_utils import attack as fuba_attack, test as fuba_test
 
 dev = "cuda" if torch.cuda.is_available() else "cpu"
 torch.manual_seed(0); np.random.seed(0)
-HERE = os.path.dirname(os.path.abspath(__file__)); os.makedirs(os.path.join(HERE,"logs"), exist_ok=True)
+HERE = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))); os.makedirs(os.path.join(HERE,"logs"), exist_ok=True)
 K, ROUNDS, WARMUP, RAMP = 5, 20, 5, 2
 TGT, EPS, THR, BATCH_CAP, ATK_EPOCHS, BDGEN = 8, 1.0, 0.04, 21, 10, 15
 ATTACKER, DEFENDER = 0, 1

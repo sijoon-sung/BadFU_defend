@@ -25,7 +25,7 @@ import numpy as np
 import torch, torch.nn as nn, torch.optim as optim
 from torchvision import datasets, transforms
 
-FUBA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "FUBA")
+FUBA = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "FUBA")
 sys.path.insert(0, FUBA)
 from model import Net, MNISTAutoencoder                      # FUBA 그대로
 from utils.comm_utils import attack as fuba_attack, test as fuba_test  # FUBA 그대로
@@ -48,7 +48,7 @@ args = p.parse_args()
 
 dev = "cuda" if torch.cuda.is_available() else "cpu"
 torch.manual_seed(args.seed); np.random.seed(args.seed)
-HERE = os.path.dirname(os.path.abspath(__file__))
+HERE = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.makedirs(os.path.join(HERE, "logs"), exist_ok=True)
 TGT, EPS, THR = args.target_label, args.atk_eps, args.noise_thread
 ATTACKER, DEFENDER = 0, 1

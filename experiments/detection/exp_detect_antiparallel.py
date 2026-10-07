@@ -42,7 +42,7 @@ args = p.parse_args()
 
 dev = "cuda" if torch.cuda.is_available() else "cpu"
 torch.manual_seed(args.seed); np.random.seed(args.seed)
-HERE = os.path.dirname(os.path.abspath(__file__))
+HERE = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.makedirs(os.path.join(HERE, "logs"), exist_ok=True)
 
 # ---- 데이터 ----
