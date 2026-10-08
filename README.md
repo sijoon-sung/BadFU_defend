@@ -4,6 +4,8 @@
 
 ## 먼저 볼 문서
 
+- [연구 미팅 자료](docs/research/MEETING_BRIEF_2026-10-08.md) — 발표문, 현재 구현의 수식, 확보 근거, GPU 결과 판단 순서와 예상 질문입니다.
+- [관련 논문과 알고리즘 발전 방향](docs/research/LITERATURE_REVIEW_2026-10-08.md) — 핵심 논문 13편의 역할, 가까운 선행연구, 검증해야 할 차별점을 정리했습니다.
 - [GPU 실험 한 번에 실행](experiments/request_purify/README.md) — 정상 보정, BadFU 학습, 실제 FU·정화 비교, 후속 FL과 결과 zip 생성입니다.
 - [교수님 논의용 연구 계획](docs/research/RESEARCH_PROPOSAL_2026-10-08.md) — 연구 문제, 예비 근거, 선행연구와 차별점, 실험 우선순위입니다.
 - [시뮬레이션 없는 언러닝 정화 알고리즘 명세](docs/research/ALGORITHM_SPEC_2026-10-08.md) — 입력·점수·FU 통합·정화 강도·의사코드와 검증 조건을 정의한 구현 전 설계입니다.
