@@ -19,6 +19,7 @@ ENV/
 Thumbs.db
 
 # ---- large artifacts (datasets, checkpoints, trajectories) ----
+artifacts/
 saved_models/
 checkpoints/
 record/
