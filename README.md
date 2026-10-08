@@ -4,6 +4,9 @@
 
 ## 먼저 볼 문서
 
+- [범용성 검토 PDF](output/pdf/FU_generalization_review_2026-10-08.pdf) — 교수님 피드백을 반영한 6쪽 자료: 적용 범위·근접 선행연구·확장 알고리즘·검증 순서입니다.
+- [31편 확장 문헌 지도](docs/research/LITERATURE_MAP_2026-10-08.md) — 공격 구조, 필요한 정보, 비용, 확인 수준과 아직 모르는 점을 구분했습니다.
+- [범용성 확장 연구 계획](docs/research/GENERALIZATION_PLAN_2026-10-08.md) — 추가 탐지 FU 0회를 유지하는 확장 제안과 반증 가능한 실험 기준입니다. 새 모듈은 아직 구현·검증되지 않았습니다.
 - [미팅 핵심 요약 PDF](output/pdf/BadFU_research_meeting_2026-10-08.pdf) — 연구 목표·알고리즘·검증 계획을 3쪽으로 압축한 발표용 자료입니다.
 - [연구 미팅 자료](docs/research/MEETING_BRIEF_2026-10-08.md) — 발표문, 현재 구현의 수식, 확보 근거, GPU 결과 판단 순서와 예상 질문입니다.
 - [관련 논문과 알고리즘 발전 방향](docs/research/LITERATURE_REVIEW_2026-10-08.md) — 핵심 논문 13편의 역할, 가까운 선행연구, 검증해야 할 차별점을 정리했습니다.
