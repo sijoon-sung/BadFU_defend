@@ -4,6 +4,7 @@
 
 ## 먼저 볼 문서
 
+- [새 탐지 관측 GPU 실행](experiments/request_purify/OBSERVATION_BENCHMARK.md) — 정상 기준 잔여 방향·기능 변화·실제 FU 관측을 비교합니다. 추가 탐지 FU 0회이며 새 점수는 아직 정화에 연결하지 않습니다.
 - [방어 논문의 전개와 탐지 재설계](docs/research/DETECTION_REDESIGN_2026-10-08.md) — 실제 탐지 실패를 반영한 관측 후보, 선행연구의 설계 논리, 최소 검증 계획입니다. 새 방어 성능 주장은 아닙니다.
 - [GPU seed 42 ASR 100% 원인 점검](docs/results/GPU_SEED42_ASR_AUDIT_2026-10-08.md) — 탐지 누락·oracle 정화 실패·삭제 전 ASR과 코드 검증을 구분한 최신 실제 결과입니다.
 - [논문 범위·독창성·리뷰어 검증 계획](docs/research/PAPER_SCOPE_AND_NOVELTY_2026-10-08.md) — BadFU·FUBA를 중심에 두고 같은 계열 일반화, 다른 언러닝 공격 이전, 기존 방어와의 결합 효과를 구분한 최신 제안입니다.

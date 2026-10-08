@@ -14,6 +14,7 @@ from torch.utils.data import DataLoader
 
 from .core import DetectorConfig, bounded_correction, build_basis, detect, scores
 from .data import object_hash
+from .observations import ProbeObserver, VERSION as OBSERVATION_VERSION
 
 
 def save_json(path, value):
@@ -150,6 +151,9 @@ def protocol_signature(case, args):
                         "batch": args.batch_size, "lr": args.lr,
                         "dominant": args.dominant_ratio, "val_size": args.val_size,
                         "pretrained": not args.no_pretrained,
+                        "observation": {"enabled": args.observe, "version": OBSERVATION_VERSION,
+                                        "size": args.probe_size, "seed": args.probe_seed,
+                                        "dimensions": args.probe_dimensions},
                         "record": case["meta"].get("record_sha256"),
                         "images": [case["meta"].get(k) for k in
                                    ("bd_sha256", "cv_sha256", "test_trigger_sha256")]})
@@ -162,6 +166,10 @@ def train_history(case, args, directory):
     begin = clock(args.device)
     seed_all(seed)
     model = case["factory"](pretrained=not args.no_pretrained).to(args.device)
+    t = clock(args.device)
+    observer = ProbeObserver(model, case["validation"], case["head"], args,
+                             case["meta"].get("validation_ids")) if args.observe else None
+    observation_seconds = clock(args.device) - t
     initial = cpu_state(model)
     state = initial
     param_keys = list(dict(model.named_parameters()))
@@ -185,6 +193,11 @@ def train_history(case, args, directory):
                               seed * 100000 + r * 100 + i, args)
                   for i, ds in enumerate(case["clients"])]
         local_seconds += clock(args.device) - t
+        if observer is not None:
+            t = clock(args.device)
+            updates = torch.stack([head(local, case["head"]) - head(state, case["head"]) for local in states])
+            observer.training_round(state, states, updates)
+            observation_seconds += clock(args.device) - t
         t = clock(args.device)
         hs.append(torch.stack([head(local, case["head"]) - head(state, case["head"])
                                for local in states]))
@@ -205,10 +218,17 @@ def train_history(case, args, directory):
                "old_lengths": lengths, "initial": initial, "final": state,
                "parameter_keys": param_keys, "manifest": meta,
                "head_prefix": case["head"], "training_metrics": metrics}
+    if observer is not None:
+        t = clock(args.device)
+        history["observations"] = observer.training_result(state)
+        observation_seconds += clock(args.device) - t
+        save_json(directory / "probe_manifest.json", history["observations"]["manifest"])
     t = clock(args.device)
     save_torch(directory / "history.pt", history)
     save_seconds = clock(args.device) - t
     timing = {"local_training_seconds": local_seconds, "record_seconds": record_seconds,
+              "observation_seconds": observation_seconds,
+              "observation_feature_tensor_bytes": sum(v.numel() * v.element_size() for v in history["observations"]["features"].values()) if observer is not None else 0,
               "evaluation_seconds": eval_seconds, "save_seconds": save_seconds,
               "wall_seconds": clock(args.device) - begin,
               "history_bytes": (directory / "history.pt").stat().st_size}
@@ -299,6 +319,13 @@ def run_arm(history, case, args, directory, cfg, arm):
     save_json(directory / "detection.json", detection)
     seed_all(seed + 70000)
     model = case["factory"]().to(args.device)
+    t = clock(args.device)
+    observer = ProbeObserver(model, case["validation"], case["head"], args,
+                             case["meta"].get("validation_ids")) if args.observe else None
+    observation_setup = clock(args.device) - t
+    if observer is not None:
+        if observer.manifest["probe_and_projection_sha256"] != history["observations"]["manifest"]["probe_and_projection_sha256"]:
+            raise ValueError("FU probes differ from the training probes")
     current = {k: v.clone() for k, v in history["initial"].items()}
     keep = [i for i in range(len(case["clients"])) if i != args.requester]
     counts = [len(case["clients"][i]) for i in keep]
@@ -307,7 +334,7 @@ def run_arm(history, case, args, directory, cfg, arm):
     prefix = case["head"]
     timing = {"detect_and_basis_seconds": detection_seconds, "local_training_seconds": 0.,
               "calibration_seconds": 0., "projection_seconds": 0., "guard_seconds": 0.,
-              "evaluation_seconds": 0.}
+              "evaluation_seconds": 0., "observation_seconds": observation_setup}
     events, track = [], []
     for r in range(args.rounds):
         t = clock(args.device)
@@ -351,6 +378,10 @@ def run_arm(history, case, args, directory, cfg, arm):
             timing["guard_seconds"] += clock(args.device) - t
         else:
             event["applied_norm"] = event["norm"]
+        if observer is not None:
+            t = clock(args.device)
+            observer.fu_round(current, local, keep, candidate, history["observations"], r, args.requester)
+            timing["observation_seconds"] += clock(args.device) - t
         current = candidate
         events.append(event)
         if r == args.rounds - 1 or (r + 1) % args.eval_every == 0:
@@ -361,7 +392,12 @@ def run_arm(history, case, args, directory, cfg, arm):
             print(f"[FU {directory.parent.name}/{arm} {r+1}/{args.rounds}] "
                   f"ACC={metric['acc']:.2f} ASR={metric['asr']:.2f}", flush=True)
             save_json(directory / "progress.json", {"metrics": track, "events": events})
+            if observer is not None:
+                save_json(directory / "fu_observations.json", {"mode": "shadow_only", "events": observer.fu_events})
     t = clock(args.device)
+    if observer is not None:
+        save_torch(directory / "fu_observations.pt", observer.fu_tensors)
+        save_json(directory / "fu_probe_manifest.json", observer.manifest)
     save_torch(directory / "model.pt", current)
     save_torch(directory / "basis.pt", b.cpu())
     timing["save_seconds"] = clock(args.device) - t
@@ -370,6 +406,9 @@ def run_arm(history, case, args, directory, cfg, arm):
               "requester": args.requester, "trajectory_id": history["manifest"]["trajectory_id"],
               "final": track[-1], "detection": detection, "events": events, "fu_track": track,
               "timing": timing, "model_sha256": state_hash(current),
+              "observations": {"enabled": args.observe, "mode": "shadow_only",
+                               "controls_purification": False,
+                               "tensor_bytes": (directory / "fu_observations.pt").stat().st_size if observer is not None else 0},
               "diagnostic_fu_runs": 0, "actual_fu_paths": 1,
               "backend": "aligned_layerwise_norm_replay_v1",
               "forgetting_status": "unverified; deleted_data_loss is diagnostic, not a forgetting certificate"}

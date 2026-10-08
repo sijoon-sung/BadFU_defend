@@ -15,9 +15,11 @@ from pathlib import Path
 import torch
 
 from .core import DetectorConfig
-from .data import badfu_case, load_badfu_source, object_hash, smoke_case
+from .data import badfu_case, file_hash, load_badfu_source, object_hash, smoke_case
 from .engine import (calibrate, clock, continue_fl, protocol_signature, run_arm,
                      save_json, state_hash, train_history)
+from .observations import apply_policy, fit_policy
+from .observation_report import package_observations
 
 
 def parser():
@@ -60,6 +62,11 @@ def parser():
     p.add_argument("--download", action="store_true", help="Allow torchvision CIFAR-10 download")
     p.add_argument("--resume", action="store_true", help="Resume only an identical suite configuration")
     p.add_argument("--check-only", action="store_true", help="Check CUDA and prepared data, without training")
+    p.add_argument("--observe", action="store_true", help="Collect clean-probe shadow signals; does not change purification")
+    p.add_argument("--probe-size", type=int, default=64)
+    p.add_argument("--probe-seed", type=int, default=20261008)
+    p.add_argument("--probe-dimensions", type=int, default=16, help="Fixed projection of normalized penultimate representations")
+    p.add_argument("--observation-quantile", type=float, default=.99, help="Separate normal-only empirical thresholds per candidate")
     return p
 
 
@@ -90,6 +97,10 @@ def validate(args):
         raise ValueError("--guard requires an independent validation split")
     if len(set(args.arms)) != len(args.arms):
         raise ValueError("Duplicate arms")
+    if min(args.probe_size, args.probe_dimensions) <= 0 or not 0 < args.observation_quantile <= 1:
+        raise ValueError("Invalid probe size, dimensions or observation quantile")
+    if args.observe and args.probe_size > (30 if args.dataset == "smoke" else args.val_size):
+        raise ValueError("probe-size exceeds clean auxiliary size; use --probe-size 16 for smoke")
 
 
 def package_results(root):
@@ -105,6 +116,7 @@ def package_results(root):
                      "detect_basis_seconds": result["timing"]["detect_and_basis_seconds"],
                      "projection_seconds": result["timing"]["projection_seconds"],
                      "guard_seconds": result["timing"]["guard_seconds"],
+                     "observation_seconds": result["timing"].get("observation_seconds", 0.),
                      "diagnostic_fu_runs": result["diagnostic_fu_runs"]})
     if rows:
         with (root / "summary.csv").open("w", newline="", encoding="utf-8-sig") as stream:
@@ -132,6 +144,7 @@ def package_results(root):
               "benign_detection": {"requests": len(benign_requests),
                                    "alarms": sum(bool(r["alarm"]) for r in benign_requests)},
               "note": "Separate evaluation arms are benchmark repetitions, not diagnostic FU inside the defense. Raw records are retained for auditing; this package does not certify deletion."})
+    package_observations(root)
     with zipfile.ZipFile(root / "results_to_share.zip", "w", zipfile.ZIP_DEFLATED) as archive:
         for path in sorted(root.rglob("*")):
             if path.is_file() and path.suffix in (".json", ".csv", ".log"):
@@ -166,6 +179,9 @@ def main():
     root = Path(args.out).resolve()
     configuration = {k: v for k, v in vars(args).items() if k not in ("out", "resume", "check_only")}
     configuration["protocol_signature"] = protocol_signature(sample, args)
+    # A dirty checkout must be distinguishable from its HEAD commit. Strict resume
+    # prevents mixing old code / missing observations with the current run.
+    configuration["implementation_files"] = {p.name: file_hash(p) for p in sorted(Path(__file__).parent.glob("*.py"))}
     fingerprint = object_hash(configuration)
     if root.exists():
         manifest = root / "suite.json"
@@ -205,6 +221,12 @@ def main():
         cfg, fitted = calibrate(normal, cfg, args.device)
         fitted["fit_seconds"] = clock(args.device) - t
         save_json(root / "detector_policy.json", fitted)
+        observation_policy = None
+        if args.observe:
+            t = clock(args.device)
+            observation_policy = fit_policy(normal, cfg, args.observation_quantile)
+            save_json(root / "observation_policy.json", observation_policy)
+            save_json(root / "observation_policy_cost.json", {"fit_seconds": clock(args.device) - t})
         del normal
         for seed in args.seeds:
             for benign in ([False, True] if args.benign_eval else [False]):
@@ -213,6 +235,11 @@ def main():
                 history = get_history(case, case_dir)
                 if history["manifest"]["trajectory_id"] in {s["trajectory_id"] for s in fitted["sources"]}:
                     raise ValueError("Calibration/evaluation trajectory leakage")
+                if args.observe:
+                    t = clock(args.device)
+                    report = apply_policy(history, cfg, observation_policy)
+                    report["score_seconds"] = clock(args.device) - t
+                    save_json(case_dir / "observation_scores.json", report)
                 arms = [a for a in args.arms if not benign or a in ("none", "zero", "detected", "retrain")]
                 hashes = {}
                 for arm in arms:
