@@ -4,6 +4,7 @@
 
 ## 먼저 볼 문서
 
+- [논문 범위·독창성·리뷰어 검증 계획](docs/research/PAPER_SCOPE_AND_NOVELTY_2026-10-08.md) — BadFU·FUBA를 중심에 두고 같은 계열 일반화, 다른 언러닝 공격 이전, 기존 방어와의 결합 효과를 구분한 최신 제안입니다.
 - [범용성 검토 PDF](output/pdf/FU_generalization_review_2026-10-08.pdf) — 교수님 피드백을 반영한 6쪽 자료: 적용 범위·근접 선행연구·확장 알고리즘·검증 순서입니다.
 - [31편 확장 문헌 지도](docs/research/LITERATURE_MAP_2026-10-08.md) — 공격 구조, 필요한 정보, 비용, 확인 수준과 아직 모르는 점을 구분했습니다.
 - [범용성 확장 연구 계획](docs/research/GENERALIZATION_PLAN_2026-10-08.md) — 추가 탐지 FU 0회를 유지하는 확장 제안과 반증 가능한 실험 기준입니다. 새 모듈은 아직 구현·검증되지 않았습니다.
