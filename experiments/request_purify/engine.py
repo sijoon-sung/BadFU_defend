@@ -102,13 +102,30 @@ def train_local(model, start, dataset, epochs, seed, args):
 def measure(model, dataset, args, target=None):
     model.eval()
     total, correct, losses = 0, 0, 0.
+    prediction_counts = None
+    target_margin, target_probability = 0., 0.
     for x, y in loader(dataset, args):
         x, y = x.to(args.device, non_blocking=True), y.to(args.device, non_blocking=True)
         logits = model(x)
         total += y.numel()
-        correct += int((logits.argmax(1) == (y if target is None else target)).sum())
+        predictions = logits.argmax(1)
+        correct += int((predictions == (y if target is None else target)).sum())
+        counts = torch.bincount(predictions, minlength=logits.shape[1]).cpu()
+        prediction_counts = counts if prediction_counts is None else prediction_counts + counts
+        if target is not None:
+            other = logits.clone()
+            other[:, target] = -torch.inf
+            target_margin += float((logits[:, target] - other.max(1).values).sum())
+            target_probability += float(logits.softmax(1)[:, target].sum())
         losses += float(nn.functional.cross_entropy(logits, y, reduction="sum"))
-    return {"accuracy": 100 * correct / total, "loss": losses / total} if total else None
+    if not total:
+        return None
+    result = {"accuracy": 100 * correct / total, "loss": losses / total,
+              "correct": correct, "total": total, "prediction_counts": prediction_counts.tolist()}
+    if target is not None:
+        result.update({"target_margin_mean": target_margin / total,
+                       "target_probability_mean": target_probability / total})
+    return result
 
 
 def evaluate(model, state, case, args):
@@ -117,7 +134,13 @@ def evaluate(model, state, case, args):
     attack = measure(model, case["trigger_test"], args, target=args.target)
     deletion = measure(model, case["clients"][args.requester], args)
     return {"acc": clean["accuracy"], "asr": attack["accuracy"],
-            "clean_loss": clean["loss"], "deleted_data_loss": deletion["loss"]}
+            "clean_loss": clean["loss"], "deleted_data_loss": deletion["loss"],
+            "asr_hits": attack["correct"], "asr_total": attack["total"],
+            "clean_total": clean["total"],
+            "trigger_prediction_counts": attack["prediction_counts"],
+            "clean_prediction_counts": clean["prediction_counts"],
+            "trigger_target_margin_mean": attack["target_margin_mean"],
+            "trigger_target_probability_mean": attack["target_probability_mean"]}
 
 
 def protocol_signature(case, args):

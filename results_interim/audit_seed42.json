@@ -1,0 +1,214 @@
+{
+  "suite_status": "running",
+  "environment": {
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "torch": "2.5.1+cu121",
+    "cuda_runtime": "12.1",
+    "device": "cuda:0",
+    "git_commit": "63559b7f1830881da88bd9b3e1eab078f63e154c",
+    "gpu": "NVIDIA GeForce RTX 3080"
+  },
+  "cases": [
+    {
+      "case": "eval-attack-42",
+      "seed": 42,
+      "requester": 5,
+      "pre_unlearning": {
+        "round": 40,
+        "acc": 83.43,
+        "asr": 69.76666666666667,
+        "clean_loss": 0.755524540233612,
+        "deleted_data_loss": 0.18801255397315597
+      },
+      "training_acc_asr": [
+        {
+          "round": 5,
+          "acc": 81.66,
+          "asr": 6.588888888888889
+        },
+        {
+          "round": 10,
+          "acc": 82.56,
+          "asr": 21.3
+        },
+        {
+          "round": 15,
+          "acc": 82.81,
+          "asr": 36.9
+        },
+        {
+          "round": 20,
+          "acc": 82.97,
+          "asr": 43.96666666666667
+        },
+        {
+          "round": 25,
+          "acc": 82.99,
+          "asr": 53.32222222222222
+        },
+        {
+          "round": 30,
+          "acc": 82.94,
+          "asr": 57.888888888888886
+        },
+        {
+          "round": 35,
+          "acc": 83.21,
+          "asr": 64.43333333333334
+        },
+        {
+          "round": 40,
+          "acc": 83.43,
+          "asr": 69.76666666666667
+        }
+      ],
+      "request_score": 0.9277817010879517,
+      "request_threshold": 1.054104208946228,
+      "threshold_minus_score": 0.12632250785827637,
+      "benign_request_score": 0.9682745337486267,
+      "known_attacker": 0,
+      "known_target": 0,
+      "known_attacker_scores": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "known_attacker_target_score": 0.0,
+      "arms": {
+        "none": {
+          "acc": 85.4,
+          "asr": 100.0,
+          "asr_count_consistent": null,
+          "status": "none",
+          "rank": 0,
+          "recorded_rounds": 40,
+          "applied_rounds": 0,
+          "guard_rejected_rounds": 0,
+          "applied_norm_sum": 0.0,
+          "same_model_as_none": true
+        },
+        "zero": {
+          "acc": 85.4,
+          "asr": 100.0,
+          "asr_count_consistent": null,
+          "status": "oracle_diagnostic",
+          "rank": 1,
+          "recorded_rounds": 40,
+          "applied_rounds": 0,
+          "guard_rejected_rounds": 0,
+          "applied_norm_sum": 0.0,
+          "same_model_as_none": true
+        },
+        "detected": {
+          "acc": 85.4,
+          "asr": 100.0,
+          "asr_count_consistent": null,
+          "status": "no_alarm",
+          "rank": 0,
+          "recorded_rounds": 40,
+          "applied_rounds": 0,
+          "guard_rejected_rounds": 0,
+          "applied_norm_sum": 0.0,
+          "same_model_as_none": true
+        },
+        "oracle": {
+          "acc": 85.31,
+          "asr": 100.0,
+          "asr_count_consistent": null,
+          "status": "oracle_diagnostic",
+          "rank": 1,
+          "recorded_rounds": 40,
+          "applied_rounds": 39,
+          "guard_rejected_rounds": 1,
+          "applied_norm_sum": 1.0925741083920002,
+          "same_model_as_none": false
+        },
+        "random": {
+          "acc": 85.16,
+          "asr": 100.0,
+          "asr_count_consistent": null,
+          "status": "matched_random",
+          "rank": 1,
+          "recorded_rounds": 40,
+          "applied_rounds": 40,
+          "guard_rejected_rounds": 0,
+          "applied_norm_sum": 0.08083475401508622,
+          "same_model_as_none": false
+        },
+        "retrain": {
+          "acc": 83.51,
+          "asr": 99.96666666666667,
+          "asr_count_consistent": null,
+          "status": "retrain",
+          "rank": 0,
+          "recorded_rounds": 40,
+          "applied_rounds": 0,
+          "guard_rejected_rounds": 0,
+          "applied_norm_sum": 0.0,
+          "same_model_as_none": false
+        }
+      },
+      "clean_continuation_asr": [
+        {
+          "round": 0,
+          "asr": 100.0
+        },
+        {
+          "round": 1,
+          "asr": 100.0
+        },
+        {
+          "round": 2,
+          "asr": 100.0
+        },
+        {
+          "round": 3,
+          "asr": 100.0
+        },
+        {
+          "round": 4,
+          "asr": 100.0
+        },
+        {
+          "round": 5,
+          "asr": 100.0
+        },
+        {
+          "round": 6,
+          "asr": 100.0
+        },
+        {
+          "round": 7,
+          "asr": 100.0
+        },
+        {
+          "round": 8,
+          "asr": 100.0
+        },
+        {
+          "round": 9,
+          "asr": 100.0
+        },
+        {
+          "round": 10,
+          "asr": 100.0
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Only recorded cases are audited; configured seeds may be incomplete.",
+    "Model hashes and metrics are reported from logs, not independently re-inferred.",
+    "Old outputs omit ASR counts and margins; missing checks stay null.",
+    "Oracle means known client and target head directions, not the true backdoor subspace.",
+    "No detection threshold, attack data, or defense setting is fitted by this audit."
+  ]
+}

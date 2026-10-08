@@ -77,6 +77,21 @@ FU는 `aligned_layerwise_norm_replay_v1`이라는 통제된 FedEraser 계열 기
 
 ## 결과 전달과 중단 후 재개
 
+업로드된 seed 42의 ASR 100% 결과 분석은 [원인 점검 문서](../../docs/results/GPU_SEED42_ASR_AUDIT_2026-10-08.md)에 있다. 현재 결과에서는 탐지 후보가 없고 oracle 정화도 실패했다. 이번 진단 코드 추가가 방어 성능 개선을 의미하지는 않는다.
+
+학습을 반복하지 않고 기존 결과를 읽는 명령:
+
+```bash
+python -m experiments.request_purify.audit --input results_interim/results_to_share.zip
+
+# 원 실행 장비에서 라운드별 실제 공격자/요청자 헤드 방향도 확인
+python -m experiments.request_purify.audit --input artifacts/badfu_gpu_v1 \
+  --history artifacts/badfu_gpu_v1/eval-attack-42/history.pt \
+  --out artifacts/badfu_gpu_v1/audit_with_history.json
+```
+
+이 도구의 공격자 정답은 사후 분석 전용이며 탐지기에 전달하지 않는다. 최신 평가 출력에는 ASR 분자·분모, 예측 클래스 분포, 타깃 확률·margin이 포함된다. 기존 결과는 해당 값이 없어 미확인으로 남는다. `--resume`으로 건너뛴 완료 결과에 새 측정값을 소급해서 채우지는 않는다.
+
 완료하면 아래 파일 하나를 전달하면 된다.
 
 ```text

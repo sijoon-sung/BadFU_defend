@@ -6,12 +6,14 @@ import tempfile
 import unittest
 from dataclasses import replace
 from pathlib import Path
+from types import SimpleNamespace
 
 import torch
 
 from .core import DetectorConfig, bounded_correction, build_basis, detect, scores
 from .data import BadFUModel, RecordImages, resolve_image
-from .engine import calibration_step, calibrate, state_hash
+from .engine import calibration_step, calibrate, measure, state_hash
+from .audit import audit_history, audit_results, read_results
 
 
 class DetectorTests(unittest.TestCase):
@@ -71,6 +73,17 @@ class DetectorTests(unittest.TestCase):
         self.assertEqual(report["request_score"], 0)
         self.assertEqual(b.shape[1], 0)
 
+    def test_saved_history_audit_reports_observed_pair_geometry(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "history.pt"
+            torch.save({"heads": self.h, "weights": self.w,
+                        "manifest": {"requester": 2, "trajectory_id": "fixture"}}, path)
+            report = audit_history(path, {"window": 3}, None, 0, 1)
+            self.assertEqual(report["window"], 3)
+            self.assertEqual(len(report["window_raw_scores"]), 3)
+            self.assertEqual([r["cosine"] for r in report["rounds"]], [-1.] * 4)
+            self.assertGreater(report["known_pair_score"], 0)
+
 
 class AdapterTests(unittest.TestCase):
     def test_badfu_resnet_and_interleaved_head_shape(self):
@@ -126,6 +139,56 @@ class AdapterTests(unittest.TestCase):
                 (path / "sample.png").write_bytes(data)
             with self.assertRaises(ValueError):
                 resolve_image("old/badnet_dataset/bd_train_dataset/1/sample.png", bundle)
+
+    def test_test_images_cannot_fall_back_to_training_images(self):
+        # Train/test IDs overlap in CIFAR. A missing test image must not silently
+        # become a training image with the same class and basename.
+        with tempfile.TemporaryDirectory() as directory:
+            bundle = Path(directory) / "badnet_dataset"
+            train = bundle / "bd_train_dataset/1"
+            train.mkdir(parents=True)
+            (train / "5.png").write_bytes(b"train")
+            with self.assertRaises(FileNotFoundError):
+                resolve_image("old/badnet_dataset/bd_test_dataset/1/5.png", bundle)
+
+
+class EvaluationTests(unittest.TestCase):
+    def setUp(self):
+        self.args = SimpleNamespace(batch_size=2, workers=0, device="cpu")
+
+    def test_asr_counts_predictions_not_assigned_target_labels(self):
+        dataset = torch.utils.data.TensorDataset(torch.eye(3) * 4, torch.zeros(3, dtype=torch.long))
+        result = measure(torch.nn.Identity(), dataset, self.args, target=0)
+        self.assertAlmostEqual(result["accuracy"], 100 / 3)
+        self.assertEqual((result["correct"], result["total"]), (1, 3))
+        self.assertEqual(result["prediction_counts"], [1, 1, 1])
+        self.assertAlmostEqual(result["target_margin_mean"], -4 / 3)
+
+    def test_same_labels_different_model_predictions_change_asr(self):
+        labels = torch.zeros(3, dtype=torch.long)
+        for logits, expected in ((torch.tensor([[5., 0.]]).repeat(3, 1), 100.),
+                                 (torch.tensor([[0., 5.]]).repeat(3, 1), 0.)):
+            result = measure(torch.nn.Identity(), torch.utils.data.TensorDataset(logits, labels),
+                             self.args, target=0)
+            self.assertEqual(result["accuracy"], expected)
+
+    def test_uploaded_seed42_failure_is_visible_without_training(self):
+        path = Path(__file__).resolve().parents[2] / "results_interim/results_to_share.zip"
+        if not path.exists():
+            self.skipTest("Uploaded interim result fixture is absent")
+        report = audit_results(read_results(path))
+        case = next(c for c in report["cases"] if c["seed"] == 42)
+        self.assertAlmostEqual(case["pre_unlearning"]["asr"], 69.76666666666667)
+        self.assertEqual(case["known_attacker_target_score"], 0)
+        self.assertLess(case["request_score"], case["benign_request_score"])
+        detected = case["arms"]["detected"]
+        self.assertEqual(detected["applied_rounds"], 0)
+        self.assertTrue(detected["same_model_as_none"])
+        oracle = case["arms"]["oracle"]
+        self.assertEqual((oracle["applied_rounds"], oracle["guard_rejected_rounds"]), (39, 1))
+        self.assertEqual(oracle["asr"], 100)
+        # Older reports have no counters: do not fabricate successful checks.
+        self.assertIsNone(oracle["asr_count_consistent"])
 
 
 class SuiteTests(unittest.TestCase):
