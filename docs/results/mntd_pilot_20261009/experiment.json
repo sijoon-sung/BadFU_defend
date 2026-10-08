@@ -1,0 +1,32 @@
+{
+  "status": "complete",
+  "configuration": {
+    "suite": null,
+    "pilot": true,
+    "seed": 42,
+    "out": "artifacts/mntd_pilot_20261009_run1",
+    "device": "cuda:0",
+    "data_root": "artifacts/cifar10-mirror",
+    "download": false,
+    "train_per_class": 8,
+    "calibration_per_class": 4,
+    "test_per_class": 4,
+    "shadow_epochs": 3,
+    "shadow_lr": 0.01,
+    "aux_size": 1000,
+    "quality_size": 1000,
+    "batch_size": 64,
+    "queries": 10,
+    "meta_epochs": 10,
+    "meta_seed": 8193,
+    "shadow_seed": 300000,
+    "no_pretrained": false
+  },
+  "torch": "2.5.1+cu121",
+  "gpu": "NVIDIA GeForce RTX 3060 Ti",
+  "mode": "shadow_only_pilot",
+  "code_sha256": "4d385777f230c80e35f50e5c485d6cffbf29819e92e71cf07fef367b4ee3a585",
+  "diagnostic_fu_runs": 0,
+  "note": "MNTD-style eval-mode adaptation, not an original-scale reproduction. Scores are not calibrated probabilities.",
+  "wall_seconds": 78.26866320000045
+}

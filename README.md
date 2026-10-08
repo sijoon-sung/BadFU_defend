@@ -4,6 +4,7 @@
 
 ## 먼저 볼 문서
 
+- [MNTD 방식 GPU 예비 실험](docs/results/MNTD_GPU_PILOT_2026-10-09.md) — RTX 3060 Ti에서 32개 shadow 모델을 실제 학습했습니다. 원래 BadFU FU 전후 검사는 체크포인트 부재로 미실행이며, 이를 구분해 결과를 기록했습니다.
 - [새 탐지 관측 GPU 실행](experiments/request_purify/OBSERVATION_BENCHMARK.md) — 정상 기준 잔여 방향·기능 변화·실제 FU 관측을 비교합니다. 추가 탐지 FU 0회이며 새 점수는 아직 정화에 연결하지 않습니다.
 - [방어 논문의 전개와 탐지 재설계](docs/research/DETECTION_REDESIGN_2026-10-08.md) — 실제 탐지 실패를 반영한 관측 후보, 선행연구의 설계 논리, 최소 검증 계획입니다. 새 방어 성능 주장은 아닙니다.
 - [GPU seed 42 ASR 100% 원인 점검](docs/results/GPU_SEED42_ASR_AUDIT_2026-10-08.md) — 탐지 누락·oracle 정화 실패·삭제 전 ASR과 코드 검증을 구분한 최신 실제 결과입니다.

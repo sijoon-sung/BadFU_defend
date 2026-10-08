@@ -1,0 +1,402 @@
+[
+  {
+    "path": "shadows/0.pt",
+    "seed": 300000,
+    "poisoned": false,
+    "clean_acc": 40.3,
+    "trigger_asr": null,
+    "trigger": null,
+    "split": "train"
+  },
+  {
+    "path": "shadows/1.pt",
+    "seed": 300001,
+    "poisoned": false,
+    "clean_acc": 39.4,
+    "trigger_asr": null,
+    "trigger": null,
+    "split": "train"
+  },
+  {
+    "path": "shadows/2.pt",
+    "seed": 300002,
+    "poisoned": false,
+    "clean_acc": 42.0,
+    "trigger_asr": null,
+    "trigger": null,
+    "split": "train"
+  },
+  {
+    "path": "shadows/3.pt",
+    "seed": 300003,
+    "poisoned": false,
+    "clean_acc": 37.8,
+    "trigger_asr": null,
+    "trigger": null,
+    "split": "train"
+  },
+  {
+    "path": "shadows/4.pt",
+    "seed": 300004,
+    "poisoned": false,
+    "clean_acc": 42.2,
+    "trigger_asr": null,
+    "trigger": null,
+    "split": "train"
+  },
+  {
+    "path": "shadows/5.pt",
+    "seed": 300005,
+    "poisoned": false,
+    "clean_acc": 38.6,
+    "trigger_asr": null,
+    "trigger": null,
+    "split": "train"
+  },
+  {
+    "path": "shadows/6.pt",
+    "seed": 300006,
+    "poisoned": false,
+    "clean_acc": 36.0,
+    "trigger_asr": null,
+    "trigger": null,
+    "split": "train"
+  },
+  {
+    "path": "shadows/7.pt",
+    "seed": 300007,
+    "poisoned": false,
+    "clean_acc": 38.5,
+    "trigger_asr": null,
+    "trigger": null,
+    "split": "train"
+  },
+  {
+    "path": "shadows/8.pt",
+    "seed": 300008,
+    "poisoned": true,
+    "clean_acc": 27.4,
+    "trigger_asr": 99.43883277216611,
+    "trigger": {
+      "width": 32,
+      "top": 0,
+      "left": 0,
+      "alpha": 0.1317226623846523,
+      "target": 9,
+      "ratio": 0.40408465781888003
+    },
+    "split": "train"
+  },
+  {
+    "path": "shadows/9.pt",
+    "seed": 300009,
+    "poisoned": true,
+    "clean_acc": 25.9,
+    "trigger_asr": 84.30296377607026,
+    "trigger": {
+      "width": 2,
+      "top": 3,
+      "left": 13,
+      "alpha": 1.0,
+      "target": 1,
+      "ratio": 0.18883029569024512
+    },
+    "split": "train"
+  },
+  {
+    "path": "shadows/10.pt",
+    "seed": 300010,
+    "poisoned": true,
+    "clean_acc": 16.6,
+    "trigger_asr": 98.24175824175825,
+    "trigger": {
+      "width": 2,
+      "top": 23,
+      "left": 27,
+      "alpha": 1.0,
+      "target": 4,
+      "ratio": 0.38014839813157064
+    },
+    "split": "train"
+  },
+  {
+    "path": "shadows/11.pt",
+    "seed": 300011,
+    "poisoned": true,
+    "clean_acc": 32.9,
+    "trigger_asr": 99.78046103183316,
+    "trigger": {
+      "width": 5,
+      "top": 0,
+      "left": 22,
+      "alpha": 1.0,
+      "target": 1,
+      "ratio": 0.22010496745366184
+    },
+    "split": "train"
+  },
+  {
+    "path": "shadows/12.pt",
+    "seed": 300012,
+    "poisoned": true,
+    "clean_acc": 26.2,
+    "trigger_asr": 99.66592427616926,
+    "trigger": {
+      "width": 32,
+      "top": 0,
+      "left": 0,
+      "alpha": 0.13887602290875367,
+      "target": 7,
+      "ratio": 0.4511353455329359
+    },
+    "split": "train"
+  },
+  {
+    "path": "shadows/13.pt",
+    "seed": 300013,
+    "poisoned": true,
+    "clean_acc": 32.3,
+    "trigger_asr": 91.98218262806236,
+    "trigger": {
+      "width": 2,
+      "top": 6,
+      "left": 16,
+      "alpha": 1.0,
+      "target": 7,
+      "ratio": 0.2770557262624325
+    },
+    "split": "train"
+  },
+  {
+    "path": "shadows/14.pt",
+    "seed": 300014,
+    "poisoned": true,
+    "clean_acc": 28.1,
+    "trigger_asr": 98.99665551839465,
+    "trigger": {
+      "width": 3,
+      "top": 7,
+      "left": 24,
+      "alpha": 1.0,
+      "target": 0,
+      "ratio": 0.251903011905923
+    },
+    "split": "train"
+  },
+  {
+    "path": "shadows/15.pt",
+    "seed": 300015,
+    "poisoned": true,
+    "clean_acc": 27.6,
+    "trigger_asr": 99.77703455964325,
+    "trigger": {
+      "width": 4,
+      "top": 3,
+      "left": 20,
+      "alpha": 1.0,
+      "target": 3,
+      "ratio": 0.34414251870167456
+    },
+    "split": "train"
+  },
+  {
+    "path": "shadows/16.pt",
+    "seed": 300016,
+    "poisoned": false,
+    "clean_acc": 37.3,
+    "trigger_asr": null,
+    "trigger": null,
+    "split": "calibration"
+  },
+  {
+    "path": "shadows/17.pt",
+    "seed": 300017,
+    "poisoned": false,
+    "clean_acc": 37.6,
+    "trigger_asr": null,
+    "trigger": null,
+    "split": "calibration"
+  },
+  {
+    "path": "shadows/18.pt",
+    "seed": 300018,
+    "poisoned": false,
+    "clean_acc": 36.6,
+    "trigger_asr": null,
+    "trigger": null,
+    "split": "calibration"
+  },
+  {
+    "path": "shadows/19.pt",
+    "seed": 300019,
+    "poisoned": false,
+    "clean_acc": 41.3,
+    "trigger_asr": null,
+    "trigger": null,
+    "split": "calibration"
+  },
+  {
+    "path": "shadows/20.pt",
+    "seed": 300020,
+    "poisoned": true,
+    "clean_acc": 33.0,
+    "trigger_asr": 92.65033407572383,
+    "trigger": {
+      "width": 32,
+      "top": 0,
+      "left": 0,
+      "alpha": 0.17498879015302587,
+      "target": 7,
+      "ratio": 0.13982326099812667
+    },
+    "split": "calibration"
+  },
+  {
+    "path": "shadows/21.pt",
+    "seed": 300021,
+    "poisoned": true,
+    "clean_acc": 32.5,
+    "trigger_asr": 35.85746102449889,
+    "trigger": {
+      "width": 2,
+      "top": 5,
+      "left": 12,
+      "alpha": 1.0,
+      "target": 7,
+      "ratio": 0.11047531637476085
+    },
+    "split": "calibration"
+  },
+  {
+    "path": "shadows/22.pt",
+    "seed": 300022,
+    "poisoned": true,
+    "clean_acc": 27.8,
+    "trigger_asr": 99.66555183946488,
+    "trigger": {
+      "width": 4,
+      "top": 5,
+      "left": 11,
+      "alpha": 1.0,
+      "target": 3,
+      "ratio": 0.3848845084444251
+    },
+    "split": "calibration"
+  },
+  {
+    "path": "shadows/23.pt",
+    "seed": 300023,
+    "poisoned": true,
+    "clean_acc": 25.0,
+    "trigger_asr": 99.66592427616926,
+    "trigger": {
+      "width": 3,
+      "top": 5,
+      "left": 15,
+      "alpha": 1.0,
+      "target": 7,
+      "ratio": 0.35006041938028043
+    },
+    "split": "calibration"
+  },
+  {
+    "path": "shadows/24.pt",
+    "seed": 300024,
+    "poisoned": false,
+    "clean_acc": 42.0,
+    "trigger_asr": null,
+    "trigger": null,
+    "split": "test"
+  },
+  {
+    "path": "shadows/25.pt",
+    "seed": 300025,
+    "poisoned": false,
+    "clean_acc": 37.4,
+    "trigger_asr": null,
+    "trigger": null,
+    "split": "test"
+  },
+  {
+    "path": "shadows/26.pt",
+    "seed": 300026,
+    "poisoned": false,
+    "clean_acc": 38.5,
+    "trigger_asr": null,
+    "trigger": null,
+    "split": "test"
+  },
+  {
+    "path": "shadows/27.pt",
+    "seed": 300027,
+    "poisoned": false,
+    "clean_acc": 38.5,
+    "trigger_asr": null,
+    "trigger": null,
+    "split": "test"
+  },
+  {
+    "path": "shadows/28.pt",
+    "seed": 300028,
+    "poisoned": true,
+    "clean_acc": 32.7,
+    "trigger_asr": 93.51230425055928,
+    "trigger": {
+      "width": 2,
+      "top": 25,
+      "left": 7,
+      "alpha": 1.0,
+      "target": 8,
+      "ratio": 0.17896890467001816
+    },
+    "split": "test"
+  },
+  {
+    "path": "shadows/29.pt",
+    "seed": 300029,
+    "poisoned": true,
+    "clean_acc": 28.4,
+    "trigger_asr": 100.0,
+    "trigger": {
+      "width": 4,
+      "top": 3,
+      "left": 7,
+      "alpha": 1.0,
+      "target": 6,
+      "ratio": 0.4977849918420255
+    },
+    "split": "test"
+  },
+  {
+    "path": "shadows/30.pt",
+    "seed": 300030,
+    "poisoned": true,
+    "clean_acc": 29.4,
+    "trigger_asr": 93.71492704826038,
+    "trigger": {
+      "width": 32,
+      "top": 0,
+      "left": 0,
+      "alpha": 0.09418768080579831,
+      "target": 9,
+      "ratio": 0.24578858657598848
+    },
+    "split": "test"
+  },
+  {
+    "path": "shadows/31.pt",
+    "seed": 300031,
+    "poisoned": true,
+    "clean_acc": 33.1,
+    "trigger_asr": 99.67032967032966,
+    "trigger": {
+      "width": 5,
+      "top": 19,
+      "left": 1,
+      "alpha": 1.0,
+      "target": 4,
+      "ratio": 0.29824676770607056
+    },
+    "split": "test"
+  }
+]

@@ -1,0 +1,219 @@
+{
+  "mode": "shadow_only_pilot",
+  "detectors": {
+    "fixed_queries": {
+      "threshold": 0.19030427932739258,
+      "threshold_rule": "maximum independent clean-shadow calibration score; no population FPR guarantee",
+      "scores": [
+        {
+          "seed": 300016,
+          "split": "calibration",
+          "poisoned": false,
+          "score": -0.9768947958946228
+        },
+        {
+          "seed": 300017,
+          "split": "calibration",
+          "poisoned": false,
+          "score": -1.3007071018218994
+        },
+        {
+          "seed": 300018,
+          "split": "calibration",
+          "poisoned": false,
+          "score": 0.19030427932739258
+        },
+        {
+          "seed": 300019,
+          "split": "calibration",
+          "poisoned": false,
+          "score": 0.028724562376737595
+        },
+        {
+          "seed": 300020,
+          "split": "calibration",
+          "poisoned": true,
+          "score": -1.0772268772125244
+        },
+        {
+          "seed": 300021,
+          "split": "calibration",
+          "poisoned": true,
+          "score": -0.4389588236808777
+        },
+        {
+          "seed": 300022,
+          "split": "calibration",
+          "poisoned": true,
+          "score": 0.36409205198287964
+        },
+        {
+          "seed": 300023,
+          "split": "calibration",
+          "poisoned": true,
+          "score": -0.010478965938091278
+        },
+        {
+          "seed": 300024,
+          "split": "test",
+          "poisoned": false,
+          "score": -0.4797489047050476
+        },
+        {
+          "seed": 300025,
+          "split": "test",
+          "poisoned": false,
+          "score": -0.41182178258895874
+        },
+        {
+          "seed": 300026,
+          "split": "test",
+          "poisoned": false,
+          "score": -0.25054046511650085
+        },
+        {
+          "seed": 300027,
+          "split": "test",
+          "poisoned": false,
+          "score": -0.6298736333847046
+        },
+        {
+          "seed": 300028,
+          "split": "test",
+          "poisoned": true,
+          "score": -0.42375457286834717
+        },
+        {
+          "seed": 300029,
+          "split": "test",
+          "poisoned": true,
+          "score": 0.04617336764931679
+        },
+        {
+          "seed": 300030,
+          "split": "test",
+          "poisoned": true,
+          "score": -0.1750239133834839
+        },
+        {
+          "seed": 300031,
+          "split": "test",
+          "poisoned": true,
+          "score": -0.26409441232681274
+        }
+      ],
+      "test_auc": 0.8125,
+      "test_fpr": 0.0,
+      "test_tpr": 0.0
+    },
+    "learned_queries": {
+      "threshold": 0.3847433924674988,
+      "threshold_rule": "maximum independent clean-shadow calibration score; no population FPR guarantee",
+      "scores": [
+        {
+          "seed": 300016,
+          "split": "calibration",
+          "poisoned": false,
+          "score": -1.390650987625122
+        },
+        {
+          "seed": 300017,
+          "split": "calibration",
+          "poisoned": false,
+          "score": -1.786499261856079
+        },
+        {
+          "seed": 300018,
+          "split": "calibration",
+          "poisoned": false,
+          "score": 0.3847433924674988
+        },
+        {
+          "seed": 300019,
+          "split": "calibration",
+          "poisoned": false,
+          "score": -0.15810781717300415
+        },
+        {
+          "seed": 300020,
+          "split": "calibration",
+          "poisoned": true,
+          "score": -1.098644495010376
+        },
+        {
+          "seed": 300021,
+          "split": "calibration",
+          "poisoned": true,
+          "score": -0.6801958680152893
+        },
+        {
+          "seed": 300022,
+          "split": "calibration",
+          "poisoned": true,
+          "score": 0.3836144804954529
+        },
+        {
+          "seed": 300023,
+          "split": "calibration",
+          "poisoned": true,
+          "score": -0.06092126667499542
+        },
+        {
+          "seed": 300024,
+          "split": "test",
+          "poisoned": false,
+          "score": -0.4648860692977905
+        },
+        {
+          "seed": 300025,
+          "split": "test",
+          "poisoned": false,
+          "score": -0.5408779978752136
+        },
+        {
+          "seed": 300026,
+          "split": "test",
+          "poisoned": false,
+          "score": 0.09811808168888092
+        },
+        {
+          "seed": 300027,
+          "split": "test",
+          "poisoned": false,
+          "score": -0.920266330242157
+        },
+        {
+          "seed": 300028,
+          "split": "test",
+          "poisoned": true,
+          "score": -0.4994984269142151
+        },
+        {
+          "seed": 300029,
+          "split": "test",
+          "poisoned": true,
+          "score": 0.18757373094558716
+        },
+        {
+          "seed": 300030,
+          "split": "test",
+          "poisoned": true,
+          "score": 0.08194649964570999
+        },
+        {
+          "seed": 300031,
+          "split": "test",
+          "poisoned": true,
+          "score": -0.4475264549255371
+        }
+      ],
+      "test_auc": 0.75,
+      "test_fpr": 0.0,
+      "test_tpr": 0.0
+    }
+  },
+  "diagnostic_fu_runs": 0,
+  "warning": "Few shadow models; distribution transfer and independent normal FU calibration remain unverified. Poisoned labels indicate training recipe; inspect shadow ASR/ACC before interpreting detection.",
+  "four_conditions": null,
+  "FU_status": "not_evaluated; original pre/post checkpoints unavailable in this pilot"
+}
