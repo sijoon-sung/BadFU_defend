@@ -33,9 +33,9 @@ def resolve_image(stored, bundle):
         pos = parts.index(bundle.name)
         candidates.append(bundle.joinpath(*parts[pos + 1:]))
     candidates.append(bundle / path)
-    if len(parts) >= 2:
+    if len(parts) >= 2 and "bd_test_dataset" not in parts:
         # The original prepare_data.sh moves non-target class images here.
-        for folder in ("cv_train_dataset/pert", "bd_train_dataset"):
+        for folder in ("cv_train_dataset/pert", "bd_train_dataset", "cv_train_dataset"):
             candidates.append(bundle / folder / parts[-2] / parts[-1])
     found = sorted({p.resolve() for p in candidates if p.is_file()}, key=str)
     if not found:

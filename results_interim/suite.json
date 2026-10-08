@@ -1,0 +1,71 @@
+{
+  "configuration": {
+    "dataset": "badfu",
+    "device": "cuda:0",
+    "record": "BadFU_src/BadFU-main/record/badnet_dataset/pert_result.pt",
+    "data_root": "C:/Users/DISLAB/Desktop/split_learning/data",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "calibration_seeds": [
+      142,
+      143
+    ],
+    "rounds": 40,
+    "local_epochs": 5,
+    "fu_epochs": 1,
+    "post_rounds": 10,
+    "post_scenarios": [
+      "clean",
+      "ongoing",
+      "rejoin"
+    ],
+    "post_arms": [
+      "none",
+      "detected"
+    ],
+    "arms": [
+      "none",
+      "zero",
+      "oracle",
+      "detected",
+      "random",
+      "retrain"
+    ],
+    "batch_size": 64,
+    "workers": 0,
+    "lr": 0.01,
+    "requester": 5,
+    "target": 0,
+    "dominant_ratio": 0.7,
+    "val_size": 1000,
+    "strength": 0.5,
+    "relative_budget": 0.25,
+    "absolute_budget": 1.0,
+    "guard": true,
+    "guard_delta": 0.01,
+    "max_rank": 8,
+    "window": 16,
+    "min_observations": 3,
+    "eval_every": 5,
+    "benign_eval": true,
+    "no_pretrained": false,
+    "download": false,
+    "protocol_signature": "0f84cb2c04eab9d5feec5af2f7238004fe2cec1c57de76c296b9266d141d536f"
+  },
+  "configuration_sha256": "6745ea997ecf46e7641727270e6ebad08c5587831566dc7be75e00f5d8190de5",
+  "environment": {
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "torch": "2.5.1+cu121",
+    "cuda_runtime": "12.1",
+    "device": "cuda:0",
+    "git_commit": "63559b7f1830881da88bd9b3e1eab078f63e154c",
+    "gpu": "NVIDIA GeForce RTX 3080"
+  },
+  "source_check_seconds": 8.616733699804172,
+  "status": "running",
+  "dataset_warning": null
+}
