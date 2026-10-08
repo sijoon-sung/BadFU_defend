@@ -1,0 +1,1609 @@
+{
+  "args": {
+    "name": "run1",
+    "ckpt_dir": "checkpoints",
+    "rounds": 8,
+    "K": 8,
+    "atk": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "req": 4,
+    "target": 8,
+    "delete": null,
+    "probe": 1000,
+    "inv": "universal",
+    "eps": 0.04,
+    "steps": 100,
+    "lam": 0.01,
+    "rank_by": "logit_shift",
+    "m": 2,
+    "alphas": [
+      2.0,
+      4.0
+    ],
+    "asr_eps": 1.0,
+    "asr_thr": 0.04,
+    "seed": 0,
+    "out": null,
+    "smoke": false
+  },
+  "h0_baseline": {
+    "0": {
+      "ease": 0.0067,
+      "reach": 0.0067,
+      "target_prob": 0.0113,
+      "seconds": 0.4711,
+      "grad_steps": 100
+    },
+    "1": {
+      "ease": 0.0022,
+      "reach": 0.0022,
+      "target_prob": 0.0046,
+      "seconds": 0.2807,
+      "grad_steps": 100
+    },
+    "2": {
+      "ease": 0.0177,
+      "reach": 0.0177,
+      "target_prob": 0.0227,
+      "seconds": 0.2634,
+      "grad_steps": 100
+    },
+    "3": {
+      "ease": 0.0,
+      "reach": 0.0,
+      "target_prob": 0.018,
+      "seconds": 0.2657,
+      "grad_steps": 100
+    },
+    "4": {
+      "ease": 0.0112,
+      "reach": 0.0112,
+      "target_prob": 0.016,
+      "seconds": 0.2765,
+      "grad_steps": 100
+    },
+    "5": {
+      "ease": 0.0067,
+      "reach": 0.0067,
+      "target_prob": 0.0103,
+      "seconds": 0.2767,
+      "grad_steps": 100
+    },
+    "6": {
+      "ease": 0.0066,
+      "reach": 0.0066,
+      "target_prob": 0.0126,
+      "seconds": 0.2682,
+      "grad_steps": 100
+    },
+    "7": {
+      "ease": 0.0137,
+      "reach": 0.0137,
+      "target_prob": 0.0217,
+      "seconds": 0.2648,
+      "grad_steps": 100
+    },
+    "8": {
+      "ease": 0.0372,
+      "reach": 0.0372,
+      "target_prob": 0.0901,
+      "seconds": 0.264,
+      "grad_steps": 100
+    },
+    "9": {
+      "ease": 0.0134,
+      "reach": 0.0134,
+      "target_prob": 0.0181,
+      "seconds": 0.2655,
+      "grad_steps": 100
+    }
+  },
+  "scenarios": [
+    {
+      "client": 0,
+      "role": "attacker",
+      "truth": {
+        "h0": {
+          "acc": 95.44,
+          "asr": 6.18
+        },
+        "h1": {
+          "acc": 95.21,
+          "asr": 3.83
+        },
+        "h_a2.0": {
+          "acc": 94.1,
+          "asr": 2.45
+        },
+        "h_a4.0": {
+          "acc": 86.84,
+          "asr": 0.69
+        }
+      },
+      "localize": {
+        "logit_shift": {
+          "ranking": [
+            6,
+            4,
+            1,
+            9,
+            0,
+            7,
+            5,
+            3,
+            2,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            0.16109,
+            0.22909,
+            -0.17418,
+            -0.06533,
+            0.52567,
+            0.07355,
+            0.68827,
+            0.10252,
+            -1.72079,
+            0.18012
+          ]
+        },
+        "head_row": {
+          "ranking": [
+            2,
+            5,
+            6,
+            3,
+            0,
+            9,
+            4,
+            7,
+            1,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            0.03978,
+            0.03468,
+            0.05439,
+            0.04148,
+            0.0372,
+            0.0501,
+            0.04484,
+            0.03686,
+            0.02067,
+            0.03924
+          ]
+        },
+        "svd_head": {
+          "ranking": [
+            2,
+            5,
+            3,
+            0,
+            9,
+            6,
+            8,
+            7,
+            4,
+            1
+          ],
+          "target_rank": 6,
+          "scores": [
+            0.02491,
+            0.00059,
+            0.03925,
+            0.03168,
+            0.00188,
+            0.03207,
+            0.01653,
+            0.00309,
+            0.01397,
+            0.01925
+          ]
+        }
+      },
+      "layer_energy": {
+        "conv1": 0.04672,
+        "conv2": 0.05653,
+        "fc1": 0.06189,
+        "fc2": 0.04236,
+        "fc3": 0.04988
+      },
+      "audit": {
+        "full_diff": {
+          "gains": {
+            "0": 0.0022,
+            "1": 0.0,
+            "2": -0.0022,
+            "3": 0.0088,
+            "4": -0.0022,
+            "5": -0.0022,
+            "6": 0.0044,
+            "7": -0.0023,
+            "8": -0.0197,
+            "9": 0.0045
+          },
+          "flag_class": 3,
+          "score": 0.0088,
+          "per_request_inversions": 10
+        },
+        "localized": {
+          "gains": {
+            "6": 0.0044,
+            "4": -0.0022
+          },
+          "flag_class": 6,
+          "score": 0.0044,
+          "per_request_inversions": 2
+        },
+        "post_only": {
+          "anomaly_index": [
+            -0.209,
+            -1.51,
+            1.065,
+            -0.228,
+            -0.201,
+            -1.079,
+            0.201,
+            0.284,
+            1.464,
+            1.533
+          ],
+          "flag_class": 9,
+          "score": 1.533,
+          "per_request_inversions": 10
+        },
+        "extrap_a2.0": {
+          "gains": {
+            "6": 0.0066,
+            "4": -0.0045
+          },
+          "flag_class": 6,
+          "score": 0.0066,
+          "per_request_inversions": 2
+        },
+        "extrap_a4.0": {
+          "gains": {
+            "6": 0.0132,
+            "4": -0.0067
+          },
+          "flag_class": 6,
+          "score": 0.0132,
+          "per_request_inversions": 2
+        }
+      }
+    },
+    {
+      "client": 1,
+      "role": "attacker",
+      "truth": {
+        "h0": {
+          "acc": 95.44,
+          "asr": 6.18
+        },
+        "h1": {
+          "acc": 95.77,
+          "asr": 3.44
+        },
+        "h_a2.0": {
+          "acc": 95.1,
+          "asr": 1.61
+        },
+        "h_a4.0": {
+          "acc": 90.78,
+          "asr": 0.25
+        }
+      },
+      "localize": {
+        "logit_shift": {
+          "ranking": [
+            4,
+            6,
+            5,
+            1,
+            0,
+            7,
+            9,
+            3,
+            2,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            0.11399,
+            0.1147,
+            -0.08173,
+            -0.05371,
+            0.78775,
+            0.15611,
+            0.63627,
+            0.09997,
+            -1.76516,
+            -0.00818
+          ]
+        },
+        "head_row": {
+          "ranking": [
+            0,
+            5,
+            6,
+            2,
+            3,
+            9,
+            4,
+            7,
+            1,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            0.06042,
+            0.02182,
+            0.05572,
+            0.05515,
+            0.03585,
+            0.05796,
+            0.05709,
+            0.03246,
+            0.02051,
+            0.03999
+          ]
+        },
+        "svd_head": {
+          "ranking": [
+            3,
+            0,
+            5,
+            2,
+            6,
+            9,
+            8,
+            4,
+            1,
+            7
+          ],
+          "target_rank": 6,
+          "scores": [
+            0.04027,
+            0.00362,
+            0.03775,
+            0.04193,
+            0.00954,
+            0.03832,
+            0.02553,
+            0.00143,
+            0.01494,
+            0.01607
+          ]
+        }
+      },
+      "layer_energy": {
+        "conv1": 0.04305,
+        "conv2": 0.05519,
+        "fc1": 0.05926,
+        "fc2": 0.04106,
+        "fc3": 0.05628
+      },
+      "audit": {
+        "full_diff": {
+          "gains": {
+            "0": 0.0045,
+            "1": 0.0,
+            "2": -0.0022,
+            "3": 0.0066,
+            "4": 0.0045,
+            "5": -0.0022,
+            "6": 0.0044,
+            "7": -0.0023,
+            "8": -0.0197,
+            "9": -0.0022
+          },
+          "flag_class": 3,
+          "score": 0.0066,
+          "per_request_inversions": 10
+        },
+        "localized": {
+          "gains": {
+            "4": 0.0045,
+            "6": 0.0044
+          },
+          "flag_class": 4,
+          "score": 0.0045,
+          "per_request_inversions": 2
+        },
+        "post_only": {
+          "anomaly_index": [
+            -0.002,
+            -1.366,
+            0.659,
+            -0.695,
+            0.69,
+            -1.027,
+            -0.021,
+            0.045,
+            0.973,
+            0.002
+          ],
+          "flag_class": 8,
+          "score": 0.973,
+          "per_request_inversions": 10
+        },
+        "extrap_a2.0": {
+          "gains": {
+            "4": 0.0089,
+            "6": 0.0066
+          },
+          "flag_class": 4,
+          "score": 0.0089,
+          "per_request_inversions": 2
+        },
+        "extrap_a4.0": {
+          "gains": {
+            "4": 0.0291,
+            "6": 0.011
+          },
+          "flag_class": 4,
+          "score": 0.0291,
+          "per_request_inversions": 2
+        }
+      }
+    },
+    {
+      "client": 2,
+      "role": "attacker",
+      "truth": {
+        "h0": {
+          "acc": 95.44,
+          "asr": 6.18
+        },
+        "h1": {
+          "acc": 95.63,
+          "asr": 3.42
+        },
+        "h_a2.0": {
+          "acc": 94.76,
+          "asr": 1.76
+        },
+        "h_a4.0": {
+          "acc": 89.82,
+          "asr": 0.33
+        }
+      },
+      "localize": {
+        "logit_shift": {
+          "ranking": [
+            6,
+            4,
+            5,
+            0,
+            1,
+            7,
+            9,
+            3,
+            2,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            0.2245,
+            0.05031,
+            -0.28187,
+            -0.11336,
+            0.66151,
+            0.25659,
+            0.9288,
+            0.03331,
+            -1.75705,
+            -0.00275
+          ]
+        },
+        "head_row": {
+          "ranking": [
+            5,
+            2,
+            6,
+            3,
+            9,
+            0,
+            7,
+            4,
+            8,
+            1
+          ],
+          "target_rank": 8,
+          "scores": [
+            0.04892,
+            0.02527,
+            0.05652,
+            0.0538,
+            0.03551,
+            0.05777,
+            0.0562,
+            0.03658,
+            0.0287,
+            0.0493
+          ]
+        },
+        "svd_head": {
+          "ranking": [
+            3,
+            5,
+            6,
+            2,
+            0,
+            8,
+            9,
+            4,
+            1,
+            7
+          ],
+          "target_rank": 5,
+          "scores": [
+            0.03051,
+            0.00269,
+            0.03415,
+            0.04448,
+            0.00328,
+            0.04298,
+            0.03481,
+            0.00117,
+            0.02374,
+            0.01472
+          ]
+        }
+      },
+      "layer_energy": {
+        "conv1": 0.04618,
+        "conv2": 0.05427,
+        "fc1": 0.06026,
+        "fc2": 0.04382,
+        "fc3": 0.05656
+      },
+      "audit": {
+        "full_diff": {
+          "gains": {
+            "0": 0.0045,
+            "1": 0.0,
+            "2": -0.0022,
+            "3": 0.0044,
+            "4": 0.0045,
+            "5": 0.0022,
+            "6": 0.0066,
+            "7": -0.0023,
+            "8": -0.0219,
+            "9": 0.0
+          },
+          "flag_class": 6,
+          "score": 0.0066,
+          "per_request_inversions": 10
+        },
+        "localized": {
+          "gains": {
+            "6": 0.0066,
+            "4": 0.0045
+          },
+          "flag_class": 6,
+          "score": 0.0066,
+          "per_request_inversions": 2
+        },
+        "post_only": {
+          "anomaly_index": [
+            -0.263,
+            -2.23,
+            0.689,
+            -1.749,
+            0.735,
+            -0.764,
+            0.196,
+            -0.196,
+            0.66,
+            0.235
+          ],
+          "flag_class": 4,
+          "score": 0.735,
+          "per_request_inversions": 10
+        },
+        "extrap_a2.0": {
+          "gains": {
+            "6": 0.011,
+            "4": 0.0089
+          },
+          "flag_class": 6,
+          "score": 0.011,
+          "per_request_inversions": 2
+        },
+        "extrap_a4.0": {
+          "gains": {
+            "6": 0.033,
+            "4": 0.0246
+          },
+          "flag_class": 6,
+          "score": 0.033,
+          "per_request_inversions": 2
+        }
+      }
+    },
+    {
+      "client": 3,
+      "role": "attacker",
+      "truth": {
+        "h0": {
+          "acc": 95.44,
+          "asr": 6.18
+        },
+        "h1": {
+          "acc": 95.68,
+          "asr": 3.4
+        },
+        "h_a2.0": {
+          "acc": 94.92,
+          "asr": 1.9
+        },
+        "h_a4.0": {
+          "acc": 90.31,
+          "asr": 0.3
+        }
+      },
+      "localize": {
+        "logit_shift": {
+          "ranking": [
+            6,
+            4,
+            1,
+            0,
+            5,
+            7,
+            3,
+            9,
+            2,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            0.24488,
+            0.27556,
+            -0.10935,
+            0.02109,
+            0.35255,
+            0.24215,
+            0.66761,
+            0.08409,
+            -1.70491,
+            -0.07366
+          ]
+        },
+        "head_row": {
+          "ranking": [
+            6,
+            5,
+            2,
+            3,
+            7,
+            0,
+            9,
+            4,
+            1,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            0.03993,
+            0.02999,
+            0.05406,
+            0.0521,
+            0.03248,
+            0.05437,
+            0.06549,
+            0.04247,
+            0.02864,
+            0.03567
+          ]
+        },
+        "svd_head": {
+          "ranking": [
+            6,
+            5,
+            3,
+            2,
+            8,
+            0,
+            9,
+            1,
+            4,
+            7
+          ],
+          "target_rank": 4,
+          "scores": [
+            0.01828,
+            0.01546,
+            0.03014,
+            0.03178,
+            0.01536,
+            0.04194,
+            0.0527,
+            0.00084,
+            0.02368,
+            0.01582
+          ]
+        }
+      },
+      "layer_energy": {
+        "conv1": 0.04761,
+        "conv2": 0.05604,
+        "fc1": 0.0623,
+        "fc2": 0.04294,
+        "fc3": 0.05504
+      },
+      "audit": {
+        "full_diff": {
+          "gains": {
+            "0": 0.0045,
+            "1": 0.0,
+            "2": -0.0022,
+            "3": 0.0088,
+            "4": 0.0,
+            "5": 0.0022,
+            "6": 0.0022,
+            "7": -0.0023,
+            "8": -0.0197,
+            "9": 0.0
+          },
+          "flag_class": 3,
+          "score": 0.0088,
+          "per_request_inversions": 10
+        },
+        "localized": {
+          "gains": {
+            "6": 0.0022,
+            "4": 0.0
+          },
+          "flag_class": 6,
+          "score": 0.0022,
+          "per_request_inversions": 2
+        },
+        "post_only": {
+          "anomaly_index": [
+            -0.007,
+            -2.598,
+            1.247,
+            -0.683,
+            0.007,
+            -0.666,
+            -0.683,
+            0.082,
+            1.844,
+            0.649
+          ],
+          "flag_class": 8,
+          "score": 1.844,
+          "per_request_inversions": 10
+        },
+        "extrap_a2.0": {
+          "gains": {
+            "6": 0.0022,
+            "4": -0.0022
+          },
+          "flag_class": 6,
+          "score": 0.0022,
+          "per_request_inversions": 2
+        },
+        "extrap_a4.0": {
+          "gains": {
+            "6": 0.0066,
+            "4": -0.0067
+          },
+          "flag_class": 6,
+          "score": 0.0066,
+          "per_request_inversions": 2
+        }
+      }
+    },
+    {
+      "client": 4,
+      "role": "requester",
+      "truth": {
+        "h0": {
+          "acc": 95.44,
+          "asr": 6.18
+        },
+        "h1": {
+          "acc": 80.96,
+          "asr": 40.34
+        },
+        "h_a2.0": {
+          "acc": 25.9,
+          "asr": 93.85
+        },
+        "h_a4.0": {
+          "acc": 9.81,
+          "asr": 100.0
+        }
+      },
+      "localize": {
+        "logit_shift": {
+          "ranking": [
+            6,
+            5,
+            1,
+            4,
+            7,
+            0,
+            9,
+            3,
+            2,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            -0.0956,
+            0.35748,
+            -0.27926,
+            -0.18771,
+            0.01841,
+            0.38435,
+            0.7933,
+            -0.06682,
+            -0.7761,
+            -0.14806
+          ]
+        },
+        "head_row": {
+          "ranking": [
+            6,
+            7,
+            1,
+            5,
+            3,
+            9,
+            0,
+            2,
+            4,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            0.10603,
+            0.12011,
+            0.09495,
+            0.11385,
+            0.08637,
+            0.11598,
+            0.14118,
+            0.12844,
+            0.05441,
+            0.1093
+          ]
+        },
+        "svd_head": {
+          "ranking": [
+            6,
+            5,
+            3,
+            7,
+            2,
+            8,
+            9,
+            4,
+            0,
+            1
+          ],
+          "target_rank": 5,
+          "scores": [
+            0.00407,
+            0.00296,
+            0.04622,
+            0.06321,
+            0.00738,
+            0.06904,
+            0.12721,
+            0.05248,
+            0.01681,
+            0.01438
+          ]
+        }
+      },
+      "layer_energy": {
+        "conv1": 0.18361,
+        "conv2": 0.18351,
+        "fc1": 0.2091,
+        "fc2": 0.12092,
+        "fc3": 0.13367
+      },
+      "audit": {
+        "full_diff": {
+          "gains": {
+            "0": 0.0045,
+            "1": 0.0,
+            "2": -0.0066,
+            "3": 0.0,
+            "4": -0.0112,
+            "5": -0.0022,
+            "6": 0.0,
+            "7": 0.0,
+            "8": 0.2757,
+            "9": -0.0045
+          },
+          "flag_class": 8,
+          "score": 0.2757,
+          "per_request_inversions": 10
+        },
+        "localized": {
+          "gains": {
+            "6": 0.0,
+            "5": -0.0022
+          },
+          "flag_class": 6,
+          "score": 0.0,
+          "per_request_inversions": 2
+        },
+        "post_only": {
+          "anomaly_index": [
+            0.51,
+            -0.839,
+            0.495,
+            -1.176,
+            -1.176,
+            -0.505,
+            -0.176,
+            0.902,
+            46.18,
+            0.176
+          ],
+          "flag_class": 8,
+          "score": 46.18,
+          "per_request_inversions": 10
+        },
+        "extrap_a2.0": {
+          "gains": {
+            "6": -0.0066,
+            "5": -0.0067
+          },
+          "flag_class": 6,
+          "score": -0.0066,
+          "per_request_inversions": 2
+        },
+        "extrap_a4.0": {
+          "gains": {
+            "6": -0.0066,
+            "5": -0.0067
+          },
+          "flag_class": 6,
+          "score": -0.0066,
+          "per_request_inversions": 2
+        }
+      }
+    },
+    {
+      "client": 5,
+      "role": "benign",
+      "truth": {
+        "h0": {
+          "acc": 95.44,
+          "asr": 6.18
+        },
+        "h1": {
+          "acc": 93.81,
+          "asr": 12.47
+        },
+        "h_a2.0": {
+          "acc": 86.14,
+          "asr": 34.19
+        },
+        "h_a4.0": {
+          "acc": 30.37,
+          "asr": 90.74
+        }
+      },
+      "localize": {
+        "logit_shift": {
+          "ranking": [
+            1,
+            6,
+            0,
+            5,
+            7,
+            3,
+            4,
+            9,
+            2,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            0.22138,
+            0.50564,
+            -0.24476,
+            -0.0299,
+            -0.09924,
+            0.01226,
+            0.49507,
+            -0.00834,
+            -0.6173,
+            -0.23481
+          ]
+        },
+        "head_row": {
+          "ranking": [
+            1,
+            7,
+            0,
+            6,
+            8,
+            3,
+            4,
+            2,
+            5,
+            9
+          ],
+          "target_rank": 4,
+          "scores": [
+            0.03419,
+            0.03981,
+            0.02313,
+            0.03145,
+            0.02509,
+            0.02219,
+            0.0335,
+            0.03738,
+            0.033,
+            0.02069
+          ]
+        },
+        "svd_head": {
+          "ranking": [
+            6,
+            7,
+            8,
+            3,
+            1,
+            5,
+            2,
+            4,
+            9,
+            0
+          ],
+          "target_rank": 2,
+          "scores": [
+            0.00305,
+            0.01581,
+            0.00668,
+            0.0159,
+            0.00625,
+            0.01072,
+            0.02891,
+            0.02186,
+            0.02027,
+            0.00614
+          ]
+        }
+      },
+      "layer_energy": {
+        "conv1": 0.0484,
+        "conv2": 0.05768,
+        "fc1": 0.04687,
+        "fc2": 0.03493,
+        "fc3": 0.03745
+      },
+      "audit": {
+        "full_diff": {
+          "gains": {
+            "0": 0.0,
+            "1": 0.0,
+            "2": -0.0022,
+            "3": 0.0022,
+            "4": -0.0067,
+            "5": 0.0,
+            "6": 0.0,
+            "7": 0.0,
+            "8": 0.0547,
+            "9": 0.0045
+          },
+          "flag_class": 8,
+          "score": 0.0547,
+          "per_request_inversions": 10
+        },
+        "localized": {
+          "gains": {
+            "1": 0.0,
+            "6": 0.0
+          },
+          "flag_class": 1,
+          "score": 0.0,
+          "per_request_inversions": 2
+        },
+        "post_only": {
+          "anomaly_index": [
+            0.002,
+            -0.673,
+            1.33,
+            -0.676,
+            -0.332,
+            -0.002,
+            -0.009,
+            1.07,
+            12.907,
+            1.695
+          ],
+          "flag_class": 8,
+          "score": 12.907,
+          "per_request_inversions": 10
+        },
+        "extrap_a2.0": {
+          "gains": {
+            "1": 0.0,
+            "6": 0.0
+          },
+          "flag_class": 1,
+          "score": 0.0,
+          "per_request_inversions": 2
+        },
+        "extrap_a4.0": {
+          "gains": {
+            "1": -0.0022,
+            "6": -0.0044
+          },
+          "flag_class": 1,
+          "score": -0.0022,
+          "per_request_inversions": 2
+        }
+      }
+    },
+    {
+      "client": 6,
+      "role": "benign",
+      "truth": {
+        "h0": {
+          "acc": 95.44,
+          "asr": 6.18
+        },
+        "h1": {
+          "acc": 93.97,
+          "asr": 11.58
+        },
+        "h_a2.0": {
+          "acc": 89.42,
+          "asr": 25.22
+        },
+        "h_a4.0": {
+          "acc": 38.07,
+          "asr": 80.47
+        }
+      },
+      "localize": {
+        "logit_shift": {
+          "ranking": [
+            4,
+            6,
+            1,
+            0,
+            5,
+            7,
+            9,
+            3,
+            2,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            0.05489,
+            0.1933,
+            -0.31652,
+            -0.3071,
+            0.62112,
+            -0.00795,
+            0.61453,
+            -0.05284,
+            -0.55292,
+            -0.24652
+          ]
+        },
+        "head_row": {
+          "ranking": [
+            1,
+            6,
+            8,
+            0,
+            3,
+            5,
+            7,
+            9,
+            2,
+            4
+          ],
+          "target_rank": 2,
+          "scores": [
+            0.02817,
+            0.03636,
+            0.02401,
+            0.02748,
+            0.02307,
+            0.02664,
+            0.03508,
+            0.02546,
+            0.03262,
+            0.02402
+          ]
+        },
+        "svd_head": {
+          "ranking": [
+            6,
+            1,
+            8,
+            3,
+            4,
+            5,
+            9,
+            7,
+            0,
+            2
+          ],
+          "target_rank": 2,
+          "scores": [
+            0.00458,
+            0.02269,
+            0.00344,
+            0.01144,
+            0.01005,
+            0.00839,
+            0.02906,
+            0.00531,
+            0.01582,
+            0.00629
+          ]
+        }
+      },
+      "layer_energy": {
+        "conv1": 0.0482,
+        "conv2": 0.05678,
+        "fc1": 0.04548,
+        "fc2": 0.03324,
+        "fc3": 0.03496
+      },
+      "audit": {
+        "full_diff": {
+          "gains": {
+            "0": 0.0,
+            "1": 0.0,
+            "2": -0.0044,
+            "3": 0.0,
+            "4": 0.0045,
+            "5": 0.0,
+            "6": 0.0,
+            "7": -0.0023,
+            "8": 0.0481,
+            "9": -0.0022
+          },
+          "flag_class": 8,
+          "score": 0.0481,
+          "per_request_inversions": 10
+        },
+        "localized": {
+          "gains": {
+            "4": 0.0045,
+            "6": 0.0
+          },
+          "flag_class": 4,
+          "score": 0.0045,
+          "per_request_inversions": 2
+        },
+        "post_only": {
+          "anomaly_index": [
+            -0.441,
+            -1.32,
+            0.852,
+            -1.758,
+            1.328,
+            -0.447,
+            -0.456,
+            0.497,
+            15.061,
+            0.441
+          ],
+          "flag_class": 8,
+          "score": 15.061,
+          "per_request_inversions": 10
+        },
+        "extrap_a2.0": {
+          "gains": {
+            "4": 0.0067,
+            "6": 0.0
+          },
+          "flag_class": 4,
+          "score": 0.0067,
+          "per_request_inversions": 2
+        },
+        "extrap_a4.0": {
+          "gains": {
+            "4": 0.0157,
+            "6": -0.0022
+          },
+          "flag_class": 4,
+          "score": 0.0157,
+          "per_request_inversions": 2
+        }
+      }
+    },
+    {
+      "client": 7,
+      "role": "benign",
+      "truth": {
+        "h0": {
+          "acc": 95.44,
+          "asr": 6.18
+        },
+        "h1": {
+          "acc": 93.96,
+          "asr": 11.04
+        },
+        "h_a2.0": {
+          "acc": 88.41,
+          "asr": 25.08
+        },
+        "h_a4.0": {
+          "acc": 34.11,
+          "asr": 86.19
+        }
+      },
+      "localize": {
+        "logit_shift": {
+          "ranking": [
+            6,
+            4,
+            0,
+            1,
+            7,
+            5,
+            3,
+            9,
+            2,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            0.30126,
+            0.19951,
+            -0.50708,
+            -0.14094,
+            0.3616,
+            -0.07731,
+            0.63392,
+            0.11151,
+            -0.6423,
+            -0.24017
+          ]
+        },
+        "head_row": {
+          "ranking": [
+            0,
+            6,
+            8,
+            7,
+            1,
+            4,
+            2,
+            9,
+            3,
+            5
+          ],
+          "target_rank": 2,
+          "scores": [
+            0.03708,
+            0.03,
+            0.02862,
+            0.02385,
+            0.02953,
+            0.02374,
+            0.03379,
+            0.03305,
+            0.03379,
+            0.02403
+          ]
+        },
+        "svd_head": {
+          "ranking": [
+            6,
+            8,
+            1,
+            7,
+            4,
+            3,
+            2,
+            9,
+            5,
+            0
+          ],
+          "target_rank": 1,
+          "scores": [
+            0.00247,
+            0.01859,
+            0.00858,
+            0.00916,
+            0.01244,
+            0.00275,
+            0.02838,
+            0.0181,
+            0.02207,
+            0.00338
+          ]
+        }
+      },
+      "layer_energy": {
+        "conv1": 0.04803,
+        "conv2": 0.05696,
+        "fc1": 0.04666,
+        "fc2": 0.03459,
+        "fc3": 0.03671
+      },
+      "audit": {
+        "full_diff": {
+          "gains": {
+            "0": 0.0022,
+            "1": 0.0,
+            "2": -0.0066,
+            "3": 0.0022,
+            "4": 0.0,
+            "5": -0.0022,
+            "6": 0.0,
+            "7": 0.0,
+            "8": 0.0503,
+            "9": -0.0022
+          },
+          "flag_class": 8,
+          "score": 0.0503,
+          "per_request_inversions": 10
+        },
+        "localized": {
+          "gains": {
+            "6": 0.0,
+            "4": 0.0
+          },
+          "flag_class": 6,
+          "score": 0.0,
+          "per_request_inversions": 2
+        },
+        "post_only": {
+          "anomaly_index": [
+            -0.202,
+            -1.468,
+            0.202,
+            -1.472,
+            0.23,
+            -1.049,
+            -0.637,
+            0.712,
+            14.689,
+            0.225
+          ],
+          "flag_class": 8,
+          "score": 14.689,
+          "per_request_inversions": 10
+        },
+        "extrap_a2.0": {
+          "gains": {
+            "6": 0.0,
+            "4": -0.0022
+          },
+          "flag_class": 6,
+          "score": 0.0,
+          "per_request_inversions": 2
+        },
+        "extrap_a4.0": {
+          "gains": {
+            "6": 0.0,
+            "4": -0.0112
+          },
+          "flag_class": 6,
+          "score": 0.0,
+          "per_request_inversions": 2
+        }
+      }
+    }
+  ],
+  "summary": {
+    "sec_per_inversion": 0.2671,
+    "h0_one_time_seconds": 2.96,
+    "methods": {
+      "full_diff": {
+        "benign_scores": {
+          "5": 0.0547,
+          "6": 0.0481,
+          "7": 0.0503
+        },
+        "per_request_inversions": 10,
+        "per_request_seconds_est": 2.671,
+        "requester_score": 0.2757,
+        "requester_flag_class": 8,
+        "flag_is_target": true,
+        "detected": true,
+        "margin_over_max_benign": 0.221
+      },
+      "localized": {
+        "benign_scores": {
+          "5": 0.0,
+          "6": 0.0045,
+          "7": 0.0
+        },
+        "per_request_inversions": 2,
+        "per_request_seconds_est": 0.534,
+        "requester_score": 0.0,
+        "requester_flag_class": 6,
+        "flag_is_target": false,
+        "detected": false,
+        "margin_over_max_benign": -0.0045
+      },
+      "post_only": {
+        "benign_scores": {
+          "5": 12.907,
+          "6": 15.061,
+          "7": 14.689
+        },
+        "per_request_inversions": 10,
+        "per_request_seconds_est": 2.671,
+        "requester_score": 46.18,
+        "requester_flag_class": 8,
+        "flag_is_target": true,
+        "detected": true,
+        "margin_over_max_benign": 31.119
+      },
+      "extrap_a2.0": {
+        "benign_scores": {
+          "5": 0.0,
+          "6": 0.0067,
+          "7": 0.0
+        },
+        "per_request_inversions": 2,
+        "per_request_seconds_est": 0.534,
+        "requester_score": -0.0066,
+        "requester_flag_class": 6,
+        "flag_is_target": false,
+        "detected": false,
+        "margin_over_max_benign": -0.0133
+      },
+      "extrap_a4.0": {
+        "benign_scores": {
+          "5": -0.0022,
+          "6": 0.0157,
+          "7": 0.0
+        },
+        "per_request_inversions": 2,
+        "per_request_seconds_est": 0.534,
+        "requester_score": -0.0066,
+        "requester_flag_class": 6,
+        "flag_is_target": false,
+        "detected": false,
+        "margin_over_max_benign": -0.0223
+      }
+    },
+    "localize": {
+      "logit_shift": {
+        "requester_target_rank": 9,
+        "benign_top1": {
+          "5": 1,
+          "6": 4,
+          "7": 6
+        }
+      },
+      "head_row": {
+        "requester_target_rank": 9,
+        "benign_top1": {
+          "5": 1,
+          "6": 1,
+          "7": 0
+        }
+      },
+      "svd_head": {
+        "requester_target_rank": 5,
+        "benign_top1": {
+          "5": 6,
+          "6": 6,
+          "7": 6
+        }
+      }
+    }
+  }
+}

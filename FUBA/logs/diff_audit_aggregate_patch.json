@@ -1,0 +1,63 @@
+{
+  "names": [
+    "det3"
+  ],
+  "inv": "patch",
+  "methods": {
+    "full_diff": {
+      "detect_rate": 1.0,
+      "flag_is_target_rate": 1.0,
+      "margin_mean": 0.0168,
+      "per_request_inversions": 10,
+      "per_request_seconds_mean": 11.368
+    },
+    "localized": {
+      "detect_rate": 0.0,
+      "flag_is_target_rate": 0.0,
+      "margin_mean": -0.0051,
+      "per_request_inversions": 2,
+      "per_request_seconds_mean": 2.274
+    },
+    "post_only": {
+      "detect_rate": 0.0,
+      "flag_is_target_rate": 1.0,
+      "margin_mean": -0.342,
+      "per_request_inversions": 10,
+      "per_request_seconds_mean": 11.368
+    },
+    "extrap_a2.0": {
+      "detect_rate": 1.0,
+      "flag_is_target_rate": 0.0,
+      "margin_mean": 0.0035,
+      "per_request_inversions": 2,
+      "per_request_seconds_mean": 2.274
+    },
+    "extrap_a4.0": {
+      "detect_rate": 1.0,
+      "flag_is_target_rate": 0.0,
+      "margin_mean": 0.1392,
+      "per_request_inversions": 2,
+      "per_request_seconds_mean": 2.274
+    }
+  },
+  "localize": {
+    "logit_shift": {
+      "requester_target_ranks": [
+        9
+      ],
+      "top1_rate": 0.0
+    },
+    "head_row": {
+      "requester_target_ranks": [
+        9
+      ],
+      "top1_rate": 0.0
+    },
+    "svd_head": {
+      "requester_target_ranks": [
+        9
+      ],
+      "top1_rate": 0.0
+    }
+  }
+}
