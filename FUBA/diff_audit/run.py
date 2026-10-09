@@ -23,11 +23,12 @@ import numpy as np
 import torch
 
 from diff_audit.audit import DeletionAuditor
-from diff_audit.invert import make_inverter
+from diff_audit.invert import DisagreementInverter, make_inverter
 from diff_audit.localize import DiffLocalizer
 from diff_audit.trajectory import FlatSpace, FubaTrajectory
 
-SCORES = ("logit_shift", "head_row", "svd_head")
+SCORES = ("logit_shift", "head_row", "svd_head")      # 삭제 전후 차이로 매기는 순위 (요청마다 다름)
+H0_SCORES = ("h0_ease", "h0_prob")                    # 학습 끝 h0 일회성 검사로 매기는 순위 (요청과 무관, 추가 비용 없음)
 
 
 def parse(argv=None):
@@ -45,9 +46,13 @@ def parse(argv=None):
     p.add_argument("--eps", type=float, default=0.04, help="덧셈 역추적 L∞ 예산 (FUBA IBA 트리거 상한과 같게)")
     p.add_argument("--steps", type=int, default=100)
     p.add_argument("--lam", type=float, default=1e-2, help="patch 역추적 마스크 L1 가중치")
-    p.add_argument("--rank_by", default="logit_shift", choices=SCORES, help="좁힌 검사에 쓸 차이 점수")
+    p.add_argument("--rank_by", nargs="+", default=["logit_shift", "h0_prob"], choices=SCORES + H0_SCORES,
+                   help="좁힌 검사에 쓸 순위 (여럿이면 각각 따로 검사)")
     p.add_argument("--m", type=int, default=2, help="좁힌 검사에서 볼 상위 클래스 수")
     p.add_argument("--alphas", type=float, nargs="*", default=[2.0, 4.0], help="확대 모델 h0 + a(h1-h0)")
+    p.add_argument("--dis_modes", nargs="*", default=["universal"], choices=["universal", "per_sample"],
+                   help="h0·h1 답이 갈리는 섭동 찾기 (요청당 1회)")
+    p.add_argument("--skip_class_audit", action="store_true", help="클래스별 검사를 건너뛰고 disagree 만")
     p.add_argument("--asr_eps", type=float, default=1.0)
     p.add_argument("--asr_thr", type=float, default=0.04)
     p.add_argument("--seed", type=int, default=0)
@@ -120,39 +125,49 @@ def main(argv=None):
     loc = DiffLocalizer(space, X[pi], dev)
     aud = DeletionAuditor(space, inverter, probe, dev)
 
+    dis = {mode: DisagreementInverter(mode, a.eps, a.steps) for mode in a.dis_modes}
+
     h0 = theta_T
-    t0 = time.perf_counter()
-    base = aud.baseline(h0)
-    once_sec = time.perf_counter() - t0
+    base, once_sec, h0_scores = {}, 0.0, {}
+    if not a.skip_class_audit:
+        t0 = time.perf_counter()
+        base = aud.baseline(h0)
+        once_sec = time.perf_counter() - t0
+        h0_scores = {"h0_ease": np.array([base[c]["ease"] for c in range(10)]),
+                     "h0_prob": np.array([base[c]["target_prob"] for c in range(10)])}
+    score_names = SCORES + (H0_SCORES if h0_scores else ())
 
     clients = a.delete if a.delete else list(range(a.K))
     scen = []
     for k in clients:
         h1 = theta_T - U[k]
         tag = f"del{k}"
-        scores = loc.class_scores(h0, h1)
-        ranks = {s: loc.ranking(scores[s]) for s in SCORES}
-        ranked = ranks[a.rank_by]
+        scores = {**loc.class_scores(h0, h1), **h0_scores}
+        ranks = {s: loc.ranking(scores[s]) for s in score_names}
+        audit = {}
+        for mode, inv in dis.items():
+            audit[f"disagree[{mode}]"], audit[f"disagree_conc[{mode}]"] = aud.disagreement(h0, h1, inv)
+        if not a.skip_class_audit:
+            audit["full_diff"] = aud.full_diff(tag, h0, h1)
+            audit["post_only"] = aud.post_only(tag, h1)
+            for rb in a.rank_by:
+                audit[f"localized[{rb}]"] = aud.localized(tag, h0, h1, ranks[rb], a.m)
+                for al in a.alphas:
+                    audit[f"extrap_a{al}[{rb}]"] = aud.extrapolated(tag, h0, h1, ranks[rb], a.m, al)
         res = {
             "client": k, "role": role_of(k, a),
             "truth": {"h0": truth(h0), "h1": truth(h1),
                       **{f"h_a{al}": truth(h0 + al * (h1 - h0)) for al in a.alphas}},
             "localize": {s: {"ranking": ranks[s],
                              "target_rank": ranks[s].index(a.target),
-                             "scores": [round(float(x), 5) for x in scores[s]]} for s in SCORES},
+                             "scores": [round(float(x), 5) for x in scores[s]]} for s in score_names},
             "layer_energy": loc.layer_energy(h0, h1),
-            "audit": {
-                "full_diff": aud.full_diff(tag, h0, h1),
-                "localized": aud.localized(tag, h0, h1, ranked, a.m),
-                "post_only": aud.post_only(tag, h1),
-                **{f"extrap_a{al}": aud.extrapolated(tag, h0, h1, ranked, a.m, al) for al in a.alphas},
-            },
+            "audit": audit,
         }
         scen.append(res)
-        print(f"[del {k} {res['role']:9s}] ASR h0={res['truth']['h0']['asr']:6.2f} h1={res['truth']['h1']['asr']:6.2f} "
-              f"| target rank ({a.rank_by})={res['localize'][a.rank_by]['target_rank']} "
-              f"| full_diff flag={res['audit']['full_diff']['flag_class']} score={res['audit']['full_diff']['score']:+.3f} "
-              f"| localized flag={res['audit']['localized']['flag_class']} score={res['audit']['localized']['score']:+.3f}",
+        txt = " | ".join(f"{m} flag={v['flag_class']} {v['score']:+.3f}" for m, v in audit.items()
+                         if m.startswith(("disagree", "full_diff", "localized")))
+        print(f"[del {k} {res['role']:9s}] ASR h0={res['truth']['h0']['asr']:6.2f} h1={res['truth']['h1']['asr']:6.2f} | {txt}",
               flush=True)
 
     summary = summarize(scen, a, aud.sec_per_inversion(), once_sec)
@@ -175,7 +190,9 @@ def summarize(scen, a, sec_per_inv, once_sec):
         bs = {s["client"]: s["audit"][meth]["score"] for s in ben}
         row = {"benign_scores": bs,
                "per_request_inversions": scen[0]["audit"][meth]["per_request_inversions"]}
-        row["per_request_seconds_est"] = round(row["per_request_inversions"] * sec_per_inv, 3)
+        measured = [s["audit"][meth]["seconds"] for s in scen if "seconds" in s["audit"][meth]]
+        row["per_request_seconds_est"] = round(float(np.mean(measured)) if measured
+                                               else row["per_request_inversions"] * sec_per_inv, 3)
         if req:
             r = req[0]["audit"][meth]
             row["requester_score"] = r["score"]
@@ -188,17 +205,17 @@ def summarize(scen, a, sec_per_inv, once_sec):
         S["methods"][meth] = row
     S["localize"] = {s: {"requester_target_rank": (req[0]["localize"][s]["target_rank"] if req else None),
                          "benign_top1": {b["client"]: b["localize"][s]["ranking"][0] for b in ben}}
-                     for s in SCORES}
+                     for s in scen[0]["localize"]}
     return S
 
 
 def print_summary(S):
     print("\n=== summary ===")
     print(f"역추적 1회 {S['sec_per_inversion']}s, h0 일회성 검사 {S['h0_one_time_seconds']}s")
-    print(f"{'method':14s} {'req':>8s} {'max_benign':>10s} {'detect':>7s} {'flag=tgt':>8s} {'inv/req':>7s}")
+    print(f"{'method':28s} {'req':>8s} {'max_benign':>10s} {'detect':>7s} {'flag=tgt':>8s} {'inv/req':>7s}")
     for meth, r in S["methods"].items():
         mb = max(r["benign_scores"].values()) if r["benign_scores"] else float("nan")
-        print(f"{meth:14s} {r.get('requester_score', float('nan')):8.3f} {mb:10.3f} "
+        print(f"{meth:28s} {r.get('requester_score', float('nan')):8.3f} {mb:10.3f} "
               f"{str(r.get('detected')):>7s} {str(r.get('flag_is_target')):>8s} {r['per_request_inversions']:7d}")
     for s, v in S["localize"].items():
         print(f"localize[{s}]: 요청자 삭제에서 타깃 순위={v['requester_target_rank']}, 정상 삭제 1위 클래스={v['benign_top1']}")

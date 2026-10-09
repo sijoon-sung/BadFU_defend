@@ -60,6 +60,20 @@ class DeletionAuditor:
         h_a = h0 + alpha * (h1 - h0)
         return self._pack(self._gain(f"{tag}@a{alpha}", h_a, h0, ranked[:m]), m)
 
+    def disagreement(self, h0, h1, inverter):
+        """h0·h1 의 답이 가장 크게 갈리는 섭동 하나 (요청당 1회, 클래스 순위 불필요)."""
+        m0 = self.space.to_model(h0, self.device)
+        m1 = self.space.to_model(h1, self.device)
+        r = inverter.run(m0, m1, self.x_opt, self.x_eval, self.C)
+        gain = {"flag_class": r["flag_class"], "score": round(r["score"], 4),
+                "disagree": round(r["disagree"], 4), "disagree_clean": round(r["disagree_clean"], 4),
+                "h1_class_counts": r["h1_class_counts"], "seconds": round(r["seconds"], 3),
+                "per_request_inversions": 1}
+        # 같은 결과의 다른 읽기: 갈린 입력이 한 클래스로 몰린 정도 = (h1 이 짚은 클래스로 답한 갈림 수) / 평가 수.
+        # 정상 삭제는 갈림이 여러 클래스로 흩어지고, 백도어가 열리면 타깃 하나로 몰린다는 가정. (loc2/loc12 전에 정함)
+        conc = dict(gain, score=round(max(r["h1_class_counts"]) / len(self.x_eval), 4))
+        return gain, conc
+
     def post_only(self, tag, h1):
         e = np.array([self.ease(tag, h1, c)["ease"] for c in range(self.C)])
         med = np.median(e)

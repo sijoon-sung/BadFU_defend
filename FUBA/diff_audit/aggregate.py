@@ -34,9 +34,9 @@ def main(argv=None):
                               "top1_rate": float(np.mean([x == 0 for x in ranks]))}
     out = f"logs/diff_audit_aggregate_{a.inv}.json"
     json.dump(agg, open(out, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
-    print(f"{'method':14s} {'detect':>7s} {'flag=tgt':>8s} {'margin':>8s} {'inv/req':>7s} {'s/req':>7s}")
+    print(f"{'method':28s} {'detect':>7s} {'flag=tgt':>8s} {'margin':>8s} {'inv/req':>7s} {'s/req':>7s}")
     for m, r in agg["methods"].items():
-        print(f"{m:14s} {r['detect_rate']:7.2f} {r['flag_is_target_rate']:8.2f} {r['margin_mean']:8.3f} "
+        print(f"{m:28s} {r['detect_rate']:7.2f} {r['flag_is_target_rate']:8.2f} {r['margin_mean']:8.3f} "
               f"{r['per_request_inversions']:7d} {r['per_request_seconds_mean']:7.2f}")
     for s, r in agg["localize"].items():
         print(f"localize[{s}] 타깃 순위={r['requester_target_ranks']} 1위 비율={r['top1_rate']:.2f}")

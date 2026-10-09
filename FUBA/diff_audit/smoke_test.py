@@ -31,6 +31,7 @@ def main():
             out = run.main(["--name", "smoke", "--ckpt_dir", d, "--rounds", "3", "--K", "4",
                             "--atk", "0", "1", "--req", "2", "--target", "8", "--probe", "200",
                             "--inv", inv, "--steps", "3", "--alphas", "2", "--smoke",
+                            "--dis_modes", "universal", "per_sample",
                             "--out", os.path.join(d, f"smoke_{inv}.json")])
             assert out["summary"]["methods"], inv
     print("smoke ok")
