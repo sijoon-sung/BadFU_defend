@@ -26,7 +26,7 @@ class Arguments():
         
         #Federated Unlearning Settings
         self.unlearn_interval= 1#Used to control how many rounds the model parameters are saved.1 represents the parameter saved once per round  N_itv in our paper.
-        self.forget_client_idx = 4 #If want to forget, change None to the client index
+        self.forget_client_idx = getattr(config, 'unlearn_target', 4)  # 언러닝 대상 (원본은 4 로 고정돼 있었다)
         
                                 #If this parameter is set to False, only the global model after the final training is completed is output
         self.if_retrain = False#If set to True, the global model is retrained using the FL-Retrain function, and data corresponding to the user for the forget_client_IDx number is discarded.

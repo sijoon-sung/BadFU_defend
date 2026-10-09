@@ -86,7 +86,9 @@ def distillation_unlearn(trainset, global_dicts, clients_dicts, idx, config: Con
     for k in D.keys():
         local_updates = [unlearn_dicts[idx][k].float() for unlearn_dicts in clients_dicts]
         global_updates = [global_dict[k].float() for global_dict in global_dicts[:cou]]
-        avg_update = torch.stack(local_updates, 0).sum(0) / 20 - torch.stack(global_updates, 0).sum(0) / 20
+        # 원본은 클라이언트 수를 20 으로 박아 두었다(FUBA 기본 n=20). 라운드당 집계된 로컬 수로 나눈다.
+        n_agg = sum(1 for d in clients_dicts[0] if d is not None)
+        avg_update = torch.stack(local_updates, 0).sum(0) / n_agg - torch.stack(global_updates, 0).sum(0) / n_agg
         D[k] = D[k] - avg_update
 
     trainloader = torch.utils.data.DataLoader(
@@ -182,7 +184,8 @@ def distillation_unlearn(trainset, global_dicts, clients_dicts, idx, config: Con
                         backdoor_func=add_backdoor_all)}%
           ========================""")
         
-        if config.attack_method == "iba":
+        # 생성기 재최적화는 언러닝 뒤 공격자가 트리거를 다시 맞추는 것(더 강한 공격자). 평가용으로는 config.iba_reopt=False.
+        if config.attack_method == "iba" and getattr(config, "iba_reopt", True):
             train_pattern(trainloader, config.backdoor_model, net, config)
             
         print(f"""========================

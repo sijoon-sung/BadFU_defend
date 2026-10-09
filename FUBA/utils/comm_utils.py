@@ -308,6 +308,46 @@ def split_class_owner(dataset, num_clients, owner, owner_class, owner_frac=0.9, 
     return [torch.utils.data.Subset(dataset, client_indices[i]) for i in range(num_clients)]
 
 
+def make_client_split(trainset, config):
+    """학습(train_main)과 언러닝(retrain/fedEraser/...)이 같은 클라이언트 분할을 쓰게 한다.
+
+    원본 FUBA 는 언러닝 쪽에서 항상 IID random_split(seed 522) 을 다시 해서 non-IID 궤적과 분할이 어긋났다.
+    IID: torch seed = config.seed (학습과 동일). non-IID: config.split_seed (기본 1223 = 기존 궤적과 호환).
+    """
+    n = config.num_clients
+    subset_length = len(trainset) // n
+    remainder = len(trainset) % n
+    lengths = [subset_length + 1] * remainder + [subset_length] * (n - remainder)
+    torch.manual_seed(getattr(config, 'seed', 522))
+    if not getattr(config, 'non_iid', False):
+        return random_split(trainset, lengths)
+    sseed = getattr(config, 'split_seed', 1223)
+    t = config.non_iid_type
+    if t == 'Dirichlet':
+        return split_non_iid_dirichlet(trainset, config.dataset, n, alpha=config.alpha, seed=sseed)
+    if t == 'lognormal':
+        return lognormal_split(trainset, n, sigma=config.sigma)
+    if t == 'concept_shift':
+        split = split_non_iid_dirichlet(trainset, config.dataset, n, alpha=config.alpha, seed=sseed)
+        split_non_iid_concept(trainset, split, shift_ratio=config.shift_ration, seed=123)
+        return split
+    if t == 'class_owner':
+        return split_class_owner(trainset, n, config.owner_client, config.owner_class, config.owner_frac, seed=sseed)
+    raise ValueError(f"unknown non_iid_type: {t}")
+
+
+def make_client_loaders(trainset_split, config):
+    """학습과 같은 DataLoader 설정(drop_last=True). imagenet 은 Subset 그대로 넘긴다."""
+    loaders = []
+    for subset in trainset_split:
+        if config.dataset == 'imagenet':
+            loaders.append(subset)
+        else:
+            loaders.append(torch.utils.data.DataLoader(subset, batch_size=config.batch_size,
+                                                       shuffle=True, num_workers=0, drop_last=True))
+    return loaders
+
+
 def find_max_idx_within_limit(lst, limit):
     """Find index of the maximum value within a limit."""
     max_value = -float('inf')
