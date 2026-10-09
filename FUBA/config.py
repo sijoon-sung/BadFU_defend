@@ -47,6 +47,9 @@ class Config:
         self.shift_ration = args.shift_ratio
         self.alpha = args.alpha
         self.sigma = args.sigma
+        self.owner_client = getattr(args, 'owner_client', -1)
+        self.owner_class = getattr(args, 'owner_class', 3)
+        self.owner_frac = getattr(args, 'owner_frac', 0.9)
         self.param_ratios = None
 
         # Hardware settings

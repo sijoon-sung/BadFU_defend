@@ -8,7 +8,7 @@ from mpi4py import MPI
 import timm
 from dataset import MyImagenet, MNIST, CIFAR10
 from model import Net, UNet, MNISTAutoencoder
-from utils.comm_utils import l2_distance, attack, test,get_backdoored_dataset ,get_clean_dataset, save_models, split_non_iid_dirichlet,find_max_idx_within_limit,federated_averaging_net,geometric_median,compute_parameter_ratio_difference,adjust_updates_based_on_ratio,dict_to_cpu,dict_to_device,lognormal_split,split_non_iid_concept
+from utils.comm_utils import l2_distance, attack, test,get_backdoored_dataset ,get_clean_dataset, save_models, split_non_iid_dirichlet,find_max_idx_within_limit,federated_averaging_net,geometric_median,compute_parameter_ratio_difference,adjust_updates_based_on_ratio,dict_to_cpu,dict_to_device,lognormal_split,split_non_iid_concept,split_class_owner
 from defence.simple_defence_method import federated_averaging_median,federated_averaging_multi_krum
 from sql import get_db_connection, init_database_connection, add_benign_client_log, add_attacker_client_log_defender_before, add_attacker_client_log_final, add_attacker_client_log_gamma, add_attacker_client_log_grad_simulate_train, add_attacker_client_log_simulate_train, add_global_log, add_l2_log_defender
 from config import Config
@@ -91,6 +91,9 @@ def main(config: Config):
         elif config.non_iid_type == 'concept_shift':
             trainset_split = split_non_iid_dirichlet(trainset, config.dataset, config.num_clients, alpha=config.alpha)
             split_non_iid_concept(trainset, trainset_split, shift_ratio=config.shift_ration, seed=123)
+        elif config.non_iid_type == 'class_owner':
+            trainset_split = split_class_owner(trainset, config.num_clients, config.owner_client,
+                                               config.owner_class, config.owner_frac)
         # Create loaders for each subset
         for subset in trainset_split:
             if config.dataset == 'imagenet':
