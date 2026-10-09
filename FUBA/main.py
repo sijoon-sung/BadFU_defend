@@ -40,9 +40,12 @@ if __name__ == "__main__":
     parser.add_argument('--batch_size', type=int, default=64, help='train batch size.') #12
     parser.add_argument('--test_batch_size', type=int, default=32, help='test batch size.')
     parser.add_argument('--non_iid', action="store_true", help='')
-    parser.add_argument('--non_iid_type', type=str,choices=['lognormal','Dirichlet','concept_shift'], help='')
+    parser.add_argument('--non_iid_type', type=str,choices=['lognormal','Dirichlet','concept_shift','class_owner'], help='')
     parser.add_argument('--alpha', type=float, default=1, help='alpha for non-iid Dirichlet setting')
     parser.add_argument('--sigma', type=float, default=1, help='sigma for non-iid lognormal setting')
+    parser.add_argument('--owner_client', type=int, default=-1, help='class_owner: client that owns most of owner_class (-1 = last)')
+    parser.add_argument('--owner_class', type=int, default=3, help='class_owner: class owned by one benign client')
+    parser.add_argument('--owner_frac', type=float, default=0.9, help='class_owner: fraction of owner_class given to the owner')
     parser.add_argument('--shift_ratio', type=float, default=0.4, help='non-iid concept shift setting')
     parser.add_argument('--data_path', '--data_path', type=str, default=os.getcwd(),
                         help="Path where dataset is stored or will be downloaded.")

@@ -7,6 +7,8 @@
 #   INV=patch STEPS=300 bash run_diff_audit.sh det1 det2 det3
 set -e
 cd "$(dirname "$0")"
+# 저장소에 .venv (CUDA PyTorch) 가 있으면 그걸 쓴다
+[ -x ../.venv/Scripts/python.exe ] && export PATH="$(cd .. && pwd)/.venv/Scripts:$PATH"
 [ $# -ge 1 ] || { echo "usage: bash run_diff_audit.sh NAME [NAME ...]"; exit 1; }
 INV="${INV:-universal}"
 STEPS="${STEPS:-100}"

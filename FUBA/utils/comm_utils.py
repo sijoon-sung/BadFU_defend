@@ -265,13 +265,16 @@ def split_non_iid_dirichlet(dataset, DATASET, num_clients=5, alpha=0.5,
         num_classes = 10
         y = dataset.targets
 
+    # 고정 시드: MPI 랭크마다 따로 이 함수를 부르므로, 시드가 없으면 랭크끼리 분할이 달라진다 (원본은 seed 인자를 안 썼음).
+    rng = np.random.RandomState(seed)
+    y = np.asarray(y)
     for attempt in range(max_retries):
         class_indices = [np.where(y == i)[0] for i in range(num_classes)]
         client_indices = [[] for _ in range(num_clients)]
 
         for cls_id, idxs in enumerate(class_indices):
-            np.random.shuffle(idxs)
-            proportions = np.random.dirichlet(np.repeat(alpha, num_clients))
+            rng.shuffle(idxs)
+            proportions = rng.dirichlet(np.repeat(alpha, num_clients))
             proportions = (np.cumsum(proportions) * len(idxs)).astype(int)[:-1]
             split = np.split(idxs, proportions)
             for i, idx in enumerate(split):
@@ -282,6 +285,27 @@ def split_non_iid_dirichlet(dataset, DATASET, num_clients=5, alpha=0.5,
 
     subsets = [torch.utils.data.Subset(dataset, client_indices[i]) for i in range(num_clients)]
     return subsets
+
+
+def split_class_owner(dataset, num_clients, owner, owner_class, owner_frac=0.9, seed=1223):
+    """오탐 시험용: 정상 클라 owner 가 owner_class 의 owner_frac 을 혼자 갖고, 나머지는 고르게(IID) 나눈다.
+
+    owner_class 의 남은 (1-owner_frac) 과 다른 클래스 전부는 모든 클라(owner 포함)에 고르게 나눈다.
+    """
+    rng = np.random.RandomState(seed)
+    y = np.asarray(dataset.targets)
+    owner = owner % num_clients
+    client_indices = [[] for _ in range(num_clients)]
+    for c in range(int(y.max()) + 1):
+        idxs = np.where(y == c)[0]
+        rng.shuffle(idxs)
+        if c == owner_class:
+            k = int(round(owner_frac * len(idxs)))
+            client_indices[owner].extend(idxs[:k])
+            idxs = idxs[k:]
+        for i, part in enumerate(np.array_split(idxs, num_clients)):
+            client_indices[i].extend(part)
+    return [torch.utils.data.Subset(dataset, client_indices[i]) for i in range(num_clients)]
 
 
 def find_max_idx_within_limit(lst, limit):
