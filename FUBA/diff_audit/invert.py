@@ -112,6 +112,63 @@ class PatchInverter(Inverter):
         return {"ease": -l1, "mask_l1_frac": l1, "reach": reach, "target_prob": prob}
 
 
+class DisagreementInverter:
+    """h0 와 h1 의 답이 가장 크게 갈리는 작은 섭동을 찾는다 (클래스를 미리 고르지 않음, 요청당 1회).
+
+    최대화: KL( h1(x+δ) || h0(x+δ) )  — h1 은 확신하는데 h0 은 그렇지 않은 쪽을 키운다.
+    점수 = 섭동을 얹었을 때 두 모델 1등 라벨이 다른 비율 - 섭동 없을 때 그 비율.
+    갈린 입력에서 h1 이 가장 많이 답한 클래스 = 짚은 클래스.
+      universal  : 모든 이미지에 같은 δ (탐침 반에서 최적화, 나머지 반에서 측정)
+      per_sample : 이미지마다 따로 δ (측정용 반에서 바로 최적화)
+    """
+
+    def __init__(self, mode="universal", eps=0.04, steps=100, clamp=(-1.0, 1.0)):
+        self.mode = mode
+        self.eps = eps
+        self.steps = steps
+        self.alpha = 2.5 * eps / steps
+        self.clamp = clamp
+
+    def _kl(self, m0, m1, x):
+        lp1 = F.log_softmax(m1(x), 1)
+        lp0 = F.log_softmax(m0(x), 1)
+        return (lp1.exp() * (lp1 - lp0)).sum(1).mean()
+
+    def _optimize(self, m0, m1, x, shape):
+        delta = torch.zeros(shape, device=x.device, requires_grad=True)
+        for _ in range(self.steps):
+            loss = -self._kl(m0, m1, (x + delta).clamp(*self.clamp))
+            g, = torch.autograd.grad(loss, delta)
+            with torch.no_grad():
+                delta -= self.alpha * g.sign()
+                delta.clamp_(-self.eps, self.eps)
+        return delta.detach()
+
+    @torch.no_grad()
+    def _measure(self, m0, m1, x, delta, n_classes):
+        xa = (x + delta).clamp(*self.clamp)
+        p0, p1 = m0(xa).argmax(1), m1(xa).argmax(1)
+        c0, c1 = m0(x).argmax(1), m1(x).argmax(1)
+        dis = p0 != p1
+        counts = torch.bincount(p1[dis], minlength=n_classes) if dis.any() else torch.zeros(n_classes, dtype=torch.long)
+        return {"disagree": float(dis.float().mean()), "disagree_clean": float((c0 != c1).float().mean()),
+                "h1_class_counts": [int(v) for v in counts.cpu()], "flag_class": int(counts.argmax())}
+
+    def run(self, m0, m1, x_opt, x_eval, n_classes=10):
+        t0 = time.perf_counter()
+        if self.mode == "universal":
+            delta = self._optimize(m0, m1, x_opt, (1,) + x_opt.shape[1:])
+        else:
+            delta = self._optimize(m0, m1, x_eval, x_eval.shape)
+        out = self._measure(m0, m1, x_eval, delta, n_classes)
+        if x_eval.is_cuda:
+            torch.cuda.synchronize()
+        out["score"] = out["disagree"] - out["disagree_clean"]
+        out["seconds"] = time.perf_counter() - t0
+        out["grad_steps"] = self.steps
+        return out
+
+
 def make_inverter(kind, eps, steps, lam):
     if kind == "universal":
         return UniversalAdditiveInverter(eps=eps, steps=steps)
