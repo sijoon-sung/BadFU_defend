@@ -1,0 +1,87 @@
+{
+  "configuration": {
+    "dataset": "badfu",
+    "device": "cuda:0",
+    "record": "BadFU_src/BadFU-main/record/badnet_dataset/pert_result.pt",
+    "data_root": "C:/Users/DISLAB/Desktop/split_learning/data",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "calibration_seeds": [
+      142,
+      143
+    ],
+    "rounds": 40,
+    "local_epochs": 5,
+    "fu_epochs": 1,
+    "post_rounds": 0,
+    "post_scenarios": [
+      "clean",
+      "ongoing",
+      "rejoin"
+    ],
+    "post_arms": [
+      "none",
+      "detected"
+    ],
+    "arms": [
+      "none",
+      "detected",
+      "oracle"
+    ],
+    "batch_size": 64,
+    "workers": 0,
+    "lr": 0.01,
+    "requester": 5,
+    "target": 0,
+    "dominant_ratio": 0.7,
+    "val_size": 1000,
+    "strength": 0.5,
+    "relative_budget": 0.25,
+    "absolute_budget": 1.0,
+    "guard": true,
+    "guard_delta": 0.01,
+    "max_rank": 8,
+    "window": 16,
+    "min_observations": 3,
+    "eval_every": 5,
+    "benign_eval": true,
+    "no_pretrained": false,
+    "download": false,
+    "observe": true,
+    "probe_size": 64,
+    "probe_seed": 20261008,
+    "probe_dimensions": 16,
+    "observation_quantile": 0.99,
+    "protocol_signature": "ce30e636a2311e2951e2549078b1f9ed38b7d528b4eb741d6f496d8b1c1a3a6d",
+    "implementation_files": {
+      "__init__.py": "ba9f715e5c52d8377f0a6d489ca7c6a0070af0eed74f3418fcb2d3e40d799351",
+      "__main__.py": "e3cad0dc81f02b3f9073645d817c812dcf5185a82090c019371d59e8a9bf014b",
+      "audit.py": "63ba08f78c8679d35e40eb96132a37ada1831c94cfc43b4b65a820211402e1f8",
+      "core.py": "375c876954e55dfd767e7d6383d21c1c120adc53aaa6137d5c872ca6c09ce590",
+      "data.py": "8174eeded2959a56c46012f5f4ebd85cc22b2a3d5dc377f53c612ee612a45528",
+      "engine.py": "4e770a20d59a02e637e8bce778d17caba7fa3235c36f634701d2d9bcc02c68f0",
+      "observation_report.py": "83d752a949ad6a24a570a9ce446cd4ba76ab8b49b04723a26fcf0ffa8d7dccc5",
+      "observations.py": "5b847be58c0ca7e873d5b189d600b065c23a4db70d02a9767a5121ac9b67cc2f",
+      "test_core.py": "6870c2b5e42413ba99c36dbb4ab158f1a4b8e34eee9251e93a5e41ed6ed45601",
+      "test_observations.py": "14681ccf8744f247692df2f36a78bd1da718a1e374d2849d174472534e667724"
+    }
+  },
+  "configuration_sha256": "c85dc4f461e4a2950a95dfdc73bf600b48696671f51fcc5314fe052b9935ae50",
+  "environment": {
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "torch": "2.5.1+cu121",
+    "cuda_runtime": "12.1",
+    "device": "cuda:0",
+    "git_commit": "df46dc0738fdbd8f64cc50e3b53dfb46a69346f1",
+    "gpu": "NVIDIA GeForce RTX 3080"
+  },
+  "source_check_seconds": 8.82861419999972,
+  "status": "complete",
+  "dataset_warning": null,
+  "this_invocation_seconds": 48651.96959140012,
+  "peak_cuda_allocated_bytes": 555852800
+}

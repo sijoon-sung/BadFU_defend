@@ -1,0 +1,76 @@
+{
+  "version": "clean_probe_shadow_v1",
+  "protocol_signature": "ce30e636a2311e2951e2549078b1f9ed38b7d528b4eb741d6f496d8b1c1a3a6d",
+  "sources": [
+    {
+      "trajectory_id": "7d1cd2921de052f776b5d4dbae9ccaf02502d97c4f838ecdd888019898409fe8",
+      "seed": 142
+    },
+    {
+      "trajectory_id": "def180d3de8c83540c29cfae2aa6dfb6870235fa4d98ea9f683e4f0177ced338",
+      "seed": 143
+    }
+  ],
+  "quantile": 0.99,
+  "candidates": {
+    "raw_pair": {
+      "threshold": 1.0534927928447724,
+      "normal_trajectory_maxima": [
+        0.9929625988006592,
+        1.054104208946228
+      ]
+    },
+    "clean_residual_pair": {
+      "threshold": 0.968877802491188,
+      "normal_trajectory_maxima": [
+        0.922102689743042,
+        0.969350278377533
+      ]
+    },
+    "margin_pair": {
+      "threshold": 0.3462642428278923,
+      "normal_trajectory_maxima": [
+        0.28728511929512024,
+        0.34685999155044556
+      ]
+    },
+    "margin_bn_pair": {
+      "threshold": 0.5804598900675774,
+      "normal_trajectory_maxima": [
+        0.5821273326873779,
+        0.41538307070732117
+      ]
+    },
+    "representation_pair": {
+      "threshold": 0.10966391853988171,
+      "normal_trajectory_maxima": [
+        0.10976898670196533,
+        0.09926217049360275
+      ]
+    },
+    "representation_bn_pair": {
+      "threshold": 1e-12,
+      "normal_trajectory_maxima": [
+        0.0,
+        0.0
+      ]
+    },
+    "margin_magnitude": {
+      "threshold": 4.420525388717651,
+      "normal_trajectory_maxima": [
+        4.422593593597412,
+        4.215773105621338
+      ]
+    },
+    "representation_magnitude": {
+      "threshold": 0.01701650654897094,
+      "normal_trajectory_maxima": [
+        0.017023339867591858,
+        0.01634000800549984
+      ]
+    }
+  },
+  "calibration_unit": "one normal seed; maximum over requesters, clients and classes",
+  "warning": "Empirical thresholds only; few independent seeds do not establish a population FPR. Candidate thresholds are separate, not a calibrated OR ensemble.",
+  "policy_sha256": "acf11bbf1f8b0b339a7ec860aa18d429511d200ee48edea33b403b3348c4bd03"
+}
