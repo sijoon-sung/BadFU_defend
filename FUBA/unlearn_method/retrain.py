@@ -1,7 +1,7 @@
 import torch
 import copy
 from utils.comm_utils import attack
-from utils.comm_utils import l2_distance, attack, test,get_backdoored_dataset ,get_clean_dataset, save_models, split_non_iid_dirichlet,find_max_idx_within_limit,federated_averaging_net,geometric_median,compute_parameter_ratio_difference,adjust_updates_based_on_ratio,dict_to_cpu,dict_to_device,lognormal_split,split_non_iid_concept
+from utils.comm_utils import l2_distance, attack, test,get_backdoored_dataset ,get_clean_dataset, save_models, split_non_iid_dirichlet,find_max_idx_within_limit,federated_averaging_net,geometric_median,compute_parameter_ratio_difference,adjust_updates_based_on_ratio,dict_to_cpu,dict_to_device,lognormal_split,split_non_iid_concept,make_client_split,make_client_loaders
 from config import Config
 import random
 import torch.nn as nn
@@ -332,27 +332,8 @@ def retrain(config: Config):
         from utils.comm_utils import attack
 
     # Split dataset among clients
-    trainloaders = []
-    subset_length = len(config.trainset) // config.num_clients
-    remainder = len(config.trainset) % config.num_clients
-    lengths = [subset_length + 1] * remainder + [subset_length] * (config.num_clients - remainder)
-
-    torch.manual_seed(522)
-    trainset_split = torch.utils.data.random_split(config.trainset, lengths)
-
-    for subset in trainset_split:
-        if config.dataset == "imagenet":
-            trainloaders.append(subset)
-        else:
-            trainloaders.append(
-                torch.utils.data.DataLoader(
-                    subset,
-                    batch_size=config.batch_size,
-                    shuffle=True,
-                    num_workers=0,
-                    drop_last=True,
-                )
-            )
+    # 학습 때와 같은 분할 (원본은 IID random_split 을 다시 해서 non-IID 궤적과 어긋났다)
+    trainloaders = make_client_loaders(make_client_split(config.trainset, config), config)
 
     # Test loader
     testloader = torch.utils.data.DataLoader(config.testset, batch_size=32, shuffle=True, num_workers=0)
@@ -405,8 +386,11 @@ def retrain(config: Config):
             local_net = config.creat_cls_net().to(config.device)
             local_net.load_state_dict(global_model_dict)
 
-            backdoor = client_idx in backdoor_clients and r >= 1
-            defender = client_idx in [config.forgot_client * (i + 1) for i in range(config.clients_ratial)]
+            # fu_attacker_mode: 'attack' = FUBA 원본(재학습 중 공격자·defender 가 그대로 행동, 논문 각주 4 의 γ=1),
+            #                   'benign' = 남은 전원이 정직하게 학습 (요청자 "제거" 효과만 남김)
+            fu_mode = getattr(config, "fu_attacker_mode", "attack")
+            backdoor = fu_mode == "attack" and client_idx in backdoor_clients and r >= 1
+            defender = fu_mode == "attack" and client_idx in [config.forgot_client * (i + 1) for i in range(config.clients_ratial)]
 
             if config.dataset == "mnist":
                 backdoor_model = MNISTAutoencoder().to(config.device)

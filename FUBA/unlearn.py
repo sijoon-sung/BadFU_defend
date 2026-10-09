@@ -103,10 +103,18 @@ if __name__ == "__main__":
     parser.add_argument('--warm_up', type=int, default=5, help='Number of warm up round.')
     parser.add_argument('--test_batch_size', type=int, default=32, help='test batch size.')
     parser.add_argument('--non_iid', action="store_true", help='')
-    parser.add_argument('--non_iid_type', type=str,choices=['lognormal','Dirichlet','concept_shift'], help='')
+    parser.add_argument('--non_iid_type', type=str,choices=['lognormal','Dirichlet','concept_shift','class_owner'], help='')
     parser.add_argument('--alpha', type=float, default=1, help='alpha for non-iid Dirichlet setting')
     parser.add_argument('--sigma', type=float, default=1, help='sigma for non-iid lognormal setting')
     parser.add_argument('--shift_ratio', type=float, default=0.4, help='non-iid concept shift setting')
+    parser.add_argument('--owner_client', type=int, default=-1, help='class_owner: client that owns most of owner_class (-1 = last)')
+    parser.add_argument('--owner_class', type=int, default=3, help='class_owner: class owned by one benign client')
+    parser.add_argument('--owner_frac', type=float, default=0.9, help='class_owner: fraction of owner_class given to the owner')
+    parser.add_argument('--seed', type=int, default=522, help='학습 때와 같은 seed (IID 분할·난수)')
+    parser.add_argument('--split_seed', type=int, default=1223, help='학습 때와 같은 비-IID 분할 seed')
+    parser.add_argument('--fu_attacker_mode', type=str, default='attack', choices=['attack', 'benign'],
+                        help="재학습형 FU 중 공격자 행동: attack=FUBA 원본(전력 재주입), benign=남은 전원 정직 학습")
+    parser.add_argument('--no_iba_reopt', dest='iba_reopt', action='store_false', help='KD-FU 뒤 IBA 생성기 재최적화 끄기')
     parser.add_argument('--data_path', '--data_path', type=str, default=os.getcwd(),
                         help="Path where dataset is stored or will be downloaded.")
     parser.add_argument('--save', action='store_true', help='Save results (.pth) after FL training and after defense.'

@@ -51,6 +51,9 @@ class Config:
         self.owner_client = getattr(args, 'owner_client', -1)
         self.owner_class = getattr(args, 'owner_class', 3)
         self.owner_frac = getattr(args, 'owner_frac', 0.9)
+        self.split_seed = getattr(args, 'split_seed', 1223)                  # 비-IID 분할 seed (기본값 = 기존 궤적과 호환)
+        self.fu_attacker_mode = getattr(args, 'fu_attacker_mode', 'attack')  # 재학습형 FU 중 공격자 행동 (retrain.py 참조)
+        self.iba_reopt = getattr(args, 'iba_reopt', True)                    # KD-FU 뒤 IBA 생성기 재최적화 여부
         self.param_ratios = None
 
         # Hardware settings
