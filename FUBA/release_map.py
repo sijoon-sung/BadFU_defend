@@ -303,6 +303,22 @@ def grid_candidates(xs, space, sizes, stride):
                     yield {"size": s, "y": y, "x": x, "pattern": name}, m, p
 
 
+def cand_inputs(xs, space, cand):
+    """grid 후보(dict)로부터 패치 붙인 입력을 다시 만든다 (--search_once 재사용용)."""
+    _, C, H, W = xs.shape
+    s, y, x = cand["size"], cand["y"], cand["x"]
+    m = torch.zeros(1, 1, H, W, device=xs.device)
+    m[:, :, y:y + s, x:x + s] = 1.0
+    if cand["pattern"] == "white":
+        p = space.hi.expand(1, C, H, W)
+    elif cand["pattern"] == "black":
+        p = space.lo.expand(1, C, H, W)
+    else:
+        ck = ((torch.arange(H, device=xs.device).view(H, 1) + torch.arange(W, device=xs.device).view(1, W)) % 2).float()
+        p = space.lo + ck.view(1, 1, H, W) * (space.hi - space.lo)
+    return (1 - m) * xs + m * p
+
+
 @torch.no_grad()
 def grid_search(ref, m1, xs, space, n_classes, sizes, stride):
     """후보마다 기준 대비 클래스별 확률 상승 mean[p1(c) − p_ref(c)] 를 재고, 최대 후보·클래스를 고른다."""
@@ -436,6 +452,10 @@ def parse():
                    help="빼는 연산. subtract: θ_T − ρ·U_j 그대로. kd: 뺀 뒤 probe 로 θ_T 쪽에 짧게 증류(잡음 제거, 라벨 없음)")
     p.add_argument("--kd_steps", type=int, default=50)
     p.add_argument("--kd_lr", type=float, default=0.001)
+    p.add_argument("--search_once", action="store_true",
+                   help="비용 절감: 섭동 탐색을 요청자에 대해 한 번만 하고, 나머지는 같은 입력에서 순전파만 (K회 탐색 → 1회)")
+    p.add_argument("--ref_sample", type=int, default=0,
+                   help="비용 절감: 기준 앙상블에 나머지 전원 대신 무작위 m 명만 (0 = 전원). K² → K·m")
     p.add_argument("--ref", choices=["theta", "population"], default="population",
                    help="갈림의 기준. theta: 삭제 전 모델. population: 나머지 전원을 같은 ρ 만큼 뺀 모델들의 평균(열화 상쇄)")
     p.add_argument("--delta_mode", choices=["none", "linf", "patch", "both", "class", "grid", "all"], default="both",
@@ -514,10 +534,25 @@ def main():
         ok = [i for i in clients if i != j and next(c for c in curves[i] if c["rho"] == rho)["changed"] <= a.cap]
         if not ok:
             return m0
+        if a.ref_sample and len(ok) > a.ref_sample:               # 표본 기준 (고정 시드, 클라마다 다른 표본)
+            rng = random.Random(a.seed * 1000 + j)
+            ok = sorted(rng.sample(ok, a.ref_sample))
         return Ensemble([models[rho][i] for i in ok])
 
-    # 2) 클라이언트마다 작동점에서 기준 대비 쏠림을 잰다
-    for j in clients:
+    # 2) 클라이언트마다 작동점에서 기준 대비 쏠림을 잰다 (--search_once 면 요청자를 먼저, 그 탐색 입력을 나머지가 재사용)
+    order = ([a.requester] + [c for c in clients if c != a.requester]) if (a.search_once and a.requester in clients) else clients
+    shared = {}
+
+    def reuse(mode):
+        return a.search_once and j != a.requester and mode in shared
+
+    def measure(xa):
+        pr, pk = probs(ref, xa), probs(m_star, xa)
+        d = divergence(pr.argmax(1), pk.argmax(1), a.n_classes)
+        d.update(shift(pk, pr))
+        return d
+
+    for j in order:
         t0 = time.time()
         curve = curves[j]
         # 작동점 ρ*: θ_T 대비 changed ≤ cap 인 가장 큰 ρ (0 제외). 없으면 가장 작은 양의 ρ.
@@ -541,32 +576,47 @@ def main():
             d["rho"] = rho
             curve_ref.append(d)
         if a.delta_mode in ("grid", "all"):
-            wp["grid"] = grid_search(ref, m_star, xs, space, a.n_classes, a.grid_sizes, a.grid_stride)
+            if reuse("grid"):
+                wp["grid"] = measure(shared["grid"]["xa"])
+                wp["grid"]["cand"] = shared["grid"]["cand"]
+            else:
+                wp["grid"] = grid_search(ref, m_star, xs, space, a.n_classes, a.grid_sizes, a.grid_stride)
+                shared["grid"] = {"cand": wp["grid"]["cand"], "xa": cand_inputs(xs, space, wp["grid"]["cand"])}
         if a.delta_mode in ("class", "all"):
-            best = None
-            for c in range(a.n_classes):
-                mk, pt = find_class_patch(ref, m_star, xo, space, c, a.patch_lam, a.class_steps, a.patch_lr)
-                xa = (1 - mk) * xs + mk * pt
-                pr, pk = probs(ref, xa), probs(m_star, xa)
-                gain = float((pk[:, c] - pr[:, c]).mean())          # 기준 대비 c 확률 상승 (probe 전체)
-                if best is None or gain > best["shift"]:
-                    d = divergence(pr.argmax(1), pk.argmax(1), a.n_classes)
-                    d.update({"shift": round(gain, 4), "shift_class": c, "mask_frac": round(float(mk.mean()), 4)})
-                    best = d
-            wp["class"] = best
+            if reuse("class"):
+                wp["class"] = measure(shared["class"]["xa"])
+                wp["class"]["mask_frac"] = shared["class"]["mask_frac"]
+            else:
+                best, best_xa = None, None
+                for c in range(a.n_classes):
+                    mk, pt = find_class_patch(ref, m_star, xo, space, c, a.patch_lam, a.class_steps, a.patch_lr)
+                    xa = (1 - mk) * xs + mk * pt
+                    pr, pk = probs(ref, xa), probs(m_star, xa)
+                    gain = float((pk[:, c] - pr[:, c]).mean())          # 기준 대비 c 확률 상승 (probe 전체)
+                    if best is None or gain > best["shift"]:
+                        d = divergence(pr.argmax(1), pk.argmax(1), a.n_classes)
+                        d.update({"shift": round(gain, 4), "shift_class": c, "mask_frac": round(float(mk.mean()), 4)})
+                        best, best_xa = d, xa
+                wp["class"] = best
+                shared["class"] = {"xa": best_xa, "mask_frac": best["mask_frac"]}
         if a.delta_mode in ("linf", "both", "all"):
-            delta = find_linf(ref, m_star, xo, space, a.eps, a.pgd_steps, a.pgd_lr)
-            xa = space.clamp(xs + delta)
-            pr, pk = probs(ref, xa), probs(m_star, xa)
-            wp["linf"] = divergence(pr.argmax(1), pk.argmax(1), a.n_classes)
-            wp["linf"].update(shift(pk, pr))
+            if reuse("linf"):
+                wp["linf"] = measure(shared["linf"])
+            else:
+                delta = find_linf(ref, m_star, xo, space, a.eps, a.pgd_steps, a.pgd_lr)
+                xa = space.clamp(xs + delta)
+                wp["linf"] = measure(xa)
+                shared["linf"] = xa
         if a.delta_mode in ("patch", "both", "all"):
-            mk, pt, mfrac = find_patch(ref, m_star, xo, space, a.patch_lam, a.patch_steps, a.patch_lr)
-            xa = (1 - mk) * xs + mk * pt
-            pr, pk = probs(ref, xa), probs(m_star, xa)
-            wp["patch"] = divergence(pr.argmax(1), pk.argmax(1), a.n_classes)
-            wp["patch"].update(shift(pk, pr))
-            wp["patch"]["mask_frac"] = mfrac
+            if reuse("patch"):
+                wp["patch"] = measure(shared["patch"]["xa"])
+                wp["patch"]["mask_frac"] = shared["patch"]["mfrac"]
+            else:
+                mk, pt, mfrac = find_patch(ref, m_star, xo, space, a.patch_lam, a.patch_steps, a.patch_lr)
+                xa = (1 - mk) * xs + mk * pt
+                wp["patch"] = measure(xa)
+                wp["patch"]["mask_frac"] = mfrac
+                shared["patch"] = {"xa": xa, "mfrac": mfrac}
         entry = {"role": "requester" if j == a.requester else ("attacker" if j in a.attackers else "benign"),
                  "curve": curve, "curve_ref": curve_ref, "acc_curve": acc_curves[j], "asr_curve": asr_curves[j] or None,
                  "wp": wp, "seconds": round(time.time() - t0, 1)}
