@@ -6,6 +6,7 @@
 #   benign    정상 이탈 검증 (benign_departure.py)        -> logs/benign_departure/{NAME}.json
 #   robust    FedEraser-R 탐지+정화 (robust_fu.py)        -> logs/robust_fu/{NAME}.json
 #   latent    잠재 위험 지도, 가중치만 (latent_risk.py)    -> logs/latent_risk/{NAME}.json
+#   release   빼 보기: 천천히 빼기 + 전원 빼 보기 (release_map.py) -> logs/release_map/{NAME}.json
 #   aggregate 조건별 평균±표준편차 + 종합 보고서           -> logs/*/summary_{cond}.md, logs/pipeline/REPORT_{cond}.md
 #
 # 사용법 (FUBA 폴더에서)
@@ -34,7 +35,7 @@ export PYTHONIOENCODING=utf-8
 
 CONDS="${CONDS:-owner iid}"
 SEEDS="${SEEDS:-0 1 2}"
-STAGES="${STAGES:-attack benign robust latent aggregate}"
+STAGES="${STAGES:-attack benign robust latent release aggregate}"
 K="${K:-8}"
 ROUNDS="${ROUNDS:-8}"
 WARMUP="${WARMUP:-3}"
@@ -47,6 +48,7 @@ BENIGN_METHODS="${BENIGN_METHODS:-subtract distillation fedEraser retrain_benign
 ROBUST_ARMS="${ROBUST_ARMS:-plain purify_flag purify_always purify_clean}"
 ROBUST_EXTRA="${ROBUST_EXTRA:-}"
 LATENT_EXTRA="${LATENT_EXTRA:-}"
+RELEASE_EXTRA="${RELEASE_EXTRA:---delta}"   # 기본: δ(갈림 키우는 섭동)도 같이 잰다. 끄려면 RELEASE_EXTRA=""
 
 export ROUNDS WARMUP   # run_real_fuba.sh 가 읽는다
 mkdir -p logs/pipeline
@@ -115,6 +117,14 @@ stage_latent() {              # <name> <seed>
     --seed "$seed" --defender "$DEFENDER" $LATENT_EXTRA
 }
 
+stage_release() {             # <name> <seed>  — 학습 없음(빼기 + 순전파), 전원 빼 보기
+  local name="$1" seed="$2"
+  maybe_rm "logs/release_map/${name}.json"
+  if [ "$FORCE" != "1" ] && [ -f "logs/release_map/${name}.json" ]; then echo "  [$name] release_map 결과 있음 — 생략"; return 0; fi
+  run_log "logs/pipeline/${name}.release.log" python release_map.py --fmt fuba --name "$name" --K "$K" --rounds "$ROUNDS" \
+    --seed "$seed" --requester "$DEFENDER" $RELEASE_EXTRA
+}
+
 stage_aggregate() {           # <label> <names...>
   local label="$1"; shift
   local names=("$@") report="logs/pipeline/REPORT_${label}.md"
@@ -123,10 +133,11 @@ stage_aggregate() {           # <label> <names...>
   { has benign && have benign_departure; } && run python aggregate_benign_departure.py --cond "$label"
   { has robust && have robust_fu; }        && run python aggregate_robust_fu.py --cond "$label"
   { has latent && have latent_risk; }      && run python aggregate_latent_risk.py --names "${names[@]}" --out "logs/latent_risk/summary_${label}.md"
+  { has release && have release_map; }     && run python aggregate_release_map.py --cond "$label"
   [ "$DRY" = "1" ] && return 0
   {
     echo "# 종합 보고서: $label  (K=$K, ROUNDS=$ROUNDS, WARMUP=$WARMUP, seeds: $SEEDS)"; echo
-    for f in "logs/benign_departure/summary_${label}.md" "logs/robust_fu/summary_${label}.md" "logs/latent_risk/summary_${label}.md"; do
+    for f in "logs/benign_departure/summary_${label}.md" "logs/robust_fu/summary_${label}.md" "logs/latent_risk/summary_${label}.md" "logs/release_map/summary_${label}.md"; do
       [ -f "$f" ] && { echo "---"; echo "<!-- $f -->"; cat "$f"; echo; }
     done
   } > "$report"
@@ -146,6 +157,7 @@ for COND in $CONDS; do
     has benign && stage_benign "$NAME" "$SEED"
     has robust && stage_robust "$NAME" "$SEED"
     has latent && stage_latent "$NAME" "$SEED"
+    has release && stage_release "$NAME" "$SEED"
     sleep 2
   done
   if has aggregate; then echo; echo "==== [$COND] 집계"; stage_aggregate "$LABEL" "${NAMES[@]}"; fi
