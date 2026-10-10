@@ -29,6 +29,7 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 [ -x ../.venv/Scripts/python.exe ] && export PATH="$(cd .. && pwd)/.venv/Scripts:$PATH"
+[ -d /c/Users/DISLAB/AppData/Local/Programs/Python/Python312/Library/bin ] && export PATH="/c/Users/DISLAB/AppData/Local/Programs/Python/Python312/Library/bin:$PATH"
 export PYTHONIOENCODING=utf-8
 
 CONDS="${CONDS:-owner iid}"
@@ -145,6 +146,7 @@ for COND in $CONDS; do
     has benign && stage_benign "$NAME" "$SEED"
     has robust && stage_robust "$NAME" "$SEED"
     has latent && stage_latent "$NAME" "$SEED"
+    sleep 2
   done
   if has aggregate; then echo; echo "==== [$COND] 집계"; stage_aggregate "$LABEL" "${NAMES[@]}"; fi
 done
