@@ -65,3 +65,5 @@ SKIP_ATTACK=1 bash run_experiment.sh det1 det2
 잠재 위험 지도(가중치만): LATENT_RISK.md
 
 강건한 FU(정의 2: 탐지+정화를 보정 루프 안에): ROBUST_FU.md
+
+**한 번에 전부**: `bash run_all.sh` (조건·시드·라운드는 환경변수; 머리말 참조). 네 단계와 집계를 묶은 단일 진입점.
