@@ -49,6 +49,7 @@ for s in $SEEDS; do
   PYTHONIOENCODING=utf-8 python robust_fu.py --name "$NAME" --K "$K" --rounds "$ROUNDS" \
     --seed "$SEED" --split_seed "$SEED" $NI --probe "$PROBE" \
     --requesters 4 $((K - 1)) 5 --arms $ARMS $EXTRA --resume | grep -v "^Files already"
+  sleep 3
 done
 
 echo "== 집계 ($COND)"
