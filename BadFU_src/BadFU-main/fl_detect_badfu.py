@@ -37,6 +37,11 @@ ap.add_argument("--dominant_ratio", type=float, default=0.7)
 ap.add_argument("--seed", type=int, default=42)
 ap.add_argument("--traj_dir", default="logs/traj")
 ap.add_argument("--out", default="logs/badfu_detect.json")
+# ---- 축소 설정(스모크)용 선택 인자 (기본값이면 동작은 종전과 완전히 같다) ----
+ap.add_argument("--max_per_client", type=int, default=0,
+                help="클라이언트별 학습 샘플 상한(0=전체). bd/cv 비율은 그대로 두고 무작위 부분집합을 쓴다")
+ap.add_argument("--test_n", type=int, default=0, help="평가용 clean/bd 테스트 샘플 상한(0=전체)")
+ap.add_argument("--keep_traj", action="store_true", help="끝나고 logs/traj/*.pt 를 지우지 않는다 (unlearn_from_traj.py 용)")
 args = ap.parse_args()
 
 device = "cuda:0" if torch.cuda.is_available() else "cpu"
@@ -124,14 +129,24 @@ client_datasets = client_clean_data
 ul_client_datasets = [copy.deepcopy(client_datasets[i]) for i in range(num_clients)]
 ul_client_datasets[0] = ConcatDataset([client_datasets[0], bd_dataset])
 ul_client_datasets.append(ConcatDataset([client_datasets[0], cv_dataset]))  # client 5
+
+def _subset(ds, n, s):
+    """n>0 이면 고정 시드 무작위 부분집합(n 개). n=0 이면 그대로."""
+    if n <= 0 or len(ds) <= n:
+        return ds
+    idx = torch.randperm(len(ds), generator=torch.Generator().manual_seed(s))[:n].tolist()
+    return torch.utils.data.Subset(ds, idx)
+
+ul_client_datasets = [_subset(d, args.max_per_client, seed + i) for i, d in enumerate(ul_client_datasets)]
 ul_loaders = [DataLoader(d, batch_size=64, shuffle=True, num_workers=0) for d in ul_client_datasets]
 client_data_counts = [len(l.dataset) for l in ul_loaders]
+print(f"client_data_counts = {client_data_counts}  (release_map.py --counts 에 그대로 넘긴다)", flush=True)
 # 백도어만 든 client0 로더(언러닝 단계 재학습용)
-bd_only_ds0 = ConcatDataset([client_datasets[0], bd_dataset])
+bd_only_ds0 = _subset(ConcatDataset([client_datasets[0], bd_dataset]), args.max_per_client, seed)
 
-test_dataset = datasets.CIFAR10(root='./data', train=False, download=True, transform=transform)
+test_dataset = _subset(datasets.CIFAR10(root='./data', train=False, download=True, transform=transform), args.test_n, seed)
 test_loader = DataLoader(test_dataset, batch_size=64, shuffle=False, num_workers=0)
-bd_test_loader = DataLoader(bd_test_dataset, batch_size=64, shuffle=False, num_workers=0)
+bd_test_loader = DataLoader(_subset(bd_test_dataset, args.test_n, seed), batch_size=64, shuffle=False, num_workers=0)
 
 # ========== 모델/학습 (badfu.py 와 동일) ==========
 class ResNet18(nn.Module):
@@ -305,6 +320,7 @@ res = {"args": vars(args), "acc_track": acc_track, "asr_track": asr_track,
        "cos_0_5": pget(cos_h,0,5), "fc_0_5": pget(fc_h,0,5), "cancel_0_5": pget(can_h,0,5),
        "active": active, "seconds": time.time()-t0}
 with open(args.out, "w") as f: json.dump(res, f, indent=2)
-# 궤적 정리(디스크 회수)
-for f in glob.glob(os.path.join(args.traj_dir, "*.pt")): os.remove(f)
+# 궤적 정리(디스크 회수). --keep_traj 면 남긴다.
+if not args.keep_traj:
+    for f in glob.glob(os.path.join(args.traj_dir, "*.pt")): os.remove(f)
 print(f"\nsaved: {args.out}  ({res['seconds']:.1f}s)")

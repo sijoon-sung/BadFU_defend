@@ -158,7 +158,7 @@ def get_surrogate_model(args:argparse.ArgumentParser):
         else:
             clean_model_path = args.surrogate_model_folder + '/' + args.result_name
 
-        result = torch.load(clean_model_path)
+        result = torch.load(clean_model_path, weights_only=False)
         net = generate_cls_model(
             model_name=result['model_name'],
             num_classes=result['num_classes'],
@@ -176,7 +176,7 @@ def get_surrogate_model(args:argparse.ArgumentParser):
     return net
 
 def get_model_directly_by_path(model_path):
-    result = torch.load(model_path)
+    result = torch.load(model_path, weights_only=False)
     net = generate_cls_model(
         model_name=result['model_name'],
         num_classes=result['num_classes'],
