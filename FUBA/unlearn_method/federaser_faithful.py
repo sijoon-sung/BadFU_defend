@@ -49,6 +49,30 @@ def _calibrate(global_dict, loaders, keep, config, epochs, lr, max_batches):
     return _avg(new_cms)
 
 
+def _step(new_gm, old_gm, old_cm, new_cm):
+    """원식 한 라운드: newGM + ||oldCM - oldGM|| * (newCM - newGM) / ||newCM - newGM|| (층별)."""
+    out = {}
+    for layer in new_gm.keys():
+        if not torch.is_floating_point(new_gm[layer]):
+            out[layer] = new_cm[layer]
+            continue
+        old_up = old_cm[layer] - old_gm[layer]
+        new_up = new_cm[layer] - new_gm[layer]
+        n_new = torch.norm(new_up)
+        if n_new == 0:
+            out[layer] = new_gm[layer] + new_up
+        else:
+            out[layer] = new_gm[layer] + torch.norm(old_up) * new_up / n_new
+    return out
+
+
+def _max_batches(config, ratio, max_batches=None):
+    """FUBA 의 정상 로컬 학습은 1 에폭을 train_epoch 배치에서 끊는다. ratio 는 그 배치 수에 건다."""
+    if max_batches is not None:
+        return max_batches
+    return max(1, math.ceil(ratio * (getattr(config, "train_epoch", 100) + 1)))
+
+
 def fedEraser_faithful(global_dicts, local_dicts, loaders, target, config,
                        ratio=0.5, lr=0.005, max_batches=None):
     """global_dicts[r-1] = 라운드 r 끝의 글로벌(r=1..R), local_dicts[r-1] = 라운드 r 로컬 리스트(클라 인덱스 순).
@@ -56,8 +80,7 @@ def fedEraser_faithful(global_dicts, local_dicts, loaders, target, config,
     R = len(local_dicts)
     K = len(local_dicts[0])
     keep = [k for k in range(K) if k != target and local_dicts[0][k] is not None]
-    # FUBA 의 정상 로컬 학습은 1 에폭을 train_epoch 배치에서 끊는다. ratio 는 그 배치 수에 건다.
-    mb = max_batches if max_batches is not None else max(1, math.ceil(ratio * (getattr(config, "train_epoch", 100) + 1)))
+    mb = _max_batches(config, ratio, max_batches)
 
     # 1라운드: 초기 모델은 요청자 정보가 없으므로 요청자를 뺀 저장 로컬의 평균으로 시작한다.
     new_gm = _avg([local_dicts[0][k] for k in keep])
@@ -65,17 +88,5 @@ def fedEraser_faithful(global_dicts, local_dicts, loaders, target, config,
         old_gm = {k: v.float() for k, v in global_dicts[r - 2].items()}
         old_cm = _avg([local_dicts[r - 1][k] for k in keep])
         new_cm = _calibrate(new_gm, loaders, keep, config, 1, lr, mb)
-        out = {}
-        for layer in new_gm.keys():
-            if not torch.is_floating_point(new_gm[layer]):
-                out[layer] = new_cm[layer]
-                continue
-            old_up = old_cm[layer] - old_gm[layer]
-            new_up = new_cm[layer] - new_gm[layer]
-            n_new = torch.norm(new_up)
-            if n_new == 0:
-                out[layer] = new_gm[layer] + new_up
-            else:
-                out[layer] = new_gm[layer] + torch.norm(old_up) * new_up / n_new
-        new_gm = out
+        new_gm = _step(new_gm, old_gm, old_cm, new_cm)
     return new_gm
