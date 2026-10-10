@@ -109,6 +109,44 @@ python robust_fu.py --name bd_owner_s0 --K 8 --seed 522 --split_seed 522 \
 
 `--resume` 는 이미 있는 (요청자, arm) 결과를 건너뛴다. GPU 없으면 `--n_gpu 0`.
 
+## 실측 결과 (`owner` 조건, 3회 평균)
+
+`COND=owner bash run_robust_fu.sh` 실측치 (`logs/robust_fu/summary_owner.md`):
+
+- **삭제 전 기준 모델 ($\theta_T$)**: ASR 8.5 ± 1.1% / ACC 92.2 ± 0.9%
+
+### ASR (%)
+
+| arm | req 4 (defender) | req 7 (owner) | req 5 (benign) |
+|---|---|---|---|
+| `plain` | 7.4 ± 2.9 | 3.7 ± 3.3 | 2.0 ± 2.1 |
+| `purify_flag` | 6.1 ± 1.2 | 8.0 ± 2.4 | 2.8 ± 2.3 |
+| `purify_always` | 10.3 ± 1.1 | 8.7 ± 1.2 | 8.5 ± 1.8 |
+| `purify_clean` | 9.8 ± 0.8 | 8.9 ± 1.4 | 7.9 ± 1.4 |
+
+### ACC (%)
+
+| arm | req 4 (defender) | req 7 (owner) | req 5 (benign) |
+|---|---|---|---|
+| `plain` | 88.6 ± 0.1 | 85.7 ± 1.4 | 87.8 ± 1.1 |
+| `purify_flag` | 88.1 ± 0.9 | 83.6 ± 1.0 | 86.8 ± 1.3 |
+| `purify_always` | 89.3 ± 0.8 | 90.4 ± 0.7 | 90.7 ± 0.9 |
+| `purify_clean` | 89.4 ± 0.8 | 90.3 ± 0.8 | 90.9 ± 0.7 |
+
+### 정의 2 유지 행동 변화 (TEST[N:] 예측 불일치율 %)
+
+| arm | req 4 (defender) | req 7 (owner) | req 5 (benign) |
+|---|---|---|---|
+| `plain` | 6.70 ± 0.56 | 12.90 ± 1.63 | 12.48 ± 2.58 |
+| `purify_flag` | 7.47 ± 0.11 | 13.28 ± 0.84 | 11.45 ± 1.78 |
+| `purify_always` | 4.62 ± 0.17 | 4.03 ± 0.41 | 3.65 ± 0.56 |
+| `purify_clean` | 4.57 ± 0.09 | 4.01 ± 0.49 | 3.64 ± 0.44 |
+
+### 탐지 (라운드 최대 Score = $\delta$ 아래 집중도)
+- **Defender(요청 4) 평균**: 0.777 ± 0.076
+- **정상 요청 평균**: 0.694 ± 0.117
+- **AUROC (Defender vs 정상)**: **0.722**
+
 ## 한계
 
 - **억제이지 제거가 아니다.** 교사가 `orig_r`(= 잠복 백도어를 품은 원 경로)이므로 ASR 은 삭제 전 잠복 수준으로 돌아갈 뿐 0 이 되지 않는다. 백도어 자체는 여전히 모델 안에 있다.
