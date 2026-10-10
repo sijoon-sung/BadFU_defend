@@ -1,0 +1,1010 @@
+{
+  "name": "loc_badfu_kd",
+  "fmt": "badfu",
+  "args": {
+    "fmt": "badfu",
+    "name": "loc_badfu_kd",
+    "rounds": 15,
+    "K": 8,
+    "ckpt_dir": "checkpoints",
+    "traj_dir": "C:/Users/sijoo/AppData/Local/Temp/bfu/repo-rfu/BadFU_src/BadFU-main/logs/traj_full",
+    "counts": [
+      10545,
+      9647,
+      9641,
+      9649,
+      9668,
+      10545
+    ],
+    "data_root": "C:/Users/sijoo/AppData/Local/Temp/bfu/repo-rfu/BadFU_src/BadFU-main/data",
+    "badfu_record": "C:/Users/sijoo/AppData/Local/Temp/bfu/repo-rfu/BadFU_src/BadFU-main/record/badnet_dataset",
+    "requester": 5,
+    "attackers": [
+      0
+    ],
+    "target": 0,
+    "n_classes": 10,
+    "probe": 500,
+    "rhos": [
+      0.0,
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "cap": 0.5,
+    "op": "kd",
+    "kd_steps": 50,
+    "kd_lr": 0.01,
+    "ref": "population",
+    "delta_mode": "both",
+    "delta": false,
+    "eps": 0.1,
+    "pgd_steps": 50,
+    "pgd_lr": 0.01,
+    "patch_lam": 0.5,
+    "patch_steps": 100,
+    "patch_lr": 0.1,
+    "n_opt": 256,
+    "atk_eps": 1.0,
+    "noise_thread": 0.04,
+    "clients": null,
+    "seed": 522,
+    "n_gpu": 1,
+    "out": null
+  },
+  "K": 6,
+  "rhos": [
+    0.0,
+    0.2,
+    0.4,
+    0.6,
+    0.8,
+    1.0
+  ],
+  "before": {
+    "acc": 82.48,
+    "asr": 27.12
+  },
+  "clients": {
+    "0": {
+      "role": "attacker",
+      "curve": [
+        {
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "rho": 0.0
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.2
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.4
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.6
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.8
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 1.0
+        }
+      ],
+      "curve_ref": [
+        {
+          "rho": 0.0,
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "shift": 0.0,
+          "shift_class": null
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 0.2
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 0.4
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 0.6
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 0.8
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 1.0
+        }
+      ],
+      "acc_curve": [
+        82.48,
+        9.93,
+        9.93,
+        9.93,
+        9.93,
+        9.93
+      ],
+      "asr_curve": [
+        27.12,
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0
+      ],
+      "wp": {
+        "rho": 0.2,
+        "clean": {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4
+        },
+        "linf": {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4
+        },
+        "patch": {
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "shift": 0.0,
+          "shift_class": 0,
+          "mask_frac": NaN
+        }
+      },
+      "seconds": 27.1
+    },
+    "1": {
+      "role": "benign",
+      "curve": [
+        {
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "rho": 0.0
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.2
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.4
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.6
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.8
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 1.0
+        }
+      ],
+      "curve_ref": [
+        {
+          "rho": 0.0,
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "shift": 0.0,
+          "shift_class": null
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 0.2
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 0.4
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 0.6
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 0.8
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 1.0
+        }
+      ],
+      "acc_curve": [
+        82.48,
+        9.93,
+        9.93,
+        9.93,
+        9.93,
+        9.93
+      ],
+      "asr_curve": [
+        27.12,
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0
+      ],
+      "wp": {
+        "rho": 0.2,
+        "clean": {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4
+        },
+        "linf": {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4
+        },
+        "patch": {
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "shift": 0.0,
+          "shift_class": 0,
+          "mask_frac": NaN
+        }
+      },
+      "seconds": 30.4
+    },
+    "2": {
+      "role": "benign",
+      "curve": [
+        {
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "rho": 0.0
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.2
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.4
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.6
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.8
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 1.0
+        }
+      ],
+      "curve_ref": [
+        {
+          "rho": 0.0,
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "shift": 0.0,
+          "shift_class": null
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 0.2
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 0.4
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 0.6
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 0.8
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 1.0
+        }
+      ],
+      "acc_curve": [
+        82.48,
+        9.93,
+        9.93,
+        9.93,
+        9.93,
+        9.93
+      ],
+      "asr_curve": [
+        27.12,
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0
+      ],
+      "wp": {
+        "rho": 0.2,
+        "clean": {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4
+        },
+        "linf": {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4
+        },
+        "patch": {
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "shift": 0.0,
+          "shift_class": 0,
+          "mask_frac": NaN
+        }
+      },
+      "seconds": 26.8
+    },
+    "3": {
+      "role": "benign",
+      "curve": [
+        {
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "rho": 0.0
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.2
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.4
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.6
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.8
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 1.0
+        }
+      ],
+      "curve_ref": [
+        {
+          "rho": 0.0,
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "shift": 0.0,
+          "shift_class": null
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 0.2
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 0.4
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 0.6
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 0.8
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 1.0
+        }
+      ],
+      "acc_curve": [
+        82.48,
+        9.93,
+        9.93,
+        9.93,
+        9.93,
+        9.93
+      ],
+      "asr_curve": [
+        27.12,
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0
+      ],
+      "wp": {
+        "rho": 0.2,
+        "clean": {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4
+        },
+        "linf": {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4
+        },
+        "patch": {
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "shift": 0.0,
+          "shift_class": 0,
+          "mask_frac": NaN
+        }
+      },
+      "seconds": 26.8
+    },
+    "4": {
+      "role": "benign",
+      "curve": [
+        {
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "rho": 0.0
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.2
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.4
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.6
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.8
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 1.0
+        }
+      ],
+      "curve_ref": [
+        {
+          "rho": 0.0,
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "shift": 0.0,
+          "shift_class": null
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 0.2
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 0.4
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 0.6
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 0.8
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 1.0
+        }
+      ],
+      "acc_curve": [
+        82.48,
+        9.93,
+        9.93,
+        9.93,
+        9.93,
+        9.93
+      ],
+      "asr_curve": [
+        27.12,
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0
+      ],
+      "wp": {
+        "rho": 0.2,
+        "clean": {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4
+        },
+        "linf": {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4
+        },
+        "patch": {
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "shift": 0.0,
+          "shift_class": 0,
+          "mask_frac": NaN
+        }
+      },
+      "seconds": 26.8
+    },
+    "5": {
+      "role": "requester",
+      "curve": [
+        {
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "rho": 0.0
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.2
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.4
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.6
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.8
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 1.0
+        }
+      ],
+      "curve_ref": [
+        {
+          "rho": 0.0,
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "shift": 0.0,
+          "shift_class": null
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 0.2
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 0.4
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 0.6
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 0.8
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4,
+          "rho": 1.0
+        }
+      ],
+      "acc_curve": [
+        82.48,
+        9.93,
+        9.93,
+        9.93,
+        9.93,
+        9.93
+      ],
+      "asr_curve": [
+        27.12,
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0
+      ],
+      "wp": {
+        "rho": 0.2,
+        "clean": {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4
+        },
+        "linf": {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "shift": -0.0789,
+          "shift_class": 4
+        },
+        "patch": {
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "shift": 0.0,
+          "shift_class": 0,
+          "mask_frac": NaN
+        }
+      },
+      "seconds": 26.9
+    }
+  },
+  "requester_rank": {
+    "clean_mass": {
+      "rank": 6,
+      "of": 6,
+      "value": 0.892,
+      "others_mean": 0.892,
+      "others_std": 0.0,
+      "z": null
+    },
+    "clean_shift": {
+      "rank": 6,
+      "of": 6,
+      "value": -0.0789,
+      "others_mean": -0.0789,
+      "others_std": 0.0,
+      "z": null
+    },
+    "linf_mass": {
+      "rank": 6,
+      "of": 6,
+      "value": 0.892,
+      "others_mean": 0.892,
+      "others_std": 0.0,
+      "z": null
+    },
+    "linf_shift": {
+      "rank": 6,
+      "of": 6,
+      "value": -0.0789,
+      "others_mean": -0.0789,
+      "others_std": 0.0,
+      "z": null
+    },
+    "patch_mass": {
+      "rank": 6,
+      "of": 6,
+      "value": 0.0,
+      "others_mean": 0.0,
+      "others_std": 0.0,
+      "z": null
+    },
+    "patch_shift": {
+      "rank": 6,
+      "of": 6,
+      "value": 0.0,
+      "others_mean": 0.0,
+      "others_std": 0.0,
+      "z": null
+    }
+  }
+}

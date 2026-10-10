@@ -1,0 +1,11 @@
+[loc_badfu_bnrecal] K=6 probe=500 before={'acc': 82.46, 'asr': 47.64}
+  client 0 (attacker ) snap 0.36  final changed 0.324 conc 0.15 -> 3  | δ: snap 0.34 conc 0.20 -> 3  | ASR ρ=0..1: [47.64, 0.23, 0.03, 0.0, 0.0, 0.0]
+  client 1 (benign   ) snap 0.23  final changed 0.446 conc 0.41 -> 0  | δ: snap 0.26 conc 0.39 -> 0  | ASR ρ=0..1: [47.64, 67.11, 77.34, 82.04, 83.88, 83.74]
+  client 2 (benign   ) snap 0.33  final changed 0.456 conc 0.46 -> 0  | δ: snap 0.24 conc 0.42 -> 0  | ASR ρ=0..1: [47.64, 72.31, 85.96, 90.81, 92.3, 92.8]
+  client 3 (benign   ) snap 0.25  final changed 0.434 conc 0.35 -> 0  | δ: snap 0.27 conc 0.33 -> 0  | ASR ρ=0..1: [47.64, 72.38, 86.16, 92.36, 94.9, 96.02]
+  client 4 (benign   ) snap 0.33  final changed 0.376 conc 0.32 -> 0  | δ: snap 0.40 conc 0.26 -> 0  | ASR ρ=0..1: [47.64, 73.56, 86.49, 93.7, 96.84, 98.12]
+  client 5 (requester) snap 0.27  final changed 0.346 conc 0.15 -> 3  | δ: snap 0.32 conc 0.19 -> 3  | ASR ρ=0..1: [47.64, 83.11, 93.01, 94.77, 90.67, 56.98]
+
+요청자 5 순위: snap 4/6 (z -0.61), final_mass 5/6 (z -1.65), delta_snap 3/6 (z 0.27), delta_final_mass 6/6 (z -1.49)
+-> logs/release_map/loc_badfu_bnrecal.json
+exit 0

@@ -1,0 +1,12 @@
+[loc_badfu_v3small] K=6 probe=500 before={'acc': 82.48, 'asr': 27.12}
+  모델 24개 준비 282s
+  client 0 (attacker ) ρ*=0.3  | clean mass 0.020 (chg 0.10 conc 0.21 -> 7) shift +0.015->8  | linf mass 0.032 (chg 0.20 conc 0.16 -> 2) shift +0.024->2  | patch mass 0.046 (chg 0.27 conc 0.17 -> 2) shift +0.031->2  | ASR ρ: [27.12, 1.24, 0.4, 0.28]  ACC ρ: [82.48, 82.55, 81.91, 80.56]
+  client 1 (benign   ) ρ*=0.3  | clean mass 0.052 (chg 0.17 conc 0.31 -> 5) shift +0.037->5  | linf mass 0.064 (chg 0.28 conc 0.23 -> 5) shift +0.058->5  | patch mass 0.082 (chg 0.37 conc 0.22 -> 5) shift +0.068->5  | ASR ρ: [27.12, 17.22, 11.39, 8.79]  ACC ρ: [82.48, 81.76, 79.84, 76.93]
+  client 2 (benign   ) ρ*=0.2  | clean mass 0.026 (chg 0.11 conc 0.24 -> 0) shift +0.017->3  | linf mass 0.046 (chg 0.21 conc 0.22 -> 3) shift +0.038->3  | patch mass 0.062 (chg 0.24 conc 0.26 -> 3) shift +0.050->3  | ASR ρ: [27.12, 16.59, 9.61, 6.24]  ACC ρ: [82.48, 81.77, 79.85, 76.95]
+  client 3 (benign   ) ρ*=0.3  | clean mass 0.036 (chg 0.14 conc 0.26 -> 3) shift +0.027->0  | linf mass 0.082 (chg 0.26 conc 0.31 -> 3) shift +0.057->3  | patch mass 0.094 (chg 0.36 conc 0.26 -> 3) shift +0.072->3  | ASR ρ: [27.12, 16.93, 11.0, 8.47]  ACC ρ: [82.48, 81.8, 80.04, 77.35]
+  client 4 (benign   ) ρ*=0.3  | clean mass 0.048 (chg 0.14 conc 0.34 -> 0) shift +0.046->0  | linf mass 0.078 (chg 0.27 conc 0.29 -> 0) shift +0.077->0  | patch mass 0.114 (chg 0.33 conc 0.35 -> 0) shift +0.105->0  | ASR ρ: [27.12, 21.28, 17.0, 14.92]  ACC ρ: [82.48, 81.96, 80.63, 78.36]
+  client 5 (requester) ρ*=0.3  | clean mass 0.020 (chg 0.09 conc 0.23 -> 6) shift +0.012->8  | linf mass 0.040 (chg 0.18 conc 0.22 -> 6) shift +0.027->6  | patch mass 0.060 (chg 0.26 conc 0.23 -> 6) shift +0.047->6  | ASR ρ: [27.12, 33.92, 40.32, 45.88]  ACC ρ: [82.48, 82.51, 81.72, 80.21]
+
+요청자 5 순위 (작동점): clean_mass 6/6 (z -1.33), clean_shift 6/6 (z -1.4), linf_mass 5/6 (z -1.07), linf_shift 5/6 (z -1.33), patch_mass 5/6 (z -0.82), patch_shift 5/6 (z -0.75)
+-> logs/release_map/loc_badfu_v3small.json
+exit 0

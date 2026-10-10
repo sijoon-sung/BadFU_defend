@@ -1,0 +1,34 @@
+client_data_counts = [10545, 9647, 9641, 9649, 9668, 10545]  (release_map.py --counts 에 그대로 넘긴다)
+[r00] acc=67.94 asr(dormant)=  6.19 cos(0,5)=+1.000 fc(0,5)=+0.850 cancel(0,5)=0.000
+[r01] acc=77.14 asr(dormant)=  3.90 cos(0,5)=+1.000 fc(0,5)=+0.901 cancel(0,5)=0.000
+[r02] acc=79.72 asr(dormant)=  3.87 cos(0,5)=+1.000 fc(0,5)=+0.911 cancel(0,5)=0.000
+[r03] acc=80.75 asr(dormant)=  4.52 cos(0,5)=+1.000 fc(0,5)=+0.913 cancel(0,5)=0.000
+[r04] acc=82.00 asr(dormant)=  4.44 cos(0,5)=+1.000 fc(0,5)=+0.933 cancel(0,5)=0.000
+[r05] acc=82.07 asr(dormant)=  5.44 cos(0,5)=+1.000 fc(0,5)=+0.950 cancel(0,5)=0.000
+[r06] acc=82.63 asr(dormant)=  6.23 cos(0,5)=+1.000 fc(0,5)=+0.955 cancel(0,5)=0.000
+[r07] acc=82.47 asr(dormant)= 10.72 cos(0,5)=+1.000 fc(0,5)=+0.949 cancel(0,5)=0.000
+[r08] acc=83.24 asr(dormant)=  9.81 cos(0,5)=+1.000 fc(0,5)=+0.958 cancel(0,5)=0.000
+[r09] acc=83.11 asr(dormant)= 11.23 cos(0,5)=+1.000 fc(0,5)=+0.965 cancel(0,5)=0.000
+[r10] acc=83.25 asr(dormant)= 17.64 cos(0,5)=+1.000 fc(0,5)=+0.963 cancel(0,5)=0.000
+[r11] acc=83.23 asr(dormant)= 19.46 cos(0,5)=+1.000 fc(0,5)=+0.959 cancel(0,5)=0.000
+[r12] acc=82.82 asr(dormant)= 21.42 cos(0,5)=+1.000 fc(0,5)=+0.966 cancel(0,5)=0.000
+[r13] acc=83.54 asr(dormant)= 24.72 cos(0,5)=+1.000 fc(0,5)=+0.968 cancel(0,5)=0.000
+[r14] acc=82.70 asr(dormant)= 27.14 cos(0,5)=+1.000 fc(0,5)=+0.970 cancel(0,5)=0.000
+
+===== attack (BadNet trigger + UBA-Inf camouflage) =====
+dormant theta_T : acc=82.70 asr= 27.14
+after unlearn req(c5): acc=82.64 asr= 52.20  (BadFU 주장: 점프)
+
+===== detection (active rounds) =====
+c0 [Adv-attacker      ] S_cos=+49648507.40(p1) S_fc= -33.45(p3) S_cancel=0.000(p2)
+c1 [normal            ] S_cos=+46628537.41(p3) S_fc= -32.93(p0) S_cancel=0.000(p4)
+c2 [normal            ] S_cos=+48556032.98(p3) S_fc= -31.41(p0) S_cancel=0.000(p4)
+c3 [normal            ] S_cos=+46628537.41(p1) S_fc= -33.45(p0) S_cancel=0.000(p4)
+c4 [normal            ] S_cos=+50979512.31(p1) S_fc= -12.77(p1) S_cancel=0.000(p2)
+c5 [Adv-defender(req) ] S_cos=+50340469.43(p1) S_fc= -23.91(p2) S_cancel=0.000(p2)
+
+requester(c5) dev vs normals: cos=+1.20s fc=+0.43s cancel=-2.60s
+requester most-antiparallel: cos->p1 fc->p2 (attacker=c0)
+
+saved: logs/badfu_detect.json  (3334.0s)
+exit 0

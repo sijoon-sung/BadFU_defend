@@ -1,0 +1,11 @@
+[loc_badfu_v2] K=6 probe=500 before={'acc': 82.48, 'asr': 27.12}
+  client 0 (attacker ) ρ*=0.6  clean mass 0.094 (chg 0.25 conc 0.38 -> 2)  | linf mass 0.192 (chg 0.45 conc 0.42 -> 2)  | patch mass 0.978 (chg 0.98 conc 1.00 -> 2)  | ASR ρ: [27.12, 0.4, 0.14, 0.0, 100.0, 100.0]  ACC ρ: [82.48, 81.91, 78.38, 69.89, 9.93, 9.93]
+  client 1 (benign   ) ρ*=0.6  clean mass 0.086 (chg 0.32 conc 0.27 -> 5)  | linf mass 0.192 (chg 0.51 conc 0.38 -> 4)  | patch mass 0.798 (chg 0.87 conc 0.92 -> 4)  | ASR ρ: [27.12, 11.39, 7.92, 8.18, 100.0, 100.0]  ACC ρ: [82.48, 79.84, 73.2, 64.64, 9.93, 9.93]
+  client 2 (benign   ) ρ*=0.6  clean mass 0.096 (chg 0.29 conc 0.33 -> 3)  | linf mass 0.184 (chg 0.45 conc 0.41 -> 3)  | patch mass 0.632 (chg 0.76 conc 0.83 -> 3)  | ASR ρ: [27.12, 9.61, 4.56, 4.06, 100.0, 100.0]  ACC ρ: [82.48, 79.85, 73.71, 66.08, 9.93, 9.93]
+  client 3 (benign   ) ρ*=0.4  clean mass 0.062 (chg 0.20 conc 0.32 -> 3)  | linf mass 0.106 (chg 0.36 conc 0.29 -> 3)  | patch mass 0.158 (chg 0.47 conc 0.34 -> 3)  | ASR ρ: [27.12, 11.0, 6.86, 100.0, 100.0, 100.0]  ACC ρ: [82.48, 80.04, 75.34, 9.93, 9.93, 9.93]
+  client 4 (benign   ) ρ*=0.6  clean mass 0.094 (chg 0.29 conc 0.32 -> 0)  | linf mass 0.156 (chg 0.53 conc 0.29 -> 4)  | patch mass 0.300 (chg 0.68 conc 0.44 -> 4)  | ASR ρ: [27.12, 17.0, 14.19, 16.61, 100.0, 100.0]  ACC ρ: [82.48, 80.63, 75.78, 67.08, 9.93, 9.93]
+  client 5 (requester) ρ*=0.8  clean mass 0.074 (chg 0.34 conc 0.22 -> 3)  | linf mass 0.182 (chg 0.58 conc 0.31 -> 4)  | patch mass 0.334 (chg 0.74 conc 0.45 -> 4)  | ASR ρ: [27.12, 40.32, 50.08, 53.14, 47.06, 100.0]  ACC ρ: [82.48, 81.72, 78.03, 72.13, 64.54, 9.93]
+
+요청자 5 순위 (작동점): clean 5/6 (z -0.98), linf 4/6 (z 0.49), patch 4/6 (z -0.78)
+-> logs/release_map/loc_badfu_v2.json
+exit 0

@@ -1,0 +1,793 @@
+{
+  "name": "loc_badfu_raw",
+  "fmt": "badfu",
+  "args": {
+    "fmt": "badfu",
+    "name": "loc_badfu_raw",
+    "rounds": 15,
+    "K": 8,
+    "ckpt_dir": "checkpoints",
+    "traj_dir": "C:/Users/sijoo/AppData/Local/Temp/bfu/repo-rfu/BadFU_src/BadFU-main/logs/traj_full",
+    "counts": [
+      10545,
+      9647,
+      9641,
+      9649,
+      9668,
+      10545
+    ],
+    "data_root": "C:/Users/sijoo/AppData/Local/Temp/bfu/repo-rfu/BadFU_src/BadFU-main/data",
+    "requester": 5,
+    "attackers": [
+      0
+    ],
+    "target": 0,
+    "n_classes": 10,
+    "probe": 500,
+    "rhos": [
+      0.0,
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "delta": true,
+    "eps": 0.04,
+    "pgd_steps": 30,
+    "pgd_lr": 0.005,
+    "atk_eps": 1.0,
+    "noise_thread": 0.04,
+    "clients": null,
+    "bn_recal": false,
+    "badfu_record": "C:/Users/sijoo/AppData/Local/Temp/bfu/repo-rfu/BadFU_src/BadFU-main/record/badnet_dataset",
+    "seed": 522,
+    "n_gpu": 1,
+    "out": null
+  },
+  "K": 6,
+  "rhos": [
+    0.0,
+    0.2,
+    0.4,
+    0.6,
+    0.8,
+    1.0
+  ],
+  "before": {
+    "acc": 82.48,
+    "asr": 27.12
+  },
+  "clients": {
+    "0": {
+      "curve": [
+        {
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "rho": 0.0
+        },
+        {
+          "changed": 0.094,
+          "conc": 0.2553,
+          "to_class": 3,
+          "mass": 0.024,
+          "rho": 0.2
+        },
+        {
+          "changed": 0.158,
+          "conc": 0.2658,
+          "to_class": 3,
+          "mass": 0.042,
+          "rho": 0.4
+        },
+        {
+          "changed": 0.25,
+          "conc": 0.376,
+          "to_class": 2,
+          "mass": 0.094,
+          "rho": 0.6
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.8
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 1.0
+        }
+      ],
+      "snap": 0.8946,
+      "final": {
+        "changed": 0.892,
+        "conc": 1.0,
+        "to_class": 0,
+        "mass": 0.892,
+        "rho": 1.0
+      },
+      "asr_curve": [
+        27.12,
+        0.4,
+        0.14,
+        0.0,
+        100.0,
+        100.0
+      ],
+      "delta_curve": [
+        {
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "rho": 0.0
+        },
+        {
+          "changed": 0.094,
+          "conc": 0.2553,
+          "to_class": 3,
+          "mass": 0.024,
+          "rho": 0.2
+        },
+        {
+          "changed": 0.158,
+          "conc": 0.2658,
+          "to_class": 3,
+          "mass": 0.042,
+          "rho": 0.4
+        },
+        {
+          "changed": 0.25,
+          "conc": 0.376,
+          "to_class": 2,
+          "mass": 0.094,
+          "rho": 0.6
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.8
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 1.0
+        }
+      ],
+      "delta_snap": 0.8946,
+      "delta_final": {
+        "changed": 0.892,
+        "conc": 1.0,
+        "to_class": 0,
+        "mass": 0.892,
+        "rho": 1.0
+      },
+      "seconds": 64.1,
+      "role": "attacker"
+    },
+    "1": {
+      "curve": [
+        {
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "rho": 0.0
+        },
+        {
+          "changed": 0.1,
+          "conc": 0.22,
+          "to_class": 4,
+          "mass": 0.022,
+          "rho": 0.2
+        },
+        {
+          "changed": 0.202,
+          "conc": 0.2376,
+          "to_class": 5,
+          "mass": 0.048,
+          "rho": 0.4
+        },
+        {
+          "changed": 0.316,
+          "conc": 0.2722,
+          "to_class": 5,
+          "mass": 0.086,
+          "rho": 0.6
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.8
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 1.0
+        }
+      ],
+      "snap": 0.9036,
+      "final": {
+        "changed": 0.892,
+        "conc": 1.0,
+        "to_class": 0,
+        "mass": 0.892,
+        "rho": 1.0
+      },
+      "asr_curve": [
+        27.12,
+        11.39,
+        7.92,
+        8.18,
+        100.0,
+        100.0
+      ],
+      "delta_curve": [
+        {
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "rho": 0.0
+        },
+        {
+          "changed": 0.1,
+          "conc": 0.22,
+          "to_class": 4,
+          "mass": 0.022,
+          "rho": 0.2
+        },
+        {
+          "changed": 0.202,
+          "conc": 0.2376,
+          "to_class": 5,
+          "mass": 0.048,
+          "rho": 0.4
+        },
+        {
+          "changed": 0.316,
+          "conc": 0.2722,
+          "to_class": 5,
+          "mass": 0.086,
+          "rho": 0.6
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.8
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 1.0
+        }
+      ],
+      "delta_snap": 0.9036,
+      "delta_final": {
+        "changed": 0.892,
+        "conc": 1.0,
+        "to_class": 0,
+        "mass": 0.892,
+        "rho": 1.0
+      },
+      "seconds": 58.2,
+      "role": "benign"
+    },
+    "2": {
+      "curve": [
+        {
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "rho": 0.0
+        },
+        {
+          "changed": 0.11,
+          "conc": 0.3273,
+          "to_class": 3,
+          "mass": 0.036,
+          "rho": 0.2
+        },
+        {
+          "changed": 0.188,
+          "conc": 0.3298,
+          "to_class": 3,
+          "mass": 0.062,
+          "rho": 0.4
+        },
+        {
+          "changed": 0.294,
+          "conc": 0.3265,
+          "to_class": 3,
+          "mass": 0.096,
+          "rho": 0.6
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.8
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 1.0
+        }
+      ],
+      "snap": 0.8924,
+      "final": {
+        "changed": 0.892,
+        "conc": 1.0,
+        "to_class": 0,
+        "mass": 0.892,
+        "rho": 1.0
+      },
+      "asr_curve": [
+        27.12,
+        9.61,
+        4.56,
+        4.06,
+        100.0,
+        100.0
+      ],
+      "delta_curve": [
+        {
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "rho": 0.0
+        },
+        {
+          "changed": 0.11,
+          "conc": 0.3273,
+          "to_class": 3,
+          "mass": 0.036,
+          "rho": 0.2
+        },
+        {
+          "changed": 0.188,
+          "conc": 0.3298,
+          "to_class": 3,
+          "mass": 0.062,
+          "rho": 0.4
+        },
+        {
+          "changed": 0.294,
+          "conc": 0.3265,
+          "to_class": 3,
+          "mass": 0.096,
+          "rho": 0.6
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.8
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 1.0
+        }
+      ],
+      "delta_snap": 0.8924,
+      "delta_final": {
+        "changed": 0.892,
+        "conc": 1.0,
+        "to_class": 0,
+        "mass": 0.892,
+        "rho": 1.0
+      },
+      "seconds": 61.3,
+      "role": "benign"
+    },
+    "3": {
+      "curve": [
+        {
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "rho": 0.0
+        },
+        {
+          "changed": 0.104,
+          "conc": 0.3462,
+          "to_class": 3,
+          "mass": 0.036,
+          "rho": 0.2
+        },
+        {
+          "changed": 0.196,
+          "conc": 0.3163,
+          "to_class": 3,
+          "mass": 0.062,
+          "rho": 0.4
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.6
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.8
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 1.0
+        }
+      ],
+      "snap": 0.9305,
+      "final": {
+        "changed": 0.892,
+        "conc": 1.0,
+        "to_class": 0,
+        "mass": 0.892,
+        "rho": 1.0
+      },
+      "asr_curve": [
+        27.12,
+        11.0,
+        6.86,
+        100.0,
+        100.0,
+        100.0
+      ],
+      "delta_curve": [
+        {
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "rho": 0.0
+        },
+        {
+          "changed": 0.104,
+          "conc": 0.3462,
+          "to_class": 3,
+          "mass": 0.036,
+          "rho": 0.2
+        },
+        {
+          "changed": 0.196,
+          "conc": 0.3163,
+          "to_class": 3,
+          "mass": 0.062,
+          "rho": 0.4
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.6
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.8
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 1.0
+        }
+      ],
+      "delta_snap": 0.9305,
+      "delta_final": {
+        "changed": 0.892,
+        "conc": 1.0,
+        "to_class": 0,
+        "mass": 0.892,
+        "rho": 1.0
+      },
+      "seconds": 62.2,
+      "role": "benign"
+    },
+    "4": {
+      "curve": [
+        {
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "rho": 0.0
+        },
+        {
+          "changed": 0.082,
+          "conc": 0.3415,
+          "to_class": 3,
+          "mass": 0.028,
+          "rho": 0.2
+        },
+        {
+          "changed": 0.174,
+          "conc": 0.3333,
+          "to_class": 3,
+          "mass": 0.058,
+          "rho": 0.4
+        },
+        {
+          "changed": 0.294,
+          "conc": 0.3197,
+          "to_class": 0,
+          "mass": 0.094,
+          "rho": 0.6
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.8
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 1.0
+        }
+      ],
+      "snap": 0.8946,
+      "final": {
+        "changed": 0.892,
+        "conc": 1.0,
+        "to_class": 0,
+        "mass": 0.892,
+        "rho": 1.0
+      },
+      "asr_curve": [
+        27.12,
+        17.0,
+        14.19,
+        16.61,
+        100.0,
+        100.0
+      ],
+      "delta_curve": [
+        {
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "rho": 0.0
+        },
+        {
+          "changed": 0.082,
+          "conc": 0.3415,
+          "to_class": 3,
+          "mass": 0.028,
+          "rho": 0.2
+        },
+        {
+          "changed": 0.174,
+          "conc": 0.3333,
+          "to_class": 3,
+          "mass": 0.058,
+          "rho": 0.4
+        },
+        {
+          "changed": 0.294,
+          "conc": 0.3197,
+          "to_class": 0,
+          "mass": 0.094,
+          "rho": 0.6
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 0.8
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 1.0
+        }
+      ],
+      "delta_snap": 0.8946,
+      "delta_final": {
+        "changed": 0.892,
+        "conc": 1.0,
+        "to_class": 0,
+        "mass": 0.892,
+        "rho": 1.0
+      },
+      "seconds": 62.3,
+      "role": "benign"
+    },
+    "5": {
+      "curve": [
+        {
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "rho": 0.0
+        },
+        {
+          "changed": 0.094,
+          "conc": 0.2979,
+          "to_class": 3,
+          "mass": 0.028,
+          "rho": 0.2
+        },
+        {
+          "changed": 0.174,
+          "conc": 0.2989,
+          "to_class": 3,
+          "mass": 0.052,
+          "rho": 0.4
+        },
+        {
+          "changed": 0.25,
+          "conc": 0.256,
+          "to_class": 3,
+          "mass": 0.064,
+          "rho": 0.6
+        },
+        {
+          "changed": 0.342,
+          "conc": 0.2164,
+          "to_class": 3,
+          "mass": 0.074,
+          "rho": 0.8
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 1.0
+        }
+      ],
+      "snap": 0.917,
+      "final": {
+        "changed": 0.892,
+        "conc": 1.0,
+        "to_class": 0,
+        "mass": 0.892,
+        "rho": 1.0
+      },
+      "asr_curve": [
+        27.12,
+        40.32,
+        50.08,
+        53.14,
+        47.06,
+        100.0
+      ],
+      "delta_curve": [
+        {
+          "changed": 0.0,
+          "conc": 0.0,
+          "to_class": null,
+          "mass": 0.0,
+          "rho": 0.0
+        },
+        {
+          "changed": 0.094,
+          "conc": 0.2979,
+          "to_class": 3,
+          "mass": 0.028,
+          "rho": 0.2
+        },
+        {
+          "changed": 0.174,
+          "conc": 0.2989,
+          "to_class": 3,
+          "mass": 0.052,
+          "rho": 0.4
+        },
+        {
+          "changed": 0.25,
+          "conc": 0.256,
+          "to_class": 3,
+          "mass": 0.064,
+          "rho": 0.6
+        },
+        {
+          "changed": 0.342,
+          "conc": 0.2164,
+          "to_class": 3,
+          "mass": 0.074,
+          "rho": 0.8
+        },
+        {
+          "changed": 0.892,
+          "conc": 1.0,
+          "to_class": 0,
+          "mass": 0.892,
+          "rho": 1.0
+        }
+      ],
+      "delta_snap": 0.917,
+      "delta_final": {
+        "changed": 0.892,
+        "conc": 1.0,
+        "to_class": 0,
+        "mass": 0.892,
+        "rho": 1.0
+      },
+      "seconds": 57.3,
+      "role": "requester"
+    }
+  },
+  "requester_rank": {
+    "snap": {
+      "rank": 2,
+      "of": 6,
+      "value": 0.917,
+      "others_mean": 0.9031,
+      "others_std": 0.0142,
+      "z": 0.98
+    },
+    "final_mass": {
+      "rank": 6,
+      "of": 6,
+      "value": 0.892,
+      "others_mean": 0.892,
+      "others_std": 0.0,
+      "z": null
+    },
+    "delta_snap": {
+      "rank": 2,
+      "of": 6,
+      "value": 0.917,
+      "others_mean": 0.9031,
+      "others_std": 0.0142,
+      "z": 0.98
+    },
+    "delta_final_mass": {
+      "rank": 6,
+      "of": 6,
+      "value": 0.892,
+      "others_mean": 0.892,
+      "others_std": 0.0,
+      "z": null
+    }
+  }
+}
