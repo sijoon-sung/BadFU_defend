@@ -63,3 +63,5 @@ SKIP_ATTACK=1 bash run_experiment.sh det1 det2
 - 적응형 공격자, BadFU 궤적에 대한 동일 절차 적용, 기존 방어(FUBA 저자의 Top-k·Enforce, 요청 심사, 강건 집계)와의 직접 비교는 아직 하지 않았다.
 
 잠재 위험 지도(가중치만): LATENT_RISK.md
+
+강건한 FU(정의 2: 탐지+정화를 보정 루프 안에): ROBUST_FU.md
