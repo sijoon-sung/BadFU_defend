@@ -201,7 +201,7 @@ def load_attack_result(
     save_path : the path of "attack_result.pt"
     '''
     cwd = os.getcwd()
-    load_file = torch.load(save_path)
+    load_file = torch.load(save_path, weights_only=False)  # torch>=2.6: pickled dataset state, not weights
     os.chdir(cwd)  ### For some reason, torch.load may change cwd, which is a confusing problem.
     if all(key in load_file for key in ['model_name',
         'num_classes',
