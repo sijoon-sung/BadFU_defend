@@ -102,18 +102,20 @@ def main():
         res["before"]["asr"] = score(m0)
     print(f"[sched {a.name}] K={K} sim={attack_sim.describe(a.sim)} before={res['before']}", flush=True)
 
-    # θ_T 기준 띠 (전체 예산): 남들 한 명씩 뺀 모집단, 요청 열 전체를 제외
-    def band_T(seq):
-        eng.sample[seq[0]] = [j for j in range(K) if j not in seq]
-        pop = eng.population(tT, 0, seq[0], 1.0)
+    # θ_T 기준 띠 (전체 예산). 인과적: i 번째 요청 시점에 서버가 아는 것은 '이미 처리한 요청'뿐이므로,
+    # 띠의 후보에서 뺄 수 있는 것은 (이미 뺀 사람들, 지금 요청자) 뿐이다. 미래 요청자는 모른다.
+    def band_T(r, removed):
+        pool = [j for j in range(K) if j not in removed and j != r]
+        eng.sample[r] = pool
+        pop = eng.population(tT, 0, r, 1.0)
         s_others = [pop["s"][j] for j in pop["healthy"]]
-        return pop, s_others
+        return pop, s_others, pool
 
     rng = np.random.RandomState(a.seed)
 
-    def band_n(seq, n):
-        """정상 n 명을 임의로 뺀 모델들의 통계 (θ_T 기준 ref 대비). 요청 열 전체 제외."""
-        pool = [j for j in range(K) if j not in seq]
+    def band_n(pool, n):
+        """정상 n 명을 임의로 뺀 모델들의 통계 (θ_T 기준 ref 대비). pool 은 인과적 후보."""
+        pool = list(pool)
         if n > len(pool):
             n = len(pool)
         subs, seen = [], set()
@@ -126,7 +128,6 @@ def main():
         return subs
 
     def run(seq, label):
-        popT, s_T = band_T(seq)
         band_cache = {}
         for arm in a.arms:
             t0 = time.time()
@@ -143,17 +144,19 @@ def main():
                 m_cur = eng.model(theta)
                 pk = probs(m_cur, xs)
                 z_inc, d = eng.check(pk, pop)
+                popT, s_T, pool = band_T(r, removed)
                 n_rm = len(removed) + 1
                 if a.band == "n" and n_rm > 1:
-                    if n_rm not in band_cache:
+                    bkey = (n_rm, tuple(pool))
+                    if bkey not in band_cache:
                         vals = []
-                        for sub in band_n(seq, n_rm):
+                        for sub in band_n(pool, n_rm):
                             th = tT.clone()
                             for j in sub:
                                 th = th - U[j]
                             vals.append(eng.stat_of(probs(eng.model(th), xs), popT["pr"])[a.stat])
-                        band_cache[n_rm] = vals
-                    s_band = band_cache[n_rm]
+                        band_cache[bkey] = vals
+                    s_band = band_cache[bkey]
                 else:
                     s_band = s_T
                 z_glb = robust_z(eng.stat_of(pk, popT["pr"])[a.stat], s_band, a.zmode)
