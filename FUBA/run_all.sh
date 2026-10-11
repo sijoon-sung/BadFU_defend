@@ -220,10 +220,11 @@ stage_aggregate() {           # <label> <names...>
   { has dose && [ "$DOSE_SPLIT" -gt 1 ] && have dose_fu; } && run python aggregate_dose_fu.py --cond "$label" --tag "_split${DOSE_SPLIT}_ledger"
   { { has masa && have baseline_masa; } || { has subid && have baseline_subid; }; } && run python aggregate_baselines.py --cond "$label"
   { has adaptive && ls "logs/adaptive/bd_${label}_s"*.json >/dev/null 2>&1; } && run python aggregate_adaptive.py --cond "$label"
+  { has pair && have pair_roles; }         && run python aggregate_pair_roles.py --cond "$label"
   [ "$DRY" = "1" ] && return 0
   {
     echo "# 종합 보고서: $label  (K=$K, ROUNDS=$ROUNDS, WARMUP=$WARMUP, seeds: $SEEDS)"; echo
-    for f in "logs/benign_departure/summary_${label}.md" "logs/robust_fu/summary_${label}.md" "logs/latent_risk/summary_${label}.md" "logs/release_map/summary_${label}.md" "logs/progressive_fu/summary_${label}.md" "logs/dose_fu/summary_${label}.md" "logs/dose_fu/summary_${label}_split${DOSE_SPLIT}_ledger.md" "logs/baselines/summary_${label}.md" "logs/adaptive/summary_${label}.md"; do
+    for f in "logs/benign_departure/summary_${label}.md" "logs/robust_fu/summary_${label}.md" "logs/latent_risk/summary_${label}.md" "logs/release_map/summary_${label}.md" "logs/progressive_fu/summary_${label}.md" "logs/dose_fu/summary_${label}.md" "logs/dose_fu/summary_${label}_split${DOSE_SPLIT}_ledger.md" "logs/baselines/summary_${label}.md" "logs/pair_roles/summary_${label}.md" "logs/adaptive/summary_${label}.md"; do
       [ -f "$f" ] && { echo "---"; echo "<!-- $f -->"; cat "$f"; echo; }
     done
   } > "$report"
