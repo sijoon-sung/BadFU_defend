@@ -16,6 +16,10 @@
 #   tables: paper_tables.py --cond {iid,owner}                             → docs/paper/tables_{cond}.md
 set -euo pipefail
 cd "$(dirname "$0")"
+[ -x ../.venv/Scripts/python.exe ] && export PATH="$(cd .. && pwd)/.venv/Scripts:$PATH"
+[ -d /c/Users/DISLAB/AppData/Local/Programs/Python/Python312/Library/bin ] && export PATH="/c/Users/DISLAB/AppData/Local/Programs/Python/Python312/Library/bin:$PATH"
+[ -d /c/Users/DISLAB/AppData/Local/Programs/Python/Python312 ] && export PATH="/c/Users/DISLAB/AppData/Local/Programs/Python/Python312:/c/Users/DISLAB/AppData/Local/Programs/Python/Python312/Scripts:$PATH"
+export PYTHONIOENCODING=utf-8
 RQ="${RQ:-1 2 3 4 5 6}"
 CONDS="${CONDS:-iid owner}"
 SEEDS="${SEEDS:-0 1 2}"

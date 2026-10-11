@@ -37,6 +37,8 @@
     "delta_min": 0.1,
     "sim": "",
     "margin": 0.2,
+    "mode": "ranked",
+    "patience": 2,
     "max_set": 0,
     "force": false,
     "exhaust": false,
@@ -65,8 +67,8 @@
   },
   "sim": [],
   "before": {
-    "acc": 92.68,
-    "asr": 9.82
+    "acc": 92.98,
+    "asr": 9.27
   },
   "results": {
     "4+5": {
@@ -79,76 +81,115 @@
         "benign"
       ],
       "flagged": true,
-      "a0": 0.672,
-      "z0": 17.17,
+      "a0": 0.644,
+      "z0": 17.44,
       "map": {
         "0": {
-          "a": 0.648,
-          "delta": 0.024,
+          "a": 0.634,
+          "delta": 0.01,
           "z_single": -0.05,
           "role": "carrier"
         },
         "1": {
-          "a": 0.586,
-          "delta": 0.086,
+          "a": 0.572,
+          "delta": 0.072,
           "z_single": -0.05,
           "role": "carrier"
         },
         "2": {
-          "a": 0.6,
-          "delta": 0.072,
-          "z_single": 0.05,
+          "a": 0.594,
+          "delta": 0.05,
+          "z_single": 0.0,
           "role": "carrier"
         },
         "3": {
           "a": 0.602,
-          "delta": 0.07,
-          "z_single": -0.05,
+          "delta": 0.042,
+          "z_single": 0.0,
           "role": "carrier"
         },
         "6": {
-          "a": 0.858,
-          "delta": -0.186,
-          "z_single": 1.28,
+          "a": 0.832,
+          "delta": -0.188,
+          "z_single": 1.13,
           "role": "benign"
         },
         "7": {
-          "a": 0.832,
-          "delta": -0.16,
-          "z_single": 4.95,
+          "a": 0.806,
+          "delta": -0.162,
+          "z_single": 4.27,
           "role": "benign"
         }
       },
-      "carriers": [],
+      "carriers": [
+        1,
+        2,
+        3,
+        0
+      ],
       "co_suppressors": [
         7
       ],
       "trajectory": [
         {
           "set": [],
-          "a": 0.672,
-          "z": 17.17
+          "a": 0.644,
+          "z": 17.44
+        },
+        {
+          "set": [
+            1
+          ],
+          "a": 0.572,
+          "z": 15.47
+        },
+        {
+          "set": [
+            1,
+            2
+          ],
+          "a": 0.502,
+          "z": 13.56
+        },
+        {
+          "set": [
+            1,
+            2,
+            3
+          ],
+          "a": 0.346,
+          "z": 9.29
+        },
+        {
+          "set": [
+            1,
+            2,
+            3,
+            0
+          ],
+          "a": 0.218,
+          "z": 5.79
         }
       ],
       "auroc_carrier": 1.0,
       "auroc_co_suppressor": null,
-      "carrier_precision": null,
-      "carrier_recall": 0.0,
+      "carrier_precision": 1.0,
+      "carrier_recall": 1.0,
       "eval": {
         "request_only": {
-          "acc": 28.16,
-          "retain_change": 69.53,
-          "asr": 96.12
+          "acc": 31.03,
+          "retain_change": 66.97,
+          "asr": 95.13
         },
         "request+carriers": {
-          "acc": 28.16,
-          "retain_change": 69.53,
-          "asr": 96.12
+          "acc": 49.29,
+          "retain_change": 48.23,
+          "asr": 34.88
         },
         "request+carriers+repair": null
       },
       "pop_models": 6,
-      "seconds": 0.9
+      "seconds": 0.8
     }
   }
 }
