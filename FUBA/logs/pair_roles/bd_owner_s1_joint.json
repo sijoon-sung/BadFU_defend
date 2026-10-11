@@ -1,0 +1,193 @@
+{
+  "name": "bd_owner_s1",
+  "fmt": "fuba",
+  "args": {
+    "fmt": "fuba",
+    "name": "bd_owner_s1",
+    "rounds": 8,
+    "K": 8,
+    "ckpt_dir": "checkpoints",
+    "traj_dir": null,
+    "counts": null,
+    "data_root": "./data",
+    "badfu_record": null,
+    "requesters": [
+      4,
+      5
+    ],
+    "joint": true,
+    "defender": 4,
+    "defenders": [
+      4
+    ],
+    "attackers": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "target": 8,
+    "n_classes": 10,
+    "probe": 500,
+    "cap": 0.3,
+    "tau": 3.0,
+    "m": 0,
+    "stat": "mass",
+    "zmode": "std",
+    "delta_min": 0.1,
+    "sim": "",
+    "margin": 0.2,
+    "max_set": 0,
+    "force": false,
+    "exhaust": false,
+    "repair": false,
+    "rep_steps": 50,
+    "rep_lr": 0.01,
+    "rep_bs": 128,
+    "rep_every": 0,
+    "rep_stop": 1.0,
+    "seed": 523,
+    "noise_thread": 0.04,
+    "atk_eps": 1.0,
+    "n_gpu": 1,
+    "out": null
+  },
+  "K": 8,
+  "roles": {
+    "0": "carrier",
+    "1": "carrier",
+    "2": "carrier",
+    "3": "carrier",
+    "4": "suppressor",
+    "5": "benign",
+    "6": "benign",
+    "7": "benign"
+  },
+  "sim": [],
+  "before": {
+    "acc": 92.93,
+    "asr": 7.21
+  },
+  "results": {
+    "4+5": {
+      "S": [
+        4,
+        5
+      ],
+      "roles_S": [
+        "suppressor",
+        "benign"
+      ],
+      "flagged": true,
+      "a0": 0.524,
+      "z0": 18.02,
+      "map": {
+        "0": {
+          "a": 0.44,
+          "delta": 0.084,
+          "z_single": 0.0,
+          "role": "carrier"
+        },
+        "1": {
+          "a": 0.35,
+          "delta": 0.174,
+          "z_single": 0.0,
+          "role": "carrier"
+        },
+        "2": {
+          "a": 0.418,
+          "delta": 0.106,
+          "z_single": -0.07,
+          "role": "carrier"
+        },
+        "3": {
+          "a": 0.38,
+          "delta": 0.144,
+          "z_single": -0.07,
+          "role": "carrier"
+        },
+        "6": {
+          "a": 0.766,
+          "delta": -0.242,
+          "z_single": 0.44,
+          "role": "benign"
+        },
+        "7": {
+          "a": 0.694,
+          "delta": -0.17,
+          "z_single": 12.86,
+          "role": "benign"
+        }
+      },
+      "carriers": [
+        1,
+        3,
+        0,
+        2
+      ],
+      "co_suppressors": [
+        7
+      ],
+      "trajectory": [
+        {
+          "set": [],
+          "a": 0.524,
+          "z": 18.02
+        },
+        {
+          "set": [
+            1
+          ],
+          "a": 0.35,
+          "z": 11.99
+        },
+        {
+          "set": [
+            1,
+            3
+          ],
+          "a": 0.234,
+          "z": 7.97
+        },
+        {
+          "set": [
+            1,
+            3,
+            0
+          ],
+          "a": 0.124,
+          "z": 4.16
+        },
+        {
+          "set": [
+            1,
+            3,
+            0,
+            2
+          ],
+          "a": 0.064,
+          "z": 2.08
+        }
+      ],
+      "auroc_carrier": 1.0,
+      "auroc_co_suppressor": null,
+      "carrier_precision": 1.0,
+      "carrier_recall": 1.0,
+      "eval": {
+        "request_only": {
+          "acc": 48.45,
+          "retain_change": 49.13,
+          "asr": 76.4
+        },
+        "request+carriers": {
+          "acc": 71.03,
+          "retain_change": 26.33,
+          "asr": 8.22
+        },
+        "request+carriers+repair": null
+      },
+      "pop_models": 6,
+      "seconds": 0.9
+    }
+  }
+}
