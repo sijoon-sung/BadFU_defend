@@ -75,6 +75,9 @@ def parse():
     # 손잡이
     p.add_argument("--cap", type=float, default=0.3, help="c: 남들 δ 제거의 변화(changed) 중앙값 상한")
     p.add_argument("--tau", type=float, default=3.0, help="τ: 이상 문턱 (강건 z)")
+    p.add_argument("--tau_mode", choices=["fixed", "loo"], default="fixed",
+                   help="loo: 문턱을 모집단에서 보정 — 각 멤버의 LOO z 중 최댓값 + tau_margin (라벨 없음, 같은 계산 재사용). fixed: --tau")
+    p.add_argument("--tau_margin", type=float, default=1.0)
     p.add_argument("--m", type=int, default=0, help="모집단 표본 수 (0 = 요청자 제외 전원)")
     p.add_argument("--stat", choices=["mass", "changed", "shift"], default="mass")
     p.add_argument("--zmode", choices=["std", "mad", "iqr"], default="std",
@@ -177,7 +180,8 @@ class Engine:
         if k not in self.sample:
             cand = [j for j in range(self.K) if j != k]
             if self.a.m and self.a.m < len(cand):
-                cand = sorted(self.rng.choice(cand, self.a.m, replace=False).tolist())
+                rng = np.random.RandomState(self.a.seed * 1000 + k)        # 요청자별 고정 (호출 순서·resume 에 무관)
+                cand = sorted(rng.choice(cand, self.a.m, replace=False).tolist())
             self.sample[k] = cand
         return self.sample[k]
 
@@ -275,6 +279,15 @@ class Engine:
         others = [pop["s"][j] for j in pop["healthy"]]
         z = robust_z(d[self.a.stat], others, self.a.zmode)
         return z, d
+
+    def threshold(self, pop):
+        """경보 문턱. fixed: τ. loo: 모집단 멤버 각자의 LOO z 최댓값 + margin (정상이면 이 정도까지는 흔들린다)."""
+        if getattr(self.a, "tau_mode", "fixed") != "loo":
+            return self.a.tau
+        s = pop["s"]
+        zs = [robust_z(s[j], [s[i] for i in pop["healthy"] if i != j], self.a.zmode) for j in pop["healthy"]]
+        zs = [z for z in zs if z < Z_UNDECIDABLE]
+        return (max(zs) + self.a.tau_margin) if zs else self.a.tau
 
     def repair(self, model, pop, stop):
         """부품 C."""
@@ -488,7 +501,8 @@ def main():
                         next_id += 1
                         z_cum, _ = eng.check(probs(m_k, pop_cum["xs"]), pop_cum)
                     z_eff = max([v for v in (z, z_cum) if v is not None], default=None)
-                    flagged = (z_eff is not None) and (z_eff > a.tau)
+                    tau_now = eng.threshold(pop) if pop is not None else a.tau
+                    flagged = (z_eff is not None) and (z_eff > tau_now)
                     do_rep = (arm == "always") or (arm in ("oneshot", "dose") and flagged)
                     rep_ok, rep_steps, z_after = None, 0, None
                     if do_rep:
@@ -502,7 +516,7 @@ def main():
                             "h": None if pop is None else pop["h"], "healthy_delta": healthy_ok,
                             "req_changed": round(req_chg, 4), "hard_collapse": hard_collapse,
                             "n_healthy": None if pop is None else len(pop["healthy"]), "cand": None if pop is None else pop.get("cand"),
-                            "stat": None if d is None else d[a.stat], "z": None if z is None else round(z, 2),
+                            "stat": None if d is None else d[a.stat], "z": None if z is None else round(z, 2), "tau": round(tau_now, 2),
                             "z_cum": None if z_cum is None else round(z_cum, 2),
                             "flagged": bool(flagged), "repaired": bool(do_rep), "repair_ok": rep_ok,
                             "repair_steps": rep_steps, "z_after": None if z_after is None else round(z_after, 2)}

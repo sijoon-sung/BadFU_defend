@@ -93,7 +93,7 @@ def t1(cond, L, tag=""):
                 fb = [x.get("forget", {}).get("before", {}).get("acc") for x in e]
                 ff = [x.get("forget", {}).get("final", {}).get("acc") for x in e]
                 au = [x.get("mia_req", {}).get("auroc") for x in e]
-                cells.append(f"{ms(fb)}→{ms(ff)} / {ms(au, 2)} ; 경보 {ms([x['n_flagged'] for x in e])}, 수정 {ms([x['n_repaired'] for x in e])}, 단계 {ms([x['n_steps'] for x in e])}, 모델 {ms([x['pop_models'] for x in e], 0)}")
+                cells.append(f"{ms(fb)}→{ms(ff)} / {ms(au, 2)} ; α {ms([x.get('reinjection_alpha') for x in e], 3)}, 경보 {ms([x['n_flagged'] for x in e])}, 수정 {ms([x['n_repaired'] for x in e])}, 단계 {ms([x['n_steps'] for x in e])}, 뺀 양 {ms([x.get('removed') for x in e], 2)}, 모델 {ms([x['pop_models'] for x in e], 0)}")
             L.append(f"| {arm} | " + " | ".join(cells) + " |")
     L.append("")
 
