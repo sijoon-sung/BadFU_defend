@@ -54,7 +54,7 @@ def main():
         roles = {k: runs[0]["results"][k][arms[0]]["role"] for k in reqs}
         lines += [f"## {cond}  (n={len(runs)}, 삭제 전 ASR {ms([r['before'].get('asr') for r in runs])} / ACC {ms([r['before'].get('acc') for r in runs])})", ""]
         summary[cond] = {}
-        for metric, nd in (("asr", 1), ("acc", 1), ("retain_change", 2), ("n_steps", 1), ("n_flagged", 1), ("n_repaired", 1), ("pop_models", 0), ("seconds", 0)):
+        for metric, nd in (("asr", 1), ("acc", 1), ("retain_change", 2), ("reinjection_alpha", 3), ("removed", 2), ("n_steps", 1), ("n_flagged", 1), ("n_repaired", 1), ("n_hard_collapse", 1), ("pop_models", 0), ("seconds", 0)):
             lines.append(f"### {metric}")
             lines.append("| arm | " + " | ".join(f"req {k} ({roles[k]})" for k in reqs) + " |")
             lines.append("|---|" + "---|" * len(reqs))
