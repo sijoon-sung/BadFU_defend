@@ -12,6 +12,11 @@ REM        명령만 보고 싶으면:  set DRY=1 ^& resume_local.bat
 REM  로그: logs\*.log,  결과: logs\release_map, logs\progressive_fu, logs\bench
 REM =====================================================================
 set ENV=C:\Users\sijoo\.conda\envs\pytorch
+if not exist "%ENV%" (
+  if exist "C:\Users\DISLAB\AppData\Local\Programs\Python\Python312" (
+    set "ENV=C:\Users\DISLAB\AppData\Local\Programs\Python\Python312"
+  )
+)
 set PATH=%ENV%;%ENV%\Scripts;%ENV%\Library\bin;C:\Program Files\Git\bin;%PATH%
 set PYTHONIOENCODING=utf-8
 set TEMP=%LOCALAPPDATA%\Temp
@@ -57,7 +62,7 @@ if exist logs\bench\release_map_badfu_synth.json (echo   결과 있음 - 건너�
 )
 echo === 끝. 결과 올리기:
 echo   git add FUBA/logs/release_map FUBA/logs/progressive_fu FUBA/logs/bench ^&^& git commit -m "local results" ^&^& git push
-if not defined DRY pause
+if not defined DRY if not defined NO_PAUSE pause
 exit /b 0
 
 REM ---------------------------------------------------------------------

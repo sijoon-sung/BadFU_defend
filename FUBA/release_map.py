@@ -49,6 +49,8 @@ sys.path.insert(0, HERE)
 
 RHOS_DEFAULT = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
 CIFAR_MEAN, CIFAR_STD = (0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)   # BadFU 코드와 동일
+if torch.cuda.is_available():
+    torch.backends.cudnn.benchmark = True
 
 
 # ------------------------------------------------------------------ 공통: 평탄화
@@ -105,7 +107,15 @@ def load_fuba(a):
 
 
 def load_badfu(a):
-    sys.path.insert(0, os.path.abspath(os.path.join(a.traj_dir, "..", "..")))
+    candidates = [
+        os.path.abspath(os.path.join(a.traj_dir, "..", "..")),
+        os.path.abspath(os.path.join(HERE, "..", "BadFU_src", "BadFU-main")),
+        os.path.abspath(os.path.join(os.getcwd(), "..", "BadFU_src", "BadFU-main")),
+    ]
+    for c in candidates:
+        if os.path.exists(os.path.join(c, "badfu_common.py")):
+            sys.path.insert(0, c)
+            break
     from badfu_common import ResNet18  # noqa: E402  (BadFU_src/BadFU-main/badfu_common.py)
     rounds, cms_all = [], []
     for r in range(a.rounds):
