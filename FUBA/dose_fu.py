@@ -44,8 +44,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 os.chdir(HERE)
 sys.path.insert(0, HERE)
 
-from release_map import (Ensemble, InputSpace, acc_of, cand_inputs, divergence, grid_search, kd_repair,  # noqa: E402
-                         load_badfu, load_fuba, load_probe, make_model, make_scorer, probs, shift)
+from release_map import (Ensemble, InputSpace, acc_of, cand_inputs, divergence, find_patch, grid_search,  # noqa: E402
+                         kd_repair, load_badfu, load_fuba, load_probe, make_model, make_scorer, probs, shift)
 
 ARMS = ["plain", "oneshot", "dose", "always"]
 DELTAS = [0.8, 0.6, 0.4, 0.2, 0.1]
@@ -76,11 +76,14 @@ def parse():
     p.add_argument("--zmode", choices=["std", "mad", "iqr"], default="std",
                    help="z 의 분산 추정. 기본 std. mad 는 공격자가 모집단의 절반을 넘으면(제거 효과가 거의 0 인 멤버가 다수) 깨진다")
     p.add_argument("--delta_min", type=float, default=0.1)
-    p.add_argument("--probe_mode", choices=["clean", "grid", "forget"], default="clean",
+    p.add_argument("--probe_mode", choices=["clean", "grid", "forget", "search"], default="clean",
                    help="clean: 깨끗한 탐침만. grid: 격자 패치 탐색(선택 편향 주의). "
                         "forget: 요청이 지우려는 데이터(잊을 집합)의 입력을 탐침에 더한다 — 범위를 클라이언트에서 데이터로. "
                         "위장 샘플은 트리거를 품고 있으므로 활성화가 바로 그 입력에서 드러난다 (BadFU). 모집단도 같은 입력으로 잰다")
     p.add_argument("--forget_n", type=int, default=500, help="forget 모드에서 쓰는 잊을 집합 입력 수 상한")
+    p.add_argument("--search_steps", type=int, default=60, help="search 모드: 모델만으로 '제거 뒤 답이 가장 갈리는 패치'를 기울기로 찾는 걸음 수 (데이터 불필요)")
+    p.add_argument("--search_lr", type=float, default=0.1)
+    p.add_argument("--search_lam", type=float, default=0.5, help="search 모드: 패치 크기 벌점")
     p.add_argument("--grid_sizes", type=int, nargs="+", default=[3, 5])
     p.add_argument("--grid_stride", type=int, default=8)
     p.add_argument("--sim", default="", help="attack_sim 변형 스펙 (예: split:4:3,scale:5:2.5). 적용 뒤의 인덱스로 --requesters 를 준다")
@@ -221,6 +224,15 @@ class Engine:
             best = grid_search(ref, m_k, self.xs, self.space, self.a.n_classes, self.a.grid_sizes, self.a.grid_stride)
             cand = best["cand"]
             xs_eval = torch.cat([self.xs, cand_inputs(self.xs, self.space, cand)])
+        if self.probe_mode == "search":
+            # 모델만으로: 요청자를 뺀 모델과 기준의 답이 가장 갈리는 작은 패치를 기울기로 찾아 탐침에 붙인다 (데이터·트리거 지식 없음).
+            # 요청자마다 자기 패치를 찾으므로 요청자끼리는 공정하고, 모집단은 그 패치로 재므로 요청자에게 유리한 쪽(보수적 오탐 위험)
+            m_k = self.model(theta - frac * self.U[k])
+            for prm in m_k.parameters():
+                prm.requires_grad_(False)
+            mk_, pp_, area = find_patch(ref, m_k, self.xs, self.space, self.a.search_lam, self.a.search_steps, self.a.search_lr)
+            cand = {"search_area": area}
+            xs_eval = torch.cat([self.xs, ((1 - mk_) * self.xs + mk_ * pp_).detach()])
         pk_all = {j: probs(mods[j], xs_eval) for j in mods}
         s = {}
         for j in healthy:
