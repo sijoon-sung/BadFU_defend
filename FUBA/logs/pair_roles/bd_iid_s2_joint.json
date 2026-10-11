@@ -37,6 +37,8 @@
     "delta_min": 0.1,
     "sim": "",
     "margin": 0.2,
+    "mode": "ranked",
+    "patience": 2,
     "max_set": 0,
     "force": false,
     "exhaust": false,
@@ -65,8 +67,8 @@
   },
   "sim": [],
   "before": {
-    "acc": 95.18,
-    "asr": 4.72
+    "acc": 95.26,
+    "asr": 4.56
   },
   "results": {
     "4+5": {
@@ -79,71 +81,90 @@
         "benign"
       ],
       "flagged": true,
-      "a0": 0.472,
-      "z0": 35.36,
+      "a0": 0.452,
+      "z0": 27.81,
       "map": {
         "0": {
-          "a": 0.284,
-          "delta": 0.188,
-          "z_single": 0.0,
+          "a": 0.23,
+          "delta": 0.222,
+          "z_single": -0.12,
           "role": "carrier"
         },
         "1": {
-          "a": 0.228,
-          "delta": 0.244,
-          "z_single": 0.0,
+          "a": 0.21,
+          "delta": 0.242,
+          "z_single": 0.12,
           "role": "carrier"
         },
         "2": {
-          "a": 0.212,
-          "delta": 0.26,
-          "z_single": -0.15,
+          "a": 0.21,
+          "delta": 0.242,
+          "z_single": -0.12,
           "role": "carrier"
         },
         "3": {
-          "a": 0.254,
-          "delta": 0.218,
-          "z_single": -0.15,
+          "a": 0.232,
+          "delta": 0.22,
+          "z_single": -0.24,
           "role": "carrier"
         },
         "6": {
-          "a": 0.734,
-          "delta": -0.262,
-          "z_single": 2.23,
+          "a": 0.756,
+          "delta": -0.304,
+          "z_single": 2.09,
           "role": "benign"
         },
         "7": {
-          "a": 0.752,
-          "delta": -0.28,
-          "z_single": 2.58,
+          "a": 0.77,
+          "delta": -0.318,
+          "z_single": 2.37,
           "role": "benign"
         }
       },
       "carriers": [
-        2,
-        3
+        1,
+        2
       ],
       "co_suppressors": [],
       "trajectory": [
         {
           "set": [],
-          "a": 0.472,
-          "z": 35.36
+          "a": 0.452,
+          "z": 27.81
         },
         {
           "set": [
+            1
+          ],
+          "a": 0.21,
+          "z": 12.76
+        },
+        {
+          "set": [
+            1,
             2
           ],
-          "a": 0.212,
-          "z": 15.71
+          "a": 0.062,
+          "z": 3.55
         },
         {
           "set": [
+            1,
             2,
+            0
+          ],
+          "a": 0.136,
+          "z": 8.15
+        },
+        {
+          "set": [
+            1,
+            2,
+            0,
             3
           ],
-          "a": 0.082,
-          "z": 5.89
+          "a": 0.208,
+          "z": 12.63
         }
       ],
       "auroc_carrier": 1.0,
@@ -152,14 +173,14 @@
       "carrier_recall": 0.5,
       "eval": {
         "request_only": {
-          "acc": 53.04,
-          "retain_change": 45.68,
-          "asr": 71.2
+          "acc": 56.31,
+          "retain_change": 42.14,
+          "asr": 69.02
         },
         "request+carriers": {
-          "acc": 78.08,
-          "retain_change": 19.59,
-          "asr": 14.67
+          "acc": 76.28,
+          "retain_change": 22.16,
+          "asr": 12.19
         },
         "request+carriers+repair": null
       },
