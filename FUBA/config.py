@@ -136,7 +136,7 @@ class Config:
         # Default control flags
         self.grad_simulate_train = True   # Whether to simulate gradient-based training
         self.simulate_train = True        # Whether to simulate client local training
-        self.clients_ratial = 1           # Ratio multiplier for number of clients
+        self.clients_ratial = getattr(args, 'clients_ratial', 1)   # Ratio multiplier for number of clients (--clients_ratial; 2 -> two defenders 4, 8)
         self.step_size = 0.1              # Step size for adversarial scaling
         self.num_clients *= self.clients_ratial
 
