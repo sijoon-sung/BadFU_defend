@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 """투여량 조절 연합 언러닝 (dose-controlled FU) — docs/design/DOSE_FU.md 의 구현.
 
+하나의 방법으로 두 공격 가족을 다룬다: 조금씩 빼면서(단계) → 같은 양 비교로 탐지 → 걸리면 수정.
+탐침은 '공개 입력 + 요청이 지우려는 데이터'(기본 --probe_mode forget). FUBA 류는 공개 입력에서, BadFU 류는 지우려는
+데이터에서 드러난다. 깊은 망에서는 한 번에 빼면 무너져 판단 불가가 되지만, 단계로 빼면 첫 단계에서 잡고 수정한다.
+
 요청자 k 의 저장 기여 U_k 를 '모델이 견디는 양'만큼만 빼고(상한 c), 뺄 때마다 '남들을 같은 양만큼 뺐을 때'와
 비교해(강건 z) 이상하면 남들 입력에서의 행동만 되돌린 뒤(수정), 다 뺄 때까지 반복한다.
 
@@ -76,7 +80,7 @@ def parse():
     p.add_argument("--zmode", choices=["std", "mad", "iqr"], default="std",
                    help="z 의 분산 추정. 기본 std. mad 는 공격자가 모집단의 절반을 넘으면(제거 효과가 거의 0 인 멤버가 다수) 깨진다")
     p.add_argument("--delta_min", type=float, default=0.1)
-    p.add_argument("--probe_mode", choices=["clean", "grid", "forget", "search"], default="clean",
+    p.add_argument("--probe_mode", choices=["clean", "grid", "forget", "search"], default="forget",
                    help="clean: 깨끗한 탐침만. grid: 격자 패치 탐색(선택 편향 주의). "
                         "forget: 요청이 지우려는 데이터(잊을 집합)의 입력을 탐침에 더한다 — 범위를 클라이언트에서 데이터로. "
                         "위장 샘플은 트리거를 품고 있으므로 활성화가 바로 그 입력에서 드러난다 (BadFU). 모집단도 같은 입력으로 잰다")
@@ -405,7 +409,7 @@ def main():
                 ds = bdata.cv if k == a.defender else bdata.client_sets[k]
                 idx = torch.randperm(len(ds), generator=g)[:a.forget_n].tolist()
                 forget_sets[k] = torch.stack([ds[i][0] for i in idx]).to(device)
-        print(f"[{a.name}] forget 모드: 잊을 집합 입력 " + ", ".join(f"{k}:{len(v)}" for k, v in forget_sets.items()), flush=True)
+        print(f"[{a.name}] 탐침 = 공개 입력 {len(xs)} + 잊을 집합 " + ", ".join(f"{k}:{len(v)}" for k, v in forget_sets.items()), flush=True)
 
     pieces = [1.0 / a.split] * a.split
     for k in a.requesters:
