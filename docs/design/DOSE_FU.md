@@ -120,5 +120,7 @@ K=8 전원 15 s / 표본5 7 s, K=100 전원 18 min / 표본5 47 s. 단계가 S �
 | `FUBA/baseline_masa.py` | 기준선 MASA: 라운드별 로컬 모델 복원 → 융합 → 손실 최대화 → 중앙값 편차 점수 |
 | `FUBA/baseline_subid.py` | 기준선 SubID 식: 제거 벡터·학습 갱신의 부분공간 잔차 + MAD 규칙 |
 | `FUBA/aggregate_baselines.py` | 두 기준선 요약 |
-| `FUBA/run_all.sh` | 단계 `dose masa subid` 추가 (`DOSE_SPLIT=5` 면 쪼개기 실험도) |
+| `FUBA/pair_roles.py` | 쌍→집합 역할 지도 (PAIR_ROLES.md) |
+| `FUBA/attack_sim.py`, `FUBA/schedule_fu.py`, `FUBA/aggregate_adaptive.py` | 적응형 공격 변형(학습 없음)과 순차 요청 처리기, 요약 (ATTACK_VARIANTS.md) |
+| `FUBA/run_all.sh` | 단계 `dose masa subid pair adaptive` 추가 (`DOSE_SPLIT=5` 면 쪼개기 실험도) |
 평가 표: 요청자별 ASR/ACC/retain_change/forget + 단계 수 + 표시·수정 횟수 + 가상 모델 수 + 초. 소거: c 를 바꿔 단계 수와 결과, "always" 팔(P1 위반).
