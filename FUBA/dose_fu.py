@@ -76,6 +76,7 @@ def parse():
     p.add_argument("--zmode", choices=["std", "mad"], default="std",
                    help="z 의 분산 추정. 기본 std. mad 는 공격자가 모집단의 절반을 넘으면(제거 효과가 거의 0 인 멤버가 다수) 깨진다")
     p.add_argument("--delta_min", type=float, default=0.1)
+    p.add_argument("--sim", default="", help="attack_sim 변형 스펙 (예: split:4:3,scale:5:2.5). 적용 뒤의 인덱스로 --requesters 를 준다")
     p.add_argument("--op", choices=["subtract", "kd"], default="subtract",
                    help="제거 연산자 R. subtract: θ−δU_k. kd: 빼고 나서 직전 모델을 교사로 탐침에서 짧게 증류 (KD-FU 식, 깊은 망의 빼기 잡음 완화)")
     p.add_argument("--kd_steps", type=int, default=30)
@@ -299,6 +300,12 @@ def main():
     os.makedirs(os.path.dirname(out), exist_ok=True)
 
     factory, theta_T, U, flat, bd = load_fuba(a) if a.fmt == "fuba" else load_badfu(a)
+    base_roles = {j: ("requester(defender)" if j == a.defender else ("attacker" if j in a.attackers else "benign")) for j in range(len(U))}
+    sim_log = []
+    if a.sim:
+        import attack_sim
+        U, base_roles, sim_log = attack_sim.apply(U, base_roles, a.sim)
+        print(f"[{a.name}] sim: {attack_sim.describe(a.sim)} -> K={len(U)}", flush=True)
     K = len(U)
     probe_loader, eval_loader = load_probe(a)
     xs = torch.cat([x for x, _ in probe_loader]).to(device)
@@ -320,7 +327,7 @@ def main():
         nonmem = _slice(eval_loader.dataset, a.mia_n, a.seed + 1)
         mia_fn, forget_fn = mia, forget_proxy
 
-    res = {"name": a.name, "fmt": a.fmt, "args": vars(a), "K": K, "tag": tag,
+    res = {"name": a.name, "fmt": a.fmt, "args": vars(a), "K": K, "tag": tag, "sim": sim_log, "roles": base_roles,
            "before": {"acc": acc_of(m0, eval_loader, device)}, "results": {}}
     if score is not None:
         res["before"]["asr"] = score(m0)
@@ -332,9 +339,10 @@ def main():
     pieces = [1.0 / a.split] * a.split
     for k in a.requesters:
         res["results"].setdefault(str(k), {})
-        role = "requester(defender)" if k == a.defender else ("attacker" if k in a.attackers else "benign")
-        req_loader = torch.utils.data.DataLoader(split[k], batch_size=256, shuffle=False, num_workers=0) if split is not None else None
-        mem_req = _slice(split[k], a.mia_n, a.seed + 2) if split is not None else None
+        role = base_roles.get(k, "benign")
+        has_split = split is not None and k < len(split)
+        req_loader = torch.utils.data.DataLoader(split[k], batch_size=256, shuffle=False, num_workers=0) if has_split else None
+        mem_req = _slice(split[k], a.mia_n, a.seed + 2) if has_split else None
         for arm in a.arms:
             if arm in res["results"][str(k)]:
                 continue
@@ -440,7 +448,7 @@ def main():
                      "seconds": round(time.time() - t0, 1), "trace": trace}
             if score is not None:
                 final["asr"] = score(m_k)
-            if split is not None:
+            if has_split:
                 sd_k = m_k.state_dict()
                 final["forget"] = {"final": forget_fn(sd_k, req_loader, device), "before": forget_fn(theta_T, req_loader, device)}
                 n_req = mem_req[0].size(0)

@@ -69,6 +69,7 @@ def parse():
     p.add_argument("--stat", choices=["mass", "changed", "shift"], default="mass")
     p.add_argument("--zmode", choices=["std", "mad"], default="std")
     p.add_argument("--delta_min", type=float, default=0.1)
+    p.add_argument("--sim", default="", help="attack_sim 변형 스펙 (예: split:0:3,split:1:3). 조각은 역할을 상속")
     p.add_argument("--margin", type=float, default=0.2, help="한 명 더 빼서 활성화가 이 비율 이상 줄어야 운반자로 추가; 이 비율 이상 늘면 공동 위장자")
     p.add_argument("--max_set", type=int, default=0, help="운반자 집합 최대 크기 (0 = K−|S|−1)")
     p.add_argument("--force", action="store_true", help="표시 안 된(정상) 요청에도 탐욕 선택을 돌린다")
@@ -107,6 +108,12 @@ def main():
     os.makedirs(os.path.dirname(out), exist_ok=True)
 
     factory, theta_T, U, flat, bd = load_fuba(a) if a.fmt == "fuba" else load_badfu(a)
+    role = {j: ("suppressor" if j in a.defenders else ("carrier" if j in a.attackers else "benign")) for j in range(len(U))}
+    sim_log = []
+    if a.sim:
+        import attack_sim
+        U, role, sim_log = attack_sim.apply(U, role, a.sim)
+        print(f"[pair {a.name}] sim: {attack_sim.describe(a.sim)} -> K={len(U)}", flush=True)
     K = len(U)
     probe_loader, eval_loader = load_probe(a)
     xs = torch.cat([x for x, _ in probe_loader]).to(device)
@@ -114,9 +121,8 @@ def main():
     m0 = make_model(factory, theta_T, device)
     score = make_scorer(a, bd, eval_loader, device)
     eng = Engine(a, factory, flat, U, xs, device)
-    role = {j: ("suppressor" if j in a.defenders else ("carrier" if j in a.attackers else "benign")) for j in range(K)}
 
-    res = {"name": a.name, "fmt": a.fmt, "args": vars(a), "K": K, "roles": role,
+    res = {"name": a.name, "fmt": a.fmt, "args": vars(a), "K": K, "roles": role, "sim": sim_log,
            "before": {"acc": acc_of(m0, eval_loader, device)}, "results": {}}
     if score is not None:
         res["before"]["asr"] = score(m0)
@@ -183,22 +189,22 @@ def main():
             popA = eng.population(theta, 99, S[0], 1.0)
             eng.repair(m_A, popA, a.rep_stop)
             e_R, _ = evalm(flat.flatten(m_A.state_dict()))
-        carriers_true = [j for j in others if role[j] == "carrier"]
-        benign_true = [j for j in others if role[j] == "benign"]
-        supp_true = [j for j in others if role[j] == "suppressor"]
+        carriers_true = [j for j in others if role[j].startswith("carrier")]
+        benign_true = [j for j in others if role[j].startswith("benign")]
+        supp_true = [j for j in others if role[j].startswith("suppressor")]
         r = {"S": S, "roles_S": [role[s_] for s_ in S], "flagged": bool(flagged), "a0": round(a0, 4), "z0": round(z0, 2),
              "map": {j: {"a": round(amap[j], 4), "delta": round(delta[j], 4), "z_single": None if j not in z_single else round(z_single[j], 2), "role": role[j]} for j in others},
              "carriers": A, "co_suppressors": C, "trajectory": traj,
              "auroc_carrier": auroc_list([delta[j] for j in carriers_true], [delta[j] for j in benign_true]),
              "auroc_co_suppressor": auroc_list([z_single.get(j, 0.0) for j in supp_true], [z_single.get(j, 0.0) for j in benign_true]) if supp_true else None,
-             "carrier_precision": (len([j for j in A if role[j] == "carrier"]) / len(A)) if A else None,
-             "carrier_recall": (len([j for j in A if role[j] == "carrier"]) / len(carriers_true)) if carriers_true else None,
+             "carrier_precision": (len([j for j in A if role[j].startswith("carrier")]) / len(A)) if A else None,
+             "carrier_recall": (len([j for j in A if role[j].startswith("carrier")]) / len(carriers_true)) if carriers_true else None,
              "eval": {"request_only": e_S, "request+carriers": e_A, "request+carriers+repair": e_R},
              "pop_models": eng.n_pop_models, "seconds": round(time.time() - t0, 1)}
         res["results"][key] = r
         with open(out, "w", encoding="utf-8") as f:
             json.dump(res, f, ensure_ascii=False, indent=2)
-        mp = " ".join(f"{j}{'c' if role[j] == 'carrier' else ('s' if role[j] == 'suppressor' else '')}:{delta[j]:+.3f}/z{z_single.get(j, 0.0):+.1f}" for j in others)
+        mp = " ".join(f"{j}{'c' if role[j].startswith('carrier') else ('s' if role[j].startswith('suppressor') else '')}:{delta[j]:+.3f}/z{z_single.get(j, 0.0):+.1f}" for j in others)
         print(f"[pair {a.name}{tag}] S={S} ({','.join(r['roles_S'])}) a0={a0:.3f} z0={z0:+.1f}{'!' if flagged else ''} | map Δ: {mp}", flush=True)
         print(f"    carriers A={A} (prec {r['carrier_precision']}, rec {r['carrier_recall']}), co-suppressors C={C}, "
               f"ASR/ACC: request {e_S.get('asr')}/{e_S['acc']} -> +carriers {e_A.get('asr')}/{e_A['acc']}"

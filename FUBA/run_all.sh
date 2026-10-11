@@ -12,6 +12,7 @@
 #   masa      기준선 MASA: 학습 중 라운드별 언러닝 손실 편차 (baseline_masa.py)   -> logs/baseline_masa/{NAME}.json
 #   subid     기준선 SubID 식 부분공간 편차 (baseline_subid.py)                 -> logs/baseline_subid/{NAME}.json
 #   pair      쌍→집합: 표시된 요청의 운반자 집합·공동 위장자 (pair_roles.py)     -> logs/pair_roles/{NAME}.json
+#   adaptive  적응형 공격 5 종 (학습 없이 저장 갱신 변형: attack_sim.py)           -> logs/adaptive/{NAME}_*.json, logs/dose_fu/{NAME}_split10_ledger.json, logs/pair_roles/{NAME}_distcarr.json
 #   aggregate 조건별 평균±표준편차 + 종합 보고서           -> logs/*/summary_{cond}.md, logs/pipeline/REPORT_{cond}.md
 #
 # 사용법 (FUBA 폴더에서)
@@ -40,7 +41,7 @@ export PYTHONIOENCODING=utf-8
 
 CONDS="${CONDS:-owner iid}"
 SEEDS="${SEEDS:-0 1 2}"
-STAGES="${STAGES:-attack benign robust latent release progressive dose masa subid pair aggregate}"
+STAGES="${STAGES:-attack benign robust latent release progressive dose masa subid pair adaptive aggregate}"
 K="${K:-8}"
 ROUNDS="${ROUNDS:-8}"
 WARMUP="${WARMUP:-3}"
@@ -60,6 +61,7 @@ DOSE_SPLIT="${DOSE_SPLIT:-0}"                         # >1 이면 쪼개기 공�
 MASA_EXTRA="${MASA_EXTRA:-}"
 SUBID_EXTRA="${SUBID_EXTRA:-}"
 PAIR_EXTRA="${PAIR_EXTRA:-}"                          # 예: PAIR_EXTRA="--exhaust --repair"
+ADAPT_EXTRA="${ADAPT_EXTRA:-}"                        # dose_fu/schedule_fu/pair_roles 공통 추가 인자 (예: --cap 0.3)
 
 export ROUNDS WARMUP   # run_real_fuba.sh 가 읽는다
 mkdir -p logs/pipeline
@@ -178,6 +180,31 @@ stage_pair() {                # <name> <seed>  — 쌍→집합 역할 지도 (�
   fi
 }
 
+stage_adaptive() {            # <name> <seed>  — 적응형 공격 5 종. K=8 기준: 위장자 4 의 조각은 8, 9 로 붙는다
+  local name="$1" seed="$2"
+  local common=(--fmt fuba --name "$name" --K "$K" --rounds "$ROUNDS" --seed "$seed" --defender "$DEFENDER" --attackers 0 1 2 3)
+  # a. 요청 쪼개기 10 조각 + 누적 장부
+  if [ "$FORCE" = "1" ] || [ ! -f "logs/dose_fu/${name}_split10_ledger.json" ]; then
+    run_log "logs/pipeline/${name}.adapt_split.log" python dose_fu.py "${common[@]}" --split_seed "$seed" "${NI[@]}"       --requesters "$DEFENDER" $((K - 1)) --split 10 --ledger --arms oneshot dose $ADAPT_EXTRA --resume
+  fi
+  # b. 위장자 분산: 4 를 3 조각(4, K, K+1)으로, 순차 요청. 정상 열 (K-1, 5, 6) 대조
+  if [ "$FORCE" = "1" ] || [ ! -f "logs/adaptive/${name}_distsupp.json" ]; then
+    run_log "logs/pipeline/${name}.adapt_distsupp.log" python schedule_fu.py "${common[@]}" --sim "split:${DEFENDER}:3"       --requests "$DEFENDER" "$K" $((K + 1)) --control $((K - 1)) 5 6 --tag distsupp $ADAPT_EXTRA
+  fi
+  # c. 모집단 오염: 정상 3 명(5, 6, K-1) 기여 ×2.5
+  if [ "$FORCE" = "1" ] || [ ! -f "logs/adaptive/${name}_decoy.json" ]; then
+    run_log "logs/pipeline/${name}.adapt_decoy.log" python dose_fu.py "${common[@]}" --split_seed "$seed" "${NI[@]}"       --sim "scale:5:2.5,scale:6:2.5,scale:$((K - 1)):2.5" --requesters "$DEFENDER" --arms oneshot $ADAPT_EXTRA       --out "logs/adaptive/${name}_decoy.json"
+  fi
+  # g. 기준 오염: 정상 3 명 기여에 위장자 기여 0.3 배
+  if [ "$FORCE" = "1" ] || [ ! -f "logs/adaptive/${name}_refpoison.json" ]; then
+    run_log "logs/pipeline/${name}.adapt_refpoison.log" python dose_fu.py "${common[@]}" --split_seed "$seed" "${NI[@]}"       --sim "dir:5:${DEFENDER}:0.3,dir:6:${DEFENDER}:0.3,dir:$((K - 1)):${DEFENDER}:0.3" --requesters "$DEFENDER" --arms oneshot $ADAPT_EXTRA       --out "logs/adaptive/${name}_refpoison.json"
+  fi
+  # i. 운반자 분산: 0–3 을 각 3 조각
+  if [ "$FORCE" = "1" ] || [ ! -f "logs/pair_roles/${name}_distcarr.json" ]; then
+    run_log "logs/pipeline/${name}.adapt_distcarr.log" python pair_roles.py "${common[@]}" --sim "split:0:3,split:1:3,split:2:3,split:3:3"       --requesters "$DEFENDER" --exhaust $PAIR_EXTRA $ADAPT_EXTRA --out "logs/pair_roles/${name}_distcarr.json"
+  fi
+}
+
 stage_aggregate() {           # <label> <names...>
   local label="$1"; shift
   local names=("$@") report="logs/pipeline/REPORT_${label}.md"
@@ -191,10 +218,11 @@ stage_aggregate() {           # <label> <names...>
   { has dose && have dose_fu; }            && run python aggregate_dose_fu.py --cond "$label"
   { has dose && [ "$DOSE_SPLIT" -gt 1 ] && have dose_fu; } && run python aggregate_dose_fu.py --cond "$label" --tag "_split${DOSE_SPLIT}_ledger"
   { { has masa && have baseline_masa; } || { has subid && have baseline_subid; }; } && run python aggregate_baselines.py --cond "$label"
+  { has adaptive && ls "logs/adaptive/bd_${label}_s"*.json >/dev/null 2>&1; } && run python aggregate_adaptive.py --cond "$label"
   [ "$DRY" = "1" ] && return 0
   {
     echo "# 종합 보고서: $label  (K=$K, ROUNDS=$ROUNDS, WARMUP=$WARMUP, seeds: $SEEDS)"; echo
-    for f in "logs/benign_departure/summary_${label}.md" "logs/robust_fu/summary_${label}.md" "logs/latent_risk/summary_${label}.md" "logs/release_map/summary_${label}.md" "logs/progressive_fu/summary_${label}.md" "logs/dose_fu/summary_${label}.md" "logs/dose_fu/summary_${label}_split${DOSE_SPLIT}_ledger.md" "logs/baselines/summary_${label}.md"; do
+    for f in "logs/benign_departure/summary_${label}.md" "logs/robust_fu/summary_${label}.md" "logs/latent_risk/summary_${label}.md" "logs/release_map/summary_${label}.md" "logs/progressive_fu/summary_${label}.md" "logs/dose_fu/summary_${label}.md" "logs/dose_fu/summary_${label}_split${DOSE_SPLIT}_ledger.md" "logs/baselines/summary_${label}.md" "logs/adaptive/summary_${label}.md"; do
       [ -f "$f" ] && { echo "---"; echo "<!-- $f -->"; cat "$f"; echo; }
     done
   } > "$report"
@@ -220,9 +248,10 @@ for COND in $CONDS; do
     has masa && stage_masa "$NAME" "$SEED"
     has subid && stage_subid "$NAME" "$SEED"
     has pair && stage_pair "$NAME" "$SEED"
+    has adaptive && stage_adaptive "$NAME" "$SEED"
     sleep 2
   done
   if has aggregate; then echo; echo "==== [$COND] 집계"; stage_aggregate "$LABEL" "${NAMES[@]}"; fi
 done
 echo
-echo "== 끝. 올릴 것: git add FUBA/logs/benign_departure FUBA/logs/robust_fu FUBA/logs/latent_risk FUBA/logs/release_map FUBA/logs/progressive_fu FUBA/logs/dose_fu FUBA/logs/baseline_masa FUBA/logs/baseline_subid FUBA/logs/baselines FUBA/logs/pair_roles FUBA/logs/pipeline"
+echo "== 끝. 올릴 것: git add FUBA/logs/benign_departure FUBA/logs/robust_fu FUBA/logs/latent_risk FUBA/logs/release_map FUBA/logs/progressive_fu FUBA/logs/dose_fu FUBA/logs/baseline_masa FUBA/logs/baseline_subid FUBA/logs/baselines FUBA/logs/pair_roles FUBA/logs/adaptive FUBA/logs/pipeline"
