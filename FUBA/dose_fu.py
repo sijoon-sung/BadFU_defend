@@ -84,6 +84,7 @@ def parse():
     p.add_argument("--search_steps", type=int, default=60, help="search 모드: 모델만으로 '제거 뒤 답이 가장 갈리는 패치'를 기울기로 찾는 걸음 수 (데이터 불필요)")
     p.add_argument("--search_lr", type=float, default=0.1)
     p.add_argument("--search_lam", type=float, default=0.5, help="search 모드: 패치 크기 벌점")
+    p.add_argument("--search_n", type=int, default=128, help="search 모드: 패치를 찾을 때 쓰는 탐침 수 (메모리; 찾은 패치는 탐침 전체에 붙인다)")
     p.add_argument("--grid_sizes", type=int, nargs="+", default=[3, 5])
     p.add_argument("--grid_stride", type=int, default=8)
     p.add_argument("--sim", default="", help="attack_sim 변형 스펙 (예: split:4:3,scale:5:2.5). 적용 뒤의 인덱스로 --requesters 를 준다")
@@ -230,7 +231,8 @@ class Engine:
             m_k = self.model(theta - frac * self.U[k])
             for prm in m_k.parameters():
                 prm.requires_grad_(False)
-            mk_, pp_, area = find_patch(ref, m_k, self.xs, self.space, self.a.search_lam, self.a.search_steps, self.a.search_lr)
+            mk_, pp_, area = find_patch(ref, m_k, self.xs[:self.a.search_n], self.space, self.a.search_lam, self.a.search_steps, self.a.search_lr)
+            torch.cuda.empty_cache() if torch.cuda.is_available() else None
             cand = {"search_area": area}
             xs_eval = torch.cat([self.xs, ((1 - mk_) * self.xs + mk_ * pp_).detach()])
         pk_all = {j: probs(mods[j], xs_eval) for j in mods}
