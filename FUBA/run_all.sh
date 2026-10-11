@@ -50,6 +50,8 @@ OWNER_CLASS="${OWNER_CLASS:-3}"
 DEFENDER="${DEFENDER:-4}"
 FORCE="${FORCE:-0}"
 DRY="${DRY:-0}"
+TAG="${TAG:-}"                                         # 결과 이름 접미사: bd_{label}{TAG}_s{seed} (집계 방어 변형, 소거)
+ATTACK_EXTRA="${ATTACK_EXTRA:-}"                       # 궤적 생성 추가 인자 (예: --median, --flame)
 # 단계별 추가 인자 (예: ROBUST_EXTRA="--eps 0.04 --flag_thr 0.5", BENIGN_METHODS="subtract distillation fedEraser")
 BENIGN_METHODS="${BENIGN_METHODS:-subtract distillation fedEraser retrain_benign retrain_attack}"
 ROBUST_ARMS="${ROBUST_ARMS:-plain purify_flag purify_always purify_clean}"
@@ -91,7 +93,7 @@ cond_args() {                 # cond_args <cond> -> 전역 배열 NI (파이썬/
   esac
 }
 cond_label() {                # 결과 파일 접두사: bd_{label}_s{seed}. 기본 설정(8라운드/웜업3)은 기존 이름과 호환
-  if [ "$ROUNDS" = "8" ] && [ "$WARMUP" = "3" ]; then echo "$1"; else echo "${1}_r${ROUNDS}w${WARMUP}"; fi
+  if [ "$ROUNDS" = "8" ] && [ "$WARMUP" = "3" ]; then echo "${1}${TAG}"; else echo "${1}_r${ROUNDS}w${WARMUP}${TAG}"; fi
 }
 
 # ---------------------------------------------------------------- stages
