@@ -1,0 +1,1539 @@
+{
+  "name": "bd_owner_s2",
+  "fmt": "fuba",
+  "args": {
+    "fmt": "fuba",
+    "name": "bd_owner_s2",
+    "rounds": 8,
+    "K": 8,
+    "ckpt_dir": "checkpoints",
+    "traj_dir": null,
+    "counts": null,
+    "data_root": "./data",
+    "badfu_record": null,
+    "requesters": [
+      4,
+      7,
+      5
+    ],
+    "defender": 4,
+    "attackers": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "target": 8,
+    "n_classes": 10,
+    "probe": 500,
+    "rhos": [
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "cap": 0.5,
+    "tau": 3.0,
+    "stat": "mass",
+    "arms": [
+      "plain",
+      "end",
+      "progressive",
+      "always"
+    ],
+    "delta_mode": "none",
+    "grid_sizes": [
+      3,
+      5
+    ],
+    "grid_stride": 8,
+    "pur_steps": 50,
+    "pur_lr": 0.01,
+    "pur_bs": 128,
+    "mia_n": 1000,
+    "seed": 524,
+    "split_seed": 524,
+    "non_iid": true,
+    "non_iid_type": "class_owner",
+    "alpha": 1,
+    "sigma": 1,
+    "shift_ratio": 0.4,
+    "owner_client": -1,
+    "owner_class": 3,
+    "owner_frac": 0.9,
+    "train_epoch": 100,
+    "batch_size": 64,
+    "noise_thread": 0.04,
+    "atk_eps": 1.0,
+    "n_gpu": 1,
+    "out": null,
+    "resume": true
+  },
+  "K": 8,
+  "before": {
+    "acc": 90.99,
+    "asr": 8.53
+  },
+  "results": {
+    "4": {
+      "plain": {
+        "acc": 68.01,
+        "retain_change": 26.78,
+        "n_flagged": 3,
+        "n_purified": 0,
+        "trace": [
+          {
+            "rho": 0.2,
+            "mass": 0.038,
+            "shift": 0.036,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0069,
+            "others_std": 0.012,
+            "z": 2.6,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 89.13,
+            "asr": 12.46
+          },
+          {
+            "rho": 0.4,
+            "mass": 0.08,
+            "shift": 0.0784,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0126,
+            "others_std": 0.0235,
+            "z": 2.87,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 85.88,
+            "asr": 18.61
+          },
+          {
+            "rho": 0.6,
+            "mass": 0.144,
+            "shift": 0.1232,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0186,
+            "others_std": 0.0277,
+            "z": 4.52,
+            "flagged": true,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 81.4,
+            "asr": 26.49
+          },
+          {
+            "rho": 0.8,
+            "mass": 0.202,
+            "shift": 0.1642,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.032,
+            "others_std": 0.0427,
+            "z": 3.98,
+            "flagged": true,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 75.64,
+            "asr": 36.62
+          },
+          {
+            "rho": 1.0,
+            "mass": 0.306,
+            "shift": 0.1965,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0389,
+            "others_std": 0.058,
+            "z": 4.61,
+            "flagged": true,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 68.01,
+            "asr": 48.13
+          }
+        ],
+        "seconds": 1.2,
+        "role": "requester(defender)",
+        "asr": 48.13,
+        "forget": {
+          "final": {
+            "loss": 0.8195,
+            "acc": 73.69
+          },
+          "before": {
+            "loss": 0.2234,
+            "acc": 93.95
+          }
+        },
+        "mia_req": {
+          "auroc": 0.5266,
+          "member_rate": 0.059,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.8216,
+          "mean_loss_nonmember": 0.9296
+        }
+      },
+      "end": {
+        "acc": 87.77,
+        "retain_change": 5.72,
+        "n_flagged": 3,
+        "n_purified": 1,
+        "trace": [
+          {
+            "rho": 0.2,
+            "mass": 0.038,
+            "shift": 0.036,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0069,
+            "others_std": 0.012,
+            "z": 2.6,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 89.13,
+            "asr": 12.46
+          },
+          {
+            "rho": 0.4,
+            "mass": 0.08,
+            "shift": 0.0784,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0126,
+            "others_std": 0.0235,
+            "z": 2.87,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 85.88,
+            "asr": 18.61
+          },
+          {
+            "rho": 0.6,
+            "mass": 0.144,
+            "shift": 0.1232,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0186,
+            "others_std": 0.0277,
+            "z": 4.52,
+            "flagged": true,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 81.4,
+            "asr": 26.49
+          },
+          {
+            "rho": 0.8,
+            "mass": 0.202,
+            "shift": 0.1642,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.032,
+            "others_std": 0.0427,
+            "z": 3.98,
+            "flagged": true,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 75.64,
+            "asr": 36.62
+          },
+          {
+            "rho": 1.0,
+            "mass": 0.306,
+            "shift": 0.1965,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0389,
+            "others_std": 0.058,
+            "z": 4.61,
+            "flagged": true,
+            "purified": true,
+            "purify_ok": true,
+            "after": {
+              "changed": 0.046,
+              "conc": 0.2174,
+              "to_class": 9,
+              "mass": 0.01,
+              "shift": 0.0131,
+              "shift_class": 8
+            },
+            "acc": 87.77,
+            "asr": 9.79
+          }
+        ],
+        "seconds": 1.2,
+        "role": "requester(defender)",
+        "asr": 9.79,
+        "forget": {
+          "final": {
+            "loss": 0.3962,
+            "acc": 89.77
+          },
+          "before": {
+            "loss": 0.2234,
+            "acc": 93.95
+          }
+        },
+        "mia_req": {
+          "auroc": 0.5145,
+          "member_rate": 0.055,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.3906,
+          "mean_loss_nonmember": 0.4386
+        }
+      },
+      "progressive": {
+        "acc": 83.59,
+        "retain_change": 9.23,
+        "n_flagged": 1,
+        "n_purified": 1,
+        "trace": [
+          {
+            "rho": 0.2,
+            "mass": 0.038,
+            "shift": 0.036,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0069,
+            "others_std": 0.012,
+            "z": 2.6,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 89.13,
+            "asr": 12.46
+          },
+          {
+            "rho": 0.4,
+            "mass": 0.08,
+            "shift": 0.0784,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0126,
+            "others_std": 0.0235,
+            "z": 2.87,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 85.88,
+            "asr": 18.61
+          },
+          {
+            "rho": 0.6,
+            "mass": 0.144,
+            "shift": 0.1232,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0186,
+            "others_std": 0.0277,
+            "z": 4.52,
+            "flagged": true,
+            "purified": true,
+            "purify_ok": true,
+            "after": {
+              "changed": 0.03,
+              "conc": 0.4,
+              "to_class": 8,
+              "mass": 0.012,
+              "shift": 0.014,
+              "shift_class": 8
+            },
+            "acc": 89.41,
+            "asr": 9.91
+          },
+          {
+            "rho": 0.8,
+            "mass": 0.042,
+            "shift": 0.0492,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.032,
+            "others_std": 0.0427,
+            "z": 0.23,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 87.06,
+            "asr": 14.52
+          },
+          {
+            "rho": 1.0,
+            "mass": 0.104,
+            "shift": 0.0875,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0389,
+            "others_std": 0.058,
+            "z": 1.12,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 83.59,
+            "asr": 21.25
+          }
+        ],
+        "seconds": 1.1,
+        "role": "requester(defender)",
+        "asr": 21.25,
+        "forget": {
+          "final": {
+            "loss": 0.5146,
+            "acc": 86.83
+          },
+          "before": {
+            "loss": 0.2234,
+            "acc": 93.95
+          }
+        },
+        "mia_req": {
+          "auroc": 0.5196,
+          "member_rate": 0.053,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.5121,
+          "mean_loss_nonmember": 0.5805
+        }
+      },
+      "always": {
+        "acc": 89.67,
+        "retain_change": 4.03,
+        "n_flagged": 0,
+        "n_purified": 5,
+        "trace": [
+          {
+            "rho": 0.2,
+            "mass": 0.038,
+            "shift": 0.036,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0069,
+            "others_std": 0.012,
+            "z": 2.6,
+            "flagged": false,
+            "purified": true,
+            "purify_ok": true,
+            "after": {
+              "changed": 0.008,
+              "conc": 0.5,
+              "to_class": 5,
+              "mass": 0.004,
+              "shift": 0.0016,
+              "shift_class": 7
+            },
+            "acc": 90.78,
+            "asr": 8.11
+          },
+          {
+            "rho": 0.4,
+            "mass": 0.02,
+            "shift": 0.0321,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0126,
+            "others_std": 0.0235,
+            "z": 0.32,
+            "flagged": false,
+            "purified": true,
+            "purify_ok": true,
+            "after": {
+              "changed": 0.006,
+              "conc": 0.3333,
+              "to_class": 5,
+              "mass": 0.002,
+              "shift": 0.0017,
+              "shift_class": 5
+            },
+            "acc": 90.42,
+            "asr": 8.24
+          },
+          {
+            "rho": 0.6,
+            "mass": 0.022,
+            "shift": 0.032,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0186,
+            "others_std": 0.0277,
+            "z": 0.12,
+            "flagged": false,
+            "purified": true,
+            "purify_ok": true,
+            "after": {
+              "changed": 0.012,
+              "conc": 0.1667,
+              "to_class": 2,
+              "mass": 0.002,
+              "shift": 0.0019,
+              "shift_class": 5
+            },
+            "acc": 89.96,
+            "asr": 8.31
+          },
+          {
+            "rho": 0.8,
+            "mass": 0.024,
+            "shift": 0.0318,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.032,
+            "others_std": 0.0427,
+            "z": -0.19,
+            "flagged": false,
+            "purified": true,
+            "purify_ok": true,
+            "after": {
+              "changed": 0.01,
+              "conc": 0.2,
+              "to_class": 2,
+              "mass": 0.002,
+              "shift": 0.0022,
+              "shift_class": 9
+            },
+            "acc": 89.75,
+            "asr": 8.08
+          },
+          {
+            "rho": 1.0,
+            "mass": 0.024,
+            "shift": 0.0292,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0389,
+            "others_std": 0.058,
+            "z": -0.26,
+            "flagged": false,
+            "purified": true,
+            "purify_ok": true,
+            "after": {
+              "changed": 0.016,
+              "conc": 0.25,
+              "to_class": 3,
+              "mass": 0.004,
+              "shift": 0.0054,
+              "shift_class": 2
+            },
+            "acc": 89.67,
+            "asr": 7.38
+          }
+        ],
+        "seconds": 1.8,
+        "role": "requester(defender)",
+        "asr": 7.38,
+        "forget": {
+          "final": {
+            "loss": 0.3403,
+            "acc": 91.7
+          },
+          "before": {
+            "loss": 0.2234,
+            "acc": 93.95
+          }
+        },
+        "mia_req": {
+          "auroc": 0.5139,
+          "member_rate": 0.054,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.3324,
+          "mean_loss_nonmember": 0.3866
+        }
+      }
+    },
+    "7": {
+      "plain": {
+        "acc": 78.14,
+        "retain_change": 15.97,
+        "n_flagged": 0,
+        "n_purified": 0,
+        "trace": [
+          {
+            "rho": 0.2,
+            "mass": 0.036,
+            "shift": 0.0294,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0071,
+            "others_std": 0.0127,
+            "z": 2.27,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 86.81,
+            "asr": 13.75
+          },
+          {
+            "rho": 0.4,
+            "mass": 0.07,
+            "shift": 0.06,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.014,
+            "others_std": 0.027,
+            "z": 2.08,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 83.85,
+            "asr": 18.02
+          },
+          {
+            "rho": 0.6,
+            "mass": 0.086,
+            "shift": 0.0927,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0269,
+            "others_std": 0.0479,
+            "z": 1.23,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 82.45,
+            "asr": 21.61
+          },
+          {
+            "rho": 0.8,
+            "mass": 0.136,
+            "shift": 0.1311,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0414,
+            "others_std": 0.0657,
+            "z": 1.44,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 81.04,
+            "asr": 26.62
+          },
+          {
+            "rho": 1.0,
+            "mass": 0.18,
+            "shift": 0.1777,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0569,
+            "others_std": 0.1019,
+            "z": 1.21,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 78.14,
+            "asr": 34.15
+          }
+        ],
+        "seconds": 0.8,
+        "role": "benign",
+        "asr": 34.15,
+        "forget": {
+          "final": {
+            "loss": 4.1506,
+            "acc": 47.16
+          },
+          "before": {
+            "loss": 0.6349,
+            "acc": 78.26
+          }
+        },
+        "mia_req": {
+          "auroc": 0.3129,
+          "member_rate": 0.026,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 4.1547,
+          "mean_loss_nonmember": 1.26
+        }
+      },
+      "end": {
+        "acc": 90.56,
+        "retain_change": 2.43,
+        "n_flagged": 0,
+        "n_purified": 1,
+        "trace": [
+          {
+            "rho": 0.2,
+            "mass": 0.036,
+            "shift": 0.0294,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0071,
+            "others_std": 0.0127,
+            "z": 2.27,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 86.81,
+            "asr": 13.75
+          },
+          {
+            "rho": 0.4,
+            "mass": 0.07,
+            "shift": 0.06,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.014,
+            "others_std": 0.027,
+            "z": 2.08,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 83.85,
+            "asr": 18.02
+          },
+          {
+            "rho": 0.6,
+            "mass": 0.086,
+            "shift": 0.0927,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0269,
+            "others_std": 0.0479,
+            "z": 1.23,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 82.45,
+            "asr": 21.61
+          },
+          {
+            "rho": 0.8,
+            "mass": 0.136,
+            "shift": 0.1311,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0414,
+            "others_std": 0.0657,
+            "z": 1.44,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 81.04,
+            "asr": 26.62
+          },
+          {
+            "rho": 1.0,
+            "mass": 0.18,
+            "shift": 0.1777,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0569,
+            "others_std": 0.1019,
+            "z": 1.21,
+            "flagged": false,
+            "purified": true,
+            "purify_ok": true,
+            "after": {
+              "changed": 0.01,
+              "conc": 0.6,
+              "to_class": 5,
+              "mass": 0.006,
+              "shift": 0.011,
+              "shift_class": 8
+            },
+            "acc": 90.56,
+            "asr": 6.75
+          }
+        ],
+        "seconds": 1.0,
+        "role": "benign",
+        "asr": 6.75,
+        "forget": {
+          "final": {
+            "loss": 0.7007,
+            "acc": 77.2
+          },
+          "before": {
+            "loss": 0.6349,
+            "acc": 78.26
+          }
+        },
+        "mia_req": {
+          "auroc": 0.3468,
+          "member_rate": 0.031,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.6946,
+          "mean_loss_nonmember": 0.3652
+        }
+      },
+      "progressive": {
+        "acc": 78.14,
+        "retain_change": 15.97,
+        "n_flagged": 0,
+        "n_purified": 0,
+        "trace": [
+          {
+            "rho": 0.2,
+            "mass": 0.036,
+            "shift": 0.0294,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0071,
+            "others_std": 0.0127,
+            "z": 2.27,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 86.81,
+            "asr": 13.75
+          },
+          {
+            "rho": 0.4,
+            "mass": 0.07,
+            "shift": 0.06,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.014,
+            "others_std": 0.027,
+            "z": 2.08,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 83.85,
+            "asr": 18.02
+          },
+          {
+            "rho": 0.6,
+            "mass": 0.086,
+            "shift": 0.0927,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0269,
+            "others_std": 0.0479,
+            "z": 1.23,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 82.45,
+            "asr": 21.61
+          },
+          {
+            "rho": 0.8,
+            "mass": 0.136,
+            "shift": 0.1311,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0414,
+            "others_std": 0.0657,
+            "z": 1.44,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 81.04,
+            "asr": 26.62
+          },
+          {
+            "rho": 1.0,
+            "mass": 0.18,
+            "shift": 0.1777,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0569,
+            "others_std": 0.1019,
+            "z": 1.21,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 78.14,
+            "asr": 34.15
+          }
+        ],
+        "seconds": 0.9,
+        "role": "benign",
+        "asr": 34.15,
+        "forget": {
+          "final": {
+            "loss": 4.1506,
+            "acc": 47.16
+          },
+          "before": {
+            "loss": 0.6349,
+            "acc": 78.26
+          }
+        },
+        "mia_req": {
+          "auroc": 0.3129,
+          "member_rate": 0.026,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 4.1547,
+          "mean_loss_nonmember": 1.26
+        }
+      },
+      "always": {
+        "acc": 91.17,
+        "retain_change": 2.15,
+        "n_flagged": 0,
+        "n_purified": 5,
+        "trace": [
+          {
+            "rho": 0.2,
+            "mass": 0.036,
+            "shift": 0.0294,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0071,
+            "others_std": 0.0127,
+            "z": 2.27,
+            "flagged": false,
+            "purified": true,
+            "purify_ok": true,
+            "after": {
+              "changed": 0.004,
+              "conc": 1.0,
+              "to_class": 8,
+              "mass": 0.004,
+              "shift": 0.0038,
+              "shift_class": 8
+            },
+            "acc": 90.93,
+            "asr": 8.56
+          },
+          {
+            "rho": 0.4,
+            "mass": 0.038,
+            "shift": 0.0334,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.014,
+            "others_std": 0.027,
+            "z": 0.89,
+            "flagged": false,
+            "purified": true,
+            "purify_ok": true,
+            "after": {
+              "changed": 0.004,
+              "conc": 0.5,
+              "to_class": 5,
+              "mass": 0.002,
+              "shift": 0.0011,
+              "shift_class": 9
+            },
+            "acc": 90.97,
+            "asr": 7.49
+          },
+          {
+            "rho": 0.6,
+            "mass": 0.028,
+            "shift": 0.028,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0269,
+            "others_std": 0.0479,
+            "z": 0.02,
+            "flagged": false,
+            "purified": true,
+            "purify_ok": true,
+            "after": {
+              "changed": 0.002,
+              "conc": 1.0,
+              "to_class": 5,
+              "mass": 0.002,
+              "shift": 0.0026,
+              "shift_class": 8
+            },
+            "acc": 90.93,
+            "asr": 7.4
+          },
+          {
+            "rho": 0.8,
+            "mass": 0.03,
+            "shift": 0.0311,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0414,
+            "others_std": 0.0657,
+            "z": -0.17,
+            "flagged": false,
+            "purified": true,
+            "purify_ok": true,
+            "after": {
+              "changed": 0.002,
+              "conc": 1.0,
+              "to_class": 2,
+              "mass": 0.002,
+              "shift": 0.006,
+              "shift_class": 8
+            },
+            "acc": 90.98,
+            "asr": 7.27
+          },
+          {
+            "rho": 1.0,
+            "mass": 0.034,
+            "shift": 0.0347,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0569,
+            "others_std": 0.1019,
+            "z": -0.22,
+            "flagged": false,
+            "purified": true,
+            "purify_ok": true,
+            "after": {
+              "changed": 0.0,
+              "conc": 0.0,
+              "to_class": null,
+              "mass": 0.0,
+              "shift": 0.0047,
+              "shift_class": 8
+            },
+            "acc": 91.17,
+            "asr": 6.69
+          }
+        ],
+        "seconds": 2.0,
+        "role": "benign",
+        "asr": 6.69,
+        "forget": {
+          "final": {
+            "loss": 0.6705,
+            "acc": 78.65
+          },
+          "before": {
+            "loss": 0.6349,
+            "acc": 78.26
+          }
+        },
+        "mia_req": {
+          "auroc": 0.3516,
+          "member_rate": 0.033,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.6604,
+          "mean_loss_nonmember": 0.3526
+        }
+      }
+    },
+    "5": {
+      "plain": {
+        "acc": 90.81,
+        "retain_change": 2.58,
+        "n_flagged": 0,
+        "n_purified": 0,
+        "trace": [
+          {
+            "rho": 0.2,
+            "mass": 0.004,
+            "shift": 0.0074,
+            "to_class": 3,
+            "shift_class": 8,
+            "others_mean": 0.0117,
+            "others_std": 0.0161,
+            "z": -0.48,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 91.11,
+            "asr": 8.63
+          },
+          {
+            "rho": 0.4,
+            "mass": 0.006,
+            "shift": 0.015,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0231,
+            "others_std": 0.0329,
+            "z": -0.52,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 91.01,
+            "asr": 8.87
+          },
+          {
+            "rho": 0.6,
+            "mass": 0.01,
+            "shift": 0.0228,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0377,
+            "others_std": 0.0514,
+            "z": -0.54,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 90.92,
+            "asr": 8.99
+          },
+          {
+            "rho": 0.8,
+            "mass": 0.02,
+            "shift": 0.0309,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.058,
+            "others_std": 0.0725,
+            "z": -0.52,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 90.83,
+            "asr": 9.21
+          },
+          {
+            "rho": 1.0,
+            "mass": 0.024,
+            "shift": 0.039,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0791,
+            "others_std": 0.1091,
+            "z": -0.51,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 90.81,
+            "asr": 9.35
+          }
+        ],
+        "seconds": 0.9,
+        "role": "benign",
+        "asr": 9.35,
+        "forget": {
+          "final": {
+            "loss": 0.346,
+            "acc": 92.82
+          },
+          "before": {
+            "loss": 0.2399,
+            "acc": 93.76
+          }
+        },
+        "mia_req": {
+          "auroc": 0.5104,
+          "member_rate": 0.055,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.3511,
+          "mean_loss_nonmember": 0.3905
+        }
+      },
+      "end": {
+        "acc": 91.24,
+        "retain_change": 2.19,
+        "n_flagged": 0,
+        "n_purified": 1,
+        "trace": [
+          {
+            "rho": 0.2,
+            "mass": 0.004,
+            "shift": 0.0074,
+            "to_class": 3,
+            "shift_class": 8,
+            "others_mean": 0.0117,
+            "others_std": 0.0161,
+            "z": -0.48,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 91.11,
+            "asr": 8.63
+          },
+          {
+            "rho": 0.4,
+            "mass": 0.006,
+            "shift": 0.015,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0231,
+            "others_std": 0.0329,
+            "z": -0.52,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 91.01,
+            "asr": 8.87
+          },
+          {
+            "rho": 0.6,
+            "mass": 0.01,
+            "shift": 0.0228,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0377,
+            "others_std": 0.0514,
+            "z": -0.54,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 90.92,
+            "asr": 8.99
+          },
+          {
+            "rho": 0.8,
+            "mass": 0.02,
+            "shift": 0.0309,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.058,
+            "others_std": 0.0725,
+            "z": -0.52,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 90.83,
+            "asr": 9.21
+          },
+          {
+            "rho": 1.0,
+            "mass": 0.024,
+            "shift": 0.039,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0791,
+            "others_std": 0.1091,
+            "z": -0.51,
+            "flagged": false,
+            "purified": true,
+            "purify_ok": true,
+            "after": {
+              "changed": 0.002,
+              "conc": 1.0,
+              "to_class": 5,
+              "mass": 0.002,
+              "shift": 0.0014,
+              "shift_class": 5
+            },
+            "acc": 91.24,
+            "asr": 6.36
+          }
+        ],
+        "seconds": 1.2,
+        "role": "benign",
+        "asr": 6.36,
+        "forget": {
+          "final": {
+            "loss": 0.2873,
+            "acc": 93.87
+          },
+          "before": {
+            "loss": 0.2399,
+            "acc": 93.76
+          }
+        },
+        "mia_req": {
+          "auroc": 0.5176,
+          "member_rate": 0.045,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.2888,
+          "mean_loss_nonmember": 0.3445
+        }
+      },
+      "progressive": {
+        "acc": 90.81,
+        "retain_change": 2.58,
+        "n_flagged": 0,
+        "n_purified": 0,
+        "trace": [
+          {
+            "rho": 0.2,
+            "mass": 0.004,
+            "shift": 0.0074,
+            "to_class": 3,
+            "shift_class": 8,
+            "others_mean": 0.0117,
+            "others_std": 0.0161,
+            "z": -0.48,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 91.11,
+            "asr": 8.63
+          },
+          {
+            "rho": 0.4,
+            "mass": 0.006,
+            "shift": 0.015,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0231,
+            "others_std": 0.0329,
+            "z": -0.52,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 91.01,
+            "asr": 8.87
+          },
+          {
+            "rho": 0.6,
+            "mass": 0.01,
+            "shift": 0.0228,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0377,
+            "others_std": 0.0514,
+            "z": -0.54,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 90.92,
+            "asr": 8.99
+          },
+          {
+            "rho": 0.8,
+            "mass": 0.02,
+            "shift": 0.0309,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.058,
+            "others_std": 0.0725,
+            "z": -0.52,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 90.83,
+            "asr": 9.21
+          },
+          {
+            "rho": 1.0,
+            "mass": 0.024,
+            "shift": 0.039,
+            "to_class": 8,
+            "shift_class": 8,
+            "others_mean": 0.0791,
+            "others_std": 0.1091,
+            "z": -0.51,
+            "flagged": false,
+            "purified": false,
+            "purify_ok": null,
+            "after": null,
+            "acc": 90.81,
+            "asr": 9.35
+          }
+        ],
+        "seconds": 0.9,
+        "role": "benign",
+        "asr": 9.35,
+        "forget": {
+          "final": {
+            "loss": 0.346,
+            "acc": 92.82
+          },
+          "before": {
+            "loss": 0.2399,
+            "acc": 93.76
+          }
+        },
+        "mia_req": {
+          "auroc": 0.5104,
+          "member_rate": 0.055,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.3511,
+          "mean_loss_nonmember": 0.3905
+        }
+      },
+      "always": {
+        "acc": 91.19,
+        "retain_change": 2.21,
+        "n_flagged": 0,
+        "n_purified": 5,
+        "trace": [
+          {
+            "rho": 0.2,
+            "mass": 0.004,
+            "shift": 0.0074,
+            "to_class": 3,
+            "shift_class": 8,
+            "others_mean": 0.0117,
+            "others_std": 0.0161,
+            "z": -0.48,
+            "flagged": false,
+            "purified": true,
+            "purify_ok": true,
+            "after": {
+              "changed": 0.0,
+              "conc": 0.0,
+              "to_class": null,
+              "mass": 0.0,
+              "shift": 0.0004,
+              "shift_class": 8
+            },
+            "acc": 91.02,
+            "asr": 8.04
+          },
+          {
+            "rho": 0.4,
+            "mass": 0.002,
+            "shift": 0.0076,
+            "to_class": 3,
+            "shift_class": 8,
+            "others_mean": 0.0231,
+            "others_std": 0.0329,
+            "z": -0.64,
+            "flagged": false,
+            "purified": true,
+            "purify_ok": true,
+            "after": {
+              "changed": 0.0,
+              "conc": 0.0,
+              "to_class": null,
+              "mass": 0.0,
+              "shift": 0.0005,
+              "shift_class": 9
+            },
+            "acc": 91.06,
+            "asr": 7.59
+          },
+          {
+            "rho": 0.6,
+            "mass": 0.002,
+            "shift": 0.007,
+            "to_class": 3,
+            "shift_class": 8,
+            "others_mean": 0.0377,
+            "others_std": 0.0514,
+            "z": -0.7,
+            "flagged": false,
+            "purified": true,
+            "purify_ok": true,
+            "after": {
+              "changed": 0.0,
+              "conc": 0.0,
+              "to_class": null,
+              "mass": 0.0,
+              "shift": 0.0006,
+              "shift_class": 5
+            },
+            "acc": 91.24,
+            "asr": 7.23
+          },
+          {
+            "rho": 0.8,
+            "mass": 0.002,
+            "shift": 0.006,
+            "to_class": 3,
+            "shift_class": 8,
+            "others_mean": 0.058,
+            "others_std": 0.0725,
+            "z": -0.77,
+            "flagged": false,
+            "purified": true,
+            "purify_ok": true,
+            "after": {
+              "changed": 0.004,
+              "conc": 0.5,
+              "to_class": 2,
+              "mass": 0.002,
+              "shift": 0.0008,
+              "shift_class": 5
+            },
+            "acc": 91.31,
+            "asr": 6.72
+          },
+          {
+            "rho": 1.0,
+            "mass": 0.002,
+            "shift": 0.0056,
+            "to_class": 3,
+            "shift_class": 8,
+            "others_mean": 0.0791,
+            "others_std": 0.1091,
+            "z": -0.71,
+            "flagged": false,
+            "purified": true,
+            "purify_ok": true,
+            "after": {
+              "changed": 0.0,
+              "conc": 0.0,
+              "to_class": null,
+              "mass": 0.0,
+              "shift": 0.0008,
+              "shift_class": 5
+            },
+            "acc": 91.19,
+            "asr": 6.42
+          }
+        ],
+        "seconds": 1.9,
+        "role": "benign",
+        "asr": 6.42,
+        "forget": {
+          "final": {
+            "loss": 0.2866,
+            "acc": 93.86
+          },
+          "before": {
+            "loss": 0.2399,
+            "acc": 93.76
+          }
+        },
+        "mia_req": {
+          "auroc": 0.5183,
+          "member_rate": 0.043,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.2882,
+          "mean_loss_nonmember": 0.3448
+        }
+      }
+    }
+  }
+}
