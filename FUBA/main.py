@@ -31,6 +31,7 @@ if __name__ == "__main__":
     parser.add_argument('--target_label', type=int, default=8,help='Target label index')
     parser.add_argument('--nb_attack', type=int,default=4, help='Number of malicious clients.')
     parser.add_argument('--nb_defence', type=int, default=1,help='Number of malicious defence clients.')
+    parser.add_argument('--clients_ratial', type=int, default=1, help='Client-count multiplier: K*=r, backdoor clients = range(5r), defenders = forgot_client_idx*(i+1), i<r (r=2 -> defenders 4 and 8).')
     parser.add_argument('--nb_clients', type=int, default=20,help='Number of all clients.')
     parser.add_argument('--forgot_client_idx', type=int, default=4,help='')
     parser.add_argument('--noise_thread', type=float, default=0.04, help='Noise threadhold for iba attack.')

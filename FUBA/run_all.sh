@@ -11,6 +11,7 @@
 #   dose      투여량 조절 FU: 상한 c 로 δ 선택, 같은 양 비교, 걸리면 수정 (dose_fu.py) -> logs/dose_fu/{NAME}.json
 #   masa      기준선 MASA: 학습 중 라운드별 언러닝 손실 편차 (baseline_masa.py)   -> logs/baseline_masa/{NAME}.json
 #   subid     기준선 SubID 식 부분공간 편차 (baseline_subid.py)                 -> logs/baseline_subid/{NAME}.json
+#   pair      쌍→집합: 표시된 요청의 운반자 집합·공동 위장자 (pair_roles.py)     -> logs/pair_roles/{NAME}.json
 #   aggregate 조건별 평균±표준편차 + 종합 보고서           -> logs/*/summary_{cond}.md, logs/pipeline/REPORT_{cond}.md
 #
 # 사용법 (FUBA 폴더에서)
@@ -39,7 +40,7 @@ export PYTHONIOENCODING=utf-8
 
 CONDS="${CONDS:-owner iid}"
 SEEDS="${SEEDS:-0 1 2}"
-STAGES="${STAGES:-attack benign robust latent release progressive dose masa subid aggregate}"
+STAGES="${STAGES:-attack benign robust latent release progressive dose masa subid pair aggregate}"
 K="${K:-8}"
 ROUNDS="${ROUNDS:-8}"
 WARMUP="${WARMUP:-3}"
@@ -58,6 +59,7 @@ DOSE_EXTRA="${DOSE_EXTRA:-}"                          # 예: DOSE_EXTRA="--cap 0
 DOSE_SPLIT="${DOSE_SPLIT:-0}"                         # >1 이면 쪼개기 공격 실험도 (--split N --ledger)
 MASA_EXTRA="${MASA_EXTRA:-}"
 SUBID_EXTRA="${SUBID_EXTRA:-}"
+PAIR_EXTRA="${PAIR_EXTRA:-}"                          # 예: PAIR_EXTRA="--exhaust --repair"
 
 export ROUNDS WARMUP   # run_real_fuba.sh 가 읽는다
 mkdir -p logs/pipeline
@@ -165,6 +167,17 @@ stage_subid() {               # <name> <seed>  — 기준선 SubID 식 점수 (�
   run_log "logs/pipeline/${name}.subid.log" python baseline_subid.py --fmt fuba --name "$name" --K "$K" --rounds "$ROUNDS"     --defender "$DEFENDER" --attackers 0 1 2 3 $SUBID_EXTRA
 }
 
+stage_pair() {                # <name> <seed>  — 쌍→집합 역할 지도 (요청자 4 와 정상 K-1, 그리고 4+5 동시 요청)
+  local name="$1" seed="$2"
+  maybe_rm "logs/pair_roles/${name}.json"; maybe_rm "logs/pair_roles/${name}_joint.json"
+  if [ "$FORCE" != "1" ] && [ -f "logs/pair_roles/${name}.json" ]; then echo "  [$name] pair 결과 있음 — 생략"; else
+    run_log "logs/pipeline/${name}.pair.log" python pair_roles.py --fmt fuba --name "$name" --K "$K" --rounds "$ROUNDS"       --seed "$seed" --defender "$DEFENDER" --attackers 0 1 2 3 --requesters "$DEFENDER" $((K - 1)) $PAIR_EXTRA
+  fi
+  if [ "$FORCE" != "1" ] && [ -f "logs/pair_roles/${name}_joint.json" ]; then echo "  [$name] pair joint 결과 있음 — 생략"; else
+    run_log "logs/pipeline/${name}.pair_joint.log" python pair_roles.py --fmt fuba --name "$name" --K "$K" --rounds "$ROUNDS"       --seed "$seed" --defender "$DEFENDER" --attackers 0 1 2 3 --requesters "$DEFENDER" 5 --joint $PAIR_EXTRA
+  fi
+}
+
 stage_aggregate() {           # <label> <names...>
   local label="$1"; shift
   local names=("$@") report="logs/pipeline/REPORT_${label}.md"
@@ -206,9 +219,10 @@ for COND in $CONDS; do
     has dose && stage_dose "$NAME" "$SEED"
     has masa && stage_masa "$NAME" "$SEED"
     has subid && stage_subid "$NAME" "$SEED"
+    has pair && stage_pair "$NAME" "$SEED"
     sleep 2
   done
   if has aggregate; then echo; echo "==== [$COND] 집계"; stage_aggregate "$LABEL" "${NAMES[@]}"; fi
 done
 echo
-echo "== 끝. 올릴 것: git add FUBA/logs/benign_departure FUBA/logs/robust_fu FUBA/logs/latent_risk FUBA/logs/release_map FUBA/logs/progressive_fu FUBA/logs/dose_fu FUBA/logs/baseline_masa FUBA/logs/baseline_subid FUBA/logs/baselines FUBA/logs/pipeline"
+echo "== 끝. 올릴 것: git add FUBA/logs/benign_departure FUBA/logs/robust_fu FUBA/logs/latent_risk FUBA/logs/release_map FUBA/logs/progressive_fu FUBA/logs/dose_fu FUBA/logs/baseline_masa FUBA/logs/baseline_subid FUBA/logs/baselines FUBA/logs/pair_roles FUBA/logs/pipeline"
