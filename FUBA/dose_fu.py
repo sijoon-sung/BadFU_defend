@@ -76,8 +76,11 @@ def parse():
     p.add_argument("--zmode", choices=["std", "mad", "iqr"], default="std",
                    help="z 의 분산 추정. 기본 std. mad 는 공격자가 모집단의 절반을 넘으면(제거 효과가 거의 0 인 멤버가 다수) 깨진다")
     p.add_argument("--delta_min", type=float, default=0.1)
-    p.add_argument("--probe_mode", choices=["clean", "grid"], default="clean",
-                   help="grid: 요청자 모델이 기준과 가장 갈리는 격자 패치를 찾아 탐침에 붙인 입력도 함께 본다 (트리거 영역 탐침; BadFU 류). 모집단도 같은 입력으로 잰다")
+    p.add_argument("--probe_mode", choices=["clean", "grid", "forget"], default="clean",
+                   help="clean: 깨끗한 탐침만. grid: 격자 패치 탐색(선택 편향 주의). "
+                        "forget: 요청이 지우려는 데이터(잊을 집합)의 입력을 탐침에 더한다 — 범위를 클라이언트에서 데이터로. "
+                        "위장 샘플은 트리거를 품고 있으므로 활성화가 바로 그 입력에서 드러난다 (BadFU). 모집단도 같은 입력으로 잰다")
+    p.add_argument("--forget_n", type=int, default=500, help="forget 모드에서 쓰는 잊을 집합 입력 수 상한")
     p.add_argument("--grid_sizes", type=int, nargs="+", default=[3, 5])
     p.add_argument("--grid_stride", type=int, default=8)
     p.add_argument("--sim", default="", help="attack_sim 변형 스펙 (예: split:4:3,scale:5:2.5). 적용 뒤의 인덱스로 --requesters 를 준다")
@@ -160,6 +163,7 @@ class Engine:
         self.sample = {}
         self.space = InputSpace(a.fmt, device)
         self.probe_mode = getattr(a, "probe_mode", "clean")
+        self.forget_x = None            # forget 모드: 현재 요청자의 잊을 집합 입력 (main 이 요청자마다 설정)
 
     def others(self, k):
         if k not in self.sample:
@@ -210,6 +214,8 @@ class Engine:
             ref = m_base
         # 평가 입력: 깨끗한 탐침 (+ grid 모드면 요청자 모델이 기준과 가장 갈리는 패치를 붙인 탐침)
         xs_eval, cand = self.xs, None
+        if self.probe_mode == "forget" and self.forget_x is not None:
+            xs_eval = torch.cat([self.xs, self.forget_x])
         if self.probe_mode == "grid":
             m_k = self.model(theta - frac * self.U[k])
             best = grid_search(ref, m_k, self.xs, self.space, self.a.n_classes, self.a.grid_sizes, self.a.grid_stride)
@@ -369,8 +375,27 @@ def main():
             res = json.load(f)
     print(f"[{a.name}{tag}] K={K} before={res['before']} cap={a.cap} tau={a.tau} m={a.m or 'all'}", flush=True)
 
+    # forget 모드: 요청자가 지우려는 데이터의 입력. fuba = 요청자 분할, badfu = 위장자는 위장 집합(cv, 논문의 D_c), 나머지는 자기 데이터
+    forget_sets = {}
+    if a.probe_mode == "forget":
+        if a.fmt == "fuba":
+            from robust_fu import _slice as _sl
+            for k in a.requesters:
+                if split is not None and k < len(split):
+                    forget_sets[k] = _sl(split[k], a.forget_n, a.seed + 3)[0].to(device)
+        else:
+            import badfu_common as bc
+            bdata = bc.BadFUData()
+            g = torch.Generator().manual_seed(a.seed + 3)
+            for k in a.requesters:
+                ds = bdata.cv if k == a.defender else bdata.client_sets[k]
+                idx = torch.randperm(len(ds), generator=g)[:a.forget_n].tolist()
+                forget_sets[k] = torch.stack([ds[i][0] for i in idx]).to(device)
+        print(f"[{a.name}] forget 모드: 잊을 집합 입력 " + ", ".join(f"{k}:{len(v)}" for k, v in forget_sets.items()), flush=True)
+
     pieces = [1.0 / a.split] * a.split
     for k in a.requesters:
+        eng.forget_x = forget_sets.get(k)
         res["results"].setdefault(str(k), {})
         role = base_roles.get(k, "benign")
         has_split = split is not None and k < len(split)
