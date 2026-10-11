@@ -70,7 +70,10 @@ def parse():
     p.add_argument("--zmode", choices=["std", "mad"], default="std")
     p.add_argument("--delta_min", type=float, default=0.1)
     p.add_argument("--sim", default="", help="attack_sim 변형 스펙 (예: split:0:3,split:1:3). 조각은 역할을 상속")
-    p.add_argument("--margin", type=float, default=0.2, help="한 명 더 빼서 활성화가 이 비율 이상 줄어야 운반자로 추가; 이 비율 이상 늘면 공동 위장자")
+    p.add_argument("--margin", type=float, default=0.2, help="(greedy) 한 명 더 빼서 활성화가 이 비율 이상 줄어야 운반자로 추가")
+    p.add_argument("--mode", choices=["ranked", "greedy"], default="ranked",
+                   help="ranked: 지도 Δ 순으로 한 명씩 더 빼며 z ≤ τ 까지 (작은 운반자 여럿에 강함, 지도 1 번). greedy: 매 걸음 재탐색 + margin")
+    p.add_argument("--patience", type=int, default=2, help="(ranked) 활성화가 연속 이 횟수만큼 안 줄면 멈추고 가장 좋았던 집합으로 되돌림")
     p.add_argument("--max_set", type=int, default=0, help="운반자 집합 최대 크기 (0 = K−|S|−1)")
     p.add_argument("--force", action="store_true", help="표시 안 된(정상) 요청에도 탐욕 선택을 돌린다")
     p.add_argument("--exhaust", action="store_true", help="띠 안(z ≤ τ)에 들어와도 margin 만큼 주는 한 계속 뺀다 (운반자 전부 찾기)")
@@ -154,7 +157,23 @@ def main():
         A, traj, theta = [], [{"set": [], "a": round(a0, 4), "z": round(z0, 2)}], theta_S.clone()
         cur = a0
         max_set = a.max_set or max(0, len(others) - 1)
-        if flagged or a.force:
+        if (flagged or a.force) and a.mode == "ranked":
+            order = [j for j in sorted(others, key=lambda j: -delta[j]) if delta[j] > 0]
+            best_a, best_A, best_theta, pat = cur, [], theta.clone(), 0
+            for j in order[:max_set]:
+                A.append(j)
+                theta = theta - U[j]
+                cur = act(theta)
+                z = robust_z(cur, s_others, a.zmode)
+                traj.append({"set": list(A), "a": round(cur, 4), "z": round(z, 2)})
+                if cur < best_a - 1e-4:
+                    best_a, best_A, best_theta, pat = cur, list(A), theta.clone(), 0
+                else:
+                    pat += 1
+                if (z <= a.tau and not a.exhaust) or pat >= a.patience:
+                    break
+            A, theta, cur = best_A, best_theta, best_a
+        elif flagged or a.force:
             cand = dict(amap)
             while len(A) < max_set and cand:
                 j = min(cand, key=cand.get)

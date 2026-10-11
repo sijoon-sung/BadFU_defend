@@ -19,6 +19,7 @@ import os
 import sys
 import time
 
+import numpy as np
 import torch
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -56,9 +57,12 @@ def parse():
     p.add_argument("--tau", type=float, default=3.0)
     p.add_argument("--m", type=int, default=0)
     p.add_argument("--stat", choices=["mass", "changed", "shift"], default="mass")
-    p.add_argument("--zmode", choices=["std", "mad"], default="std")
+    p.add_argument("--zmode", choices=["std", "mad", "iqr"], default="std")
     p.add_argument("--delta_min", type=float, default=0.1)
     p.add_argument("--arms", nargs="+", default=ARMS, choices=ARMS)
+    p.add_argument("--band", choices=["n", "single"], default="n",
+                   help="전체 예산 띠: n = '정상 n 명을 뺀 모델'들의 띠 (요청 수와 같은 수의 임의 부분집합), single = 한 명 제거 띠")
+    p.add_argument("--band_draws", type=int, default=8)
     p.add_argument("--rep_steps", type=int, default=50)
     p.add_argument("--rep_lr", type=float, default=None)
     p.add_argument("--rep_bs", type=int, default=128)
@@ -105,8 +109,25 @@ def main():
         s_others = [pop["s"][j] for j in pop["healthy"]]
         return pop, s_others
 
+    rng = np.random.RandomState(a.seed)
+
+    def band_n(seq, n):
+        """정상 n 명을 임의로 뺀 모델들의 통계 (θ_T 기준 ref 대비). 요청 열 전체 제외."""
+        pool = [j for j in range(K) if j not in seq]
+        if n > len(pool):
+            n = len(pool)
+        subs, seen = [], set()
+        for _ in range(a.band_draws * 3):
+            sub = tuple(sorted(rng.choice(pool, n, replace=False).tolist()))
+            if sub not in seen:
+                seen.add(sub); subs.append(sub)
+            if len(subs) >= a.band_draws:
+                break
+        return subs
+
     def run(seq, label):
         popT, s_T = band_T(seq)
+        band_cache = {}
         for arm in a.arms:
             t0 = time.time()
             theta = tT.clone()
@@ -122,7 +143,20 @@ def main():
                 m_cur = eng.model(theta)
                 pk = probs(m_cur, xs)
                 z_inc, d = eng.check(pk, pop)
-                z_glb = robust_z(eng.stat_of(pk, popT["pr"])[a.stat], s_T, a.zmode)
+                n_rm = len(removed) + 1
+                if a.band == "n" and n_rm > 1:
+                    if n_rm not in band_cache:
+                        vals = []
+                        for sub in band_n(seq, n_rm):
+                            th = tT.clone()
+                            for j in sub:
+                                th = th - U[j]
+                            vals.append(eng.stat_of(probs(eng.model(th), xs), popT["pr"])[a.stat])
+                        band_cache[n_rm] = vals
+                    s_band = band_cache[n_rm]
+                else:
+                    s_band = s_T
+                z_glb = robust_z(eng.stat_of(pk, popT["pr"])[a.stat], s_band, a.zmode)
                 flagged = z_inc > a.tau or (arm == "global" and z_glb > a.tau)
                 rep_ok = None
                 if flagged:

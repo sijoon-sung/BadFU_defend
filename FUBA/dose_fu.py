@@ -44,8 +44,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 os.chdir(HERE)
 sys.path.insert(0, HERE)
 
-from release_map import (Ensemble, acc_of, divergence, kd_repair, load_badfu, load_fuba, load_probe,  # noqa: E402
-                         make_model, make_scorer, probs, shift)
+from release_map import (Ensemble, InputSpace, acc_of, cand_inputs, divergence, grid_search, kd_repair,  # noqa: E402
+                         load_badfu, load_fuba, load_probe, make_model, make_scorer, probs, shift)
 
 ARMS = ["plain", "oneshot", "dose", "always"]
 DELTAS = [0.8, 0.6, 0.4, 0.2, 0.1]
@@ -73,9 +73,13 @@ def parse():
     p.add_argument("--tau", type=float, default=3.0, help="τ: 이상 문턱 (강건 z)")
     p.add_argument("--m", type=int, default=0, help="모집단 표본 수 (0 = 요청자 제외 전원)")
     p.add_argument("--stat", choices=["mass", "changed", "shift"], default="mass")
-    p.add_argument("--zmode", choices=["std", "mad"], default="std",
+    p.add_argument("--zmode", choices=["std", "mad", "iqr"], default="std",
                    help="z 의 분산 추정. 기본 std. mad 는 공격자가 모집단의 절반을 넘으면(제거 효과가 거의 0 인 멤버가 다수) 깨진다")
     p.add_argument("--delta_min", type=float, default=0.1)
+    p.add_argument("--probe_mode", choices=["clean", "grid"], default="clean",
+                   help="grid: 요청자 모델이 기준과 가장 갈리는 격자 패치를 찾아 탐침에 붙인 입력도 함께 본다 (트리거 영역 탐침; BadFU 류). 모집단도 같은 입력으로 잰다")
+    p.add_argument("--grid_sizes", type=int, nargs="+", default=[3, 5])
+    p.add_argument("--grid_stride", type=int, default=8)
     p.add_argument("--sim", default="", help="attack_sim 변형 스펙 (예: split:4:3,scale:5:2.5). 적용 뒤의 인덱스로 --requesters 를 준다")
     p.add_argument("--op", choices=["subtract", "kd"], default="subtract",
                    help="제거 연산자 R. subtract: θ−δU_k. kd: 빼고 나서 직전 모델을 교사로 탐침에서 짧게 증류 (KD-FU 식, 깊은 망의 빼기 잡음 완화)")
@@ -126,6 +130,11 @@ def robust_z(x, others, mode="mad"):
     if o.size < 2:
         return 0.0
     med = float(np.median(o))
+    if mode == "iqr":
+        q1, q3 = np.percentile(o, 25), np.percentile(o, 75)
+        sc = 0.7413 * float(q3 - q1)
+        if sc > 1e-6:
+            return float((x - med) / sc)
     if mode == "mad":
         mad = 1.4826 * float(np.median(np.abs(o - med)))
         if mad > 1e-6:
@@ -144,6 +153,8 @@ class Engine:
         self.n_pop_models = 0            # 비용 집계: 만든 가상 제거 모델 수
         self.rng = np.random.RandomState(a.seed)
         self.sample = {}
+        self.space = InputSpace(a.fmt, device)
+        self.probe_mode = getattr(a, "probe_mode", "clean")
 
     def others(self, k):
         if k not in self.sample:
@@ -180,22 +191,31 @@ class Engine:
         healthy = [j for j in mods if chg[j] <= self.a.cap]
         h = float(np.median(list(chg.values()))) if chg else 0.0
         m_base = None
-        pk_all = {j: probs(mods[j], self.xs) for j in mods}
+        if healthy:
+            ref = Ensemble([mods[j] for j in healthy])
+        else:
+            m_base = self.model(theta)
+            ref = m_base
+        # 평가 입력: 깨끗한 탐침 (+ grid 모드면 요청자 모델이 기준과 가장 갈리는 패치를 붙인 탐침)
+        xs_eval, cand = self.xs, None
+        if self.probe_mode == "grid":
+            m_k = self.model(theta - frac * self.U[k])
+            best = grid_search(ref, m_k, self.xs, self.space, self.a.n_classes, self.a.grid_sizes, self.a.grid_stride)
+            cand = best["cand"]
+            xs_eval = torch.cat([self.xs, cand_inputs(self.xs, self.space, cand)])
+        pk_all = {j: probs(mods[j], xs_eval) for j in mods}
         s = {}
         for j in healthy:
             okm = [mods[i] for i in healthy if i != j]
             if okm:
-                pr = probs(Ensemble(okm), self.xs)
+                pr = probs(Ensemble(okm), xs_eval)
             else:
                 if m_base is None:
                     m_base = self.model(theta)
-                pr = probs(m_base, self.xs)
+                pr = probs(m_base, xs_eval)
             s[j] = self.stat_of(pk_all[j], pr)[self.a.stat]
-        if healthy:
-            ref = Ensemble([mods[j] for j in healthy])
-        else:
-            ref = m_base if m_base is not None else self.model(theta)
-        pop = {"mods": mods, "chg": chg, "healthy": healthy, "h": round(h, 4), "s": s, "ref": ref, "pr": probs(ref, self.xs)}
+        pop = {"mods": mods, "chg": chg, "healthy": healthy, "h": round(h, 4), "s": s, "ref": ref, "pr": probs(ref, xs_eval),
+               "xs": xs_eval, "cand": cand}
         self.cache[key] = pop
         return pop
 
@@ -231,13 +251,14 @@ class Engine:
             if isinstance(m, torch.nn.modules.batchnorm._BatchNorm):
                 m.eval()
         opt = torch.optim.SGD(model.parameters(), lr=a.rep_lr, momentum=0.9)
-        n = len(self.xs)
+        xs_r = pop.get("xs", self.xs)
+        n = len(xs_r)
         g = torch.Generator(device="cpu").manual_seed(0)
         ok, steps_done, z_last = True, 0, None
         ref = pop["ref"]
         for t in range(1, a.rep_steps + 1):
             idx = torch.randint(0, n, (min(a.rep_bs, n),), generator=g)
-            x = self.xs[idx]
+            x = xs_r[idx]
             with torch.no_grad():
                 out = ref(x)
                 tgt = out.exp() if isinstance(ref, Ensemble) else F.softmax(out, 1)
@@ -252,7 +273,7 @@ class Engine:
             steps_done = t
             if a.rep_every and t % a.rep_every == 0:
                 model.eval()
-                z_last, _ = self.check(probs(model, self.xs), pop)
+                z_last, _ = self.check(probs(model, xs_r), pop)
                 model.train()
                 for m in model.modules():
                     if isinstance(m, torch.nn.modules.batchnorm._BatchNorm):
@@ -397,20 +418,20 @@ def main():
                     if a.op == "kd":
                         kd_repair(m_k, m_prev, xs, a.kd_steps, a.kd_lr, a.rep_bs)
                         theta = flat.flatten(m_k.state_dict())
-                    pk = probs(m_k, xs)
+                    pk = probs(m_k, pop["xs"] if pop is not None else xs)
                     # --- 부품 B: 같은 양 비교
                     z, d, z_cum = None, None, None
                     if pop is not None:
                         z, d = eng.check(pk, pop)
                     if arm in ("plain", "oneshot"):
-                        req_chg, hard_collapse = divergence(eng.base_pred(base_id, theta + delta * U[k]), pk.argmax(1), a.n_classes)["changed"], None
+                        req_chg, hard_collapse = divergence(eng.base_pred(base_id, theta + delta * U[k]), probs(m_k, xs).argmax(1), a.n_classes)["changed"], None
                     if a.ledger and pop is not None:
                         win = removed_pieces[-a.window:] if a.window else removed_pieces
                         back = sum(win) + (removed - sum(removed_pieces))     # 창 안 조각 + 현재 조각에서 이미 뺀 양
                         theta_undo = theta + (back + delta) * U[k]      # '창 안의 요청을 하나도 안 들어줬다면'의 모델
                         pop_cum = eng.population(theta_undo, next_id, k, back + delta)
                         next_id += 1
-                        z_cum, _ = eng.check(pk, pop_cum)
+                        z_cum, _ = eng.check(probs(m_k, pop_cum["xs"]), pop_cum)
                     z_eff = max([v for v in (z, z_cum) if v is not None], default=None)
                     flagged = (z_eff is not None) and (z_eff > a.tau)
                     do_rep = (arm == "always") or (arm in ("oneshot", "dose") and flagged)
@@ -418,14 +439,14 @@ def main():
                     if do_rep:
                         rep_ok, rep_steps = eng.repair(m_k, pop, a.rep_stop)
                         theta = flat.flatten(m_k.state_dict())
-                        z_after, _ = eng.check(probs(m_k, xs), pop)
+                        z_after, _ = eng.check(probs(m_k, pop["xs"]), pop)
                     base_id, next_id = next_id, next_id + 1            # 모델이 바뀌었으니 새 기준 id
                     removed += delta
                     left -= delta
                     step = {"piece": pi, "delta": round(delta, 4), "removed": round(removed, 4),
                             "h": None if pop is None else pop["h"], "healthy_delta": healthy_ok,
                             "req_changed": round(req_chg, 4), "hard_collapse": hard_collapse,
-                            "n_healthy": None if pop is None else len(pop["healthy"]),
+                            "n_healthy": None if pop is None else len(pop["healthy"]), "cand": None if pop is None else pop.get("cand"),
                             "stat": None if d is None else d[a.stat], "z": None if z is None else round(z, 2),
                             "z_cum": None if z_cum is None else round(z_cum, 2),
                             "flagged": bool(flagged), "repaired": bool(do_rep), "repair_ok": rep_ok,
