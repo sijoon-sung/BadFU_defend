@@ -2,7 +2,7 @@
 
 원칙: 실험 하나 = 주장 하나. 돌리기 전에 "어떤 표의 어떤 칸을 채우나"가 정해져 있어야 한다. 모두 `dev` 브랜치 코드.
 
-## 1. 본 결과: 제안 기법 (FUBA, 3 시드 × 2 조건)  — DISLAB, 한 줄
+## 1. 본 결과: 제안 기법 (FUBA, 3 시드 × 2 조건)  — **완료 2026-10-11 (dose, masa, subid, release, progressive). pair 와 adaptive 만 남음**
 ```
 cd FUBA && STAGES="dose pair masa subid aggregate" CONDS="owner iid" bash run_all.sh
 ```
@@ -13,6 +13,13 @@ cd FUBA && STAGES="dose pair masa subid aggregate" CONDS="owner iid" bash run_al
 | pair: A, C, 정밀·재현, +운반자 ASR | 쌍→집합이 운반자를 찾고 백도어를 '지운다' | 정밀 1.0, 재현 ≥ 0.75, ASR ≤ 10 |
 | masa / subid 요약 | "왜 학습 때 안 잡히나" (MASA 는 위장자 못 잡음), "SVD 와 뭐가 다른가" (SubID 식도 위장자를 잡음 — 불리하면 그대로 적는다) | AUROC 위장자 vs 정상 |
 결과 올리기: `git add FUBA/logs/dose_fu FUBA/logs/pair_roles FUBA/logs/baseline_masa FUBA/logs/baseline_subid FUBA/logs/baselines FUBA/logs/pipeline && git commit && git push`
+
+## 1-b. 결과가 말하는 것과 바로 이어지는 실험
+- IID: 주장 P1·P3·P4 그대로 성립 (정상 요청 = plain, 위장자 49 → 6, 한 단계).
+- owner: 위장자 53 → 10 은 되지만 **정상 소유자 7 이 2/3 시드에서 오탐** (z 최대 7.2). 수정이 7 의 망각을 되돌림(49 → 70). 이게 교수님이 말한 범용성 문제의 실체다.
+- 다음 실험 (코드 수정 후): 통계를 바꿔 다시 owner 만 돌린다 — (i) `--stat changed` (몰림 대신 변화량), (ii) 새 통계 "흡수": 바뀐 답이 *하나의 다른* 클래스로 가는 비율만 (소유자 제거는 클래스 3 이 여러 클래스로 흩어짐, 백도어는 타깃 하나로 모임), (iii) 탐침에서 소유 클래스 제외(서버가 모집단 예측 분포로 추정). 성공 기준: 7 의 경보 0/3 을 유지하면서 4 의 ASR ≤ 10.
+- SubID 식이 IID 에서 위장자를 1 위로 잡은 것은 그대로 적는다. 차이는 owner 에서 난다(소유자가 2 위를 밀어냄). "갱신 기하 vs 제거 효과"의 대비는 non-IID 에서 보여야 한다.
+- pair 단계와 adaptive 단계는 아직 안 돌았다: `STAGES="pair adaptive aggregate" CONDS="owner iid" bash run_all.sh`
 
 ## 2. 적응형 공격 (FUBA, 3 시드 × 2 조건) — DISLAB, 재학습 없음
 ```
@@ -48,5 +55,5 @@ python schedule_fu.py --name bd_two_s0 --K 16 --defender 4 --attackers 0 1 2 3 5
 ## 6. 비용 (있음)
 `logs/bench` 에 K=8~100 측정 있음. dose 단계의 '단계 수'와 '가상 모델 수'(pop_models) 열이 1 번 표에서 같이 나오므로 추가 실험 없음.
 
-## 지금 당장 돌릴 것 하나
-1 번. 그 결과가 있어야 3 번(망각 열)과 2 번(적응형)의 비교 기준이 생긴다.
+## 지금 당장 돌릴 것
+`STAGES="pair adaptive aggregate" CONDS="owner iid" bash run_all.sh` (1 번의 나머지 + 2 번). 그 뒤 1-b 의 통계 수정이 가장 급한 설계 작업.
