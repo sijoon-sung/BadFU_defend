@@ -1,0 +1,311 @@
+{
+  "name": "bd_iid_s2",
+  "fmt": "fuba",
+  "args": {
+    "fmt": "fuba",
+    "name": "bd_iid_s2",
+    "rounds": 8,
+    "K": 8,
+    "ckpt_dir": "checkpoints",
+    "traj_dir": null,
+    "counts": null,
+    "data_root": "./data",
+    "badfu_record": null,
+    "sim": "split:4:3",
+    "requests": [
+      4,
+      8,
+      9
+    ],
+    "control": [
+      7,
+      5,
+      6
+    ],
+    "tag": "distsupp",
+    "defender": 4,
+    "attackers": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "target": 8,
+    "n_classes": 10,
+    "probe": 500,
+    "cap": 0.3,
+    "tau": 3.0,
+    "m": 0,
+    "stat": "mass",
+    "zmode": "std",
+    "delta_min": 0.1,
+    "arms": [
+      "percl",
+      "global"
+    ],
+    "rep_steps": 50,
+    "rep_lr": 0.01,
+    "rep_bs": 128,
+    "rep_every": 0,
+    "rep_stop": 1.0,
+    "seed": 524,
+    "noise_thread": 0.04,
+    "atk_eps": 1.0,
+    "n_gpu": 1,
+    "out": null
+  },
+  "K": 10,
+  "roles": {
+    "0": "carrier",
+    "1": "carrier",
+    "2": "carrier",
+    "3": "carrier",
+    "4": "suppressor",
+    "5": "benign",
+    "6": "benign",
+    "7": "benign",
+    "8": "suppressor",
+    "9": "suppressor"
+  },
+  "sim": [
+    {
+      "op": "split",
+      "client": 4,
+      "m": 3,
+      "new_clients": [
+        8,
+        9
+      ]
+    }
+  ],
+  "before": {
+    "acc": 95.18,
+    "asr": 4.72
+  },
+  "results": {
+    "attack": {
+      "percl": {
+        "seq": [
+          4,
+          8,
+          9
+        ],
+        "roles": [
+          "suppressor",
+          "suppressor",
+          "suppressor"
+        ],
+        "steps": [
+          {
+            "i": 0,
+            "client": 4,
+            "role": "suppressor",
+            "z_inc": -1.51,
+            "z_glb": 2.14,
+            "flagged": false,
+            "repaired": false,
+            "repair_ok": null,
+            "acc": 93.79,
+            "asr": 9.29
+          },
+          {
+            "i": 1,
+            "client": 8,
+            "role": "suppressor",
+            "z_inc": 0.94,
+            "z_glb": 6.43,
+            "flagged": false,
+            "repaired": false,
+            "repair_ok": null,
+            "acc": 89.53,
+            "asr": 19.83
+          },
+          {
+            "i": 2,
+            "client": 9,
+            "role": "suppressor",
+            "z_inc": 1.98,
+            "z_glb": 15.61,
+            "flagged": false,
+            "repaired": false,
+            "repair_ok": null,
+            "acc": 79.32,
+            "asr": 40.3
+          }
+        ],
+        "acc": 79.32,
+        "retain_change": 18.35,
+        "n_flagged": 0,
+        "seconds": 0.7,
+        "asr": 40.3
+      },
+      "global": {
+        "seq": [
+          4,
+          8,
+          9
+        ],
+        "roles": [
+          "suppressor",
+          "suppressor",
+          "suppressor"
+        ],
+        "steps": [
+          {
+            "i": 0,
+            "client": 4,
+            "role": "suppressor",
+            "z_inc": -1.51,
+            "z_glb": 2.14,
+            "flagged": false,
+            "repaired": false,
+            "repair_ok": null,
+            "acc": 93.79,
+            "asr": 9.29
+          },
+          {
+            "i": 1,
+            "client": 8,
+            "role": "suppressor",
+            "z_inc": 0.94,
+            "z_glb": 6.43,
+            "flagged": true,
+            "repaired": true,
+            "repair_ok": true,
+            "acc": 93.31,
+            "asr": 6.21
+          },
+          {
+            "i": 2,
+            "client": 9,
+            "role": "suppressor",
+            "z_inc": 0.0,
+            "z_glb": 4.13,
+            "flagged": true,
+            "repaired": true,
+            "repair_ok": true,
+            "acc": 90.41,
+            "asr": 11.62
+          }
+        ],
+        "acc": 90.41,
+        "retain_change": 5.89,
+        "n_flagged": 2,
+        "seconds": 1.0,
+        "asr": 11.62
+      }
+    },
+    "control": {
+      "percl": {
+        "seq": [
+          7,
+          5,
+          6
+        ],
+        "roles": [
+          "benign",
+          "benign",
+          "benign"
+        ],
+        "steps": [
+          {
+            "i": 0,
+            "client": 7,
+            "role": "benign",
+            "z_inc": -1.48,
+            "z_glb": 1.79,
+            "flagged": false,
+            "repaired": false,
+            "repair_ok": null,
+            "acc": 94.58,
+            "asr": 8.59
+          },
+          {
+            "i": 1,
+            "client": 5,
+            "role": "benign",
+            "z_inc": 0.52,
+            "z_glb": 5.08,
+            "flagged": false,
+            "repaired": false,
+            "repair_ok": null,
+            "acc": 91.27,
+            "asr": 19.5
+          },
+          {
+            "i": 2,
+            "client": 6,
+            "role": "benign",
+            "z_inc": 1.71,
+            "z_glb": 15.24,
+            "flagged": false,
+            "repaired": false,
+            "repair_ok": null,
+            "acc": 80.22,
+            "asr": 43.94
+          }
+        ],
+        "acc": 80.22,
+        "retain_change": 18.18,
+        "n_flagged": 0,
+        "seconds": 0.7,
+        "asr": 43.94
+      },
+      "global": {
+        "seq": [
+          7,
+          5,
+          6
+        ],
+        "roles": [
+          "benign",
+          "benign",
+          "benign"
+        ],
+        "steps": [
+          {
+            "i": 0,
+            "client": 7,
+            "role": "benign",
+            "z_inc": -1.48,
+            "z_glb": 1.79,
+            "flagged": false,
+            "repaired": false,
+            "repair_ok": null,
+            "acc": 94.58,
+            "asr": 8.59
+          },
+          {
+            "i": 1,
+            "client": 5,
+            "role": "benign",
+            "z_inc": 0.52,
+            "z_glb": 5.08,
+            "flagged": true,
+            "repaired": true,
+            "repair_ok": true,
+            "acc": 94.84,
+            "asr": 5.56
+          },
+          {
+            "i": 2,
+            "client": 6,
+            "role": "benign",
+            "z_inc": -0.02,
+            "z_glb": 3.44,
+            "flagged": true,
+            "repaired": true,
+            "repair_ok": true,
+            "acc": 93.11,
+            "asr": 11.86
+          }
+        ],
+        "acc": 93.11,
+        "retain_change": 4.26,
+        "n_flagged": 2,
+        "seconds": 0.9,
+        "asr": 11.86
+      }
+    }
+  }
+}
