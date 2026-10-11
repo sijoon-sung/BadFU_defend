@@ -444,8 +444,8 @@ def main():
                         trace.append({"piece": pi, "delta": round(delta, 4), "removed": round(removed, 4), "h": pop["h"],
                                       "healthy_delta": healthy_ok, "req_changed": round(req_chg, 4), "hard_collapse": True,
                                       "n_healthy": len(pop["healthy"]), "stat": None, "z": None, "z_cum": None,
-                                      "flagged": True, "repaired": False, "repair_ok": None, "repair_steps": 0, "z_after": None,
-                                      "aborted": True})
+                                      "flagged": False, "repaired": False, "repair_ok": None, "repair_steps": 0, "z_after": None,
+                                      "aborted": True})          # 멈춤은 경보가 아니다 (n_hard_collapse 로 따로 센다)
                         aborted = True
                         break
                     # --- 실제로 뺀다 (연산자 R)
