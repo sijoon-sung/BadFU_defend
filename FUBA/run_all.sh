@@ -8,6 +8,9 @@
 #   latent    잠재 위험 지도, 가중치만 (latent_risk.py)    -> logs/latent_risk/{NAME}.json
 #   release   빼 보기: 천천히 빼기 + 전원 빼 보기 (release_map.py) -> logs/release_map/{NAME}.json
 #   progressive 진행형 FU: 강도를 올려 가며 탐지, 걸리면 정화 (progressive_fu.py) -> logs/progressive_fu/{NAME}.json
+#   dose      투여량 조절 FU: 상한 c 로 δ 선택, 같은 양 비교, 걸리면 수정 (dose_fu.py) -> logs/dose_fu/{NAME}.json
+#   masa      기준선 MASA: 학습 중 라운드별 언러닝 손실 편차 (baseline_masa.py)   -> logs/baseline_masa/{NAME}.json
+#   subid     기준선 SubID 식 부분공간 편차 (baseline_subid.py)                 -> logs/baseline_subid/{NAME}.json
 #   aggregate 조건별 평균±표준편차 + 종합 보고서           -> logs/*/summary_{cond}.md, logs/pipeline/REPORT_{cond}.md
 #
 # 사용법 (FUBA 폴더에서)
@@ -36,7 +39,7 @@ export PYTHONIOENCODING=utf-8
 
 CONDS="${CONDS:-owner iid}"
 SEEDS="${SEEDS:-0 1 2}"
-STAGES="${STAGES:-attack benign robust latent release progressive aggregate}"
+STAGES="${STAGES:-attack benign robust latent release progressive dose masa subid aggregate}"
 K="${K:-8}"
 ROUNDS="${ROUNDS:-8}"
 WARMUP="${WARMUP:-3}"
@@ -51,6 +54,10 @@ ROBUST_EXTRA="${ROBUST_EXTRA:-}"
 LATENT_EXTRA="${LATENT_EXTRA:-}"
 RELEASE_EXTRA="${RELEASE_EXTRA:---ref population}"   # 기본: 나머지 전원 기준, linf+patch 탐색 (release_map.py 기본값)
 PROGRESSIVE_EXTRA="${PROGRESSIVE_EXTRA:-}"            # 예: PROGRESSIVE_EXTRA="--tau 3 --delta_mode grid"
+DOSE_EXTRA="${DOSE_EXTRA:-}"                          # 예: DOSE_EXTRA="--cap 0.2 --m 5"
+DOSE_SPLIT="${DOSE_SPLIT:-0}"                         # >1 이면 쪼개기 공격 실험도 (--split N --ledger)
+MASA_EXTRA="${MASA_EXTRA:-}"
+SUBID_EXTRA="${SUBID_EXTRA:-}"
 
 export ROUNDS WARMUP   # run_real_fuba.sh 가 읽는다
 mkdir -p logs/pipeline
@@ -134,6 +141,30 @@ stage_progressive() {         # <name> <seed>  — 진행형 정확 제거 FU (�
     --seed "$seed" --split_seed "$seed" "${NI[@]}" --defender "$DEFENDER" --requesters "$DEFENDER" $((K - 1)) 5 $PROGRESSIVE_EXTRA --resume
 }
 
+stage_dose() {                # <name> <seed>  — 투여량 조절 FU (제안), 요청자 4 / K-1 / 5
+  local name="$1" seed="$2"
+  maybe_rm "logs/dose_fu/${name}.json"
+  run_log "logs/pipeline/${name}.dose.log" python dose_fu.py --fmt fuba --name "$name" --K "$K" --rounds "$ROUNDS"     --seed "$seed" --split_seed "$seed" "${NI[@]}" --defender "$DEFENDER" --requesters "$DEFENDER" $((K - 1)) 5 $DOSE_EXTRA --resume
+  if [ "$DOSE_SPLIT" -gt 1 ]; then
+    maybe_rm "logs/dose_fu/${name}_split${DOSE_SPLIT}_ledger.json"
+    run_log "logs/pipeline/${name}.dose_split.log" python dose_fu.py --fmt fuba --name "$name" --K "$K" --rounds "$ROUNDS"       --seed "$seed" --split_seed "$seed" "${NI[@]}" --defender "$DEFENDER" --requesters "$DEFENDER" $((K - 1)) 5       --split "$DOSE_SPLIT" --ledger --arms oneshot dose $DOSE_EXTRA --resume
+  fi
+}
+
+stage_masa() {                # <name> <seed>  — 기준선 MASA (학습 중)
+  local name="$1" seed="$2"
+  maybe_rm "logs/baseline_masa/${name}.json"
+  if [ "$FORCE" != "1" ] && [ -f "logs/baseline_masa/${name}.json" ]; then echo "  [$name] masa 결과 있음 — 생략"; return 0; fi
+  run_log "logs/pipeline/${name}.masa.log" python baseline_masa.py --fmt fuba --name "$name" --K "$K" --rounds "$ROUNDS"     --seed "$seed" --defender "$DEFENDER" --attackers 0 1 2 3 $MASA_EXTRA
+}
+
+stage_subid() {               # <name> <seed>  — 기준선 SubID 식 점수 (학습 없음)
+  local name="$1" seed="$2"
+  maybe_rm "logs/baseline_subid/${name}.json"
+  if [ "$FORCE" != "1" ] && [ -f "logs/baseline_subid/${name}.json" ]; then echo "  [$name] subid 결과 있음 — 생략"; return 0; fi
+  run_log "logs/pipeline/${name}.subid.log" python baseline_subid.py --fmt fuba --name "$name" --K "$K" --rounds "$ROUNDS"     --defender "$DEFENDER" --attackers 0 1 2 3 $SUBID_EXTRA
+}
+
 stage_aggregate() {           # <label> <names...>
   local label="$1"; shift
   local names=("$@") report="logs/pipeline/REPORT_${label}.md"
@@ -144,10 +175,13 @@ stage_aggregate() {           # <label> <names...>
   { has latent && have latent_risk; }      && run python aggregate_latent_risk.py --names "${names[@]}" --out "logs/latent_risk/summary_${label}.md"
   { has release && have release_map; }     && run python aggregate_release_map.py --cond "$label"
   { has progressive && have progressive_fu; } && run python aggregate_progressive_fu.py --cond "$label"
+  { has dose && have dose_fu; }            && run python aggregate_dose_fu.py --cond "$label"
+  { has dose && [ "$DOSE_SPLIT" -gt 1 ] && have dose_fu; } && run python aggregate_dose_fu.py --cond "$label" --tag "_split${DOSE_SPLIT}_ledger"
+  { { has masa && have baseline_masa; } || { has subid && have baseline_subid; }; } && run python aggregate_baselines.py --cond "$label"
   [ "$DRY" = "1" ] && return 0
   {
     echo "# 종합 보고서: $label  (K=$K, ROUNDS=$ROUNDS, WARMUP=$WARMUP, seeds: $SEEDS)"; echo
-    for f in "logs/benign_departure/summary_${label}.md" "logs/robust_fu/summary_${label}.md" "logs/latent_risk/summary_${label}.md" "logs/release_map/summary_${label}.md" "logs/progressive_fu/summary_${label}.md"; do
+    for f in "logs/benign_departure/summary_${label}.md" "logs/robust_fu/summary_${label}.md" "logs/latent_risk/summary_${label}.md" "logs/release_map/summary_${label}.md" "logs/progressive_fu/summary_${label}.md" "logs/dose_fu/summary_${label}.md" "logs/dose_fu/summary_${label}_split${DOSE_SPLIT}_ledger.md" "logs/baselines/summary_${label}.md"; do
       [ -f "$f" ] && { echo "---"; echo "<!-- $f -->"; cat "$f"; echo; }
     done
   } > "$report"
@@ -169,9 +203,12 @@ for COND in $CONDS; do
     has latent && stage_latent "$NAME" "$SEED"
     has release && stage_release "$NAME" "$SEED"
     has progressive && stage_progressive "$NAME" "$SEED"
+    has dose && stage_dose "$NAME" "$SEED"
+    has masa && stage_masa "$NAME" "$SEED"
+    has subid && stage_subid "$NAME" "$SEED"
     sleep 2
   done
   if has aggregate; then echo; echo "==== [$COND] 집계"; stage_aggregate "$LABEL" "${NAMES[@]}"; fi
 done
 echo
-echo "== 끝. 올릴 것: git add FUBA/logs/benign_departure FUBA/logs/robust_fu FUBA/logs/latent_risk FUBA/logs/pipeline"
+echo "== 끝. 올릴 것: git add FUBA/logs/benign_departure FUBA/logs/robust_fu FUBA/logs/latent_risk FUBA/logs/release_map FUBA/logs/progressive_fu FUBA/logs/dose_fu FUBA/logs/baseline_masa FUBA/logs/baseline_subid FUBA/logs/baselines FUBA/logs/pipeline"

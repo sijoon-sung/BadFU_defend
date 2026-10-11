@@ -38,18 +38,21 @@ check(θ, k, δ):
   ref = 중앙값 앙상블(P)                              # 입력별 확률의 중앙값
   s_k = d( R(θ, k, δ), ref )
   s_j = d( R(θ, j, δ), ref_{-j} )  for j in P        # 각자 자기를 뺀 기준으로
-  z = ( s_k − median(s_j) ) / MAD(s_j)
+  z = ( s_k − median(s_j) ) / scale(s_j)        # scale: 기본 std, 옵션 MAD
   return z, ref
 ```
 반환값 z > τ 이면 "행동 변경 요청"으로 표시. 모집단 P 는 요청자와 무관하므로 요청 한 건당 한 번만 만들고 캐시한다.
+scale 에 MAD 를 쓰면 더 강건해 보이지만, FUBA 기본 설정(8 명 중 공격자 4 + 억제자 1)처럼 **제거 효과가 거의 0 인 멤버가
+모집단의 절반을 넘으면** 중앙값·MAD 가 그쪽에 붙어 정상 요청(s=0.05)도 z=15 가 된다(2026-10-11 확인). 기본은 std.
 
 **부품 C. 작은 수정 (repair)**
 ```
 repair(θ_k, ref, X_p):
   목적: X_p 에서 θ_k 의 예측 분포를 ref 쪽으로. 손실 = KL( softmax(θ_k(x)) ‖ ref(x) )
   SGD lr 0.001, 최대 50 걸음, 기울기 클립 5, BN 통계 고정
-  조기 종료: check 를 다시 했을 때 z ≤ τ
   발산(NaN)하면 수정 전으로 되돌리고 실패 표시
+  (조기 종료 옵션: N 걸음마다 check 해서 z ≤ rep_stop 이면 멈춤. 탐침 z 는 10 걸음이면 떨어지지만 ASR 은 더 걸려서
+   조기 종료하면 ASR 19 가 남았다(50 걸음 전부: 8). 기본은 끔)
 ```
 라벨 없음, 트리거 지식 없음. "남들 입력에서의 행동만 되돌린다"는 정의 2 의 뒷부분을 이 손실이 그대로 구현한다.
 
@@ -109,8 +112,13 @@ K=8 전원 15 s / 표본5 7 s, K=100 전원 18 min / 표본5 47 s. 단계가 S �
 - "같은 양의 임의 샘플 제거"는 **대조군**으로 쓰였다: 2026 clean-label 공격 논문의 Appendix E (임의 제거 +3 vs 위장 제거 +75). 우리의 부품 B 는 이 대조군을 매 요청마다 자동으로 세우는 것이다.
 - MASA(WACV'25)는 학습 중 각 로컬 모델에 깨끗한 데이터로 언러닝을 걸어 손실을 모집단 중앙값과 비교한다. 우리는 요청 시점에, 라벨·학습 없이, 요청된 제거 자체를 수행해 비교한다.
 
-## 10. 코드로 옮길 때 바뀌는 곳
-- `progressive_fu.py`: 고정 ρ 목록 `--rhos` 를 부품 A 로 대체 (`--cap` 이미 있음). `arm`은 `dose` 하나로.
-- 수정 조기 종료(z ≤ τ)와 실패 시 되돌림은 `purify()` 에 추가.
-- 누적 장부는 새 모듈 (클라이언트별 V_k, 창 W).
-- 평가 표: 요청자별 ASR/ACC/retain_change/forget + 단계 수 S + 표시 횟수 + 비용(초). 소거: c 를 바꿔 S 와 결과 변화, "항상 수정" 팔(P1 위반 보여 주기).
+## 10. 코드 (2026-10-11 구현)
+| 파일 | 내용 |
+|---|---|
+| `FUBA/dose_fu.py` | 본체. arms plain / oneshot / dose / always. `--split n --ledger --window W` 로 5 절. `--cap --tau --m --zmode` 손잡이 |
+| `FUBA/aggregate_dose_fu.py` | 시드 평균 표 (`--tag _split5_ledger` 로 쪼개기 결과) |
+| `FUBA/baseline_masa.py` | 기준선 MASA: 라운드별 로컬 모델 복원 → 융합 → 손실 최대화 → 중앙값 편차 점수 |
+| `FUBA/baseline_subid.py` | 기준선 SubID 식: 제거 벡터·학습 갱신의 부분공간 잔차 + MAD 규칙 |
+| `FUBA/aggregate_baselines.py` | 두 기준선 요약 |
+| `FUBA/run_all.sh` | 단계 `dose masa subid` 추가 (`DOSE_SPLIT=5` 면 쪼개기 실험도) |
+평가 표: 요청자별 ASR/ACC/retain_change/forget + 단계 수 + 표시·수정 횟수 + 가상 모델 수 + 초. 소거: c 를 바꿔 단계 수와 결과, "always" 팔(P1 위반).
