@@ -125,10 +125,13 @@ def seed_all(s):
     random.seed(s); np.random.seed(s); torch.manual_seed(s); torch.cuda.manual_seed_all(s)
 
 
+Z_UNDECIDABLE = 99.0   # 모집단이 비었거나 흩어짐이 0 인데 값이 다르면: 판단 불가 → 표시 (조용히 통과시키지 않는다)
+
+
 def robust_z(x, others, mode="mad"):
     o = np.asarray(others, dtype=float)
     if o.size < 2:
-        return 0.0
+        return 0.0 if (o.size == 1 and abs(x - float(o[0])) <= 0.01) else Z_UNDECIDABLE
     med = float(np.median(o))
     if mode == "iqr":
         q1, q3 = np.percentile(o, 25), np.percentile(o, 75)
@@ -139,8 +142,10 @@ def robust_z(x, others, mode="mad"):
         mad = 1.4826 * float(np.median(np.abs(o - med)))
         if mad > 1e-6:
             return float((x - med) / mad)
-    sd = float(np.std(o))
-    return float((x - med) / sd) if sd > 1e-6 else 0.0
+    sd = float(np.std(o, ddof=1))
+    if sd > 1e-6:
+        return float((x - med) / sd)
+    return 0.0 if abs(x - med) <= 0.01 else Z_UNDECIDABLE      # 흩어짐 0: 차이가 탐침 1 % 미만이면 같다고 본다
 
 
 class Engine:
@@ -167,10 +172,17 @@ class Engine:
     def model(self, theta):
         return make_model(self.factory, self.flat.to_sd(theta), self.device)
 
+    @staticmethod
+    def fp(theta):
+        """모델 지문. 캐시는 '어떤 모델에서' 만든 모집단인지로 구분해야 한다 (단계 번호가 아니라)."""
+        return (round(float(theta.sum().item()), 4), round(float(theta.abs().sum().item()), 4),
+                round(float(theta[::997].sum().item()), 5), int(theta.numel()))
+
     def base_pred(self, base_id, theta):
-        if base_id not in self.base_models:
-            self.base_models[base_id] = probs(self.model(theta), self.xs).argmax(1)
-        return self.base_models[base_id]
+        key = self.fp(theta)
+        if key not in self.base_models:
+            self.base_models[key] = probs(self.model(theta), self.xs).argmax(1)
+        return self.base_models[key]
 
     def stat_of(self, pk, pr):
         d = divergence(pr.argmax(1), pk.argmax(1), self.a.n_classes)
@@ -179,7 +191,7 @@ class Engine:
 
     def population(self, theta, base_id, k, frac):
         """θ 에서 요청자 제외 남들을 frac 만큼 뺀 모델들. 건강(changed ≤ cap)한 것만 기준에 넣는다."""
-        key = (base_id, k, round(frac, 4))
+        key = (self.fp(theta), k, tuple(self.others(k)), round(frac, 4), self.probe_mode)
         if key in self.cache:
             return self.cache[key]
         pred_base = self.base_pred(base_id, theta)
@@ -458,7 +470,11 @@ def main():
                     trace.append(step)
                 if not aborted:
                     removed_pieces.append(piece)
+            theta_plain = tT - removed * U[k]
+            uk2 = float((U[k] * U[k]).sum().item())
+            alpha = float(((theta - theta_plain) * U[k]).sum().item() / uk2) if uk2 > 0 else None
             final = {"role": role, "acc": acc_of(m_k, eval_loader, device),
+                     "reinjection_alpha": None if alpha is None else round(alpha, 4),   # 요청자 기여가 되돌아온 비율 (0 = 기본 FU 와 같음)
                      "retain_change": retain_change(m_k, m0, eval_loader, device),
                      "removed": round(removed, 4), "aborted": aborted,
                      "n_steps": len(trace), "n_flagged": sum(s["flagged"] for s in trace),
@@ -479,7 +495,7 @@ def main():
                 json.dump(res, f, ensure_ascii=False, indent=2)
             zs = " ".join(fmt_step(s) for s in trace)
             print(f"[{a.name}{tag}] req={k} {role:19s} {arm:8s} ASR {final.get('asr')} ACC {final['acc']} retain {final['retain_change']} "
-                  f"removed {final['removed']}{' ABORT' if aborted else ''} steps {final['n_steps']} flag {final['n_flagged']} rep {final['n_repaired']} models {final['pop_models']} {final['seconds']}s | {zs}", flush=True)
+                  f"removed {final['removed']}{' ABORT' if aborted else ''} alpha {final['reinjection_alpha']} steps {final['n_steps']} flag {final['n_flagged']} rep {final['n_repaired']} models {final['pop_models']} {final['seconds']}s | {zs}", flush=True)
 
     print(f"\n== {a.name}{tag}  before: ACC {res['before']['acc']} / ASR {res['before'].get('asr')}   (ASR (ACC) 단계/경보/수정)")
     print("arm".ljust(9) + "".join(f"req{k}".rjust(24) for k in a.requesters))
