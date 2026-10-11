@@ -37,6 +37,7 @@ set -euo pipefail
 cd "$(dirname "$0")"
 [ -x ../.venv/Scripts/python.exe ] && export PATH="$(cd .. && pwd)/.venv/Scripts:$PATH"
 [ -d /c/Users/DISLAB/AppData/Local/Programs/Python/Python312/Library/bin ] && export PATH="/c/Users/DISLAB/AppData/Local/Programs/Python/Python312/Library/bin:$PATH"
+[ -d /c/Users/DISLAB/AppData/Local/Programs/Python/Python312 ] && export PATH="/c/Users/DISLAB/AppData/Local/Programs/Python/Python312:/c/Users/DISLAB/AppData/Local/Programs/Python/Python312/Scripts:$PATH"
 export PYTHONIOENCODING=utf-8
 
 CONDS="${CONDS:-owner iid}"
