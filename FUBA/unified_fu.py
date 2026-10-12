@@ -61,7 +61,7 @@ def parse():
     p.add_argument("--forget_n", type=int, default=500)
     # A
     p.add_argument("--screen", choices=["on", "off"], default="on")
-    p.add_argument("--tau_screen", type=float, default=2.5, help="거름망 문턱 (보수적으로 낮게)")
+    p.add_argument("--tau_screen", type=float, default=1.5, help="거름망 문턱. 보수적으로 낮게: 거름망은 비용을 줄이는 장치이지 판정이 아니다 (BadFU 위장자의 지표 z 가 2.0 이라 2.5 면 놓친다 — 로컬 확인)")
     # B
     p.add_argument("--stat", choices=["mass", "changed", "shift", "flow"], default="flow")
     p.add_argument("--cap", type=float, default=0.3)
