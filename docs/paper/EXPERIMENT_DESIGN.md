@@ -1,5 +1,7 @@
 # 알고리즘 정식화와 실험 설계 (논문 초안용, 2026-10-11)
 
+> 이 문서의 2–3 절(알고리즘 정식화)은 **METHOD.md** 로 대체되었다. 여기서는 4 절(비교군)과 5 절(RQ·표·스크립트)만 유효하다.
+
 코드: `FUBA/dose_fu.py` (알고리즘 1), `FUBA/pair_roles.py` (알고리즘 2), 실험 전체 `FUBA/run_paper.sh`, 표 `FUBA/paper_tables.py`.
 
 ---

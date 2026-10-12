@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""논문 표 생성: logs/* 의 조건별 시드 결과를 RQ 별 표로 모은다 (docs/paper/ALGORITHMS.md 5 절).
+"""논문 표 생성: logs/* 의 조건별 시드 결과를 RQ 별 표로 모은다 (docs/paper/EXPERIMENT_DESIGN.md 5 절).
 
   python paper_tables.py --cond iid        → docs/paper/tables_iid.md
 T1 RQ1  FU 연산자(benign_departure) + DOSE-FU(dose_fu) + FedEraser-R(robust_fu): 요청자 × 방법 (ASR/ACC/유지/망각)
