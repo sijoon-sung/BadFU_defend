@@ -75,6 +75,7 @@
     "min_act": 10,
     "max_purify": 2,
     "polish": "kd_orth",
+    "polish_ref": "agree",
     "rep_steps": 50,
     "rep_lr": 0.01,
     "rep_bs": 128,
@@ -305,12 +306,12 @@
           {
             "delta": 0.2,
             "removed": 1.0,
-            "h": 0.008,
+            "h": 0.004,
             "n_healthy": 7,
-            "stat": 0.0207,
+            "stat": 0.0248,
             "to_class": 8,
-            "src_div": 0.9427,
-            "z": 4.22,
+            "src_div": 0.9173,
+            "z": 3.42,
             "tau": 3.0,
             "flagged": true,
             "repaired": true,
@@ -434,11 +435,13 @@
           },
           "cos_Uk_h": -0.0131,
           "chosen_lam": 0.5,
+          "polish_n_inputs": 828,
           "polish": {
+            "ref": "agree",
             "ok": true,
             "steps": 50,
-            "z": -0.06,
-            "health": 0.0154,
+            "z": 0.42,
+            "health": 0.0119,
             "alpha_vs_antidote": -0.0
           }
         },
@@ -446,19 +449,19 @@
           "c_star": 8,
           "c_star_attr": 6,
           "class_match": false,
-          "n_act": 22,
+          "n_act": 27,
           "variants": [
             {
               "lam": 0.25,
-              "z": 0.98,
+              "z": 0.33,
               "health": 0.0123
             }
           ],
           "pair_act": {
-            "n_act": 22,
+            "n_act": 27,
             "eps2": 0.1,
             "rule": "gap",
-            "ratio": 0.8762,
+            "ratio": 0.7731,
             "set": [
               2,
               0,
@@ -466,8 +469,8 @@
               1
             ],
             "w": {
-              "2": 0.5717,
-              "0": 0.0,
+              "2": 0.4241,
+              "0": 0.0584,
               "3": 0.0,
               "1": 0.0
             },
@@ -478,41 +481,41 @@
               "carrier"
             ],
             "forward": {
-              "ratio": 0.8762,
+              "ratio": 0.7724,
               "set": [
                 2
               ],
               "w": {
-                "2": 0.5717
+                "2": 0.4623
               },
               "hist": [
-                0.1238
+                0.2276
               ]
             },
             "collapsed": [],
             "iters": [
               {
                 "iter": 2,
-                "n_inputs": 22,
+                "n_inputs": 27,
                 "set": [
                   2,
                   0,
                   3,
                   1
                 ],
-                "ratio": 0.8762
+                "ratio": 0.7731
               }
             ],
             "set_precision": 1.0,
             "set_recall": 1.0,
             "align": {
-              "0": -0.881,
-              "1": -0.87,
-              "2": -0.936,
-              "3": -0.874,
-              "5": 0.938,
-              "6": 0.904,
-              "7": 0.698
+              "0": -0.833,
+              "1": -0.797,
+              "2": -0.879,
+              "3": -0.827,
+              "5": 0.949,
+              "6": 0.903,
+              "7": 0.64
             }
           },
           "set_agree": 0.6,
@@ -535,28 +538,30 @@
             "carrier"
           ],
           "frac_of_partner": {
-            "2": 0.0285,
-            "0": 0.0181,
-            "3": 0.0201,
-            "1": 0.022
+            "2": 0.0289,
+            "0": 0.0214,
+            "3": 0.0264,
+            "1": 0.0285
           },
-          "cos_Uk_h": -0.0146,
+          "cos_Uk_h": -0.0116,
           "chosen_lam": 0.25,
+          "polish_n_inputs": 968,
           "polish": {
+            "ref": "agree",
             "ok": true,
             "steps": 50,
-            "z": 0.39,
-            "health": 0.0082,
+            "z": 0.51,
+            "health": 0.0072,
             "alpha_vs_antidote": -0.0
           }
         }
       ],
       "final": {
-        "acc": 89.37,
-        "retain_change": 5.44,
+        "acc": 86.4,
+        "retain_change": 7.93,
         "alpha": 0.0003,
-        "asr": 12.11,
-        "forget_acc": 90.47
+        "asr": 12.76,
+        "forget_acc": 89.24
       },
       "cost": {
         "attr_forwards": 78,

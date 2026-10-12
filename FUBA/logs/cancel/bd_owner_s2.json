@@ -75,6 +75,7 @@
     "min_act": 10,
     "max_purify": 2,
     "polish": "none",
+    "polish_ref": "agree",
     "rep_steps": 50,
     "rep_lr": 0.01,
     "rep_bs": 128,

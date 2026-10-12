@@ -75,6 +75,7 @@
     "min_act": 10,
     "max_purify": 2,
     "polish": "kd_orth",
+    "polish_ref": "agree",
     "rep_steps": 50,
     "rep_lr": 0.01,
     "rep_bs": 128,
@@ -411,27 +412,29 @@
           },
           "cos_Uk_h": -0.0139,
           "chosen_lam": 0.5,
+          "polish_n_inputs": 760,
           "polish": {
+            "ref": "agree",
             "ok": true,
             "steps": 50,
-            "z": 0.18,
-            "health": 0.0169,
+            "z": 0.34,
+            "health": 0.0078,
             "alpha_vs_antidote": 0.0
           }
         }
       ],
       "final": {
-        "acc": 91.46,
-        "retain_change": 4.84,
+        "acc": 90.78,
+        "retain_change": 5.35,
         "alpha": 0.0003,
-        "asr": 7.11,
-        "forget_acc": 91.29
+        "asr": 10.25,
+        "forget_acc": 90.44
       },
       "cost": {
         "attr_forwards": 71,
         "pop_models": 8,
         "forwards": 15,
-        "seconds": 0.9
+        "seconds": 0.8
       }
     },
     "7": {
@@ -629,7 +632,7 @@
         "attr_forwards": 64,
         "pop_models": 0,
         "forwards": 7,
-        "seconds": 0.5
+        "seconds": 0.4
       }
     },
     "5": {
@@ -821,7 +824,7 @@
         "attr_forwards": 64,
         "pop_models": 0,
         "forwards": 7,
-        "seconds": 0.4
+        "seconds": 0.5
       }
     }
   }
