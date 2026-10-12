@@ -1,0 +1,444 @@
+{
+  "name": "bd_iid_r100w5_k20paper_s1",
+  "fmt": "fuba",
+  "args": {
+    "fmt": "fuba",
+    "name": "bd_iid_r100w5_k20paper_s1",
+    "rounds": 100,
+    "K": 20,
+    "ckpt_dir": "checkpoints",
+    "traj_dir": null,
+    "counts": null,
+    "data_root": "./data",
+    "badfu_record": null,
+    "requesters": [
+      4,
+      19,
+      5
+    ],
+    "defender": 4,
+    "defenders": [
+      4
+    ],
+    "attackers": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "target": 8,
+    "n_classes": 10,
+    "probe": 500,
+    "probe_mode": "forget",
+    "forget_n": 500,
+    "screen": "off",
+    "tau_screen": 1.5,
+    "stat": "flow",
+    "cap": 0.3,
+    "tau": 3.0,
+    "tau_mode": "fixed",
+    "tau_margin": 1.0,
+    "m": 0,
+    "zmode": "std",
+    "delta_min": 0.1,
+    "op": "subtract",
+    "kd_steps": 30,
+    "kd_lr": 0.01,
+    "lams": [
+      0.5,
+      1,
+      2,
+      4,
+      8
+    ],
+    "lam_rule": "first",
+    "min_act": 10,
+    "max_purify": 2,
+    "rep_steps": 50,
+    "rep_lr": 0.01,
+    "rep_bs": 128,
+    "rep_every": 0,
+    "rep_stop": 1.0,
+    "mia_n": 1000,
+    "seed": 523,
+    "split_seed": 523,
+    "non_iid": false,
+    "non_iid_type": null,
+    "alpha": 1,
+    "sigma": 1,
+    "shift_ratio": 0.4,
+    "owner_client": -1,
+    "owner_class": 3,
+    "owner_frac": 0.9,
+    "train_epoch": 100,
+    "batch_size": 64,
+    "noise_thread": 0.04,
+    "atk_eps": 1.0,
+    "n_gpu": 1,
+    "out": null,
+    "resume": true
+  },
+  "K": 20,
+  "roles": {
+    "0": "carrier",
+    "1": "carrier",
+    "2": "carrier",
+    "3": "carrier",
+    "4": "suppressor",
+    "5": "benign",
+    "6": "benign",
+    "7": "benign",
+    "8": "benign",
+    "9": "benign",
+    "10": "benign",
+    "11": "benign",
+    "12": "benign",
+    "13": "benign",
+    "14": "benign",
+    "15": "benign",
+    "16": "benign",
+    "17": "benign",
+    "18": "benign",
+    "19": "benign"
+  },
+  "before": {
+    "acc": 98.69,
+    "asr": 3.15
+  },
+  "results": {
+    "4": {
+      "role": "suppressor",
+      "decision": "reject(purify_failed)",
+      "confirm": {
+        "trace": [
+          {
+            "delta": 0.2,
+            "removed": 0.2,
+            "h": 0.002,
+            "n_healthy": 19,
+            "stat": 0.0209,
+            "to_class": 8,
+            "src_div": 0.8344,
+            "flip_conf": 0.7416,
+            "z": 72.94,
+            "tau": 3.0,
+            "flagged": true,
+            "repaired": true,
+            "hard_collapse": false,
+            "how": "kd"
+          },
+          {
+            "delta": 0.2,
+            "removed": 0.4,
+            "h": 0.004,
+            "n_healthy": 19,
+            "stat": 0.1021,
+            "to_class": 8,
+            "src_div": 0.8802,
+            "flip_conf": 0.7294,
+            "z": 406.27,
+            "tau": 3.0,
+            "flagged": true,
+            "repaired": true,
+            "hard_collapse": false,
+            "how": "kd"
+          },
+          {
+            "delta": 0.2,
+            "removed": 0.6,
+            "h": 0.002,
+            "n_healthy": 19,
+            "stat": 0.1499,
+            "to_class": 8,
+            "src_div": 0.9369,
+            "flip_conf": 0.714,
+            "z": 558.24,
+            "tau": 3.0,
+            "flagged": true,
+            "repaired": false,
+            "hard_collapse": false
+          }
+        ],
+        "removed": 0.6,
+        "aborted": false,
+        "flagged": true
+      },
+      "purify": [
+        {
+          "delta_c": 0.2,
+          "carriers": [
+            0,
+            1,
+            2,
+            10,
+            5
+          ],
+          "carrier_roles": [
+            "carrier",
+            "carrier",
+            "carrier",
+            "benign",
+            "benign"
+          ],
+          "map": {
+            "0": 0.0102,
+            "1": 0.0102,
+            "2": 0.0096,
+            "3": 0.005,
+            "5": 0.0063,
+            "6": 0.0005,
+            "7": 0.0009,
+            "8": -0.0035,
+            "9": 0.0037,
+            "10": 0.0084,
+            "11": 0.0028,
+            "12": 0.0033,
+            "13": -0.0062,
+            "14": 0.0002,
+            "15": 0.006,
+            "16": -0.0028,
+            "17": 0.0002,
+            "18": 0.0003,
+            "19": 0.0034
+          },
+          "c_star": 8,
+          "n_act": 25,
+          "variants": [
+            {
+              "lam": 0.5,
+              "z": 20.24,
+              "health": 0.04
+            },
+            {
+              "lam": 1,
+              "z": 84.8,
+              "health": 0.127
+            },
+            {
+              "lam": 2,
+              "z": 369.23,
+              "health": 0.335
+            }
+          ],
+          "frac_of_carrier": {
+            "0": 0.1141,
+            "1": 0.0962,
+            "2": 0.1015,
+            "10": 0.0714,
+            "5": 0.0771
+          },
+          "chosen_lam": null,
+          "fallback_kd": {
+            "ok": true,
+            "z": -0.0
+          }
+        },
+        {
+          "delta_c": 0.2,
+          "carriers": [
+            2,
+            0,
+            1,
+            10,
+            3,
+            19,
+            5
+          ],
+          "carrier_roles": [
+            "carrier",
+            "carrier",
+            "carrier",
+            "benign",
+            "carrier",
+            "benign",
+            "benign"
+          ],
+          "map": {
+            "0": 0.0503,
+            "1": 0.0477,
+            "2": 0.0524,
+            "3": 0.03,
+            "5": 0.0233,
+            "6": -0.0031,
+            "7": 0.0174,
+            "8": -0.0101,
+            "9": 0.0069,
+            "10": 0.0311,
+            "11": -0.0066,
+            "12": 0.0177,
+            "13": -0.0197,
+            "14": -0.0187,
+            "15": 0.0209,
+            "16": -0.0069,
+            "17": -0.0153,
+            "18": -0.0132,
+            "19": 0.0235
+          },
+          "c_star": 8,
+          "n_act": 116,
+          "variants": [
+            {
+              "lam": 0.5,
+              "z": 66.45,
+              "health": 0.177
+            },
+            {
+              "lam": 1,
+              "z": 548.32,
+              "health": 0.358
+            }
+          ],
+          "frac_of_carrier": {
+            "2": 0.1557,
+            "0": 0.1783,
+            "1": 0.1463,
+            "10": 0.0518,
+            "3": 0.1336,
+            "19": 0.072,
+            "5": 0.0712
+          },
+          "chosen_lam": null,
+          "fallback_kd": {
+            "ok": true,
+            "z": -0.0
+          }
+        }
+      ],
+      "final": {
+        "acc": 83.49,
+        "retain_change": 16.58,
+        "alpha": 0.0341,
+        "asr": 73.34,
+        "forget_acc": 81.07
+      },
+      "cost": {
+        "pop_models": 120,
+        "forwards": 234,
+        "seconds": 1.8
+      }
+    },
+    "19": {
+      "role": "benign",
+      "decision": "accept(confirm)",
+      "confirm": {
+        "trace": [
+          {
+            "delta": 1.0,
+            "removed": 1.0,
+            "h": 0.02,
+            "n_healthy": 18,
+            "stat": 0.0063,
+            "to_class": 4,
+            "src_div": 0.4879,
+            "flip_conf": 0.77,
+            "z": 0.67,
+            "tau": 3.0,
+            "flagged": false,
+            "repaired": false,
+            "hard_collapse": false
+          }
+        ],
+        "removed": 1.0,
+        "aborted": false,
+        "flagged": false
+      },
+      "purify": [],
+      "final": {
+        "acc": 96.01,
+        "retain_change": 3.33,
+        "alpha": 0.0,
+        "asr": 4.0,
+        "forget_acc": 94.57
+      },
+      "cost": {
+        "pop_models": 0,
+        "forwards": 19,
+        "seconds": 0.3
+      }
+    },
+    "5": {
+      "role": "benign",
+      "decision": "purified(antidote)",
+      "confirm": {
+        "trace": [
+          {
+            "delta": 1.0,
+            "removed": 1.0,
+            "h": 0.02,
+            "n_healthy": 18,
+            "stat": 0.0114,
+            "to_class": 4,
+            "src_div": 0.4943,
+            "flip_conf": 0.7467,
+            "z": 3.11,
+            "tau": 3.0,
+            "flagged": true,
+            "repaired": true,
+            "hard_collapse": false,
+            "how": "antidote"
+          }
+        ],
+        "removed": 1.0,
+        "aborted": false,
+        "flagged": true
+      },
+      "purify": [
+        {
+          "delta_c": 1.0,
+          "carriers": [
+            18
+          ],
+          "carrier_roles": [
+            "benign"
+          ],
+          "map": {
+            "0": -0.005,
+            "1": -0.0132,
+            "2": -0.0102,
+            "3": -0.008,
+            "4": null,
+            "6": -0.0058,
+            "7": -0.0128,
+            "8": 0.0009,
+            "9": -0.0005,
+            "10": -0.0368,
+            "11": -0.0001,
+            "12": 0.0037,
+            "13": -0.0008,
+            "14": 0.0008,
+            "15": -0.0056,
+            "16": -0.0151,
+            "17": 0.0016,
+            "18": 0.0059,
+            "19": -0.051
+          },
+          "c_star": 4,
+          "n_act": 23,
+          "variants": [
+            {
+              "lam": 0.5,
+              "z": 1.62,
+              "health": 0.009
+            }
+          ],
+          "frac_of_carrier": {
+            "18": 0.0446
+          },
+          "chosen_lam": 0.5
+        }
+      ],
+      "final": {
+        "acc": 96.85,
+        "retain_change": 2.57,
+        "alpha": 0.0014,
+        "asr": 2.28,
+        "forget_acc": 95.93
+      },
+      "cost": {
+        "pop_models": 0,
+        "forwards": 19,
+        "seconds": 0.4
+      }
+    }
+  }
+}
