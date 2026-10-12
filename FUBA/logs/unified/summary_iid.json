@@ -7,20 +7,20 @@
     ],
     "asr": [
       11.88,
-      0.0,
-      0.0
+      14.57,
+      8.23
     ],
     "acc": [
       90.67,
-      82.52,
-      82.44
+      90.26,
+      91.23
     ]
   },
   "7": {
     "decisions": [
-      "accept(screen)",
-      "accept(screen)",
-      "accept(screen)"
+      "accept(confirm)",
+      "accept(confirm)",
+      "accept(confirm)"
     ],
     "asr": [
       21.68,
@@ -35,7 +35,7 @@
   },
   "5": {
     "decisions": [
-      "accept(screen)",
+      "accept(confirm)",
       "accept(confirm)",
       "accept(confirm)"
     ],

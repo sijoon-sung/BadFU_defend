@@ -1,19 +1,19 @@
 {
   "4": {
     "decisions": [
-      "purified(antidote+kd)",
+      "purified(antidote+antidote)",
       "purified(antidote)",
-      "accept(screen)"
+      "purified(antidote+antidote)"
     ],
     "asr": [
-      0.0,
-      1.88,
-      49.7
+      26.13,
+      15.26,
+      22.32
     ],
     "acc": [
-      76.17,
-      86.03,
-      67.87
+      82.91,
+      86.96,
+      80.22
     ]
   },
   "7": {
@@ -35,8 +35,8 @@
   },
   "5": {
     "decisions": [
-      "accept(screen)",
-      "accept(screen)",
+      "accept(confirm)",
+      "accept(confirm)",
       "accept(confirm)"
     ],
     "asr": [
