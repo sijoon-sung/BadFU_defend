@@ -102,8 +102,7 @@ def t1u(cond, L):
     f = f"logs/unified/summary_{cond}.md"
     if os.path.exists(f):
         with open(f, encoding="utf-8") as fh:
-            body = fh.read().split("
-", 1)[1]
+            body = fh.read().split("\n", 1)[1]
         L += [f"## T1u. RQ1 — 하나의 절차 (거름망 → 확정 → 해독제 정화) ({cond})", body, ""]
 
 
