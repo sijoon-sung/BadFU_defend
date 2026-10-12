@@ -7,7 +7,7 @@
 #   DRY=1 bash run_paper.sh                # 명령만 출력
 #
 # 단계 ↔ RQ
-#   RQ1  fu(=benign_departure: subtract/distillation/fedEraser/retrain) + dose + unified   → T1, T1u
+#   RQ1  fu(=benign_departure) + dose + unified + effects   → T1, T1u, T1e
 #   RQ2  masa, subid, latent (+ tdef: 집계 방어 위에서 궤적 재생성 → fu, dose) → T2, T2b
 #   RQ3  pair                                                              → T3
 #   RQ4  adaptive                                                          → T4
@@ -30,7 +30,7 @@ has() { [[ " $RQ " == *" $1 "* ]]; }
 run_all() { echo "## run_all.sh $*"; env "$@" bash run_all.sh; }
 
 if has 1; then
-  run_all STAGES="attack benign dose unified aggregate" BENIGN_METHODS="subtract distillation fedEraser retrain_benign retrain_attack"
+  run_all STAGES="attack benign dose unified effects aggregate" BENIGN_METHODS="subtract distillation fedEraser retrain_benign retrain_attack"
 fi
 if has 2; then
   run_all STAGES="masa subid latent aggregate"

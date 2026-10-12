@@ -89,7 +89,7 @@ FUBA 와 BadFU 를 따로 푸는 방법은 각각 있다(FUBA: 공개 입력 빼
 
 | 단계 | 코드 | 상태 |
 |---|---|---|
-| A 지표 | `traj_indicators.py` | 있음. 결합 규칙(suspect) 미구현 |
+| A 지표 | `traj_indicators.py` (클래스 요약), `effects.py` (기능 효과 행렬, MATH.md) | 있음. unified 는 traj_indicators 를 쓰고, effects 는 독립 단계로 같은 궤적에서 타깃·운반자 집합까지 뽑는다 |
 | B 빼 보기 | `dose_fu.py` (probe_mode forget 기본, tau_mode loo, `--stat flow`) | 있음. flow 통계 추가(오늘). owner 재실행 필요 |
 | C 해독제 | `antidote.py` | 있음. 로컬 FUBA 1 시드: λ=1 에서 ASR 62.9 → 4.5, ACC 90, α 0.0006 (운반자 몫의 5 % 만 뺌). KD 재억제(9.7, α 0.13)·통째 제거(8.8, ACC 77)보다 낫다. REPORT 10 절 |
 | D 순차 | `schedule_fu.py` | 있음 |
