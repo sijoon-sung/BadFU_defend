@@ -32,6 +32,7 @@
 ## 어디부터 읽나
 | 문서 | 내용 |
 |---|---|
+| [docs/paper/ALGORITHMIZATION.md](docs/paper/ALGORITHMIZATION.md) | **관찰 → 알고리즘**: 다른 방어 논문 6편이 밟은 다섯 단계, 우리의 균형 장부(Balance Ledger) 알고리즘과 불변량·영분포·대응·보장 |
 | [docs/paper/BRIEFING_2026-10-13.md](docs/paper/BRIEFING_2026-10-13.md) | **지금까지의 결과 브리핑** (공격 재현, 탐지 총정리, 처방, 학습 중 탐지, 발견 셋, 코드·문서, 확인 상태, 남은 약점) |
 | [docs/paper/DRAFT_v2_SKELETON.md](docs/paper/DRAFT_v2_SKELETON.md) | **초안 v2 뼈대**: 주장 한 문장, 위협 모델 다섯 줄, 표 1–5 (논문 설정 K=20 값 채움), 한계, 해독제 실패 원인, 할 일 |
 | [docs/paper/PLAN.md](docs/paper/PLAN.md) | **앞으로의 계획**: 실험 기록 체계(장부 2개), Phase 0–5 와 관문, 6주 일정, 위험, 사용자가 정할 것 3개 |
