@@ -1,10 +1,11 @@
-# 브랜치 (2026-10-12 정리: 셋만)
+# 브랜치 (2026-10-12: 넷)
 
 | 브랜치 | 용도 |
 |---|---|
 | `main` | 원래 기준점 (초기 탐색). 손대지 않음 |
 | **`dev`** | **작업 브랜치.** 방법·문서·제안 기법 결과. 구조는 루트 `README.md` |
 | `exp/baselines` | 기존 방법(비교군)만 자세히 돌린 결과. `FUBA/run_baselines.sh`, `docs/BASELINES.md` |
+| `exp/hedge-pilot` | 헤지 파일럿: 위장자–운반자 갱신이 반대 방향인지(저장 갱신만으로 짝 찾기) 확인. `FUBA/run_hedge_pilot.sh`, `docs/HEDGE_PILOT.md` (그 브랜치에만 있음) |
 
 옛 브랜치 7 개는 지웠고 내용은 **태그**로 남아 있다 (`git tag -l`, 되살리기 `git push origin <태그>:refs/heads/<이름>`):
 `archive-2026-10-11-exp-robust-fu`, `results-2026-10-11-interim`, `archive-2026-10-09-request-aware-purification`, `archive-2026-10-07-defense-pipeline`, `archive-2026-10-07-evaluation`, `archive-2026-10-07-weighted-removal`.

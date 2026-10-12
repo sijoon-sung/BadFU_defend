@@ -43,7 +43,7 @@
 | [docs/paper/DRAFT_v1.md](docs/paper/DRAFT_v1.md) | **논문 초안 v1** (초록·기여·방법·결과·한계 + §8 노벨티 자가 평가와 보강 방향) |
 | [docs/paper/DRAFT_OUTLINE.md](docs/paper/DRAFT_OUTLINE.md) | 논문 초안 기획 (이전) |
 | [RUN.md](RUN.md) | 실험 돌리는 법 |
-| [BRANCHES.md](BRANCHES.md) | 브랜치 |
+| [BRANCHES.md](BRANCHES.md) | 브랜치 (헤지 파일럿은 `exp/hedge-pilot` 브랜치) |
 
 ## 폴더
 | 폴더 | 내용 |
