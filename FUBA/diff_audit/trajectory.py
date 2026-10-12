@@ -76,7 +76,7 @@ class FubaTrajectory:
         return self.space.flatten(self._load("global", r))
 
     def local_vecs(self, r):
-        return [self.space.flatten(sd) for sd in self._load("local", r)]
+        return [self.space.flatten(sd) if sd is not None else None for sd in self._load("local", r)]
 
     def contributions(self):
         K = self.n_clients
@@ -85,8 +85,11 @@ class FubaTrajectory:
         for r in range(2, self.rounds + 1):
             g = self.global_vec(r - 1)
             L = self.local_vecs(r)
-            for k in range(K):
-                U[k] += (L[k] - g) / K
+            g_r = self.global_vec(r)
+            # 결석 클라(participant_rate<1)는 train_main.py:289 가 그 라운드 전역 모델을 대신 저장한다 -> 참여자만 센다.
+            present = [k for k in range(K) if L[k] is not None and not torch.equal(L[k], g_r)]
+            for k in present:
+                U[k] += (L[k] - g) / len(present)
         return theta_T, U
 
     def trigger_generator(self, device):

@@ -78,15 +78,44 @@ class Flat:
 
 
 # ------------------------------------------------------------------ 궤적 로더
-def load_fuba(a):
+# 결과 이름에만 붙는 꼬리표 (run_paper.sh RQ6 소거, RUN.md A0/A2). 이런 이름은 궤적을 새로 만들지 않고 기본 궤적을 읽는다.
+# 그 밖의 꼬리표(k20, paper, sup2, median, flame, flDetector, multi_krum ...)는 **다른 궤적**이므로 기본 궤적으로 절대 넘어가지 않는다.
+RESULT_TAGS = ("cap02", "tau2", "tau5", "m3", "chg", "flow", "p100", "kd", "polish")
+
+
+def resolve_fuba_name(name, ckpt_dir="checkpoints"):
+    """결과 이름 -> 궤적 이름. 그 이름의 궤적이 있으면 그대로. 없으면 '_s{seed}' 바로 앞 꼬리표 하나가 RESULT_TAGS
+    (또는 환경변수 FUBA_RESULT_TAGS="a,b")에 있을 때만 떼고 다시 찾는다. 그래도 없으면 FileNotFoundError (조용한 대체 없음)."""
     import re
+    if os.path.exists(f"{ckpt_dir}/global_net_model_{name}_round_1.pkl"):
+        return name
+    extra = tuple(t for t in os.environ.get("FUBA_RESULT_TAGS", "").split(",") if t)
+    m = re.search(r"_([a-zA-Z0-9]+)(?=_s\d+$)", name)
+    if m and m.group(1) in RESULT_TAGS + extra:
+        base = name[:m.start()] + name[m.end():]
+        if os.path.exists(f"{ckpt_dir}/global_net_model_{base}_round_1.pkl"):
+            return base
+    raise FileNotFoundError(f"궤적 없음: {ckpt_dir}/global_net_model_{name}_round_1.pkl "
+                            f"(기본 궤적으로 넘어가는 꼬리표는 {RESULT_TAGS} 뿐. 변형 궤적은 make_trajectories.sh 로 먼저 만들 것)")
+
+
+def present_clients(local_sds, global_sd):
+    """그 라운드에 실제로 참여한 클라이언트. train_main.py:289 는 결석 클라(participant_rate<1)의 자리에 None 대신
+    그 라운드의 집계 결과(global)를 저장하므로, None 이거나 global 과 똑같은 항목을 결석으로 본다."""
+    out = []
+    for k, sd in enumerate(local_sds):
+        if sd is None:
+            continue
+        if all(torch.equal(sd[key], global_sd[key]) for key in global_sd.keys()):
+            continue
+        out.append(k)
+    return out
+
+
+def load_fuba(a):
     from model import MNISTAutoencoder, Net
     g, l = [], []
-    name = a.name
-    if not os.path.exists(f"{a.ckpt_dir}/global_net_model_{name}_round_1.pkl"):
-        base_name = re.sub(r"_[a-zA-Z0-9]+(?=_s\d+)", "", name)
-        if os.path.exists(f"{a.ckpt_dir}/global_net_model_{base_name}_round_1.pkl"):
-            name = base_name
+    name = resolve_fuba_name(a.name, a.ckpt_dir)
     for r in range(1, a.rounds + 1):
         with open(f"{a.ckpt_dir}/global_net_model_{name}_round_{r}.pkl", "rb") as f:
             g.append(pickle.load(f))
@@ -98,10 +127,9 @@ def load_fuba(a):
     U = [torch.zeros(flat.dim) for _ in range(K)]
     for r in range(2, a.rounds + 1):
         gv = flat.flatten(g[r - 2])
-        for k in range(K):
-            if l[r - 1][k] is None:
-                continue
-            U[k] += (flat.flatten(l[r - 1][k]) - gv) / K
+        present = present_clients(l[r - 1], g[r - 1])       # 전원 참여면 range(K) 와 같다
+        for k in present:
+            U[k] += (flat.flatten(l[r - 1][k]) - gv) / len(present)   # FedAvg 는 그 라운드 참여자 수로 나눈다
     bd = None
     p = f"{a.ckpt_dir}/backdoor_net_model_{name}_round_{a.rounds}.pkl"
     if os.path.exists(p):
@@ -123,25 +151,26 @@ def load_badfu(a):
             sys.path.insert(0, c)
             break
     from badfu_common import ResNet18  # noqa: E402  (BadFU_src/BadFU-main/badfu_common.py)
-    rounds, cms_all = [], []
-    for r in range(a.rounds):
-        d = torch.load(os.path.join(a.traj_dir, f"round_{r}.pt"), weights_only=False, map_location="cpu")
-        rounds.append(d["gm"])
-        cms_all.append(d["cms"])
+    # 라운드 파일(각 313 MB)을 하나씩 읽고 바로 버린다. 전부 들고 있으면 40 라운드 = 12.6 GB 라 노트북(15 GB)에서 못 돈다.
+    # 합산 순서(r 오름차순, c 오름차순)는 종전과 같아 U 값은 비트 단위로 같다.
     last = torch.load(os.path.join(a.traj_dir, f"glob_{a.rounds - 1}.pt"), weights_only=False, map_location="cpu")
     theta_T = last["gm_after"]
     flat = Flat(theta_T)
-    K = len(cms_all[0])
-    if a.counts:
-        assert len(a.counts) == K, "--counts 길이가 클라 수와 다름"
-        w = [c / sum(a.counts) for c in a.counts]
-    else:
-        w = [1.0 / K] * K
-    U = [torch.zeros(flat.dim) for _ in range(K)]
+    U, w, K = None, None, None
     for r in range(a.rounds):
-        gv = flat.flatten(rounds[r])
+        d = torch.load(os.path.join(a.traj_dir, f"round_{r}.pt"), weights_only=False, map_location="cpu")
+        if U is None:
+            K = len(d["cms"])
+            if a.counts:
+                assert len(a.counts) == K, "--counts 길이가 클라 수와 다름"
+                w = [c / sum(a.counts) for c in a.counts]
+            else:
+                w = [1.0 / K] * K
+            U = [torch.zeros(flat.dim) for _ in range(K)]
+        gv = flat.flatten(d["gm"])
         for c in range(K):
-            U[c] += w[c] * (flat.flatten(cms_all[r][c]) - gv)
+            U[c] += w[c] * (flat.flatten(d["cms"][c]) - gv)
+        del d
     return (lambda: ResNet18(pretrained=False)), theta_T, U, flat, None
 
 

@@ -1,0 +1,3616 @@
+{
+ "version": 1,
+ "updated": "2026-10-12",
+ "warnings": [
+  {
+   "affects": "bd_iid_{median,multi_krum,flame,flDetector}_s* (DISLAB, 2026-10-12 이전에 run_paper.sh RQ2 로 만든 것)",
+   "why": "run_all.sh stage_attack 이 ATTACK_EXTRA(--median 등)를 run_real_fuba.sh 에 넘기지 않아 방어 없이 만들어졌다 (2026-10-12 수정). 검증기의 aggregation 검사(전역 모델 == 참여자 평균이면 방어 없음)가 잡는다",
+   "action": "재생성 필요: FORCE=1 ONLY=tdef_reduced bash make_trajectories.sh"
+  },
+  {
+   "affects": "이름에 K 가 없는 K≠8 궤적 (예: K=16 TAG 없이 run_all.sh 로 만든 것, 'k16'/'r2' 류 이름)",
+   "why": "run_all.sh 이름은 bd_{cond}_s{seed} 로 K 를 담지 않아 K=20 으로 돌리면 K=8 궤적을 K=20 으로 분석할 수 있었다. 이제 K≠8 이름은 k20/k16sup2 를 반드시 담고, 검증기가 저장된 클라 수 == 매니페스트 K 를 확인한다",
+   "action": "그런 이름의 궤적은 쓰지 말고 매니페스트 이름으로 다시 만들 것"
+  }
+ ],
+ "doc": [
+  "공격 궤적 매니페스트. 실험은 전부 여기 적힌 저장 파일만 읽는다. 생성: FUBA/make_trajectories.sh (FUBA), BadFU_src/BadFU-main/make_badfu_trajectories.sh (BadFU). 검증: FUBA/verify_trajectories.py → logs/trajectories/registry.json, docs/EXPERIMENT_LOG.md",
+  "FUBA 이름 규칙 = run_all.sh 그대로: bd_{cond}{TAG}_s{seed}, 8 라운드/웜업 3 이 아니면 bd_{cond}_r{R}w{W}{TAG}_s{seed}. 시드 번호 s → 실제 seed 522+s, --split_seed 도 같은 값",
+  "이름 충돌: release_map.resolve_fuba_name 은 결과 꼬리표(cap02, tau2, tau5, m3, chg, flow, p100, kd, polish)만 떼고 기본 궤적을 찾는다. k20/paper/sup2/median/… 는 절대 기본 궤적으로 넘어가지 않는다 (없으면 에러)",
+  "verify 문턱은 여기(매니페스트)에만 있다. provisional=true 는 실측 전 임시값 → 첫 궤적이 나오면 값을 보고 고칠 것",
+  "where: DISLAB = 연구실 PC 에서 생성, local = 노트북(GPU) 에서 생성. make_trajectories.sh 는 기본으로 자기 컴퓨터 몫만 만든다 (WHERE=all 로 바꿀 수 있음)"
+ ],
+ "paths": {
+  "fuba_dir": "FUBA",
+  "ckpt_dir": "checkpoints",
+  "badfu_dir": "../BadFU_src/BadFU-main",
+  "registry": "logs/trajectories/registry.json",
+  "log_md": "../docs/EXPERIMENT_LOG.md",
+  "attack_log": "logs/pipeline/{name}.attack.log"
+ },
+ "groups": {
+  "k8_main": {
+   "desc": "주 설정(축소판): K=8, 운반자 0-3, 위장자 4, 정상 5-7, 8 라운드(웜업 3), 전원 참여. iid / owner × 시드 0,1,2. 이름이 기존 DISLAB 궤적과 같다",
+   "attack": "fuba",
+   "where": "DISLAB",
+   "n": 6,
+   "minutes_each": 6
+  },
+  "k20_paper": {
+   "desc": "논문 주 설정: n=20, 악성 5 (운반자 4 + 위장자 1 = 25 %), 참여율 0.4, 100 라운드(웜업 5). iid / owner × 시드 0,1,2",
+   "attack": "fuba",
+   "where": "DISLAB",
+   "n": 6,
+   "minutes_each": 45,
+   "time_basis": "논문 Table VI (RTX 4090, MNIST): attacker 6.9 s, defender 9.7 s, benign 0.4 s / 라운드. 참여 8/20 → 기대 1.6 운반자·0.4 위장자·6 정상 = 약 17 s/라운드 × 100 ≈ 30 분. 로컬 스모크(K=20, 참여 0.4) 라운드당 21 초 → 35 분; DISLAB 은 45 분으로 잡음"
+  },
+  "k20_reduced": {
+   "desc": "K=20 축소판: 8 라운드(웜업 3), 전원 참여. 파이프라인 점검용 — 로컬 실측에서 공격이 안 심어졌다(위장자 빼도 ASR 11.5). iid / owner × 시드 0,1,2",
+   "attack": "fuba",
+   "where": "DISLAB",
+   "n": 6,
+   "minutes_each": 6,
+   "time_basis": "로컬 bd_iid_k20_s0 생성 259 초 (RTX 4060 Laptop)"
+  },
+  "sup2": {
+   "desc": "위장자 2 명 (--clients_ratial 2 → K=16): 운반자 {0,1,2,3,5,6,7,9}, 위장자 {4,8}, 정상 10-15 (악성 10/16). iid × 시드 0,1,2",
+   "attack": "fuba",
+   "where": "DISLAB",
+   "n": 3,
+   "minutes_each": 10,
+   "time_basis": "로컬 스모크 2 라운드 111 초 → 라운드당 55 초 × 8"
+  },
+  "tdef_paper": {
+   "desc": "집계 방어 4 종(median, multi_krum, flame, flDetector) 위의 같은 공격, 논문 설정(K=20, 참여 0.4, 100 라운드). iid × 시드 0,1,2",
+   "attack": "fuba",
+   "where": "DISLAB",
+   "n": 12,
+   "minutes_each": 50
+  },
+  "tdef_reduced": {
+   "desc": "집계 방어 4 종, K=8 축소판 (싸지만 악성 다수라 참고용). run_paper.sh RQ2b 이름 그대로",
+   "attack": "fuba",
+   "where": "DISLAB",
+   "n": 12,
+   "minutes_each": 7
+  },
+  "badfu": {
+   "desc": "BadFU (CIFAR-10, ResNet-18, K=6, 40 라운드 × 로컬 5 에폭): 시드 42, 43, 44 (각자 logs/traj_s{seed}) + 기존 15 라운드 traj_full",
+   "attack": "badfu",
+   "where": "local",
+   "n": 4,
+   "minutes_each": 150,
+   "rounds": 40,
+   "time_basis": "traj_full 15 라운드 + FedEraser 7 단계 = 3334 s (RTX 4060 Laptop). 40 라운드 + 20 단계 ≈ 2.5 시간/시드, 디스크 약 14 GB/시드 (round_r.pt 313 MB + glob_r.pt 45 MB)"
+  },
+  "local_smoke": {
+   "desc": "노트북 점검용 궤적 (bd_iid_s0 와 같은 설정, 이름만 다름). DISLAB 실험에는 안 쓴다",
+   "attack": "fuba",
+   "where": "local",
+   "n": 1,
+   "minutes_each": 6
+  }
+ },
+ "trajectories": [
+  {
+   "name": "bd_iid_s0",
+   "group": "k8_main",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "reduced",
+   "K": 8,
+   "nb_clients": 8,
+   "clients_ratial": 1,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 522,
+   "split_seed": 522,
+   "seed_index": 0,
+   "defense": null,
+   "extra_args": "--split_seed 522",
+   "command": "NB_CLIENTS=8 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--split_seed 522\" bash run_real_fuba.sh bd_iid_s0 522",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 6,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_s0_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=8 CONDS=iid SEEDS=0 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 8 --rounds 8 --seed 522 --split_seed 522 --defender 4 --attackers 0 1 2 3 --requesters 4 7 5"
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   }
+  },
+  {
+   "name": "bd_iid_s1",
+   "group": "k8_main",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "reduced",
+   "K": 8,
+   "nb_clients": 8,
+   "clients_ratial": 1,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 523,
+   "split_seed": 523,
+   "seed_index": 1,
+   "defense": null,
+   "extra_args": "--split_seed 523",
+   "command": "NB_CLIENTS=8 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--split_seed 523\" bash run_real_fuba.sh bd_iid_s1 523",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 6,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_s1_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=8 CONDS=iid SEEDS=1 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 8 --rounds 8 --seed 523 --split_seed 523 --defender 4 --attackers 0 1 2 3 --requesters 4 7 5"
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   }
+  },
+  {
+   "name": "bd_iid_s2",
+   "group": "k8_main",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "reduced",
+   "K": 8,
+   "nb_clients": 8,
+   "clients_ratial": 1,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 524,
+   "split_seed": 524,
+   "seed_index": 2,
+   "defense": null,
+   "extra_args": "--split_seed 524",
+   "command": "NB_CLIENTS=8 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--split_seed 524\" bash run_real_fuba.sh bd_iid_s2 524",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 6,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_s2_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=8 CONDS=iid SEEDS=2 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 8 --rounds 8 --seed 524 --split_seed 524 --defender 4 --attackers 0 1 2 3 --requesters 4 7 5"
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   }
+  },
+  {
+   "name": "bd_owner_s0",
+   "group": "k8_main",
+   "attack": "fuba",
+   "cond": "owner",
+   "variant": "reduced",
+   "K": 8,
+   "nb_clients": 8,
+   "clients_ratial": 1,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 522,
+   "split_seed": 522,
+   "seed_index": 0,
+   "defense": null,
+   "extra_args": "--non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --split_seed 522",
+   "command": "NB_CLIENTS=8 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --split_seed 522\" bash run_real_fuba.sh bd_owner_s0 522",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7
+    ],
+    "owner": 7
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 6,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_owner_s0_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=8 CONDS=owner SEEDS=0 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 8 --rounds 8 --seed 522 --split_seed 522 --non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --defender 4 --attackers 0 1 2 3 --requesters 4 7 5"
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 88,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "basis": "summary_owner: subtract req4 54.3±6.0 / req5 15.5±7.0 (소유자 7 은 29.4±5.4 라 정상 검사에 안 씀), 삭제 전 ACC 92.5±0.8",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   }
+  },
+  {
+   "name": "bd_owner_s1",
+   "group": "k8_main",
+   "attack": "fuba",
+   "cond": "owner",
+   "variant": "reduced",
+   "K": 8,
+   "nb_clients": 8,
+   "clients_ratial": 1,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 523,
+   "split_seed": 523,
+   "seed_index": 1,
+   "defense": null,
+   "extra_args": "--non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --split_seed 523",
+   "command": "NB_CLIENTS=8 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --split_seed 523\" bash run_real_fuba.sh bd_owner_s1 523",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7
+    ],
+    "owner": 7
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 6,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_owner_s1_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=8 CONDS=owner SEEDS=1 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 8 --rounds 8 --seed 523 --split_seed 523 --non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --defender 4 --attackers 0 1 2 3 --requesters 4 7 5"
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 88,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "basis": "summary_owner: subtract req4 54.3±6.0 / req5 15.5±7.0 (소유자 7 은 29.4±5.4 라 정상 검사에 안 씀), 삭제 전 ACC 92.5±0.8",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   }
+  },
+  {
+   "name": "bd_owner_s2",
+   "group": "k8_main",
+   "attack": "fuba",
+   "cond": "owner",
+   "variant": "reduced",
+   "K": 8,
+   "nb_clients": 8,
+   "clients_ratial": 1,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 524,
+   "split_seed": 524,
+   "seed_index": 2,
+   "defense": null,
+   "extra_args": "--non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --split_seed 524",
+   "command": "NB_CLIENTS=8 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --split_seed 524\" bash run_real_fuba.sh bd_owner_s2 524",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7
+    ],
+    "owner": 7
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 6,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_owner_s2_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=8 CONDS=owner SEEDS=2 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 8 --rounds 8 --seed 524 --split_seed 524 --non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --defender 4 --attackers 0 1 2 3 --requesters 4 7 5"
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 88,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "basis": "summary_owner: subtract req4 54.3±6.0 / req5 15.5±7.0 (소유자 7 은 29.4±5.4 라 정상 검사에 안 씀), 삭제 전 ACC 92.5±0.8",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   }
+  },
+  {
+   "name": "bd_iid_r100w5_k20paper_s0",
+   "group": "k20_paper",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "paper",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 0.4,
+   "rounds": 100,
+   "warmup": 5,
+   "seed": 522,
+   "split_seed": 522,
+   "seed_index": 0,
+   "defense": null,
+   "extra_args": "--split_seed 522 --participant_rate 0.4",
+   "command": "NB_CLIENTS=20 ROUNDS=100 WARMUP=5 PARTICIPANT_RATE=0.4 EXTRA_ARGS=\"--split_seed 522 --participant_rate 0.4\" bash run_real_fuba.sh bd_iid_r100w5_k20paper_s0 522",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 45,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_r100w5_k20paper_s0_round_{1..100}.pkl (backdoor 는 6..100)",
+   "downstream": {
+    "run_all": "K=20 ROUNDS=100 WARMUP=5 TAG=_k20paper CONDS=iid SEEDS=0 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 20 --rounds 100 --seed 522 --split_seed 522 --defender 4 --attackers 0 1 2 3 --requesters 4 19 5",
+    "note": "participant_rate<1: release_map.load_fuba / diff_audit.contributions 는 결석 클라(그 라운드 전역 모델로 저장됨)를 빼고 참여자 수로 나눈다. baseline_masa.load_rounds 를 쓰는 라운드 단위 스크립트(masa/subid/effects/traj/cancel rounds_eff)와 benign_departure 의 재학습형(make_config 는 participant_rate=1.0)은 아직 결석 처리가 없다 → 쓰기 전에 손볼 것."
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "논문 주 설정 (n=20, m=5, 참여율 0.4, 100 라운드). 로컬 에폭·오염률·lr 은 코드 고정값 (flag_provenance 참조)."
+  },
+  {
+   "name": "bd_iid_r100w5_k20paper_s1",
+   "group": "k20_paper",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "paper",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 0.4,
+   "rounds": 100,
+   "warmup": 5,
+   "seed": 523,
+   "split_seed": 523,
+   "seed_index": 1,
+   "defense": null,
+   "extra_args": "--split_seed 523 --participant_rate 0.4",
+   "command": "NB_CLIENTS=20 ROUNDS=100 WARMUP=5 PARTICIPANT_RATE=0.4 EXTRA_ARGS=\"--split_seed 523 --participant_rate 0.4\" bash run_real_fuba.sh bd_iid_r100w5_k20paper_s1 523",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 45,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_r100w5_k20paper_s1_round_{1..100}.pkl (backdoor 는 6..100)",
+   "downstream": {
+    "run_all": "K=20 ROUNDS=100 WARMUP=5 TAG=_k20paper CONDS=iid SEEDS=1 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 20 --rounds 100 --seed 523 --split_seed 523 --defender 4 --attackers 0 1 2 3 --requesters 4 19 5",
+    "note": "participant_rate<1: release_map.load_fuba / diff_audit.contributions 는 결석 클라(그 라운드 전역 모델로 저장됨)를 빼고 참여자 수로 나눈다. baseline_masa.load_rounds 를 쓰는 라운드 단위 스크립트(masa/subid/effects/traj/cancel rounds_eff)와 benign_departure 의 재학습형(make_config 는 participant_rate=1.0)은 아직 결석 처리가 없다 → 쓰기 전에 손볼 것."
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "논문 주 설정 (n=20, m=5, 참여율 0.4, 100 라운드). 로컬 에폭·오염률·lr 은 코드 고정값 (flag_provenance 참조)."
+  },
+  {
+   "name": "bd_iid_r100w5_k20paper_s2",
+   "group": "k20_paper",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "paper",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 0.4,
+   "rounds": 100,
+   "warmup": 5,
+   "seed": 524,
+   "split_seed": 524,
+   "seed_index": 2,
+   "defense": null,
+   "extra_args": "--split_seed 524 --participant_rate 0.4",
+   "command": "NB_CLIENTS=20 ROUNDS=100 WARMUP=5 PARTICIPANT_RATE=0.4 EXTRA_ARGS=\"--split_seed 524 --participant_rate 0.4\" bash run_real_fuba.sh bd_iid_r100w5_k20paper_s2 524",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 45,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_r100w5_k20paper_s2_round_{1..100}.pkl (backdoor 는 6..100)",
+   "downstream": {
+    "run_all": "K=20 ROUNDS=100 WARMUP=5 TAG=_k20paper CONDS=iid SEEDS=2 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 20 --rounds 100 --seed 524 --split_seed 524 --defender 4 --attackers 0 1 2 3 --requesters 4 19 5",
+    "note": "participant_rate<1: release_map.load_fuba / diff_audit.contributions 는 결석 클라(그 라운드 전역 모델로 저장됨)를 빼고 참여자 수로 나눈다. baseline_masa.load_rounds 를 쓰는 라운드 단위 스크립트(masa/subid/effects/traj/cancel rounds_eff)와 benign_departure 의 재학습형(make_config 는 participant_rate=1.0)은 아직 결석 처리가 없다 → 쓰기 전에 손볼 것."
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "논문 주 설정 (n=20, m=5, 참여율 0.4, 100 라운드). 로컬 에폭·오염률·lr 은 코드 고정값 (flag_provenance 참조)."
+  },
+  {
+   "name": "bd_owner_r100w5_k20paper_s0",
+   "group": "k20_paper",
+   "attack": "fuba",
+   "cond": "owner",
+   "variant": "paper",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 0.4,
+   "rounds": 100,
+   "warmup": 5,
+   "seed": 522,
+   "split_seed": 522,
+   "seed_index": 0,
+   "defense": null,
+   "extra_args": "--non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --split_seed 522 --participant_rate 0.4",
+   "command": "NB_CLIENTS=20 ROUNDS=100 WARMUP=5 PARTICIPANT_RATE=0.4 EXTRA_ARGS=\"--non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --split_seed 522 --participant_rate 0.4\" bash run_real_fuba.sh bd_owner_r100w5_k20paper_s0 522",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": 19
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 45,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_owner_r100w5_k20paper_s0_round_{1..100}.pkl (backdoor 는 6..100)",
+   "downstream": {
+    "run_all": "K=20 ROUNDS=100 WARMUP=5 TAG=_k20paper CONDS=owner SEEDS=0 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 20 --rounds 100 --seed 522 --split_seed 522 --non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --defender 4 --attackers 0 1 2 3 --requesters 4 19 5",
+    "note": "participant_rate<1: release_map.load_fuba / diff_audit.contributions 는 결석 클라(그 라운드 전역 모델로 저장됨)를 빼고 참여자 수로 나눈다. baseline_masa.load_rounds 를 쓰는 라운드 단위 스크립트(masa/subid/effects/traj/cancel rounds_eff)와 benign_departure 의 재학습형(make_config 는 participant_rate=1.0)은 아직 결석 처리가 없다 → 쓰기 전에 손볼 것."
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "논문 주 설정 (n=20, m=5, 참여율 0.4, 100 라운드). 로컬 에폭·오염률·lr 은 코드 고정값 (flag_provenance 참조)."
+  },
+  {
+   "name": "bd_owner_r100w5_k20paper_s1",
+   "group": "k20_paper",
+   "attack": "fuba",
+   "cond": "owner",
+   "variant": "paper",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 0.4,
+   "rounds": 100,
+   "warmup": 5,
+   "seed": 523,
+   "split_seed": 523,
+   "seed_index": 1,
+   "defense": null,
+   "extra_args": "--non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --split_seed 523 --participant_rate 0.4",
+   "command": "NB_CLIENTS=20 ROUNDS=100 WARMUP=5 PARTICIPANT_RATE=0.4 EXTRA_ARGS=\"--non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --split_seed 523 --participant_rate 0.4\" bash run_real_fuba.sh bd_owner_r100w5_k20paper_s1 523",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": 19
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 45,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_owner_r100w5_k20paper_s1_round_{1..100}.pkl (backdoor 는 6..100)",
+   "downstream": {
+    "run_all": "K=20 ROUNDS=100 WARMUP=5 TAG=_k20paper CONDS=owner SEEDS=1 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 20 --rounds 100 --seed 523 --split_seed 523 --non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --defender 4 --attackers 0 1 2 3 --requesters 4 19 5",
+    "note": "participant_rate<1: release_map.load_fuba / diff_audit.contributions 는 결석 클라(그 라운드 전역 모델로 저장됨)를 빼고 참여자 수로 나눈다. baseline_masa.load_rounds 를 쓰는 라운드 단위 스크립트(masa/subid/effects/traj/cancel rounds_eff)와 benign_departure 의 재학습형(make_config 는 participant_rate=1.0)은 아직 결석 처리가 없다 → 쓰기 전에 손볼 것."
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "논문 주 설정 (n=20, m=5, 참여율 0.4, 100 라운드). 로컬 에폭·오염률·lr 은 코드 고정값 (flag_provenance 참조)."
+  },
+  {
+   "name": "bd_owner_r100w5_k20paper_s2",
+   "group": "k20_paper",
+   "attack": "fuba",
+   "cond": "owner",
+   "variant": "paper",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 0.4,
+   "rounds": 100,
+   "warmup": 5,
+   "seed": 524,
+   "split_seed": 524,
+   "seed_index": 2,
+   "defense": null,
+   "extra_args": "--non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --split_seed 524 --participant_rate 0.4",
+   "command": "NB_CLIENTS=20 ROUNDS=100 WARMUP=5 PARTICIPANT_RATE=0.4 EXTRA_ARGS=\"--non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --split_seed 524 --participant_rate 0.4\" bash run_real_fuba.sh bd_owner_r100w5_k20paper_s2 524",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": 19
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 45,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_owner_r100w5_k20paper_s2_round_{1..100}.pkl (backdoor 는 6..100)",
+   "downstream": {
+    "run_all": "K=20 ROUNDS=100 WARMUP=5 TAG=_k20paper CONDS=owner SEEDS=2 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 20 --rounds 100 --seed 524 --split_seed 524 --non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --defender 4 --attackers 0 1 2 3 --requesters 4 19 5",
+    "note": "participant_rate<1: release_map.load_fuba / diff_audit.contributions 는 결석 클라(그 라운드 전역 모델로 저장됨)를 빼고 참여자 수로 나눈다. baseline_masa.load_rounds 를 쓰는 라운드 단위 스크립트(masa/subid/effects/traj/cancel rounds_eff)와 benign_departure 의 재학습형(make_config 는 participant_rate=1.0)은 아직 결석 처리가 없다 → 쓰기 전에 손볼 것."
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "논문 주 설정 (n=20, m=5, 참여율 0.4, 100 라운드). 로컬 에폭·오염률·lr 은 코드 고정값 (flag_provenance 참조)."
+  },
+  {
+   "name": "bd_iid_k20_s0",
+   "group": "k20_reduced",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "reduced",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 522,
+   "split_seed": 522,
+   "seed_index": 0,
+   "defense": null,
+   "extra_args": "--split_seed 522",
+   "command": "NB_CLIENTS=20 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--split_seed 522\" bash run_real_fuba.sh bd_iid_k20_s0 522",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 6,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_k20_s0_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=20 TAG=_k20 CONDS=iid SEEDS=0 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 20 --rounds 8 --seed 522 --split_seed 522 --defender 4 --attackers 0 1 2 3 --requesters 4 19 5"
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 20,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "attack_required": false,
+    "basis": "로컬 실측 bd_iid_k20_s0 (2026-10-12): 잠복 92.7 / 5.4, 위장자 4 제거 90.1 / 11.5, 정상 5 제거 92.5 / 6.2, 운반자 0 제거 92.2 / 4.4. K=20 에 8 라운드(공격 5 라운드)로는 백도어가 안 심어진다 → 이 그룹은 파이프라인 점검용(attack_required=false, 상태 △). 실험 근거는 k20_paper 로",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 20
+   },
+   "notes": "점검용. 로컬 시드 0 실측: 위장자를 빼도 ASR 11.5 (K=20·8 라운드로는 공격이 안 심어짐). 생성 259 초 (RTX 4060)."
+  },
+  {
+   "name": "bd_iid_k20_s1",
+   "group": "k20_reduced",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "reduced",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 523,
+   "split_seed": 523,
+   "seed_index": 1,
+   "defense": null,
+   "extra_args": "--split_seed 523",
+   "command": "NB_CLIENTS=20 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--split_seed 523\" bash run_real_fuba.sh bd_iid_k20_s1 523",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 6,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_k20_s1_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=20 TAG=_k20 CONDS=iid SEEDS=1 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 20 --rounds 8 --seed 523 --split_seed 523 --defender 4 --attackers 0 1 2 3 --requesters 4 19 5"
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 20,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "attack_required": false,
+    "basis": "로컬 실측 bd_iid_k20_s0 (2026-10-12): 잠복 92.7 / 5.4, 위장자 4 제거 90.1 / 11.5, 정상 5 제거 92.5 / 6.2, 운반자 0 제거 92.2 / 4.4. K=20 에 8 라운드(공격 5 라운드)로는 백도어가 안 심어진다 → 이 그룹은 파이프라인 점검용(attack_required=false, 상태 △). 실험 근거는 k20_paper 로",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 20
+   },
+   "notes": "점검용. 로컬 시드 0 실측: 위장자를 빼도 ASR 11.5 (K=20·8 라운드로는 공격이 안 심어짐). 생성 259 초 (RTX 4060)."
+  },
+  {
+   "name": "bd_iid_k20_s2",
+   "group": "k20_reduced",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "reduced",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 524,
+   "split_seed": 524,
+   "seed_index": 2,
+   "defense": null,
+   "extra_args": "--split_seed 524",
+   "command": "NB_CLIENTS=20 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--split_seed 524\" bash run_real_fuba.sh bd_iid_k20_s2 524",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 6,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_k20_s2_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=20 TAG=_k20 CONDS=iid SEEDS=2 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 20 --rounds 8 --seed 524 --split_seed 524 --defender 4 --attackers 0 1 2 3 --requesters 4 19 5"
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 20,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "attack_required": false,
+    "basis": "로컬 실측 bd_iid_k20_s0 (2026-10-12): 잠복 92.7 / 5.4, 위장자 4 제거 90.1 / 11.5, 정상 5 제거 92.5 / 6.2, 운반자 0 제거 92.2 / 4.4. K=20 에 8 라운드(공격 5 라운드)로는 백도어가 안 심어진다 → 이 그룹은 파이프라인 점검용(attack_required=false, 상태 △). 실험 근거는 k20_paper 로",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 20
+   },
+   "notes": "점검용. 로컬 시드 0 실측: 위장자를 빼도 ASR 11.5 (K=20·8 라운드로는 공격이 안 심어짐). 생성 259 초 (RTX 4060)."
+  },
+  {
+   "name": "bd_owner_k20_s0",
+   "group": "k20_reduced",
+   "attack": "fuba",
+   "cond": "owner",
+   "variant": "reduced",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 522,
+   "split_seed": 522,
+   "seed_index": 0,
+   "defense": null,
+   "extra_args": "--non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --split_seed 522",
+   "command": "NB_CLIENTS=20 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --split_seed 522\" bash run_real_fuba.sh bd_owner_k20_s0 522",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": 19
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 6,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_owner_k20_s0_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=20 TAG=_k20 CONDS=owner SEEDS=0 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 20 --rounds 8 --seed 522 --split_seed 522 --non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --defender 4 --attackers 0 1 2 3 --requesters 4 19 5"
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 20,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "attack_required": false,
+    "basis": "로컬 실측 bd_iid_k20_s0 (2026-10-12): 잠복 92.7 / 5.4, 위장자 4 제거 90.1 / 11.5, 정상 5 제거 92.5 / 6.2, 운반자 0 제거 92.2 / 4.4. K=20 에 8 라운드(공격 5 라운드)로는 백도어가 안 심어진다 → 이 그룹은 파이프라인 점검용(attack_required=false, 상태 △). 실험 근거는 k20_paper 로",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 20
+   },
+   "notes": "점검용. 로컬 시드 0 실측: 위장자를 빼도 ASR 11.5 (K=20·8 라운드로는 공격이 안 심어짐). 생성 259 초 (RTX 4060)."
+  },
+  {
+   "name": "bd_owner_k20_s1",
+   "group": "k20_reduced",
+   "attack": "fuba",
+   "cond": "owner",
+   "variant": "reduced",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 523,
+   "split_seed": 523,
+   "seed_index": 1,
+   "defense": null,
+   "extra_args": "--non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --split_seed 523",
+   "command": "NB_CLIENTS=20 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --split_seed 523\" bash run_real_fuba.sh bd_owner_k20_s1 523",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": 19
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 6,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_owner_k20_s1_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=20 TAG=_k20 CONDS=owner SEEDS=1 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 20 --rounds 8 --seed 523 --split_seed 523 --non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --defender 4 --attackers 0 1 2 3 --requesters 4 19 5"
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 20,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "attack_required": false,
+    "basis": "로컬 실측 bd_iid_k20_s0 (2026-10-12): 잠복 92.7 / 5.4, 위장자 4 제거 90.1 / 11.5, 정상 5 제거 92.5 / 6.2, 운반자 0 제거 92.2 / 4.4. K=20 에 8 라운드(공격 5 라운드)로는 백도어가 안 심어진다 → 이 그룹은 파이프라인 점검용(attack_required=false, 상태 △). 실험 근거는 k20_paper 로",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 20
+   },
+   "notes": "점검용. 로컬 시드 0 실측: 위장자를 빼도 ASR 11.5 (K=20·8 라운드로는 공격이 안 심어짐). 생성 259 초 (RTX 4060)."
+  },
+  {
+   "name": "bd_owner_k20_s2",
+   "group": "k20_reduced",
+   "attack": "fuba",
+   "cond": "owner",
+   "variant": "reduced",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 524,
+   "split_seed": 524,
+   "seed_index": 2,
+   "defense": null,
+   "extra_args": "--non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --split_seed 524",
+   "command": "NB_CLIENTS=20 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --split_seed 524\" bash run_real_fuba.sh bd_owner_k20_s2 524",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": 19
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 6,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_owner_k20_s2_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=20 TAG=_k20 CONDS=owner SEEDS=2 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 20 --rounds 8 --seed 524 --split_seed 524 --non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1 --defender 4 --attackers 0 1 2 3 --requesters 4 19 5"
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 20,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "attack_required": false,
+    "basis": "로컬 실측 bd_iid_k20_s0 (2026-10-12): 잠복 92.7 / 5.4, 위장자 4 제거 90.1 / 11.5, 정상 5 제거 92.5 / 6.2, 운반자 0 제거 92.2 / 4.4. K=20 에 8 라운드(공격 5 라운드)로는 백도어가 안 심어진다 → 이 그룹은 파이프라인 점검용(attack_required=false, 상태 △). 실험 근거는 k20_paper 로",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 20
+   },
+   "notes": "점검용. 로컬 시드 0 실측: 위장자를 빼도 ASR 11.5 (K=20·8 라운드로는 공격이 안 심어짐). 생성 259 초 (RTX 4060)."
+  },
+  {
+   "name": "bd_iid_k16sup2_s0",
+   "group": "sup2",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "reduced",
+   "K": 16,
+   "nb_clients": 8,
+   "clients_ratial": 2,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 522,
+   "split_seed": 522,
+   "seed_index": 0,
+   "defense": null,
+   "extra_args": "--split_seed 522 --clients_ratial 2",
+   "command": "NB_CLIENTS=8 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--split_seed 522 --clients_ratial 2\" bash run_real_fuba.sh bd_iid_k16sup2_s0 522",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3,
+     5,
+     6,
+     7,
+     9
+    ],
+    "suppressors": [
+     4,
+     8
+    ],
+    "benign": [
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 10,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_k16sup2_s0_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=16 TAG=_k16sup2 CONDS=iid SEEDS=0 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 16 --rounds 8 --seed 522 --split_seed 522 --defender 4 --defenders 4 8 --attackers 0 1 2 3 5 6 7 9 --requesters 4 8 15 10",
+    "note": "run_all.sh 는 --attackers 0 1 2 3 --defender 4 를 고정으로 넣으므로 sup2 에는 그대로 못 쓴다. 위 args 로 스크립트를 직접 부를 것 (cancel_fu: --defenders 4 8, pair_roles: --joint)."
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": true,
+    "basis": "미측정 (위장자 2 명을 모두 뺀 모델에 sup_asr_min 적용, 각자 뺀 값은 기록만)",
+    "benign_check": [
+     10
+    ],
+    "participants_per_round": 16
+   },
+   "notes": "정직하게: train_main.py:104 backdoor_clients=range(10), :189 defenders=[4,8] → 운반자 8 명 + 위장자 2 명 = 악성 10/16 (62.5 %). '위장자 2 명을 25 % 로' 만드는 flag 는 main.py 에 없다 (todo_variants 3·4). 코드 수정 없이 얻을 수 있는 두 위장자 설정은 이것뿐."
+  },
+  {
+   "name": "bd_iid_k16sup2_s1",
+   "group": "sup2",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "reduced",
+   "K": 16,
+   "nb_clients": 8,
+   "clients_ratial": 2,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 523,
+   "split_seed": 523,
+   "seed_index": 1,
+   "defense": null,
+   "extra_args": "--split_seed 523 --clients_ratial 2",
+   "command": "NB_CLIENTS=8 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--split_seed 523 --clients_ratial 2\" bash run_real_fuba.sh bd_iid_k16sup2_s1 523",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3,
+     5,
+     6,
+     7,
+     9
+    ],
+    "suppressors": [
+     4,
+     8
+    ],
+    "benign": [
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 10,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_k16sup2_s1_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=16 TAG=_k16sup2 CONDS=iid SEEDS=1 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 16 --rounds 8 --seed 523 --split_seed 523 --defender 4 --defenders 4 8 --attackers 0 1 2 3 5 6 7 9 --requesters 4 8 15 10",
+    "note": "run_all.sh 는 --attackers 0 1 2 3 --defender 4 를 고정으로 넣으므로 sup2 에는 그대로 못 쓴다. 위 args 로 스크립트를 직접 부를 것 (cancel_fu: --defenders 4 8, pair_roles: --joint)."
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": true,
+    "basis": "미측정 (위장자 2 명을 모두 뺀 모델에 sup_asr_min 적용, 각자 뺀 값은 기록만)",
+    "benign_check": [
+     10
+    ],
+    "participants_per_round": 16
+   },
+   "notes": "정직하게: train_main.py:104 backdoor_clients=range(10), :189 defenders=[4,8] → 운반자 8 명 + 위장자 2 명 = 악성 10/16 (62.5 %). '위장자 2 명을 25 % 로' 만드는 flag 는 main.py 에 없다 (todo_variants 3·4). 코드 수정 없이 얻을 수 있는 두 위장자 설정은 이것뿐."
+  },
+  {
+   "name": "bd_iid_k16sup2_s2",
+   "group": "sup2",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "reduced",
+   "K": 16,
+   "nb_clients": 8,
+   "clients_ratial": 2,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 524,
+   "split_seed": 524,
+   "seed_index": 2,
+   "defense": null,
+   "extra_args": "--split_seed 524 --clients_ratial 2",
+   "command": "NB_CLIENTS=8 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--split_seed 524 --clients_ratial 2\" bash run_real_fuba.sh bd_iid_k16sup2_s2 524",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3,
+     5,
+     6,
+     7,
+     9
+    ],
+    "suppressors": [
+     4,
+     8
+    ],
+    "benign": [
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 10,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_k16sup2_s2_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=16 TAG=_k16sup2 CONDS=iid SEEDS=2 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 16 --rounds 8 --seed 524 --split_seed 524 --defender 4 --defenders 4 8 --attackers 0 1 2 3 5 6 7 9 --requesters 4 8 15 10",
+    "note": "run_all.sh 는 --attackers 0 1 2 3 --defender 4 를 고정으로 넣으므로 sup2 에는 그대로 못 쓴다. 위 args 로 스크립트를 직접 부를 것 (cancel_fu: --defenders 4 8, pair_roles: --joint)."
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": true,
+    "basis": "미측정 (위장자 2 명을 모두 뺀 모델에 sup_asr_min 적용, 각자 뺀 값은 기록만)",
+    "benign_check": [
+     10
+    ],
+    "participants_per_round": 16
+   },
+   "notes": "정직하게: train_main.py:104 backdoor_clients=range(10), :189 defenders=[4,8] → 운반자 8 명 + 위장자 2 명 = 악성 10/16 (62.5 %). '위장자 2 명을 25 % 로' 만드는 flag 는 main.py 에 없다 (todo_variants 3·4). 코드 수정 없이 얻을 수 있는 두 위장자 설정은 이것뿐."
+  },
+  {
+   "name": "bd_iid_r100w5_k20paper_median_s0",
+   "group": "tdef_paper",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "paper",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 0.4,
+   "rounds": 100,
+   "warmup": 5,
+   "seed": 522,
+   "split_seed": 522,
+   "seed_index": 0,
+   "defense": "median",
+   "extra_args": "--split_seed 522 --median --participant_rate 0.4",
+   "command": "NB_CLIENTS=20 ROUNDS=100 WARMUP=5 PARTICIPANT_RATE=0.4 EXTRA_ARGS=\"--split_seed 522 --median --participant_rate 0.4\" bash run_real_fuba.sh bd_iid_r100w5_k20paper_median_s0 522",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 50,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_r100w5_k20paper_median_s0_round_{1..100}.pkl (backdoor 는 6..100)",
+   "downstream": {
+    "run_all": "K=20 ROUNDS=100 WARMUP=5 TAG=_k20paper_median CONDS=iid SEEDS=0 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 20 --rounds 100 --seed 522 --split_seed 522 --defender 4 --attackers 0 1 2 3 --requesters 4 19 5",
+    "note": "participant_rate<1: release_map.load_fuba / diff_audit.contributions 는 결석 클라(그 라운드 전역 모델로 저장됨)를 빼고 참여자 수로 나눈다. baseline_masa.load_rounds 를 쓰는 라운드 단위 스크립트(masa/subid/effects/traj/cancel rounds_eff)와 benign_departure 의 재학습형(make_config 는 participant_rate=1.0)은 아직 결석 처리가 없다 → 쓰기 전에 손볼 것."
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "median",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   }
+  },
+  {
+   "name": "bd_iid_r100w5_k20paper_median_s1",
+   "group": "tdef_paper",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "paper",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 0.4,
+   "rounds": 100,
+   "warmup": 5,
+   "seed": 523,
+   "split_seed": 523,
+   "seed_index": 1,
+   "defense": "median",
+   "extra_args": "--split_seed 523 --median --participant_rate 0.4",
+   "command": "NB_CLIENTS=20 ROUNDS=100 WARMUP=5 PARTICIPANT_RATE=0.4 EXTRA_ARGS=\"--split_seed 523 --median --participant_rate 0.4\" bash run_real_fuba.sh bd_iid_r100w5_k20paper_median_s1 523",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 50,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_r100w5_k20paper_median_s1_round_{1..100}.pkl (backdoor 는 6..100)",
+   "downstream": {
+    "run_all": "K=20 ROUNDS=100 WARMUP=5 TAG=_k20paper_median CONDS=iid SEEDS=1 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 20 --rounds 100 --seed 523 --split_seed 523 --defender 4 --attackers 0 1 2 3 --requesters 4 19 5",
+    "note": "participant_rate<1: release_map.load_fuba / diff_audit.contributions 는 결석 클라(그 라운드 전역 모델로 저장됨)를 빼고 참여자 수로 나눈다. baseline_masa.load_rounds 를 쓰는 라운드 단위 스크립트(masa/subid/effects/traj/cancel rounds_eff)와 benign_departure 의 재학습형(make_config 는 participant_rate=1.0)은 아직 결석 처리가 없다 → 쓰기 전에 손볼 것."
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "median",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   }
+  },
+  {
+   "name": "bd_iid_r100w5_k20paper_median_s2",
+   "group": "tdef_paper",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "paper",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 0.4,
+   "rounds": 100,
+   "warmup": 5,
+   "seed": 524,
+   "split_seed": 524,
+   "seed_index": 2,
+   "defense": "median",
+   "extra_args": "--split_seed 524 --median --participant_rate 0.4",
+   "command": "NB_CLIENTS=20 ROUNDS=100 WARMUP=5 PARTICIPANT_RATE=0.4 EXTRA_ARGS=\"--split_seed 524 --median --participant_rate 0.4\" bash run_real_fuba.sh bd_iid_r100w5_k20paper_median_s2 524",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 50,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_r100w5_k20paper_median_s2_round_{1..100}.pkl (backdoor 는 6..100)",
+   "downstream": {
+    "run_all": "K=20 ROUNDS=100 WARMUP=5 TAG=_k20paper_median CONDS=iid SEEDS=2 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 20 --rounds 100 --seed 524 --split_seed 524 --defender 4 --attackers 0 1 2 3 --requesters 4 19 5",
+    "note": "participant_rate<1: release_map.load_fuba / diff_audit.contributions 는 결석 클라(그 라운드 전역 모델로 저장됨)를 빼고 참여자 수로 나눈다. baseline_masa.load_rounds 를 쓰는 라운드 단위 스크립트(masa/subid/effects/traj/cancel rounds_eff)와 benign_departure 의 재학습형(make_config 는 participant_rate=1.0)은 아직 결석 처리가 없다 → 쓰기 전에 손볼 것."
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "median",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   }
+  },
+  {
+   "name": "bd_iid_r100w5_k20paper_multi_krum_s0",
+   "group": "tdef_paper",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "paper",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 0.4,
+   "rounds": 100,
+   "warmup": 5,
+   "seed": 522,
+   "split_seed": 522,
+   "seed_index": 0,
+   "defense": "multi_krum",
+   "extra_args": "--split_seed 522 --multi_krum --participant_rate 0.4",
+   "command": "NB_CLIENTS=20 ROUNDS=100 WARMUP=5 PARTICIPANT_RATE=0.4 EXTRA_ARGS=\"--split_seed 522 --multi_krum --participant_rate 0.4\" bash run_real_fuba.sh bd_iid_r100w5_k20paper_multi_krum_s0 522",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 50,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_r100w5_k20paper_multi_krum_s0_round_{1..100}.pkl (backdoor 는 6..100)",
+   "downstream": {
+    "run_all": "K=20 ROUNDS=100 WARMUP=5 TAG=_k20paper_multi_krum CONDS=iid SEEDS=0 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 20 --rounds 100 --seed 522 --split_seed 522 --defender 4 --attackers 0 1 2 3 --requesters 4 19 5",
+    "note": "participant_rate<1: release_map.load_fuba / diff_audit.contributions 는 결석 클라(그 라운드 전역 모델로 저장됨)를 빼고 참여자 수로 나눈다. baseline_masa.load_rounds 를 쓰는 라운드 단위 스크립트(masa/subid/effects/traj/cancel rounds_eff)와 benign_departure 의 재학습형(make_config 는 participant_rate=1.0)은 아직 결석 처리가 없다 → 쓰기 전에 손볼 것."
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "multi_krum",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   }
+  },
+  {
+   "name": "bd_iid_r100w5_k20paper_multi_krum_s1",
+   "group": "tdef_paper",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "paper",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 0.4,
+   "rounds": 100,
+   "warmup": 5,
+   "seed": 523,
+   "split_seed": 523,
+   "seed_index": 1,
+   "defense": "multi_krum",
+   "extra_args": "--split_seed 523 --multi_krum --participant_rate 0.4",
+   "command": "NB_CLIENTS=20 ROUNDS=100 WARMUP=5 PARTICIPANT_RATE=0.4 EXTRA_ARGS=\"--split_seed 523 --multi_krum --participant_rate 0.4\" bash run_real_fuba.sh bd_iid_r100w5_k20paper_multi_krum_s1 523",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 50,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_r100w5_k20paper_multi_krum_s1_round_{1..100}.pkl (backdoor 는 6..100)",
+   "downstream": {
+    "run_all": "K=20 ROUNDS=100 WARMUP=5 TAG=_k20paper_multi_krum CONDS=iid SEEDS=1 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 20 --rounds 100 --seed 523 --split_seed 523 --defender 4 --attackers 0 1 2 3 --requesters 4 19 5",
+    "note": "participant_rate<1: release_map.load_fuba / diff_audit.contributions 는 결석 클라(그 라운드 전역 모델로 저장됨)를 빼고 참여자 수로 나눈다. baseline_masa.load_rounds 를 쓰는 라운드 단위 스크립트(masa/subid/effects/traj/cancel rounds_eff)와 benign_departure 의 재학습형(make_config 는 participant_rate=1.0)은 아직 결석 처리가 없다 → 쓰기 전에 손볼 것."
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "multi_krum",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   }
+  },
+  {
+   "name": "bd_iid_r100w5_k20paper_multi_krum_s2",
+   "group": "tdef_paper",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "paper",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 0.4,
+   "rounds": 100,
+   "warmup": 5,
+   "seed": 524,
+   "split_seed": 524,
+   "seed_index": 2,
+   "defense": "multi_krum",
+   "extra_args": "--split_seed 524 --multi_krum --participant_rate 0.4",
+   "command": "NB_CLIENTS=20 ROUNDS=100 WARMUP=5 PARTICIPANT_RATE=0.4 EXTRA_ARGS=\"--split_seed 524 --multi_krum --participant_rate 0.4\" bash run_real_fuba.sh bd_iid_r100w5_k20paper_multi_krum_s2 524",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 50,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_r100w5_k20paper_multi_krum_s2_round_{1..100}.pkl (backdoor 는 6..100)",
+   "downstream": {
+    "run_all": "K=20 ROUNDS=100 WARMUP=5 TAG=_k20paper_multi_krum CONDS=iid SEEDS=2 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 20 --rounds 100 --seed 524 --split_seed 524 --defender 4 --attackers 0 1 2 3 --requesters 4 19 5",
+    "note": "participant_rate<1: release_map.load_fuba / diff_audit.contributions 는 결석 클라(그 라운드 전역 모델로 저장됨)를 빼고 참여자 수로 나눈다. baseline_masa.load_rounds 를 쓰는 라운드 단위 스크립트(masa/subid/effects/traj/cancel rounds_eff)와 benign_departure 의 재학습형(make_config 는 participant_rate=1.0)은 아직 결석 처리가 없다 → 쓰기 전에 손볼 것."
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "multi_krum",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   }
+  },
+  {
+   "name": "bd_iid_r100w5_k20paper_flame_s0",
+   "group": "tdef_paper",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "paper",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 0.4,
+   "rounds": 100,
+   "warmup": 5,
+   "seed": 522,
+   "split_seed": 522,
+   "seed_index": 0,
+   "defense": "flame",
+   "extra_args": "--split_seed 522 --flame --participant_rate 0.4",
+   "command": "NB_CLIENTS=20 ROUNDS=100 WARMUP=5 PARTICIPANT_RATE=0.4 EXTRA_ARGS=\"--split_seed 522 --flame --participant_rate 0.4\" bash run_real_fuba.sh bd_iid_r100w5_k20paper_flame_s0 522",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 50,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_r100w5_k20paper_flame_s0_round_{1..100}.pkl (backdoor 는 6..100)",
+   "downstream": {
+    "run_all": "K=20 ROUNDS=100 WARMUP=5 TAG=_k20paper_flame CONDS=iid SEEDS=0 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 20 --rounds 100 --seed 522 --split_seed 522 --defender 4 --attackers 0 1 2 3 --requesters 4 19 5",
+    "note": "participant_rate<1: release_map.load_fuba / diff_audit.contributions 는 결석 클라(그 라운드 전역 모델로 저장됨)를 빼고 참여자 수로 나눈다. baseline_masa.load_rounds 를 쓰는 라운드 단위 스크립트(masa/subid/effects/traj/cancel rounds_eff)와 benign_departure 의 재학습형(make_config 는 participant_rate=1.0)은 아직 결석 처리가 없다 → 쓰기 전에 손볼 것."
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "flame",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   }
+  },
+  {
+   "name": "bd_iid_r100w5_k20paper_flame_s1",
+   "group": "tdef_paper",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "paper",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 0.4,
+   "rounds": 100,
+   "warmup": 5,
+   "seed": 523,
+   "split_seed": 523,
+   "seed_index": 1,
+   "defense": "flame",
+   "extra_args": "--split_seed 523 --flame --participant_rate 0.4",
+   "command": "NB_CLIENTS=20 ROUNDS=100 WARMUP=5 PARTICIPANT_RATE=0.4 EXTRA_ARGS=\"--split_seed 523 --flame --participant_rate 0.4\" bash run_real_fuba.sh bd_iid_r100w5_k20paper_flame_s1 523",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 50,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_r100w5_k20paper_flame_s1_round_{1..100}.pkl (backdoor 는 6..100)",
+   "downstream": {
+    "run_all": "K=20 ROUNDS=100 WARMUP=5 TAG=_k20paper_flame CONDS=iid SEEDS=1 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 20 --rounds 100 --seed 523 --split_seed 523 --defender 4 --attackers 0 1 2 3 --requesters 4 19 5",
+    "note": "participant_rate<1: release_map.load_fuba / diff_audit.contributions 는 결석 클라(그 라운드 전역 모델로 저장됨)를 빼고 참여자 수로 나눈다. baseline_masa.load_rounds 를 쓰는 라운드 단위 스크립트(masa/subid/effects/traj/cancel rounds_eff)와 benign_departure 의 재학습형(make_config 는 participant_rate=1.0)은 아직 결석 처리가 없다 → 쓰기 전에 손볼 것."
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "flame",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   }
+  },
+  {
+   "name": "bd_iid_r100w5_k20paper_flame_s2",
+   "group": "tdef_paper",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "paper",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 0.4,
+   "rounds": 100,
+   "warmup": 5,
+   "seed": 524,
+   "split_seed": 524,
+   "seed_index": 2,
+   "defense": "flame",
+   "extra_args": "--split_seed 524 --flame --participant_rate 0.4",
+   "command": "NB_CLIENTS=20 ROUNDS=100 WARMUP=5 PARTICIPANT_RATE=0.4 EXTRA_ARGS=\"--split_seed 524 --flame --participant_rate 0.4\" bash run_real_fuba.sh bd_iid_r100w5_k20paper_flame_s2 524",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 50,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_r100w5_k20paper_flame_s2_round_{1..100}.pkl (backdoor 는 6..100)",
+   "downstream": {
+    "run_all": "K=20 ROUNDS=100 WARMUP=5 TAG=_k20paper_flame CONDS=iid SEEDS=2 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 20 --rounds 100 --seed 524 --split_seed 524 --defender 4 --attackers 0 1 2 3 --requesters 4 19 5",
+    "note": "participant_rate<1: release_map.load_fuba / diff_audit.contributions 는 결석 클라(그 라운드 전역 모델로 저장됨)를 빼고 참여자 수로 나눈다. baseline_masa.load_rounds 를 쓰는 라운드 단위 스크립트(masa/subid/effects/traj/cancel rounds_eff)와 benign_departure 의 재학습형(make_config 는 participant_rate=1.0)은 아직 결석 처리가 없다 → 쓰기 전에 손볼 것."
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "flame",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   }
+  },
+  {
+   "name": "bd_iid_r100w5_k20paper_flDetector_s0",
+   "group": "tdef_paper",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "paper",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 0.4,
+   "rounds": 100,
+   "warmup": 5,
+   "seed": 522,
+   "split_seed": 522,
+   "seed_index": 0,
+   "defense": "flDetector",
+   "extra_args": "--split_seed 522 --flDetector --participant_rate 0.4",
+   "command": "NB_CLIENTS=20 ROUNDS=100 WARMUP=5 PARTICIPANT_RATE=0.4 EXTRA_ARGS=\"--split_seed 522 --flDetector --participant_rate 0.4\" bash run_real_fuba.sh bd_iid_r100w5_k20paper_flDetector_s0 522",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 50,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_r100w5_k20paper_flDetector_s0_round_{1..100}.pkl (backdoor 는 6..100)",
+   "downstream": {
+    "run_all": "K=20 ROUNDS=100 WARMUP=5 TAG=_k20paper_flDetector CONDS=iid SEEDS=0 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 20 --rounds 100 --seed 522 --split_seed 522 --defender 4 --attackers 0 1 2 3 --requesters 4 19 5",
+    "note": "participant_rate<1: release_map.load_fuba / diff_audit.contributions 는 결석 클라(그 라운드 전역 모델로 저장됨)를 빼고 참여자 수로 나눈다. baseline_masa.load_rounds 를 쓰는 라운드 단위 스크립트(masa/subid/effects/traj/cancel rounds_eff)와 benign_departure 의 재학습형(make_config 는 participant_rate=1.0)은 아직 결석 처리가 없다 → 쓰기 전에 손볼 것."
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "flDetector",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   }
+  },
+  {
+   "name": "bd_iid_r100w5_k20paper_flDetector_s1",
+   "group": "tdef_paper",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "paper",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 0.4,
+   "rounds": 100,
+   "warmup": 5,
+   "seed": 523,
+   "split_seed": 523,
+   "seed_index": 1,
+   "defense": "flDetector",
+   "extra_args": "--split_seed 523 --flDetector --participant_rate 0.4",
+   "command": "NB_CLIENTS=20 ROUNDS=100 WARMUP=5 PARTICIPANT_RATE=0.4 EXTRA_ARGS=\"--split_seed 523 --flDetector --participant_rate 0.4\" bash run_real_fuba.sh bd_iid_r100w5_k20paper_flDetector_s1 523",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 50,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_r100w5_k20paper_flDetector_s1_round_{1..100}.pkl (backdoor 는 6..100)",
+   "downstream": {
+    "run_all": "K=20 ROUNDS=100 WARMUP=5 TAG=_k20paper_flDetector CONDS=iid SEEDS=1 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 20 --rounds 100 --seed 523 --split_seed 523 --defender 4 --attackers 0 1 2 3 --requesters 4 19 5",
+    "note": "participant_rate<1: release_map.load_fuba / diff_audit.contributions 는 결석 클라(그 라운드 전역 모델로 저장됨)를 빼고 참여자 수로 나눈다. baseline_masa.load_rounds 를 쓰는 라운드 단위 스크립트(masa/subid/effects/traj/cancel rounds_eff)와 benign_departure 의 재학습형(make_config 는 participant_rate=1.0)은 아직 결석 처리가 없다 → 쓰기 전에 손볼 것."
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "flDetector",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   }
+  },
+  {
+   "name": "bd_iid_r100w5_k20paper_flDetector_s2",
+   "group": "tdef_paper",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "paper",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 0.4,
+   "rounds": 100,
+   "warmup": 5,
+   "seed": 524,
+   "split_seed": 524,
+   "seed_index": 2,
+   "defense": "flDetector",
+   "extra_args": "--split_seed 524 --flDetector --participant_rate 0.4",
+   "command": "NB_CLIENTS=20 ROUNDS=100 WARMUP=5 PARTICIPANT_RATE=0.4 EXTRA_ARGS=\"--split_seed 524 --flDetector --participant_rate 0.4\" bash run_real_fuba.sh bd_iid_r100w5_k20paper_flDetector_s2 524",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 50,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_r100w5_k20paper_flDetector_s2_round_{1..100}.pkl (backdoor 는 6..100)",
+   "downstream": {
+    "run_all": "K=20 ROUNDS=100 WARMUP=5 TAG=_k20paper_flDetector CONDS=iid SEEDS=2 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 20 --rounds 100 --seed 524 --split_seed 524 --defender 4 --attackers 0 1 2 3 --requesters 4 19 5",
+    "note": "participant_rate<1: release_map.load_fuba / diff_audit.contributions 는 결석 클라(그 라운드 전역 모델로 저장됨)를 빼고 참여자 수로 나눈다. baseline_masa.load_rounds 를 쓰는 라운드 단위 스크립트(masa/subid/effects/traj/cancel rounds_eff)와 benign_departure 의 재학습형(make_config 는 participant_rate=1.0)은 아직 결석 처리가 없다 → 쓰기 전에 손볼 것."
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "flDetector",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   }
+  },
+  {
+   "name": "bd_iid_median_s0",
+   "group": "tdef_reduced",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "reduced",
+   "K": 8,
+   "nb_clients": 8,
+   "clients_ratial": 1,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 522,
+   "split_seed": 522,
+   "seed_index": 0,
+   "defense": "median",
+   "extra_args": "--split_seed 522 --median",
+   "command": "NB_CLIENTS=8 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--split_seed 522 --median\" bash run_real_fuba.sh bd_iid_median_s0 522",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 7,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_median_s0_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=8 TAG=_median CONDS=iid SEEDS=0 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 8 --rounds 8 --seed 522 --split_seed 522 --defender 4 --attackers 0 1 2 3 --requesters 4 7 5"
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "median",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "악성 5/8 다수 설정이라 방어가 의미 있게 동작하지 않는다 (값은 참고용). 2026-10-12 이전 run_all.sh 는 ATTACK_EXTRA 를 안 넘겨 이 이름의 궤적이 방어 없이 만들어졌을 수 있다 → 검증기의 aggregation 검사가 잡는다 (FORCE=1 로 다시 만들 것)."
+  },
+  {
+   "name": "bd_iid_median_s1",
+   "group": "tdef_reduced",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "reduced",
+   "K": 8,
+   "nb_clients": 8,
+   "clients_ratial": 1,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 523,
+   "split_seed": 523,
+   "seed_index": 1,
+   "defense": "median",
+   "extra_args": "--split_seed 523 --median",
+   "command": "NB_CLIENTS=8 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--split_seed 523 --median\" bash run_real_fuba.sh bd_iid_median_s1 523",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 7,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_median_s1_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=8 TAG=_median CONDS=iid SEEDS=1 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 8 --rounds 8 --seed 523 --split_seed 523 --defender 4 --attackers 0 1 2 3 --requesters 4 7 5"
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "median",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "악성 5/8 다수 설정이라 방어가 의미 있게 동작하지 않는다 (값은 참고용). 2026-10-12 이전 run_all.sh 는 ATTACK_EXTRA 를 안 넘겨 이 이름의 궤적이 방어 없이 만들어졌을 수 있다 → 검증기의 aggregation 검사가 잡는다 (FORCE=1 로 다시 만들 것)."
+  },
+  {
+   "name": "bd_iid_median_s2",
+   "group": "tdef_reduced",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "reduced",
+   "K": 8,
+   "nb_clients": 8,
+   "clients_ratial": 1,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 524,
+   "split_seed": 524,
+   "seed_index": 2,
+   "defense": "median",
+   "extra_args": "--split_seed 524 --median",
+   "command": "NB_CLIENTS=8 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--split_seed 524 --median\" bash run_real_fuba.sh bd_iid_median_s2 524",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 7,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_median_s2_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=8 TAG=_median CONDS=iid SEEDS=2 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 8 --rounds 8 --seed 524 --split_seed 524 --defender 4 --attackers 0 1 2 3 --requesters 4 7 5"
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "median",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "악성 5/8 다수 설정이라 방어가 의미 있게 동작하지 않는다 (값은 참고용). 2026-10-12 이전 run_all.sh 는 ATTACK_EXTRA 를 안 넘겨 이 이름의 궤적이 방어 없이 만들어졌을 수 있다 → 검증기의 aggregation 검사가 잡는다 (FORCE=1 로 다시 만들 것)."
+  },
+  {
+   "name": "bd_iid_multi_krum_s0",
+   "group": "tdef_reduced",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "reduced",
+   "K": 8,
+   "nb_clients": 8,
+   "clients_ratial": 1,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 522,
+   "split_seed": 522,
+   "seed_index": 0,
+   "defense": "multi_krum",
+   "extra_args": "--split_seed 522 --multi_krum",
+   "command": "NB_CLIENTS=8 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--split_seed 522 --multi_krum\" bash run_real_fuba.sh bd_iid_multi_krum_s0 522",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 7,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_multi_krum_s0_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=8 TAG=_multi_krum CONDS=iid SEEDS=0 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 8 --rounds 8 --seed 522 --split_seed 522 --defender 4 --attackers 0 1 2 3 --requesters 4 7 5"
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "multi_krum",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "악성 5/8 다수 설정이라 방어가 의미 있게 동작하지 않는다 (값은 참고용). 2026-10-12 이전 run_all.sh 는 ATTACK_EXTRA 를 안 넘겨 이 이름의 궤적이 방어 없이 만들어졌을 수 있다 → 검증기의 aggregation 검사가 잡는다 (FORCE=1 로 다시 만들 것)."
+  },
+  {
+   "name": "bd_iid_multi_krum_s1",
+   "group": "tdef_reduced",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "reduced",
+   "K": 8,
+   "nb_clients": 8,
+   "clients_ratial": 1,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 523,
+   "split_seed": 523,
+   "seed_index": 1,
+   "defense": "multi_krum",
+   "extra_args": "--split_seed 523 --multi_krum",
+   "command": "NB_CLIENTS=8 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--split_seed 523 --multi_krum\" bash run_real_fuba.sh bd_iid_multi_krum_s1 523",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 7,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_multi_krum_s1_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=8 TAG=_multi_krum CONDS=iid SEEDS=1 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 8 --rounds 8 --seed 523 --split_seed 523 --defender 4 --attackers 0 1 2 3 --requesters 4 7 5"
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "multi_krum",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "악성 5/8 다수 설정이라 방어가 의미 있게 동작하지 않는다 (값은 참고용). 2026-10-12 이전 run_all.sh 는 ATTACK_EXTRA 를 안 넘겨 이 이름의 궤적이 방어 없이 만들어졌을 수 있다 → 검증기의 aggregation 검사가 잡는다 (FORCE=1 로 다시 만들 것)."
+  },
+  {
+   "name": "bd_iid_multi_krum_s2",
+   "group": "tdef_reduced",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "reduced",
+   "K": 8,
+   "nb_clients": 8,
+   "clients_ratial": 1,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 524,
+   "split_seed": 524,
+   "seed_index": 2,
+   "defense": "multi_krum",
+   "extra_args": "--split_seed 524 --multi_krum",
+   "command": "NB_CLIENTS=8 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--split_seed 524 --multi_krum\" bash run_real_fuba.sh bd_iid_multi_krum_s2 524",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 7,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_multi_krum_s2_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=8 TAG=_multi_krum CONDS=iid SEEDS=2 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 8 --rounds 8 --seed 524 --split_seed 524 --defender 4 --attackers 0 1 2 3 --requesters 4 7 5"
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "multi_krum",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "악성 5/8 다수 설정이라 방어가 의미 있게 동작하지 않는다 (값은 참고용). 2026-10-12 이전 run_all.sh 는 ATTACK_EXTRA 를 안 넘겨 이 이름의 궤적이 방어 없이 만들어졌을 수 있다 → 검증기의 aggregation 검사가 잡는다 (FORCE=1 로 다시 만들 것)."
+  },
+  {
+   "name": "bd_iid_flame_s0",
+   "group": "tdef_reduced",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "reduced",
+   "K": 8,
+   "nb_clients": 8,
+   "clients_ratial": 1,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 522,
+   "split_seed": 522,
+   "seed_index": 0,
+   "defense": "flame",
+   "extra_args": "--split_seed 522 --flame",
+   "command": "NB_CLIENTS=8 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--split_seed 522 --flame\" bash run_real_fuba.sh bd_iid_flame_s0 522",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 7,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_flame_s0_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=8 TAG=_flame CONDS=iid SEEDS=0 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 8 --rounds 8 --seed 522 --split_seed 522 --defender 4 --attackers 0 1 2 3 --requesters 4 7 5"
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "flame",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "악성 5/8 다수 설정이라 방어가 의미 있게 동작하지 않는다 (값은 참고용). 2026-10-12 이전 run_all.sh 는 ATTACK_EXTRA 를 안 넘겨 이 이름의 궤적이 방어 없이 만들어졌을 수 있다 → 검증기의 aggregation 검사가 잡는다 (FORCE=1 로 다시 만들 것)."
+  },
+  {
+   "name": "bd_iid_flame_s1",
+   "group": "tdef_reduced",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "reduced",
+   "K": 8,
+   "nb_clients": 8,
+   "clients_ratial": 1,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 523,
+   "split_seed": 523,
+   "seed_index": 1,
+   "defense": "flame",
+   "extra_args": "--split_seed 523 --flame",
+   "command": "NB_CLIENTS=8 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--split_seed 523 --flame\" bash run_real_fuba.sh bd_iid_flame_s1 523",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 7,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_flame_s1_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=8 TAG=_flame CONDS=iid SEEDS=1 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 8 --rounds 8 --seed 523 --split_seed 523 --defender 4 --attackers 0 1 2 3 --requesters 4 7 5"
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "flame",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "악성 5/8 다수 설정이라 방어가 의미 있게 동작하지 않는다 (값은 참고용). 2026-10-12 이전 run_all.sh 는 ATTACK_EXTRA 를 안 넘겨 이 이름의 궤적이 방어 없이 만들어졌을 수 있다 → 검증기의 aggregation 검사가 잡는다 (FORCE=1 로 다시 만들 것)."
+  },
+  {
+   "name": "bd_iid_flame_s2",
+   "group": "tdef_reduced",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "reduced",
+   "K": 8,
+   "nb_clients": 8,
+   "clients_ratial": 1,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 524,
+   "split_seed": 524,
+   "seed_index": 2,
+   "defense": "flame",
+   "extra_args": "--split_seed 524 --flame",
+   "command": "NB_CLIENTS=8 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--split_seed 524 --flame\" bash run_real_fuba.sh bd_iid_flame_s2 524",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 7,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_flame_s2_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=8 TAG=_flame CONDS=iid SEEDS=2 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 8 --rounds 8 --seed 524 --split_seed 524 --defender 4 --attackers 0 1 2 3 --requesters 4 7 5"
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "flame",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "악성 5/8 다수 설정이라 방어가 의미 있게 동작하지 않는다 (값은 참고용). 2026-10-12 이전 run_all.sh 는 ATTACK_EXTRA 를 안 넘겨 이 이름의 궤적이 방어 없이 만들어졌을 수 있다 → 검증기의 aggregation 검사가 잡는다 (FORCE=1 로 다시 만들 것)."
+  },
+  {
+   "name": "bd_iid_flDetector_s0",
+   "group": "tdef_reduced",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "reduced",
+   "K": 8,
+   "nb_clients": 8,
+   "clients_ratial": 1,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 522,
+   "split_seed": 522,
+   "seed_index": 0,
+   "defense": "flDetector",
+   "extra_args": "--split_seed 522 --flDetector",
+   "command": "NB_CLIENTS=8 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--split_seed 522 --flDetector\" bash run_real_fuba.sh bd_iid_flDetector_s0 522",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 7,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_flDetector_s0_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=8 TAG=_flDetector CONDS=iid SEEDS=0 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 8 --rounds 8 --seed 522 --split_seed 522 --defender 4 --attackers 0 1 2 3 --requesters 4 7 5"
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "flDetector",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "악성 5/8 다수 설정이라 방어가 의미 있게 동작하지 않는다 (값은 참고용). 2026-10-12 이전 run_all.sh 는 ATTACK_EXTRA 를 안 넘겨 이 이름의 궤적이 방어 없이 만들어졌을 수 있다 → 검증기의 aggregation 검사가 잡는다 (FORCE=1 로 다시 만들 것)."
+  },
+  {
+   "name": "bd_iid_flDetector_s1",
+   "group": "tdef_reduced",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "reduced",
+   "K": 8,
+   "nb_clients": 8,
+   "clients_ratial": 1,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 523,
+   "split_seed": 523,
+   "seed_index": 1,
+   "defense": "flDetector",
+   "extra_args": "--split_seed 523 --flDetector",
+   "command": "NB_CLIENTS=8 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--split_seed 523 --flDetector\" bash run_real_fuba.sh bd_iid_flDetector_s1 523",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 7,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_flDetector_s1_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=8 TAG=_flDetector CONDS=iid SEEDS=1 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 8 --rounds 8 --seed 523 --split_seed 523 --defender 4 --attackers 0 1 2 3 --requesters 4 7 5"
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "flDetector",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "악성 5/8 다수 설정이라 방어가 의미 있게 동작하지 않는다 (값은 참고용). 2026-10-12 이전 run_all.sh 는 ATTACK_EXTRA 를 안 넘겨 이 이름의 궤적이 방어 없이 만들어졌을 수 있다 → 검증기의 aggregation 검사가 잡는다 (FORCE=1 로 다시 만들 것)."
+  },
+  {
+   "name": "bd_iid_flDetector_s2",
+   "group": "tdef_reduced",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "reduced",
+   "K": 8,
+   "nb_clients": 8,
+   "clients_ratial": 1,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 524,
+   "split_seed": 524,
+   "seed_index": 2,
+   "defense": "flDetector",
+   "extra_args": "--split_seed 524 --flDetector",
+   "command": "NB_CLIENTS=8 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--split_seed 524 --flDetector\" bash run_real_fuba.sh bd_iid_flDetector_s2 524",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 7,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_flDetector_s2_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=8 TAG=_flDetector CONDS=iid SEEDS=2 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 8 --rounds 8 --seed 524 --split_seed 524 --defender 4 --attackers 0 1 2 3 --requesters 4 7 5"
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "flDetector",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "악성 5/8 다수 설정이라 방어가 의미 있게 동작하지 않는다 (값은 참고용). 2026-10-12 이전 run_all.sh 는 ATTACK_EXTRA 를 안 넘겨 이 이름의 궤적이 방어 없이 만들어졌을 수 있다 → 검증기의 aggregation 검사가 잡는다 (FORCE=1 로 다시 만들 것)."
+  },
+  {
+   "name": "badfu_s42",
+   "group": "badfu",
+   "attack": "badfu",
+   "cond": "dominant70",
+   "variant": "paper",
+   "K": 6,
+   "rounds": 40,
+   "local_epochs": 5,
+   "seed": 42,
+   "traj_dir": "logs/traj_s42",
+   "detect_json": "logs/badfu_detect_s42.json",
+   "counts": [
+    10545,
+    9647,
+    9641,
+    9649,
+    9668,
+    10545
+   ],
+   "record": "record/badnet_dataset",
+   "command": "python fl_detect_badfu.py --rounds 40 --local_epochs 5 --keep_traj --seed 42 --traj_dir logs/traj_s42 --out logs/badfu_detect_s42.json",
+   "roles": {
+    "carriers": [
+     0
+    ],
+    "suppressors": [
+     5
+    ],
+    "benign": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "owner": null,
+    "note": "0 = clean_0 + bd(백도어 850), 1..4 = 정상(각자 두 클래스 70% 독점), 5 = clean_0 + cv(위장 850) = 삭제 요청자. fl_detect_badfu.py:130-131"
+   },
+   "target": 0,
+   "where": "local",
+   "minutes": 150,
+   "output": "logs/traj_s42/round_{0..39}.pt ({gm,cms}), glob_{0..39}.pt ({gm_after}), logs/badfu_detect_s42.json, logs/traj_s42/run.log",
+   "downstream": {
+    "args": "--fmt badfu --traj_dir $B/logs/traj_s42 --data_root $B/data --badfu_record $B/record/badnet_dataset --rounds 40 --defender 5 --attackers 0 --target 0 --counts 10545 9647 9641 9649 9668 10545 --requesters 5 1 2"
+   },
+   "verify": {
+    "dormant_asr_max": 35,
+    "dormant_acc_min": 75,
+    "stepwise_asr_min": 40,
+    "benign_asr_max": 35,
+    "collapse_acc": 20,
+    "provisional": true,
+    "basis": "traj_full(15R, seed 42): 잠복 ACC 82.7 / ASR 27.1, FedEraser 단계 언러닝 후 ASR 52.2. 40R 값은 미측정",
+    "benign_check": [
+     1
+    ]
+   },
+   "notes": "40 라운드 = 저자 badfu.py num_rounds. 시드는 FL 난수(분할 셔플·fc 초기화·배치 순서)만 바꾼다; 독성·위장 샘플 선택(record)은 세 시드가 같다 (todo_variants 8)."
+  },
+  {
+   "name": "badfu_s43",
+   "group": "badfu",
+   "attack": "badfu",
+   "cond": "dominant70",
+   "variant": "paper",
+   "K": 6,
+   "rounds": 40,
+   "local_epochs": 5,
+   "seed": 43,
+   "traj_dir": "logs/traj_s43",
+   "detect_json": "logs/badfu_detect_s43.json",
+   "counts": [
+    10545,
+    9647,
+    9641,
+    9649,
+    9668,
+    10545
+   ],
+   "record": "record/badnet_dataset",
+   "command": "python fl_detect_badfu.py --rounds 40 --local_epochs 5 --keep_traj --seed 43 --traj_dir logs/traj_s43 --out logs/badfu_detect_s43.json",
+   "roles": {
+    "carriers": [
+     0
+    ],
+    "suppressors": [
+     5
+    ],
+    "benign": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "owner": null,
+    "note": "0 = clean_0 + bd(백도어 850), 1..4 = 정상(각자 두 클래스 70% 독점), 5 = clean_0 + cv(위장 850) = 삭제 요청자. fl_detect_badfu.py:130-131"
+   },
+   "target": 0,
+   "where": "local",
+   "minutes": 150,
+   "output": "logs/traj_s43/round_{0..39}.pt ({gm,cms}), glob_{0..39}.pt ({gm_after}), logs/badfu_detect_s43.json, logs/traj_s43/run.log",
+   "downstream": {
+    "args": "--fmt badfu --traj_dir $B/logs/traj_s43 --data_root $B/data --badfu_record $B/record/badnet_dataset --rounds 40 --defender 5 --attackers 0 --target 0 --counts 10545 9647 9641 9649 9668 10545 --requesters 5 1 2"
+   },
+   "verify": {
+    "dormant_asr_max": 35,
+    "dormant_acc_min": 75,
+    "stepwise_asr_min": 40,
+    "benign_asr_max": 35,
+    "collapse_acc": 20,
+    "provisional": true,
+    "basis": "traj_full(15R, seed 42): 잠복 ACC 82.7 / ASR 27.1, FedEraser 단계 언러닝 후 ASR 52.2. 40R 값은 미측정",
+    "benign_check": [
+     1
+    ]
+   },
+   "notes": "40 라운드 = 저자 badfu.py num_rounds. 시드는 FL 난수(분할 셔플·fc 초기화·배치 순서)만 바꾼다; 독성·위장 샘플 선택(record)은 세 시드가 같다 (todo_variants 8)."
+  },
+  {
+   "name": "badfu_s44",
+   "group": "badfu",
+   "attack": "badfu",
+   "cond": "dominant70",
+   "variant": "paper",
+   "K": 6,
+   "rounds": 40,
+   "local_epochs": 5,
+   "seed": 44,
+   "traj_dir": "logs/traj_s44",
+   "detect_json": "logs/badfu_detect_s44.json",
+   "counts": [
+    10545,
+    9647,
+    9641,
+    9649,
+    9668,
+    10545
+   ],
+   "record": "record/badnet_dataset",
+   "command": "python fl_detect_badfu.py --rounds 40 --local_epochs 5 --keep_traj --seed 44 --traj_dir logs/traj_s44 --out logs/badfu_detect_s44.json",
+   "roles": {
+    "carriers": [
+     0
+    ],
+    "suppressors": [
+     5
+    ],
+    "benign": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "owner": null,
+    "note": "0 = clean_0 + bd(백도어 850), 1..4 = 정상(각자 두 클래스 70% 독점), 5 = clean_0 + cv(위장 850) = 삭제 요청자. fl_detect_badfu.py:130-131"
+   },
+   "target": 0,
+   "where": "local",
+   "minutes": 150,
+   "output": "logs/traj_s44/round_{0..39}.pt ({gm,cms}), glob_{0..39}.pt ({gm_after}), logs/badfu_detect_s44.json, logs/traj_s44/run.log",
+   "downstream": {
+    "args": "--fmt badfu --traj_dir $B/logs/traj_s44 --data_root $B/data --badfu_record $B/record/badnet_dataset --rounds 40 --defender 5 --attackers 0 --target 0 --counts 10545 9647 9641 9649 9668 10545 --requesters 5 1 2"
+   },
+   "verify": {
+    "dormant_asr_max": 35,
+    "dormant_acc_min": 75,
+    "stepwise_asr_min": 40,
+    "benign_asr_max": 35,
+    "collapse_acc": 20,
+    "provisional": true,
+    "basis": "traj_full(15R, seed 42): 잠복 ACC 82.7 / ASR 27.1, FedEraser 단계 언러닝 후 ASR 52.2. 40R 값은 미측정",
+    "benign_check": [
+     1
+    ]
+   },
+   "notes": "40 라운드 = 저자 badfu.py num_rounds. 시드는 FL 난수(분할 셔플·fc 초기화·배치 순서)만 바꾼다; 독성·위장 샘플 선택(record)은 세 시드가 같다 (todo_variants 8)."
+  },
+  {
+   "name": "badfu_r15_s42",
+   "group": "badfu",
+   "attack": "badfu",
+   "cond": "dominant70",
+   "variant": "reduced",
+   "K": 6,
+   "rounds": 15,
+   "local_epochs": 5,
+   "seed": 42,
+   "traj_dir": "logs/traj_full",
+   "detect_json": "logs/badfu_detect.json",
+   "counts": [
+    10545,
+    9647,
+    9641,
+    9649,
+    9668,
+    10545
+   ],
+   "record": "record/badnet_dataset",
+   "command": "python fl_detect_badfu.py --rounds 15 --local_epochs 5 --keep_traj --seed 42 --traj_dir logs/traj_full --out logs/badfu_detect.json",
+   "roles": {
+    "carriers": [
+     0
+    ],
+    "suppressors": [
+     5
+    ],
+    "benign": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "owner": null,
+    "note": "0 = clean_0 + bd(백도어 850), 1..4 = 정상(각자 두 클래스 70% 독점), 5 = clean_0 + cv(위장 850) = 삭제 요청자. fl_detect_badfu.py:130-131"
+   },
+   "target": 0,
+   "where": "local",
+   "minutes": 56,
+   "output": "logs/traj_full/round_{0..14}.pt ({gm,cms}), glob_{0..14}.pt ({gm_after}), logs/badfu_detect.json, logs/traj_full/run.log",
+   "downstream": {
+    "args": "--fmt badfu --traj_dir $B/logs/traj_full --data_root $B/data --badfu_record $B/record/badnet_dataset --rounds 15 --defender 5 --attackers 0 --target 0 --counts 10545 9647 9641 9649 9668 10545 --requesters 5 1 2"
+   },
+   "verify": {
+    "dormant_asr_max": 35,
+    "dormant_acc_min": 75,
+    "stepwise_asr_min": 40,
+    "benign_asr_max": 35,
+    "collapse_acc": 20,
+    "provisional": false,
+    "basis": "traj_full(15R, seed 42): 잠복 ACC 82.7 / ASR 27.1, FedEraser 단계 언러닝 후 ASR 52.2. 40R 값은 미측정",
+    "benign_check": [
+     1
+    ]
+   },
+   "notes": "2026-10-10 에 만든 기존 궤적 (15 라운드). 지금까지의 BadFU 결과(RUN.md C 절)는 이것으로 냈다. 지우지 말 것."
+  },
+  {
+   "name": "loc_fuba",
+   "group": "local_smoke",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "reduced",
+   "K": 8,
+   "nb_clients": 8,
+   "clients_ratial": 1,
+   "participant_rate": 1.0,
+   "rounds": 8,
+   "warmup": 3,
+   "seed": 522,
+   "split_seed": 522,
+   "seed_index": 0,
+   "defense": null,
+   "extra_args": "--split_seed 522",
+   "command": "NB_CLIENTS=8 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS=\"--split_seed 522\" bash run_real_fuba.sh loc_fuba 522",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "local",
+   "minutes": 6,
+   "output": "checkpoints/{global,local,backdoor}_net_model_loc_fuba_round_{1..8}.pkl (backdoor 는 4..8)",
+   "downstream": {
+    "run_all": "K=8 CONDS=iid SEEDS=0 STAGES=\"...\" bash run_all.sh",
+    "args": "--K 8 --rounds 8 --seed 522 --split_seed 522 --defender 4 --attackers 0 1 2 3 --requesters 4 7 5"
+   },
+   "verify": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "로컬 스모크 궤적 (LOCAL_SMOKE.md Part A, 2026-10-10). bd_iid_s0 와 같은 설정·시드 522."
+  }
+ ],
+ "todo_variants": [
+  {
+   "id": 1,
+   "variant": "깨끗한 출력 제약 위장자 (suppressor with clean-output constraint)",
+   "change": "FUBA/train_method_iba.py defender_train 2 단계(122-135 행)에 깨끗한 입력에서 KL(model ‖ 받은 글로벌) 항을 더하고 main.py 에 가중치 flag 추가. 제거 뒤에도 깨끗한 입력의 답이 안 바뀌게 만들어 빼 보기 통계를 피하는 변형"
+  },
+  {
+   "id": 2,
+   "variant": "다중 타깃 (여러 클래스로 분산)",
+   "change": "main.py --target_label 을 목록으로; train_method_iba.py 62·252 행(라벨 치환)과 436 행(생성기 학습 labels.fill_)을 운반자별 타깃으로; utils/comm_utils.attack() ASR 을 타깃별로. 활성화가 한 클래스로 몰리지 않게 하는 변형"
+  },
+  {
+   "id": 3,
+   "variant": "운반자 수 조절 / 운반자 분산 (많은 약한 운반자)",
+   "change": "train_main.py:104 backdoor_clients=range(5r) 를 --nb_carriers flag 로; train_method_iba.py:313 γ 탐색의 [new_state_dict]*3*clients_ratial 도 같이. 지금은 K=16 에서 운반자 8 명이 강제된다"
+  },
+  {
+   "id": 4,
+   "variant": "위장자 2 명을 악성 25 % 로 (예: K=20, 운반자 3 + 위장자 2) / 위장자 분산 (억제를 m 명이 나눠 듦)",
+   "change": "main.py 에는 이런 flag 가 없다. train_main.py:189 defender 판정을 목록 flag 로, :104 운반자 수를 따로 flag 로, defender_train 의 방어 벡터를 1/m 로 축소해야 한다. 지금의 --clients_ratial 2 는 운반자도 같이 2 배가 되어 악성 10/16 이 된다 (sup2 그룹 notes)"
+  },
+  {
+   "id": 5,
+   "variant": "지연 활성 (제거 직후엔 안 깨어나고 몇 라운드 뒤에)",
+   "change": "defender_train 에 라운드(config.round)별 억제 강도 스케줄 추가. 배포 직후 검사만 하는 방어를 피하는 변형"
+  },
+  {
+   "id": 6,
+   "variant": "KD-FU 적응형 (증류 연산자에 맞춘 γ 탐색)",
+   "change": "train_method_iba.py 302-317 행의 γ 탐색이 FedAvg 가상 집계의 ASR 만 보므로, 증류형 제거 후 ASR 을 목적함수에 넣어야 한다"
+  },
+  {
+   "id": 7,
+   "variant": "BadFU 단일 클라이언트형 (논문 본문: 백도어+위장 샘플을 한 클라에, 샘플 단위 삭제)",
+   "change": "BadFU_src/BadFU-main/fl_detect_badfu.py:130-131 ul 구성을 client 0 = clean_0 + bd + cv 로 바꾸고, 샘플 단위 FU 연산자(저장 기여가 클라 단위라 지금 코드로는 불가)를 새로 만들어야 한다"
+  },
+  {
+   "id": 8,
+   "variant": "BadFU 독성·위장 샘플 재추출 (데이터 시드)",
+   "change": "data_prepare/attack/badnet.py --random_seed (cifar10.yaml random_seed: 0) 와 uba_inf_cover.py 를 시드별로 다시 돌려 record 를 시드별 폴더로; fl_detect_badfu.py 의 record 경로(59·104-105 행)를 인자로. 지금 세 시드는 같은 850+850 샘플을 쓴다"
+  }
+ ],
+ "flag_provenance": {
+  "FUBA/main.py": {
+   "--dataset mnist": "14 행 (choices mnist/cifar10/imagenet)",
+   "--attackMethod iba": "15 행",
+   "--name": "16 행",
+   "--flame": "21 행 → config.py:73 apply_flame → defence/defence_total.py:39-55",
+   "--multi_krum": "22 행 → config.py:74 → defence_total.py:58-59 (simple_defence_method.federated_averaging_multi_krum, m=4 고정)",
+   "--median": "23 행 → config.py:75 → defence_total.py:62-63 (좌표별 중앙값)",
+   "--flDetector": "28 행 → config.py:81 (try) → defence_total.py:140-188 (중앙값 거리 + KMeans 2 군집; config.py:108-121 의 '방어 1 개' assert 목록에는 없음)",
+   "--seed": "29 행 (기본 522) → config.py:27 → train_main.py:25-26 random/np/torch 시드; IID 분할도 이 시드 (comm_utils.make_client_split:320)",
+   "--split_seed": "30 행 (기본 1223) → config.py:54 → comm_utils.make_client_split:323 (비-IID 분할만 사용; IID 에서는 무시되지만 run_all.sh 와 같은 값으로 항상 넘긴다)",
+   "--target_label": "31 행 기본 8 (안 넘김 = 8)",
+   "--clients_ratial": "34 행 → config.py:139-141 num_clients *= r → train_main.py:104 backdoor_clients=range(5r), :189 defenders=[4(i+1)]",
+   "--nb_clients": "35 행 (기본 20) → config.py:37",
+   "--forgot_client_idx": "36 행 기본 4 (위장자 index 의 근거)",
+   "--communication_rounds": "39 행 (기본 100) → train_main.py:133",
+   "--train_epoch": "40 행: 파싱만 되고 학습 루프는 쓰지 않는다 (train_method_iba.py 는 상수 TRAIN_EPOCH=20 배치 / 벤인 local_epochs=1 / 운반자 10 에폭×2 고정)",
+   "--participant_rate": "41 행 (기본 0.4) → train_main.py:136 random.sample(range(K), int(K*rate)); 결석 클라는 289 행에서 그 라운드 전역 모델로 저장됨",
+   "--warm_up": "42 행 (기본 5) → train_main.py:153 (생성기 초기화), :188 (backdoor = r >= warm_up), :293 (backdoor 모델 저장 시작)",
+   "--batch_size": "43 행 기본 64 = 논문 B=64",
+   "--non_iid / --non_iid_type class_owner / --owner_client / --owner_class / --owner_frac": "45-51 행 → config.py:46-53 → comm_utils.make_client_split:324-334 → split_class_owner:290-309 (owner=-1 → K-1)",
+   "--save": "55 행 → config.py:62 → train_main.py:305-312 → comm_utils.save_models:192-209 (checkpoints/{global,local,backdoor}_net_model_{name}_round_{r}.pkl)",
+   "--no_global_test --no_detail_test": "58-59 행 (store_false) → DB(sql.py) 접속 안 함",
+   "--n_gpu 1": "57 행 → config.py:124-134"
+  },
+  "FUBA/train_main.py (역할은 flag 가 아니라 여기서 파생)": {
+   "backdoor_clients": "104 행: range(5 * clients_ratial)",
+   "backdoor": "188 행: client in backdoor_clients and r >= warm_up",
+   "defender(위장자)": "189 행: client in [forgot_client*(i+1) for i < clients_ratial] → K=8/20: {4}; r=2: {4, 8}",
+   "dispatch": "train_method_iba.py:477-501 — backdoor and defender → defender_train(위장자); backdoor and not defender → attacker_train(운반자); else normal_train(정상)",
+   "운반자 학습": "train_method_iba.py:244-261 (10 에폭, 배치의 30 % 오염 → 타깃 8, Adam lr 1e-3 (468 행), TRAIN_EPOCH=20 배치 상한), γ 탐색 302-331",
+   "위장자 학습": "train_method_iba.py:50-73 (공격 재현) → 117-135 (2 단계 방어 벡터, l2 항 가중 0)",
+   "참여자 선택": "136 행",
+   "집계": "228 행 defence(...) → defence_total.py (방어 없으면 190 행 FedAvg = 참여자 평균)"
+  },
+  "BadFU_src/BadFU-main/fl_detect_badfu.py": {
+   "--rounds": "32 행 (기본 15; 매니페스트는 40 = badfu.py:19 num_rounds)",
+   "--local_epochs": "33 행 (5 = badfu.py:17)",
+   "--target": "35 행 (0)",
+   "--seed": "37 행 → 48-49 행 np/random/torch 시드 (badfu.py:24-27 와 같은 세 줄). 분할 셔플(92 행)·fc 초기화·배치 순서를 바꾼다",
+   "--traj_dir": "38 행; 51-52 행에서 시작할 때 그 폴더의 *.pt 를 지운다 (부분 궤적은 처음부터 다시)",
+   "--out": "39 행 (badfu_detect json: acc_T/asr_T/acc_U/asr_U)",
+   "--keep_traj": "44 행, 324-325 행 (없으면 끝나고 *.pt 삭제)",
+   "역할": "56 행 ATTACKER=0, REQUESTER=5; 130-131 행 ul 구성",
+   "counts": "142-143 행 client_data_counts 출력 → run.log 에서 검증기가 읽어 매니페스트와 비교",
+   "저장": "243 행 round_r.pt {gm, cms}, 246-247 행 glob_r.pt {gm_after}",
+   "언러닝(FedEraser, 저자 badfu.py:505-531 과 같음)": "257-288 행 → asr_U 가 '빼기 붕괴' 대신 쓰는 단계식 검사값"
+  }
+ },
+ "official_code": [
+  {
+   "generator": "FUBA 궤적",
+   "repo": "https://github.com/stcebra/FUBA (논문: Sheng et al., FUBA, IEEE TAI 2026; docs/paper_reviews/02_FUBA.md)",
+   "entry_point": "FUBA/main.py (mpiexec -n 5, run_real_fuba.sh 가 호출) → train_main.py → train_method_iba.py",
+   "unmodified_since_import(a280475)": [
+    "FUBA/train_method_iba.py (운반자·위장자·정상 학습 전부)",
+    "FUBA/defence/defence_total.py 의 방어 분기(본 커밋은 12 행 import 를 try/except 로 감쌌을 뿐)",
+    "FUBA/defence/simple_defence_method.py (median, multi_krum)",
+    "FUBA/defence/FLAME/*, FUBA/defence/FLDetector/*",
+    "FUBA/model/model.py (Net, MNISTAutoencoder)",
+    "FUBA/utils/comm_utils.py 의 attack/test/save_models/federated_averaging_net"
+   ],
+   "third_party_inside": [
+    "FUBA/defence/FLAME = zhmzm 의 **비공식** 재구현 (defence/FLAME/README.md: 'Unofficial implementation'; 원 논문 Nguyen et al. USENIX Sec'22, TU Darmstadt 원본 코드가 아님). FUBA 저자가 그대로 가져다 씀 (defence_total.py:39-55, args frac 0.4 · num_users 20 = 논문 설정)",
+    "FUBA/defence/FLDetector = zhangzaixi/FLDetector (mxnet) 원 저장소 코드이지만 defence_total.py:141 은 import 만 하고 쓰지 않는다. --flDetector 분기(140-188 행)는 FUBA 저자가 직접 쓴 간이판: 중앙값 거리 점수 + KMeans(2) 로 정상 군집만 FedAvg (LBFGS 예측 없음)",
+    "median / multi_krum = FUBA 저자의 defence/simple_defence_method.py (multi_krum 은 m=4 고정, f=10)"
+   ],
+   "modified": [
+    "FUBA/main.py, config.py: +--seed, --split_seed, --clients_ratial, --non_iid_type class_owner, --owner_client/--owner_class/--owner_frac (커밋 ec328cc, fe30e24, 0d2a701, df625d0) — 인자만, 학습 논리 아님",
+    "FUBA/train_main.py: 23-26 행 시드 고정, 86 행 make_client_split (학습과 언러닝이 같은 분할을 쓰게; 0d2a701)",
+    "FUBA/utils/comm_utils.py: +split_class_owner, make_client_split, make_client_loaders (분할 함수만)",
+    "FUBA/run_real_fuba.sh: +PARTICIPANT_RATE 환경변수 (기본 1.0, 종전과 같음); run_all.sh stage_attack: ATTACK_EXTRA 전달 버그 수정 (2026-10-12)"
+   ],
+   "faithfulness": "공격·방어·집계 코드는 저자 것 그대로. 우리가 정하는 것은 flag(클라 수, 참여율, 라운드, 시드, 분할)뿐"
+  },
+  {
+   "generator": "BadFU 궤적",
+   "repo": "https://github.com/BingguangLu/BadFU (논문: arXiv 2508.15541; docs/paper_reviews/01_BadFU.md)",
+   "entry_point": "BadFU_src/BadFU-main/fl_detect_badfu.py (우리 파일) = 저자 badfu.py 의 ul 구성 FL 루프 + FedEraser 언러닝을 그대로 옮기고 라운드별 저장만 더한 것 (아래 badfu_loop_diff). 저자 badfu.py 는 저장 기능이 없고 clean/bd/cv/ul 네 루프를 40 라운드씩 돌려 결과를 출력만 한다",
+   "unmodified": [
+    "BadFU_src/BadFU-main/badfu.py (참조용, 실행 안 함)",
+    "prepare_data.sh 의 badnet.py / uba_inf_cover.py 명령 (make_badfu_trajectories.sh 가 같은 flag 로 부른다; 파괴적 rm/mv 만 생략)"
+   ],
+   "modified": [
+    "fl_detect_badfu.py: 저자 함수(local_train 161, fed_avg 169, evaluate 179, unlearning_step_once 192) 복사 + argparse + 라운드 저장 + 쌍 지표 (학습에 영향 없음)"
+   ],
+   "faithfulness": "학습 세부(로컬 5 에폭, SGD lr 0.01, 배치 64, counts 가중 FedAvg, 전원 참여, ImageNet 사전학습 ResNet-18, dominant 70 % 분할, 클라 구성 0/1-4/5)가 badfu.py 와 한 줄씩 같다. 라운드 수는 badfu.py 의 40 을 쓴다"
+  },
+  {
+   "generator": "BadFU 데이터 (BadNet 트리거 + UBA-Inf 위장)",
+   "repo": "https://github.com/Huangzirui1206/UBA-Inf (BadFU README Acknowledgment)",
+   "entry_point": "BadFU_src/BadFU-main/data_prepare/attack/badnet.py → data_prepare/uba/uba_inf_cover.py (prepare_data.sh 순서)",
+   "unmodified": [
+    "badnet.py",
+    "uba_inf_cover.py",
+    "pytorch_influence_functions/*"
+   ],
+   "modified": [
+    "data_prepare/utils/save_load_attack.py:204, data_prepare/uba/uba_utils/basic_utils.py:161,179: torch.load(..., weights_only=False) (torch ≥ 2.6 기본값 변경 대응, 데이터 내용 무관)"
+   ],
+   "flags": "LOCAL_SMOKE.md Part B: --model resnet18 (yaml 기본 preactresnet18 은 저장소에 없는 사전학습 파일을 읽음; --epochs 0 이라 데이터 생성에 영향 없음), --device cuda:0, --num_workers 0"
+  }
+ ],
+ "badfu_loop_diff": [
+  [
+   "항목",
+   "badfu.py (저자)",
+   "fl_detect_badfu.py (우리)",
+   "학습에 영향"
+  ],
+  [
+   "라운드 수",
+   "num_rounds = 40 (19 행)",
+   "--rounds (32 행, 기본 15) → 매니페스트 40",
+   "설정값 (매니페스트가 40 으로 맞춤)"
+  ],
+  [
+   "로컬 에폭",
+   "local_epochs = 5 (17 행)",
+   "--local_epochs 5 (33 행)",
+   "같음"
+  ],
+  [
+   "옵티마이저",
+   "SGD lr 0.01, CE (232-244 행)",
+   "SGD lr 0.01, CE (161-167 행)",
+   "같음"
+  ],
+  [
+   "배치",
+   "클라 로더 64 (186-189 행)",
+   "64 (141 행)",
+   "같음"
+  ],
+  [
+   "집계",
+   "fed_avg: counts 가중, long 키 반올림 (246-266 행)",
+   "fed_avg 같은 식 (169-177 행)",
+   "같음"
+  ],
+  [
+   "참여",
+   "매 라운드 6 명 전원 (433 행)",
+   "전원 (228 행)",
+   "같음"
+  ],
+  [
+   "글로벌 초기화",
+   "resnet18 pretrained=True + conv1 3x3/maxpool Identity/fc 10 (207-217 행)",
+   "ResNet18(pretrained=True) 같은 구조 (152-159, 220 행)",
+   "같음"
+  ],
+  [
+   "로컬 모델",
+   "pretrained=False 로 만들고 글로벌 로드 (219-228, 434-435 행)",
+   "같음 (229 행)",
+   "같음"
+  ],
+  [
+   "데이터 분할",
+   "dominant 70 %, 클래스별 np.random.shuffle (100-118 행)",
+   "같음 (88-101 행)",
+   "같음 (같은 시드면 같은 분할)"
+  ],
+  [
+   "클라 구성",
+   "0 = clean_0+bd, 1-4 = clean, 5 = clean_0+cv (159-168 행)",
+   "같음 (128-131 행)",
+   "같음"
+  ],
+  [
+   "시드",
+   "42 고정 (24-27 행)",
+   "--seed, 같은 세 줄 (48-49 행)",
+   "같은 문장. 단 badfu.py 는 앞서 clean/bd/cv 루프를 먼저 돌려 난수 소비 위치가 다르다 (분포는 같음)"
+  ],
+  [
+   "평가",
+   "ACC = 전체 test, ASR = bd_test 에서 pred == 0 비율 (280-312 행), 배치 32",
+   "같은 정의 (179-190 행), 배치 64",
+   "학습 무관"
+  ],
+  [
+   "언러닝 (FedEraser)",
+   "짝수 r 마다 old_CMs[r](5 제외)·old_GMs[r+1], 재학습은 bd_client_loaders (505-531 행)",
+   "같음 (257-288 행); 범위만 rounds-1 (홀수 라운드 수 보호)",
+   "같음"
+  ],
+  [
+   "저장",
+   "메모리(old_GMs/old_CMs)만",
+   "round_r.pt {gm, cms}, glob_r.pt {gm_after} (243-247 행)",
+   "추가 (저장만)"
+  ],
+  [
+   "추가 계산",
+   "—",
+   "쌍 지표 cos/fc/cancel (236-240 행), _resolve 경로 치유 (106-111 행; 경로가 있으면 그대로), --max_per_client/--test_n (기본 0 = 전체)",
+   "학습 무관"
+  ],
+  [
+   "num_workers",
+   "2",
+   "0",
+   "학습 무관"
+  ]
+ ]
+}

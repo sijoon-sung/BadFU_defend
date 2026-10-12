@@ -8,7 +8,10 @@ FUBA 공격 코드(원 저자) 위에 우리 방어·비교군·러너를 얹은
 | `run_paper.sh` | 논문 실험 전체 (RQ1–RQ6). `RQ="1 3"` 처럼 일부 선택 |
 | `run_baselines.sh` | 비교군만 (exp/baselines 브랜치용) |
 | `run_all.sh` | 단계 단위 실행기 (위 둘이 호출). `STAGES=`, `CONDS=`, `SEEDS=`, `FORCE=1`, `DRY=1` |
-| `run_real_fuba.sh` | FUBA 공격 궤적 생성 (mpiexec) |
+| `run_real_fuba.sh` | FUBA 공격 궤적 생성 (mpiexec; 저자 main.py). `PARTICIPANT_RATE=` 로 참여율 |
+| `trajectories.json` | **궤적 매니페스트**: 만들 궤적 전부(이름·flag·역할·문턱·예상 시간), flag 출처, 공식 코드 출처, 안 만드는 변형 TODO |
+| `make_trajectories.sh` | 매니페스트의 FUBA 궤적을 없는 것만 만들고 하나마다 검증 (`DRY=1`, `ONLY=그룹|이름`, `FORCE=1`, `WHERE=`). BadFU 는 `../BadFU_src/BadFU-main/make_badfu_trajectories.sh` |
+| `verify_trajectories.py` | 궤적 검증기 (파일·K·참여·집계 규칙·잠복/제거 ACC·ASR) → `logs/trajectories/registry.json`, `docs/EXPERIMENT_LOG.md` |
 | `resume_local.bat` | 로컬 GPU 에서 끊긴 BadFU 단계 이어 돌리기 |
 | `paper_tables.py` | 결과 → `docs/paper/tables_{cond}.md` |
 

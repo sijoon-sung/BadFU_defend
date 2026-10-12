@@ -9,7 +9,12 @@ from torch.utils.data import Subset
 from utils.comm_utils import federated_averaging_net, geometric_median
 from .simple_defence_method import federated_averaging_median, federated_averaging_multi_krum
 from .aggregtion import run_aggregation
-from potential_defence import federated_averaging_enforce_training, federated_averaging_topk
+try:
+    from potential_defence import federated_averaging_enforce_training, federated_averaging_topk
+except ImportError:
+    # potential_defence.py 는 2026-10-11 정리 때 FUBA/legacy/ 로 옮겨졌다. 두 함수는 --Enforce/--Topk 전용인데
+    # main.py 는 그 인자를 받지 않으므로 여기서는 쓰이지 않는다. import 가 깨지면 main.py(궤적 생성) 자체가 못 뜬다.
+    federated_averaging_enforce_training = federated_averaging_topk = None
 from config import Config
 
 # Global aggregator (used in IBMFL)
