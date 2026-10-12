@@ -106,6 +106,14 @@ def t1u(cond, L):
         L += [f"## T1u. RQ1 — 하나의 절차 (거름망 → 확정 → 해독제 정화) ({cond})", body, ""]
 
 
+def t1c(cond, L):
+    f = f"logs/cancel/summary_{cond}.md"
+    if os.path.exists(f):
+        with open(f, encoding="utf-8") as fh:
+            body = fh.read().split(chr(10), 1)[1]
+        L += [f"## T1c. 상쇄 짝 찾기 절차 ({cond})", body, ""]
+
+
 def t1e(cond, L):
     f = f"logs/effects/summary_{cond}.md"
     if os.path.exists(f):
@@ -238,6 +246,7 @@ def main():
     a = p.parse_args()
     L = [f"# 논문 표: {a.cond} (시드 평균 ± 표준편차; 생성 `python paper_tables.py --cond {a.cond}`)", ""]
     t1(a.cond, L)
+    t1c(a.cond, L)
     t1u(a.cond, L)
     t1e(a.cond, L)
     t2(a.cond, L)
