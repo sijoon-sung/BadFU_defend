@@ -30,7 +30,7 @@
 4. (해결 방향 확인) 탐침이 요청을 따라가야 한다: 잊을 집합의 입력을 탐침에 더하면 BadFU 도 같은 절차 안. 남은 문제는 깊은 망에서 빼기 연산자가 전량 제거 전에 무너지는 것(연산자 문제)
 
 ## 저장소
-- `dev` 하나: 결과 + 제안 기법 + 기준선 + 적응형 + 문서 `docs/design/` (DOSE_FU, PAIR_ROLES, ATTACK_VARIANTS, DEFENSE_LANDSCAPE, EXPERIMENTS)
+- `dev` 하나: 결과 + 제안 기법 + 기준선 + 적응형 + 문서 `docs/archive/design/` (DOSE_FU, PAIR_ROLES, ATTACK_VARIANTS, DEFENSE_LANDSCAPE, EXPERIMENTS)
 - 전부 돌리기: `cd FUBA && STAGES="dose masa subid pair adaptive aggregate" CONDS="owner iid" bash run_all.sh`
 
 ## 다음에 정할 것 (실험 아님)

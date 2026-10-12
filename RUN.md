@@ -45,5 +45,5 @@ cd .. && git add FUBA/logs docs/paper && git commit -m "results: RQ1-3 (or 2,4,5
 
 ## 참고
 - 일부만: `RQ="1"`, 조건 하나만: `CONDS="iid"`, 시드 하나만: `SEEDS="0"`, 명령만 보기: `DRY=1`.
-- 단계 설명과 표 번호: `docs/paper/ALGORITHMS.md` 5 절. 결과 해석 전 점검 목록: `docs/paper/REVIEW_2026-10-11.md`.
+- 단계 설명과 표 번호: `docs/paper/EXPERIMENT_DESIGN.md` 5 절. 결과 해석 전 점검 목록: `docs/paper/REVIEW_2026-10-11.md`.
 - 로컬(GPU 노트북) 이어서 돌리기: `FUBA\resume_local.bat` (BadFU 쪽).

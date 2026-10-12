@@ -1,5 +1,5 @@
 #!/bin/bash
-# 논문 실험 전체 (docs/paper/ALGORITHMS.md 5 절). run_all.sh 의 단계를 RQ 별로 묶고, 학습 중 방어 변형과 소거를 더한다.
+# 논문 실험 전체 (docs/paper/EXPERIMENT_DESIGN.md 5 절). run_all.sh 의 단계를 RQ 별로 묶고, 학습 중 방어 변형과 소거를 더한다.
 #
 #   bash run_paper.sh                      # 전부 (RQ1~RQ6), CONDS="iid owner", SEEDS="0 1 2"
 #   RQ="1 3" bash run_paper.sh             # 일부만
