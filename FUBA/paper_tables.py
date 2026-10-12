@@ -198,7 +198,7 @@ def t5(cond, L):
 
 
 def t6(cond, L):
-    tags = [("", "기본 (c=0.3, τ=3, m=전원, mass, n=500, subtract)"), ("_cap02", "c=0.2"), ("_tau2", "τ=2"), ("_tau5", "τ=5"), ("_m3", "m=3"), ("_chg", "stat=changed"), ("_p100", "n=100"), ("_kd", "op=kd")]
+    tags = [("", "기본 (c=0.3, τ=3, m=전원, mass, n=500, subtract)"), ("_cap02", "c=0.2"), ("_tau2", "τ=2"), ("_tau5", "τ=5"), ("_m3", "m=3"), ("_chg", "stat=changed"), ("_flow", "stat=flow"), ("_p100", "n=100"), ("_kd", "op=kd")]
     rows = []
     for tag, label in tags:
         ds = load("dose_fu", f"bd_{cond}{tag}")

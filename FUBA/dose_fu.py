@@ -79,7 +79,7 @@ def parse():
                    help="loo: 문턱을 모집단에서 보정 — 각 멤버의 LOO z 중 최댓값 + tau_margin (라벨 없음, 같은 계산 재사용). fixed: --tau")
     p.add_argument("--tau_margin", type=float, default=1.0)
     p.add_argument("--m", type=int, default=0, help="모집단 표본 수 (0 = 요청자 제외 전원)")
-    p.add_argument("--stat", choices=["mass", "changed", "shift"], default="mass")
+    p.add_argument("--stat", choices=["mass", "changed", "shift", "flow"], default="mass", help="flow: 타깃으로 몰린 양 × 출발 클래스 다양성 (소유자 망각과 구분)")
     p.add_argument("--zmode", choices=["std", "mad", "iqr"], default="std",
                    help="z 의 분산 추정. 기본 std. mad 는 공격자가 모집단의 절반을 넘으면(제거 효과가 거의 0 인 멤버가 다수) 깨진다")
     p.add_argument("--delta_min", type=float, default=0.1)
@@ -162,6 +162,32 @@ def robust_z(x, others, mode="mad"):
     return 0.0 if abs(x - med) <= 0.01 else Z_UNDECIDABLE      # 흩어짐 0: 차이가 탐침 1 % 미만이면 같다고 본다
 
 
+def flow_stats(pk, pr, C):
+    """클래스 흐름 행렬로 본 활성화 (BaFFLe 의 클래스별 오류 변화, STRIP 의 확신 안정성에서 빌림).
+    F[i,j] = 기준 답 i 가 모델 답 j 로 바뀐 비율 (i≠j).
+      flow      = 가장 많이 받은 열 j* 의 양 × (그 열로 들어온 출발 클래스의 다양성, 정규화 엔트로피)
+                  백도어 활성화: 여러 출발 클래스 → 하나의 타깃 (다양성 높음). 소유자 망각: 한 출발 클래스 → 여러 곳 (다양성 낮음).
+      src_div   = 그 다양성 (0~1)
+      flip_conf = 바뀐 입력에서 새 답의 평균 확신 (백도어 지름길은 확신이 높고, 망각은 낮다)
+    """
+    a, b = pr.argmax(1), pk.argmax(1)
+    ch = a != b
+    n = a.numel()
+    if ch.sum() == 0:
+        return {"flow": 0.0, "src_div": 0.0, "flip_conf": 0.0, "flow_to": None}
+    idx = (a[ch] * C + b[ch])
+    F = torch.bincount(idx, minlength=C * C).float().view(C, C) / n
+    col = F.sum(0)
+    j = int(col.argmax())
+    src = F[:, j]
+    srcp = src / src.sum().clamp_min(1e-12)
+    nz = srcp[srcp > 0]
+    H = float(-(nz * nz.log()).sum()) / float(np.log(max(C - 1, 2)))
+    H = min(max(H, 0.0), 1.0)
+    conf = float(pk[ch].max(1).values.mean())
+    return {"flow": round(float(col[j]) * H, 4), "src_div": round(H, 4), "flip_conf": round(conf, 4), "flow_to": j}
+
+
 class Engine:
     """빼기·모집단·확인·수정 부품. 모집단은 (기준 모델 id, 요청자, 비율) 별로 캐시."""
 
@@ -203,6 +229,7 @@ class Engine:
     def stat_of(self, pk, pr):
         d = divergence(pr.argmax(1), pk.argmax(1), self.a.n_classes)
         d.update(shift(pk, pr))
+        d.update(flow_stats(pk, pr, self.a.n_classes))
         return d
 
     def population(self, theta, base_id, k, frac):
