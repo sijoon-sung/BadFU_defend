@@ -75,6 +75,7 @@
     "min_act": 10,
     "max_purify": 2,
     "polish": "none",
+    "polish_ref": "agree",
     "rep_steps": 50,
     "rep_lr": 0.01,
     "rep_bs": 128,
@@ -751,7 +752,7 @@
         "attr_forwards": 64,
         "pop_models": 0,
         "forwards": 7,
-        "seconds": 0.5
+        "seconds": 0.4
       }
     },
     "5": {
@@ -952,7 +953,7 @@
         "attr_forwards": 64,
         "pop_models": 0,
         "forwards": 7,
-        "seconds": 0.4
+        "seconds": 0.5
       }
     }
   }

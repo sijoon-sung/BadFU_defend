@@ -10,8 +10,8 @@
 
 | 요청자 | 역할 | 결정 (시드별) | 빼 보기 z (최대) | ASR | ACC | 유지 변화 | α | 자기 데이터 acc | 순전파 짝 / 빼보기 / 모델 / 초 |
 |---|---|---|---|---|---|---|---|---|---|
-| 4 | suppressor | purified(antidote+polish+antidote+polish); purified(antidote+polish); purified(antidote+polish) | 7.6 ± 2.4 | 11.2 ± 3.5 | 88.3 ± 1.5 | 6.06 ± 0.67 | 0.000 ± 0.000 | 89.8 ± 0.9 | 73 ± 3 / 35 ± 14 / 19 ± 8 / 1.0 ± 0.1 |
-| 7 | benign | accept(confirm); accept(confirm); purified(antidote+polish)(sim_only) | 6.7 ± 7.3 | 19.4 ± 9.7 | 85.6 ± 4.0 | 9.28 ± 4.76 | 0.002 ± 0.003 | 59.7 ± 13.8 | 66 ± 3 / 7 ± 0 / 0 ± 0 / 0.6 ± 0.1 |
+| 4 | suppressor | purified(antidote+polish+antidote+polish); purified(antidote+polish); purified(antidote+polish) | 7.6 ± 2.4 | 14.3 ± 1.1 | 85.9 ± 1.4 | 8.11 ± 0.53 | 0.000 ± 0.000 | 88.7 ± 0.7 | 73 ± 3 / 35 ± 14 / 19 ± 8 / 1.0 ± 0.1 |
+| 7 | benign | accept(confirm); accept(confirm); purified(antidote+polish)(sim_only) | 6.7 ± 7.3 | 19.4 ± 9.7 | 85.3 ± 3.6 | 9.57 ± 4.35 | 0.002 ± 0.003 | 58.5 ± 12.0 | 66 ± 3 / 7 ± 0 / 0 ± 0 / 0.6 ± 0.1 |
 | 5 | benign | accept(confirm); accept(confirm); accept(confirm) | 0.8 ± 0.9 | 15.5 ± 7.0 | 91.0 ± 1.1 | 3.76 ± 1.64 | 0.000 ± 0.000 | 92.9 ± 0.8 | 64 ± 0 / 7 ± 0 / 0 ± 0 / 0.5 ± 0.0 |
 
 ## 1 단계: 저장된 기여 위 짝 찾기 (θ_T, X = 공개 ∪ 지울 데이터)
@@ -26,7 +26,7 @@
 
 | 요청자 | 역할 | 짝 (역할, 시드별) | 짝 정밀도 / 재현율 | 정렬 (운반자 / 정상, 시드 평균) | 상쇄 비율 | 1 단계 짝과 일치 | 클래스 일치 | λ | 정화 방법 |
 |---|---|---|---|---|---|---|---|---|---|
-| 4 | suppressor | [2, 0, 3, 1] ['car', 'car', 'car', 'car']; [2, 0, 3, 1] ['car', 'car', 'car', 'car']; [0, 3, 1, 2] ['car', 'car', 'car', 'car']; [2, 0, 3, 1, 6, 5] ['car', 'car', 'car', 'car', 'ben', 'ben'] | 0.92 ± 0.14 / 1.00 ± 0.00 | -0.87 ± 0.02 / 0.46 ± 0.41 | 0.80 ± 0.05 | 0.56 ± 0.07 | 0/4 | 0.5; 0.25; 0.5; 0.25 | antidote+polish; antidote+polish; antidote+polish; antidote+polish |
+| 4 | suppressor | [2, 0, 3, 1] ['car', 'car', 'car', 'car']; [2, 0, 3, 1] ['car', 'car', 'car', 'car']; [0, 3, 1, 2] ['car', 'car', 'car', 'car']; [2, 0, 3, 1, 6, 5] ['car', 'car', 'car', 'car', 'ben', 'ben'] | 0.92 ± 0.14 / 1.00 ± 0.00 | -0.86 ± 0.02 / 0.46 ± 0.41 | 0.78 ± 0.02 | 0.56 ± 0.07 | 0/4 | 0.5; 0.25; 0.5; 0.25 | antidote+polish; antidote+polish; antidote+polish; antidote+polish |
 | 7 | benign | [2, 0, 3, 6, 1] ['car', 'car', 'car', 'ben', 'car'] | 0.80 / 1.00 | -0.82 / -0.61 | 0.76 | 0.40 | 1/1 | 0.5 | antidote+polish |
 | 5 | benign | - | - | - | - | - | - | - | - |
 

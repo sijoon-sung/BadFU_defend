@@ -75,6 +75,7 @@
     "min_act": 10,
     "max_purify": 2,
     "polish": "kd_orth",
+    "polish_ref": "agree",
     "rep_steps": 50,
     "rep_lr": 0.01,
     "rep_bs": 128,
@@ -310,10 +311,10 @@
             "removed": 1.0,
             "h": 0.008,
             "n_healthy": 7,
-            "stat": 0.0309,
+            "stat": 0.0272,
             "to_class": 8,
-            "src_div": 0.9664,
-            "z": 2.75,
+            "src_div": 0.9079,
+            "z": 2.22,
             "tau": 3.0,
             "flagged": false,
             "repaired": false,
@@ -444,21 +445,23 @@
           },
           "cos_Uk_h": -0.0103,
           "chosen_lam": 0.25,
+          "polish_n_inputs": 807,
           "polish": {
+            "ref": "agree",
             "ok": true,
             "steps": 50,
-            "z": 0.3,
-            "health": 0.0325,
+            "z": 0.37,
+            "health": 0.0133,
             "alpha_vs_antidote": -0.0
           }
         }
       ],
       "final": {
-        "acc": 86.18,
-        "retain_change": 6.99,
+        "acc": 83.92,
+        "retain_change": 8.83,
         "alpha": 0.0002,
-        "asr": 14.84,
-        "forget_acc": 88.45
+        "asr": 15.51,
+        "forget_acc": 87.78
       },
       "cost": {
         "attr_forwards": 71,
@@ -770,21 +773,23 @@
           },
           "cos_Uk_h": -0.0786,
           "chosen_lam": 0.5,
+          "polish_n_inputs": 692,
           "polish": {
+            "ref": "agree",
             "ok": true,
             "steps": 50,
-            "z": -0.22,
-            "health": 0.0519,
-            "alpha_vs_antidote": -1e-06
+            "z": -0.19,
+            "health": 0.0383,
+            "alpha_vs_antidote": -0.0
           }
         }
       ],
       "final": {
-        "acc": 91.16,
-        "retain_change": 2.57,
+        "acc": 90.36,
+        "retain_change": 3.44,
         "alpha": 0.0058,
-        "asr": 6.16,
-        "forget_acc": 79.2
+        "asr": 6.07,
+        "forget_acc": 75.48
       },
       "cost": {
         "attr_forwards": 71,
@@ -994,7 +999,7 @@
         "attr_forwards": 64,
         "pop_models": 0,
         "forwards": 7,
-        "seconds": 0.5
+        "seconds": 0.6
       }
     }
   }

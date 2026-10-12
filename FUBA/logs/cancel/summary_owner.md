@@ -8,7 +8,7 @@
 |---|---|---|---|---|---|---|---|---|---|
 | 4 | suppressor | purified(antidote+antidote); purified(antidote); purified(antidote+antidote) | 7.6 ± 2.4 | 9.0 ± 4.3 | 85.5 ± 1.8 | 9.63 ± 1.77 | 0.000 ± 0.000 | 88.8 ± 0.8 | 76 ± 3 / 35 ± 14 / 19 ± 8 / 0.7 ± 0.0 |
 | 7 | benign | accept(confirm); accept(confirm); purified(antidote)(sim_only) | 6.7 ± 7.3 | 21.7 ± 6.6 | 83.0 ± 0.6 | 11.83 ± 1.20 | 0.002 ± 0.003 | 50.2 ± 0.4 | 66 ± 3 / 7 ± 0 / 0 ± 0 / 0.5 ± 0.0 |
-| 5 | benign | accept(confirm); accept(confirm); accept(confirm) | 0.8 ± 0.9 | 15.5 ± 7.0 | 91.0 ± 1.1 | 3.76 ± 1.64 | 0.000 ± 0.000 | 92.9 ± 0.8 | 64 ± 0 / 7 ± 0 / 0 ± 0 / 0.4 ± 0.0 |
+| 5 | benign | accept(confirm); accept(confirm); accept(confirm) | 0.8 ± 0.9 | 15.5 ± 7.0 | 91.0 ± 1.1 | 3.76 ± 1.64 | 0.000 ± 0.000 | 92.9 ± 0.8 | 64 ± 0 / 7 ± 0 / 0 ± 0 / 0.5 ± 0.0 |
 
 ## 1 단계: 저장된 기여 위 짝 찾기 (θ_T, X = 공개 ∪ 지울 데이터)
 

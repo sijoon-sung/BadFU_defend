@@ -6,7 +6,7 @@
 
 | 요청자 | 역할 | 결정 (시드별) | 빼 보기 z (최대) | ASR | ACC | 유지 변화 | α | 자기 데이터 acc | 순전파 짝 / 빼보기 / 모델 / 초 |
 |---|---|---|---|---|---|---|---|---|---|
-| 4 | suppressor | purified(antidote+polish); purified(antidote+polish); purified(antidote+polish) | 11.9 ± 1.1 | 5.1 ± 1.5 | 91.8 ± 0.6 | 4.76 ± 0.58 | 0.000 ± 0.000 | 91.1 ± 0.3 | 71 ± 0 / 15 ± 0 / 8 ± 0 / 0.9 ± 0.0 |
+| 4 | suppressor | purified(antidote+polish); purified(antidote+polish); purified(antidote+polish) | 11.9 ± 1.1 | 8.0 ± 2.0 | 91.2 ± 0.3 | 5.10 ± 0.18 | 0.000 ± 0.000 | 90.4 ± 0.0 | 71 ± 0 / 15 ± 0 / 8 ± 0 / 0.8 ± 0.0 |
 | 7 | benign | accept(confirm); accept(confirm); accept(confirm) | 0.4 ± 0.1 | 13.6 ± 5.8 | 93.7 ± 1.1 | 2.99 ± 1.02 | 0.000 ± 0.000 | 93.2 ± 0.9 | 64 ± 0 / 7 ± 0 / 0 ± 0 / 0.4 ± 0.0 |
 | 5 | benign | accept(confirm); accept(confirm); accept(confirm) | 0.4 ± 0.0 | 13.9 ± 4.8 | 93.9 ± 0.6 | 2.75 ± 0.46 | 0.000 ± 0.000 | 93.3 ± 0.4 | 64 ± 0 / 7 ± 0 / 0 ± 0 / 0.4 ± 0.0 |
 
