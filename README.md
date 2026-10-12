@@ -32,6 +32,7 @@
 ## 어디부터 읽나
 | 문서 | 내용 |
 |---|---|
+| [docs/paper/DRAFT_v2_SKELETON.md](docs/paper/DRAFT_v2_SKELETON.md) | **초안 v2 뼈대**: 주장 한 문장, 위협 모델 다섯 줄, 표 1–5 (논문 설정 K=20 값 채움), 한계, 해독제 실패 원인, 할 일 |
 | [docs/paper/PLAN.md](docs/paper/PLAN.md) | **앞으로의 계획**: 실험 기록 체계(장부 2개), Phase 0–5 와 관문, 6주 일정, 위험, 사용자가 정할 것 3개 |
 | [docs/paper/RELATED_METHODS.md](docs/paper/RELATED_METHODS.md) | **기존 방법 전체 목록** (공격 / 집계 방어 / 언러닝 연산자 / 요청 심사 / 사후 정화 / 복구): 가정, 잠복형 적용 여부, 우리 근거 상태, 공식 코드 |
 | [docs/paper/WHY_EXISTING_FAIL.md](docs/paper/WHY_EXISTING_FAIL.md) | **기존 방법이 왜 안 되는가**: 집계 방어·언러닝 연산자·요청 심사·사후 정화·재억제, 계열별 기전·근거·상태 + 우리가 버린 시도들 |
