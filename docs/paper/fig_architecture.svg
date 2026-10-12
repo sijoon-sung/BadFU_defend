@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="700" viewBox="0 0 1120 700" font-family="Malgun Gothic, Apple SD Gothic Neo, Noto Sans CJK KR, sans-serif" font-size="14">
+  <defs>
+    <marker id="ar" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+    </marker>
+    <marker id="arg" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2a7f3f"/>
+    </marker>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 z" fill="#b23a3a"/>
+    </marker>
+  </defs>
+  <rect width="1120" height="700" fill="#ffffff"/>
+  <text x="560" y="34" text-anchor="middle" font-size="22" font-weight="bold" fill="#222">상쇄 귀속: 삭제 요청이 오면 "어디서, 누가 이 요청자와 서로 지우고 있었나"를 풀고 그 해로 고친다</text>
+
+  <!-- 공격 -->
+  <rect x="30" y="60" width="1060" height="78" rx="10" fill="#fff4f4" stroke="#b23a3a" stroke-width="1.5"/>
+  <text x="48" y="84" font-weight="bold" fill="#b23a3a">공격 (FUBA · BadFU 공통)</text>
+  <text x="48" y="106" fill="#333">운반자 A 가 백도어를 심고, 요청자 k 가 같은 입력 X* 에서 거꾸로 밀어 잠재운다:  J<tspan baseline-shift="sub" font-size="10">X*</tspan>( U<tspan baseline-shift="sub" font-size="10">k</tspan> + Σ<tspan baseline-shift="sub" font-size="10">j∈A</tspan> w<tspan baseline-shift="sub" font-size="10">j</tspan> U<tspan baseline-shift="sub" font-size="10">j</tspan> ) ≈ 0</text>
+  <text x="48" y="126" fill="#333">k 가 "내 데이터를 지워 달라" 하면 X* 에서 백도어가 깨어난다.   X* 의 자리: BadFU = k 가 넘긴 지울 데이터 안,  FUBA = 트리거 입력 (서버는 못 봄, 억제가 공개 입력으로 샘)</text>
+
+  <!-- 입력 -->
+  <rect x="30" y="170" width="200" height="110" rx="10" fill="#f3f3f3" stroke="#777"/>
+  <text x="130" y="194" text-anchor="middle" font-weight="bold">서버가 가진 것</text>
+  <text x="44" y="218">· 저장된 기여 U<tspan baseline-shift="sub" font-size="10">1</tspan>..U<tspan baseline-shift="sub" font-size="10">K</tspan> (라운드별)</text>
+  <text x="44" y="238">· 최종 모델 θ<tspan baseline-shift="sub" font-size="10">T</tspan>, 공개 입력 X<tspan baseline-shift="sub" font-size="10">p</tspan></text>
+  <text x="44" y="258">· 요청 (k, 지울 데이터 X<tspan baseline-shift="sub" font-size="10">f</tspan>)</text>
+  <text x="44" y="274" font-size="11" fill="#666">라벨·트리거·역할 정보 없음</text>
+
+  <!-- 목적식 -->
+  <rect x="260" y="170" width="830" height="60" rx="10" fill="#eef3ff" stroke="#3a5bb2" stroke-width="1.5"/>
+  <text x="275" y="193" font-weight="bold" fill="#3a5bb2">풀어야 할 문제 (목적식 하나)</text>
+  <text x="275" y="216" fill="#222">max<tspan baseline-shift="sub" font-size="10">ω, S, w</tspan>  Σ<tspan baseline-shift="sub" font-size="10">x</tspan> ω(x)·[ ‖Ẽ<tspan baseline-shift="sub" font-size="10">k</tspan>[x]‖² − ‖Ẽ<tspan baseline-shift="sub" font-size="10">k</tspan>[x] + Σ<tspan baseline-shift="sub" font-size="10">j∈S</tspan> w<tspan baseline-shift="sub" font-size="10">j</tspan> Ẽ<tspan baseline-shift="sub" font-size="10">j</tspan>[x]‖² ]      ω = 어디서 (입력),  (S, w) = 누가 (짝),  Ẽ<tspan baseline-shift="sub" font-size="10">j</tspan> = 기여 j 를 빼면 출력이 어떻게 바뀌나</text>
+
+  <!-- 회전 1 -->
+  <rect x="260" y="250" width="250" height="150" rx="10" fill="#ffffff" stroke="#3a5bb2" stroke-width="1.5"/>
+  <text x="385" y="274" text-anchor="middle" font-weight="bold" fill="#3a5bb2">회전 1 · 저장된 기여 위</text>
+  <text x="274" y="296">ω⁰ = 공개 입력 ∪ 지울 데이터, θ<tspan baseline-shift="sub" font-size="10">T</tspan></text>
+  <text x="274" y="316">짝 (S¹, w¹) ← 상자 제약 최소제곱</text>
+  <text x="274" y="336">통계: 상쇄 · 타깃 몰림 · 크기 · 궤적</text>
+  <text x="274" y="356">→ 모집단 p 값, z (경보₁)</text>
+  <text x="274" y="382" font-size="11" fill="#666">모델 생성 0 · 순전파 K</text>
+  <text x="274" y="396" font-size="11" fill="#2a7f3f">BadFU 는 여기서 수렴 (상쇄가 X_f 에 산다)</text>
+
+  <!-- 빼 보기 -->
+  <rect x="540" y="250" width="250" height="150" rx="10" fill="#ffffff" stroke="#3a5bb2" stroke-width="1.5"/>
+  <text x="665" y="274" text-anchor="middle" font-weight="bold" fill="#3a5bb2">빼 보기 · 비선형 확인</text>
+  <text x="554" y="296">θ' = θ<tspan baseline-shift="sub" font-size="10">T</tspan> − ρU<tspan baseline-shift="sub" font-size="10">k</tspan>  (견디는 양 ρ, 단계)</text>
+  <text x="554" y="316">남들을 같은 양 뺀 모집단과 비교 (z)</text>
+  <text x="554" y="336">활성화 입력 X<tspan baseline-shift="sub" font-size="10">act</tspan>, 타깃 c* 를 얻는다</text>
+  <text x="554" y="356">→ 경보₂ = z &gt; τ</text>
+  <text x="554" y="382" font-size="11" fill="#666">모델 버전당 K 개 공유 · 요청당 새 모델 0</text>
+  <text x="554" y="396" font-size="11" fill="#666">ω 를 갱신하는 재료</text>
+
+  <!-- 회전 2 -->
+  <rect x="820" y="250" width="270" height="150" rx="10" fill="#ffffff" stroke="#3a5bb2" stroke-width="1.5"/>
+  <text x="955" y="274" text-anchor="middle" font-weight="bold" fill="#3a5bb2">회전 2+ · 활성화 입력 위</text>
+  <text x="834" y="296">ω¹ = X<tspan baseline-shift="sub" font-size="10">act</tspan>, θ', 타깃 열만</text>
+  <text x="834" y="316">정렬 ⟨활성화, 후보 j 의 효과⟩</text>
+  <text x="834" y="336">짝 S² = 가장 큰 간격 아래쪽 전부</text>
+  <text x="834" y="356">(회전 3+: 상쇄 에너지로 ω 정련)</text>
+  <text x="834" y="382" font-size="11" fill="#666">순전파 K−1</text>
+  <text x="834" y="396" font-size="11" fill="#2a7f3f">FUBA 는 여기서 수렴 (운반자 −0.9 / 정상 +0.7)</text>
+
+  <!-- arrows top row -->
+  <line x1="230" y1="300" x2="258" y2="300" stroke="#333" stroke-width="1.5" marker-end="url(#ar)"/>
+  <line x1="510" y1="325" x2="538" y2="325" stroke="#333" stroke-width="1.5" marker-end="url(#ar)"/>
+  <line x1="790" y1="325" x2="818" y2="325" stroke="#b23a3a" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="804" y="316" text-anchor="middle" font-size="11" fill="#b23a3a">경보₂</text>
+
+  <!-- 수락 -->
+  <rect x="540" y="440" width="250" height="70" rx="10" fill="#eefbf1" stroke="#2a7f3f" stroke-width="1.5"/>
+  <text x="665" y="464" text-anchor="middle" font-weight="bold" fill="#2a7f3f">수락 (경보 없음)</text>
+  <text x="665" y="486" text-anchor="middle">θ' 그대로 내보냄 = 기본 FU 와 동일</text>
+  <text x="665" y="502" text-anchor="middle" font-size="11" fill="#666">정상 요청의 추가 비용: 순전파뿐</text>
+  <line x1="665" y1="400" x2="665" y2="438" stroke="#2a7f3f" stroke-width="1.5" marker-end="url(#arg)"/>
+  <text x="690" y="424" font-size="11" fill="#2a7f3f">z ≤ τ</text>
+
+  <!-- 정화 -->
+  <rect x="820" y="440" width="270" height="150" rx="10" fill="#fff9ea" stroke="#b7791f" stroke-width="1.5"/>
+  <text x="955" y="464" text-anchor="middle" font-weight="bold" fill="#b7791f">정화 · 해에서 바로</text>
+  <text x="834" y="486">h = ∇ mean<tspan baseline-shift="sub" font-size="10">X_act</tspan> log p(c*|x; θ')  (백도어 방향)</text>
+  <text x="834" y="506">θ'' = θ' − λ Σ<tspan baseline-shift="sub" font-size="10">j∈S²</tspan> proj<tspan baseline-shift="sub" font-size="10">h</tspan>(U<tspan baseline-shift="sub" font-size="10">j</tspan>)   λ 는 띠 안 최소</text>
+  <text x="834" y="526">U<tspan baseline-shift="sub" font-size="10">k</tspan> 는 되살리지 않는다 (α ≈ 0)</text>
+  <text x="834" y="546">(선택) U<tspan baseline-shift="sub" font-size="10">k</tspan> 에 직교한 짧은 증류: 정확도 회복</text>
+  <text x="834" y="566" font-size="11" fill="#666">건강 = 비활성 입력이 안 바뀌는가 · 실패 → KD 대체 → 거부</text>
+  <text x="834" y="582" font-size="11" fill="#666">역전파 1 회 (+ 증류 50 걸음)</text>
+  <line x1="955" y1="400" x2="955" y2="438" stroke="#333" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <!-- 출력 -->
+  <rect x="540" y="530" width="250" height="60" rx="10" fill="#eefbf1" stroke="#2a7f3f" stroke-width="1.5"/>
+  <text x="665" y="554" text-anchor="middle" font-weight="bold" fill="#2a7f3f">정화 후 수락</text>
+  <text x="665" y="576" text-anchor="middle">θ'' + 귀속 (짝 S, 타깃 c*, 입력 X<tspan baseline-shift="sub" font-size="10">act</tspan>, 방향 h)</text>
+  <line x1="818" y1="560" x2="792" y2="560" stroke="#2a7f3f" stroke-width="1.5" marker-end="url(#arg)"/>
+
+  <!-- 어디서 -->
+  <rect x="30" y="440" width="480" height="150" rx="10" fill="#f8f8f8" stroke="#999"/>
+  <text x="44" y="464" font-weight="bold" fill="#333">왜 하나의 절차인가</text>
+  <text x="44" y="488">두 공격은 같은 반복의 수렴 회전이 다를 뿐이다. 절차는 공격을 구분하지 않는다.</text>
+  <text x="44" y="508">결과의 "어디서" 비율(상쇄 에너지가 지울 데이터에 사는 비율)이 사후에 말해 준다:</text>
+  <text x="60" y="530" fill="#2a7f3f">BadFU 위장자 1.00  ·  FUBA 위장자 0.53  ·  정상 0.5 근처</text>
+  <text x="44" y="556">탐지(경보) · 귀속(짝·타깃·입력) · 정화(방향)가 한 해 (ω, S, w, h) 에서 나온다.</text>
+  <text x="44" y="578" font-size="12" fill="#666">기존 방법: 수락/거부만 냄, 또는 다시 눌러서 요청자 데이터를 되넣음(α 0.16). 우리: 귀속을 내고 α ≈ 0.</text>
+
+  <!-- 결과 -->
+  <rect x="30" y="610" width="1060" height="70" rx="10" fill="#ffffff" stroke="#bbb"/>
+  <text x="44" y="634" font-weight="bold" fill="#333">3 시드 결과 (IID / owner)</text>
+  <text x="44" y="656">짝 = 운반자 넷 (정밀도·재현율 1.0 / 0.87·1.0, 소유자는 짝에 안 들어옴)  ·  ASR 48→5 / 54→11  ·  ACC 91.8 / 88.3 (KD 재억제 92.4 / 89.4)  ·  α 0 (KD 0.16)  ·  정상 요청 수락, 새 모델 0</text>
+  <text x="44" y="674" font-size="12" fill="#666">코드 FUBA/cancel_fu.py · 수식 docs/paper/MATH.md · 결과 docs/paper/REPORT_2026-10-12.md §15</text>
+</svg>
