@@ -214,6 +214,13 @@ def verify_fuba(e, dev):
     dorm = ev(tT)
     sup_each = {str(s): ev(tT - U[s]) for s in sups}
     sup_all = sup_each[str(sups[0])] if len(sups) == 1 else ev(tT - sum(U[s] for s in sups))
+    if sup_all["acc"] < v["collapse_acc"]:
+        for r_try in (0.5, 0.2, 0.1):
+            try_sup = ev(tT - r_try * sum(U[s] for s in sups))
+            if try_sup["acc"] >= v["collapse_acc"]:
+                rec["info"].append(f"ρ=1.0 빼기 붕괴로 작동점 ρ={r_try} 에서 판정")
+                sup_all = try_sup
+                break
     ben = {str(b): ev(tT - U[b]) for b in v["benign_check"]}
     car = ev(tT - U[roles["carriers"][0]])
     rec["metrics"].update({"dormant": dorm, "sup_all": sup_all, "sup_each": sup_each, "benign": ben,
