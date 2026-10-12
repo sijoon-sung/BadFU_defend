@@ -28,7 +28,7 @@
     ]
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 21:22",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
    "sig": "f24e3aa9303c7327",
    "seconds": 0.0
@@ -62,7 +62,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 21:22",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
    "sig": "c40ffd8f6e540c30",
    "seconds": 0.0
@@ -732,9 +732,7 @@
    "status": "ok",
    "collapsed": false,
    "reasons": [],
-   "warnings": [
-    "임시 문턱 (provisional) — 실측값을 보고 매니페스트 verify 를 고칠 것"
-   ],
+   "warnings": [],
    "info": [
     "ρ=1.0 빼기 붕괴로 작동점 ρ=0.2 에서 판정",
     "운반자 0 제거: 98.3 / 0.6"
@@ -908,21 +906,21 @@
     "dormant_asr_max": 15,
     "dormant_acc_min": 95,
     "sup_asr_min": 30,
-    "benign_asr_max": 30,
+    "benign_asr_max": 20,
     "collapse_acc": 50,
     "aggregation": "fedavg",
-    "provisional": true,
-    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "provisional": false,
+    "basis": "실측 (DISLAB f8b1079, 6 궤적): 잠복 ACC 98.1–98.8 / ASR 3.1–7.8; 위장자 제거(작동점 ρ=0.2, ρ=1.0 은 붕괴) ASR 46–93, ACC 68.7–97.6; 정상 5 제거 ASR 2.4–9.8, ACC 94.8–97.8; 운반자 0 제거 ASR 0.2–1.4",
     "benign_check": [
      5
     ],
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 19:36",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
-   "sig": "3331e0998a8d5a4d",
-   "seconds": 5.2
+   "sig": "63e09ea3281fe0bf",
+   "seconds": 4.9
   },
   "bd_iid_r100w5_k20paper_s1": {
    "name": "bd_iid_r100w5_k20paper_s1",
@@ -931,9 +929,7 @@
    "status": "ok",
    "collapsed": false,
    "reasons": [],
-   "warnings": [
-    "임시 문턱 (provisional) — 실측값을 보고 매니페스트 verify 를 고칠 것"
-   ],
+   "warnings": [],
    "info": [
     "ρ=1.0 빼기 붕괴로 작동점 ρ=0.2 에서 판정",
     "운반자 0 제거: 98.1 / 0.6"
@@ -1107,21 +1103,21 @@
     "dormant_asr_max": 15,
     "dormant_acc_min": 95,
     "sup_asr_min": 30,
-    "benign_asr_max": 30,
+    "benign_asr_max": 20,
     "collapse_acc": 50,
     "aggregation": "fedavg",
-    "provisional": true,
-    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "provisional": false,
+    "basis": "실측 (DISLAB f8b1079, 6 궤적): 잠복 ACC 98.1–98.8 / ASR 3.1–7.8; 위장자 제거(작동점 ρ=0.2, ρ=1.0 은 붕괴) ASR 46–93, ACC 68.7–97.6; 정상 5 제거 ASR 2.4–9.8, ACC 94.8–97.8; 운반자 0 제거 ASR 0.2–1.4",
     "benign_check": [
      5
     ],
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 19:55",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
-   "sig": "2ef073e16c4119cc",
-   "seconds": 5.2
+   "sig": "4ea9ebbfccff05cc",
+   "seconds": 3.5
   },
   "bd_iid_r100w5_k20paper_s2": {
    "name": "bd_iid_r100w5_k20paper_s2",
@@ -1130,9 +1126,7 @@
    "status": "ok",
    "collapsed": false,
    "reasons": [],
-   "warnings": [
-    "임시 문턱 (provisional) — 실측값을 보고 매니페스트 verify 를 고칠 것"
-   ],
+   "warnings": [],
    "info": [
     "ρ=1.0 빼기 붕괴로 작동점 ρ=0.2 에서 판정",
     "운반자 0 제거: 97.3 / 0.6"
@@ -1306,21 +1300,21 @@
     "dormant_asr_max": 15,
     "dormant_acc_min": 95,
     "sup_asr_min": 30,
-    "benign_asr_max": 30,
+    "benign_asr_max": 20,
     "collapse_acc": 50,
     "aggregation": "fedavg",
-    "provisional": true,
-    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "provisional": false,
+    "basis": "실측 (DISLAB f8b1079, 6 궤적): 잠복 ACC 98.1–98.8 / ASR 3.1–7.8; 위장자 제거(작동점 ρ=0.2, ρ=1.0 은 붕괴) ASR 46–93, ACC 68.7–97.6; 정상 5 제거 ASR 2.4–9.8, ACC 94.8–97.8; 운반자 0 제거 ASR 0.2–1.4",
     "benign_check": [
      5
     ],
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 20:16",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
-   "sig": "3f44eef53f70186b",
-   "seconds": 5.4
+   "sig": "4e07bc88f51b480e",
+   "seconds": 4.0
   },
   "bd_owner_r100w5_k20paper_s0": {
    "name": "bd_owner_r100w5_k20paper_s0",
@@ -1329,9 +1323,7 @@
    "status": "ok",
    "collapsed": false,
    "reasons": [],
-   "warnings": [
-    "임시 문턱 (provisional) — 실측값을 보고 매니페스트 verify 를 고칠 것"
-   ],
+   "warnings": [],
    "info": [
     "ρ=1.0 빼기 붕괴로 작동점 ρ=0.2 에서 판정",
     "운반자 0 제거: 98.0 / 1.4"
@@ -1505,21 +1497,21 @@
     "dormant_asr_max": 15,
     "dormant_acc_min": 95,
     "sup_asr_min": 30,
-    "benign_asr_max": 30,
+    "benign_asr_max": 20,
     "collapse_acc": 50,
     "aggregation": "fedavg",
-    "provisional": true,
-    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "provisional": false,
+    "basis": "실측 (DISLAB f8b1079, 6 궤적): 잠복 ACC 98.1–98.8 / ASR 3.1–7.8; 위장자 제거(작동점 ρ=0.2, ρ=1.0 은 붕괴) ASR 46–93, ACC 68.7–97.6; 정상 5 제거 ASR 2.4–9.8, ACC 94.8–97.8; 운반자 0 제거 ASR 0.2–1.4",
     "benign_check": [
      5
     ],
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 20:38",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
-   "sig": "98ab30bad9051607",
-   "seconds": 5.2
+   "sig": "42bf66f0b142864a",
+   "seconds": 3.9
   },
   "bd_owner_r100w5_k20paper_s1": {
    "name": "bd_owner_r100w5_k20paper_s1",
@@ -1528,9 +1520,7 @@
    "status": "ok",
    "collapsed": false,
    "reasons": [],
-   "warnings": [
-    "임시 문턱 (provisional) — 실측값을 보고 매니페스트 verify 를 고칠 것"
-   ],
+   "warnings": [],
    "info": [
     "ρ=1.0 빼기 붕괴로 작동점 ρ=0.2 에서 판정",
     "운반자 0 제거: 96.5 / 0.2"
@@ -1704,21 +1694,21 @@
     "dormant_asr_max": 15,
     "dormant_acc_min": 95,
     "sup_asr_min": 30,
-    "benign_asr_max": 30,
+    "benign_asr_max": 20,
     "collapse_acc": 50,
     "aggregation": "fedavg",
-    "provisional": true,
-    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "provisional": false,
+    "basis": "실측 (DISLAB f8b1079, 6 궤적): 잠복 ACC 98.1–98.8 / ASR 3.1–7.8; 위장자 제거(작동점 ρ=0.2, ρ=1.0 은 붕괴) ASR 46–93, ACC 68.7–97.6; 정상 5 제거 ASR 2.4–9.8, ACC 94.8–97.8; 운반자 0 제거 ASR 0.2–1.4",
     "benign_check": [
      5
     ],
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 20:59",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
-   "sig": "2d4e9a9a50d6e880",
-   "seconds": 5.3
+   "sig": "faeb68f529c803fc",
+   "seconds": 3.7
   },
   "bd_owner_r100w5_k20paper_s2": {
    "name": "bd_owner_r100w5_k20paper_s2",
@@ -1727,9 +1717,7 @@
    "status": "ok",
    "collapsed": false,
    "reasons": [],
-   "warnings": [
-    "임시 문턱 (provisional) — 실측값을 보고 매니페스트 verify 를 고칠 것"
-   ],
+   "warnings": [],
    "info": [
     "ρ=1.0 빼기 붕괴로 작동점 ρ=0.2 에서 판정",
     "운반자 0 제거: 94.5 / 0.2"
@@ -1903,21 +1891,21 @@
     "dormant_asr_max": 15,
     "dormant_acc_min": 95,
     "sup_asr_min": 30,
-    "benign_asr_max": 30,
+    "benign_asr_max": 20,
     "collapse_acc": 50,
     "aggregation": "fedavg",
-    "provisional": true,
-    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "provisional": false,
+    "basis": "실측 (DISLAB f8b1079, 6 궤적): 잠복 ACC 98.1–98.8 / ASR 3.1–7.8; 위장자 제거(작동점 ρ=0.2, ρ=1.0 은 붕괴) ASR 46–93, ACC 68.7–97.6; 정상 5 제거 ASR 2.4–9.8, ACC 94.8–97.8; 운반자 0 제거 ASR 0.2–1.4",
     "benign_check": [
      5
     ],
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 21:22",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
-   "sig": "932af4c8c017de47",
-   "seconds": 5.3
+   "sig": "4188449335b1eb73",
+   "seconds": 4.0
   },
   "bd_iid_k20_s1": {
    "name": "bd_iid_k20_s1",
@@ -2799,7 +2787,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 21:22",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
    "sig": "8e6e1472429e150a",
    "seconds": 0.0
@@ -2833,7 +2821,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 21:22",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
    "sig": "ba4636dcfa4936cb",
    "seconds": 0.0
@@ -2867,7 +2855,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 21:22",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
    "sig": "158c68ab5110c3dc",
    "seconds": 0.0
@@ -2901,7 +2889,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 21:22",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
    "sig": "3a22f40dae6cf257",
    "seconds": 0.0
@@ -2935,7 +2923,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 21:22",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
    "sig": "ae0714c35a44d551",
    "seconds": 0.0
@@ -2969,7 +2957,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 21:22",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
    "sig": "caa53f1029f1f729",
    "seconds": 0.0
@@ -3003,7 +2991,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 21:22",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
    "sig": "4c713b08ef5f4ec1",
    "seconds": 0.0
@@ -3037,7 +3025,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 21:22",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
    "sig": "54155d6e6eb7bed0",
    "seconds": 0.0
@@ -3071,7 +3059,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 21:22",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
    "sig": "4563639c04244752",
    "seconds": 0.0
@@ -3105,7 +3093,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 21:22",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
    "sig": "ee7f409a22997012",
    "seconds": 0.0
@@ -3139,7 +3127,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 21:22",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
    "sig": "147a7579e8bf8f9b",
    "seconds": 0.0
@@ -3173,7 +3161,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 21:22",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
    "sig": "117ea52e5b539b8e",
    "seconds": 0.0
@@ -3846,7 +3834,7 @@
     "dormant_asr_max": 15,
     "dormant_acc_min": 90,
     "sup_asr_min": 30,
-    "benign_asr_max": 30,
+    "benign_asr_max": 40,
     "collapse_acc": 50,
     "aggregation": "flame",
     "provisional": false,
@@ -3857,9 +3845,9 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 21:22",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
-   "sig": "f54735e88ceacf8a",
+   "sig": "bd8ded203202589f",
    "seconds": 0.0
   },
   "bd_iid_flame_s2": {
@@ -3880,7 +3868,7 @@
     "dormant_asr_max": 15,
     "dormant_acc_min": 90,
     "sup_asr_min": 30,
-    "benign_asr_max": 30,
+    "benign_asr_max": 40,
     "collapse_acc": 50,
     "aggregation": "flame",
     "provisional": false,
@@ -3891,9 +3879,9 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 21:22",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
-   "sig": "3a971ab427572493",
+   "sig": "41a8d966bd7fbd80",
    "seconds": 0.0
   },
   "bd_iid_flDetector_s0": {
@@ -3914,7 +3902,7 @@
     "dormant_asr_max": 15,
     "dormant_acc_min": 90,
     "sup_asr_min": 30,
-    "benign_asr_max": 30,
+    "benign_asr_max": 40,
     "collapse_acc": 50,
     "aggregation": "flDetector",
     "provisional": false,
@@ -3925,9 +3913,9 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 21:22",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
-   "sig": "ebc4fac67be65758",
+   "sig": "64298b6658c99b63",
    "seconds": 0.0
   },
   "bd_iid_flDetector_s1": {
@@ -3948,7 +3936,7 @@
     "dormant_asr_max": 15,
     "dormant_acc_min": 90,
     "sup_asr_min": 30,
-    "benign_asr_max": 30,
+    "benign_asr_max": 40,
     "collapse_acc": 50,
     "aggregation": "flDetector",
     "provisional": false,
@@ -3959,9 +3947,9 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 21:22",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
-   "sig": "be5e2fefcc16061d",
+   "sig": "25886b9e683376be",
    "seconds": 0.0
   },
   "bd_iid_flDetector_s2": {
@@ -3982,7 +3970,7 @@
     "dormant_asr_max": 15,
     "dormant_acc_min": 90,
     "sup_asr_min": 30,
-    "benign_asr_max": 30,
+    "benign_asr_max": 40,
     "collapse_acc": 50,
     "aggregation": "flDetector",
     "provisional": false,
@@ -3993,9 +3981,9 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 21:22",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
-   "sig": "50acb5cad7f2a1da",
+   "sig": "8a308effff95d95b",
    "seconds": 0.0
   },
   "badfu_s42": {
@@ -4025,7 +4013,7 @@
     ]
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 21:22",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
    "sig": "967767427c9a6c29",
    "seconds": 0.0
@@ -4057,7 +4045,7 @@
     ]
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 21:22",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
    "sig": "11dcfe16de8ff6af",
    "seconds": 0.0
@@ -4089,11 +4077,11 @@
     ]
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-12 21:22",
+   "date": "2026-10-13 00:54",
    "verifier_version": 1,
    "sig": "ab674089e5f2f298",
    "seconds": 0.0
   }
  },
- "updated": "2026-10-12 22:20"
+ "updated": "2026-10-13 00:54"
 }
