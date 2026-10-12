@@ -7,6 +7,49 @@ git fetch origin && git checkout dev && git pull
 cd FUBA
 ```
 
+## 0. 공격 궤적 미리 만들기 (한 번만, 다른 실험보다 먼저)
+
+실험은 저장된 궤적 파일만 읽는다. 궤적은 저자 코드가 만든다 (FUBA 는 `main.py`, BadFU 는 저자 루프를 옮긴 `fl_detect_badfu.py`). 우리는 flag(클라 수·참여율·라운드·시드·방어)만 정한다.
+만들 목록은 `FUBA/trajectories.json` 하나에 다 있다. 하나 만들 때마다 `verify_trajectories.py` 가 검사하고, 틀리면 거기서 멈춘다.
+결과는 `docs/EXPERIMENT_LOG.md` 에 자동 기록된다 (`FUBA/logs/trajectories/registry.json` 과 같이 커밋).
+
+### DISLAB (FUBA, MNIST)
+```bash
+cd FUBA
+DRY=1 bash make_trajectories.sh                        # 명령만 보기 (아무것도 안 만듦)
+ONLY=k20_reduced bash make_trajectories.sh             # K=20 축소판 (8 라운드) 6 개
+ONLY=k20_paper   bash make_trajectories.sh             # 논문 설정 (K=20, 참여 0.4, 100 라운드) 6 개
+ONLY=sup2        bash make_trajectories.sh             # 위장자 2 명 (K=16) 3 개
+ONLY=tdef_paper  bash make_trajectories.sh             # 집계 방어 4 종 × 3 시드, 논문 설정. flame 은 먼저 pip install hdbscan
+FORCE=1 ONLY=tdef_reduced bash make_trajectories.sh    # K=8 방어 12 개. 예전 것은 방어 없이 만들어졌을 수 있어 FORCE 로 갈아엎는다
+bash make_trajectories.sh                              # 위 전부 (있는 것은 건너뜀). k8_main 6 개는 이미 있음
+```
+| 그룹 | 개수 | 개당 | 전체 |
+|---|---|---|---|
+| k8_main (있음) | 6 | 6 분 | — |
+| k20_reduced | 6 | 10 분 | 1 시간 |
+| k20_paper | 6 | 45 분 | 4.5 시간 |
+| sup2 | 3 | 12 분 | 40 분 |
+| tdef_paper | 12 | 50 분 | 10 시간 |
+| tdef_reduced | 12 | 7 분 | 1.5 시간 |
+
+시간은 노트북(RTX 4060) 실측과 논문 Table VI 로 잡은 추정이다. 끊기면 같은 명령을 다시 치면 된다 (다 만든 것은 건너뛴다).
+
+### 노트북 (BadFU, CIFAR-10)
+```bash
+cd BadFU_src/BadFU-main
+DRY=1 bash make_badfu_trajectories.sh
+bash make_badfu_trajectories.sh      # 시드 42, 43, 44 를 40 라운드로. 시드당 약 2.5 시간, 디스크 14 GB. 기존 traj_full(15 라운드)은 그대로 둔다
+```
+
+### 확인
+```bash
+cd FUBA && python verify_trajectories.py        # 전부 다시 보기 (파일이 안 바뀌면 캐시라 빠름)
+```
+`docs/EXPERIMENT_LOG.md` 의 상태 열을 본다. ✔ 만 실험에 쓴다. ✘ 는 사유를 읽고 `FORCE=1 ONLY=이름 bash make_trajectories.sh` 로 다시 만든다. `(임시 문턱)` 이 붙은 그룹은 첫 결과를 보고 `trajectories.json` 의 verify 값을 고친다.
+- 이름 규칙: K=8 `bd_iid_s0`, K=20 축소 `bd_iid_k20_s0`, 논문 `bd_iid_r100w5_k20paper_s0`, 방어 `bd_iid_median_s0` / `bd_iid_r100w5_k20paper_median_s0`, 위장자 2 명 `bd_iid_k16sup2_s0`. 이름이 다르면 다른 궤적이다 (없으면 에러, 기본 궤적으로 조용히 넘어가지 않는다).
+- 뒤 단계에서 쓰는 법: `K=20 TAG=_k20 CONDS=iid STAGES="cancel aggregate" bash run_all.sh` (논문 설정은 `K=20 ROUNDS=100 WARMUP=5 TAG=_k20paper`). sup2 는 run_all.sh 의 고정 인자(`--attackers 0 1 2 3`)가 안 맞으니 `trajectories.json` 의 `downstream.args` 를 그대로 쓴다. 참여율 0.4 궤적은 결석 클라 처리가 된 로더(`release_map.load_fuba`)만 쓸 것 (`trajectories.json` 의 downstream.note).
+
 ## A. 꼭 돌릴 것 (순서대로)
 
 ### A0. 상쇄 짝 찾기 절차 (cancel, 본 방법 v3) — 두 조건 × 3 시드, 궤적은 있다고 보고

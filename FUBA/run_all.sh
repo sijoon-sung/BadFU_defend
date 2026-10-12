@@ -107,7 +107,8 @@ stage_attack() {              # <name> <seed>
   if [ "$FORCE" != "1" ] && [ "$(ckpt_count "$name")" -ge "$ROUNDS" ]; then
     echo "  [$name] 궤적 있음 ($(ckpt_count "$name") 라운드) — 생성 생략"; return 0
   fi
-  NB_CLIENTS="$K" EXTRA_ARGS="${NI[*]} --split_seed $seed" \
+  # ATTACK_EXTRA(예: --median) 를 빠뜨리면 run_paper.sh RQ2b 의 집계 방어 궤적이 방어 없이 만들어진다 (2026-10-12 수정)
+  NB_CLIENTS="$K" EXTRA_ARGS="${NI[*]} --split_seed $seed $ATTACK_EXTRA" \
     run_log "logs/pipeline/${name}.attack.log" bash run_real_fuba.sh "$name" "$seed"
   [ "$DRY" = "1" ] && return 0
   local n; n="$(ckpt_count "$name")"
