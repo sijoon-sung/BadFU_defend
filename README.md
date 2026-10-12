@@ -32,6 +32,7 @@
 ## 어디부터 읽나
 | 문서 | 내용 |
 |---|---|
+| [docs/paper/ZERO_BASE_REVIEW.md](docs/paper/ZERO_BASE_REVIEW.md) | **원점 검토**: 문제·출발점·주장 10 개와 근거·실험 체계·판정·할 일 (쉬운 말) |
 | [docs/paper/ALGORITHM.md](docs/paper/ALGORITHM.md) | **정본**: DOSE·TRACE·DEFUSE 의 알고리즘 정식화, 가정 S1–S6·T1–T5·O1–O6, 결정표, 파라미터, 비용 |
 | [docs/paper/METHOD.md](docs/paper/METHOD.md) | 방법 v3 설명: 상쇄 짝 찾기 (저장 기여 위 짝 찾기 → 빼 보기 → 활성화 위 짝 찾기 → 짝의 상쇄 성분 제거). 코드 `FUBA/cancel_fu.py` |
 | [docs/paper/THREAT_MODEL.md](docs/paper/THREAT_MODEL.md) | 공격의 틀 (상쇄형 백도어, 해로운 삭제 요청) |
