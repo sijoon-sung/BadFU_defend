@@ -98,7 +98,9 @@ def parse():
     p.add_argument("--w_mode", choices=["uniform", "nnls"], default="uniform",
                    help="정화 가중치: uniform = 짝 모두 1 (운반자는 각자 백도어 몫을 가짐; 최소제곱 가중치는 공선성으로 0 이 나올 수 있음) / nnls = 상대 최소제곱 가중치")
     p.add_argument("--min_act", type=int, default=10)
-    p.add_argument("--max_purify", type=int, default=2)
+    p.add_argument("--max_purify", type=int, default=0, help="한 요청의 정화 최대 횟수. 0 = 단계마다 허용 (100 라운드 궤적은 단계가 5–10 번이라 2 로 두면 예산이 바닥나 reject 가 난다)")
+    p.add_argument("--set_consist", choices=["on", "off"], default="on",
+                   help="활성화 위 짝을 단계 간 일관성으로 거른다: 지금까지의 모든 단계에서 정렬 ≤ −align_min 인 후보만 (정상은 단계마다 흔들리고 운반자는 −0.9 로 고정)")
     p.add_argument("--polish", choices=["none", "kd_orth"], default="none",
                    help="kd_orth: 해독제 뒤 U_k 에 직교한 짧은 증류. 정확도는 회복되지만 교사(남들 모델)에 든 요청자 지식을 기능적으로 되들여올 수 있어 본 방법에서는 끔 (소거 실험용)")
     p.add_argument("--polish_ref", choices=["pop", "agree", "low", "self"], default="pop",
@@ -427,6 +429,8 @@ def main():
         return info
 
     # ---------- 2' 활성화 위 짝 찾기 (θ' 에서, X_act 위): 누구를 빼면 활성화가 줄어드는가
+    align_hist = {}                                           # 요청자별 단계 정렬 기록 (단계 간 일관성용)
+
     def pair_at_activation(theta, pop, k, act_idx, c_star, delta):
         m_k = eng.model(theta)
         Lk_all = logp(m_k, pop["xs"])
@@ -492,6 +496,13 @@ def main():
 
         sel = np.ones(len(av_all), dtype=bool)
         align, S, w, cr, rule, fwd = solve(sel)
+        align_hist.setdefault(k, []).append(dict(align))
+        if a.set_consist == "on" and len(align_hist[k]) >= 2:          # 단계 간 일관성: 모든 단계에서 정렬 ≤ −a_min 인 후보만
+            S_c = [j for j in cands if all(h.get(j, 0.0) <= -a.align_min for h in align_hist[k])]
+            if S_c:
+                base0 = float(av_all @ av_all)
+                w_c = box_nnls(G_full, b, S_c, a.w_max)
+                S, w, cr, rule = S_c, {j: round(w_c[j], 4) for j in S_c}, round(1.0 - resid2(G_full, b, base0, w_c) / base0, 4), "consist"
         history = [{"iter": 2, "n_inputs": int(sel.sum()), "set": list(S), "ratio": cr}]
         for it in range(3, a.iters + 1):                                  # 회전 3+: (S, w) 고정 → ω 를 상쇄 에너지로 정련 → 다시 (S, w)
             if not S:
@@ -664,7 +675,7 @@ def main():
             base_id, next_id = next_id, next_id + 1
             do_purify = {"sim": flagged_sim, "attr": attr["flagged"], "either": (flagged_sim or attr["flagged"])}[a.purify_on]
             if do_purify:
-                if len(purifies) >= a.max_purify:
+                if a.max_purify > 0 and len(purifies) >= a.max_purify:
                     failed = True
                     break
                 theta_out, how, info = purify(theta, pop, k, attr, delta)
