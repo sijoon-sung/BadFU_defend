@@ -71,7 +71,7 @@ for s in 0 1 2; do python analysis_equilibrium.py --fmt fuba --name bd_owner_r10
 python analysis_equilibrium.py --aggregate --cond iid_r100w5_k20paper
 python analysis_equilibrium.py --aggregate --cond owner_r100w5_k20paper
 ```
-결과: `logs/equilibrium/summary_{iid,owner}_r100w5_k20paper.md`. 보는 것: 지문 3 과 1 에서 위장자 순위 1·소유자 z < 3 인가, 추정 타깃이 8 인가, 운반자가 양의 누적 밀기로 위에 오는가. (노트북 1 시드: 지문 3 위장자 −40 vs 정상 ±4, z −22, 타깃 추정 8 맞음, 순/총 0.08; 지문 1 순위 1, z 3.7; 지문 2 는 구분 안 됨.) 올리기: `git add FUBA/logs/equilibrium`.
+결과: `logs/equilibrium/summary_{iid,owner}_r100w5_k20paper.md`. 스크립트에 **균형 장부**(클래스별 헤지 비율 H, 음의 다리 z, 양의 다리 집합, H 곡선)가 추가됐으니 같은 명령을 다시 돌리면 된다 (ALGORITHMIZATION.md §3). 보는 것: 지문 3 과 1 에서 위장자 순위 1·소유자 z < 3 인가, 추정 타깃이 8 인가, 운반자가 양의 누적 밀기로 위에 오는가. (노트북 1 시드: 지문 3 위장자 −40 vs 정상 ±4, z −22, 타깃 추정 8 맞음, 순/총 0.08; 지문 1 순위 1, z 3.7; 지문 2 는 구분 안 됨.) 올리기: `git add FUBA/logs/equilibrium`.
 
 ### A-01. 논문 설정에서의 처방 — RESULTS_LOG R-010 (운반자 제외 재학습). R-011(고친 해독제)은 노트북 확인에서 폐기 (DRAFT_v2_SKELETON §6.1) — 첫째 줄은 돌리지 않아도 된다
 R-007 의 해독제 실패 원인 둘(정화 예산 2 회, 짝 집합 과대)을 고쳤다 (`--max_purify 0` = 단계마다 허용, `--set_consist on` = 모든 단계에서 정렬 ≤ −0.3 인 후보만). 그리고 저자 재학습 코드에 제외 목록만 붙였다 (`benign_departure.py --exclude`).

@@ -136,15 +136,42 @@ def analyze(a):
         return s1, s2
     f1, f2 = f12(c_hat)
     f1_true, f2_true = f12(a.target)
+    # ---- 균형 장부: 클래스별 헤지 비율, 음의 다리, 양의 다리 집합
+    def mad_z(vals):
+        v = np.asarray(vals, float); med = float(np.median(v)); mad = 1.4826 * float(np.median(np.abs(v - med)))
+        return [(float(x) - med) / mad if mad > 1e-9 else 0.0 for x in v], med, mad
+    ledger = {}
+    for c in range(C):
+        col = [float(P[j][c]) for j in clients]
+        z, med, mad = mad_z(col)
+        neg = int(np.argmin(col)); pos = [clients[i] for i in range(K) if z[i] > 2.0 and i != neg]     # 양의 다리: MAD z > 2
+        ledger[c] = {"H": round(1.0 - abs(sum(col)) / max(sum(abs(x) for x in col), 1e-9), 4), "neg": neg, "z_neg": round(z[neg], 2),
+                     "neg_role": roles[neg], "pos": pos, "pos_roles": [roles[j] for j in pos], "n_pos": len(pos)}
+    hedge_classes = [c for c in range(C) if ledger[c]["H"] >= 0.8 and ledger[c]["z_neg"] <= -3.0]
+    c_hedge = max(range(C), key=lambda c: ledger[c]["H"] if ledger[c]["z_neg"] <= -3.0 else -1)   # 헤지 기준 타깃 추정 (분산 기준 c_hat 과 별도 보고)
+    # 라운드별 H(c) 곡선 (진짜 타깃과 추정 클래스): 몇 라운드부터 평형이 보이는가
+    def H_curve(c):
+        run = {j: 0.0 for j in clients}; out = []
+        ev_by_t = {}
+        for j in clients:
+            for t, v in e[j]:
+                ev_by_t.setdefault(t, []).append((j, v[c]))
+        for t in range(1, T + 1):
+            for j, v in ev_by_t.get(t, []):
+                run[j] += v
+            col = list(run.values()); g = sum(abs(x) for x in col)
+            out.append(round(float(1.0 - abs(sum(col)) / g), 3) if g > 1e-9 else None)
+        return out
     res = {"name": a.name, "cond": a.cond, "K": K, "rounds": T, "roles": roles, "target_true": a.target, "class_hat": c_hat,
            "net_gross_ratio_hat": round(abs(net[c_hat]) / max(gross[c_hat], 1e-9), 4),
            "f1_restoring_slope": f1, "f2_lag_corr": f2, "f3_cum_push": f3,
            "f1_true": f1_true, "f2_true": f2_true, "f3_true": {j: float(P[j][a.target]) for j in clients},
-           "n_rounds_present": {j: len(e[j]) for j in clients}}
+           "n_rounds_present": {j: len(e[j]) for j in clients},
+           "ledger": ledger, "hedge_classes": hedge_classes, "class_hedge": c_hedge, "H_curve_true": H_curve(a.target), "H_curve_hat": H_curve(c_hat)}
     os.makedirs("logs/equilibrium", exist_ok=True)
     out = f"logs/equilibrium/{a.name}.json"
     with open(out, "w", encoding="utf-8") as fh:
-        json.dump(res, fh, ensure_ascii=False, indent=1)
+        json.dump(res, fh, ensure_ascii=False, indent=1, default=lambda o: float(o) if hasattr(o, '__float__') else str(o))
     sup = a.defenders[0]
     print(f"[{a.name}] K={K} T={T}  추정 타깃 {c_hat} (정답 {a.target})  순/총 밀기 비율 {res['net_gross_ratio_hat']}")
     print("지문 (추정 클래스): 클라 | 역할 | 1 복원력 기울기 | 2 지연 상관 | 3 누적 밀기 | 참여 라운드")
@@ -157,6 +184,14 @@ def analyze(a):
             sign = 1 if dirn == "high" else -1
             rank = 1 + sum(1 for j, v in vals.items() if j != sup and sign * v > sign * vals[sup])
             print(f"  위장자 {key}: 값 {vals[sup]:.3f} 순위 {rank}/{len(vals)}  z(정상 대비) {rz(vals[sup], [vals[j] for j in ben if j in vals])}")
+    print("균형 장부 (클래스 | H | 음의 다리(역할, z) | 양의 다리(역할)):")
+    for c in range(C):
+        L_ = ledger[c]
+        mark = " ← 헤지" if c in hedge_classes else ""
+        print(f"  {c} | {L_['H']:.3f} | {L_['neg']} ({L_['neg_role'][:3]}, z {L_['z_neg']}) | {L_['pos']} {[r[:3] for r in L_['pos_roles']]}{mark}")
+    hc = res["H_curve_true"]
+    first = next((i + 1 for i, h in enumerate(hc) if h is not None and h >= 0.8), None)
+    print(f"  H(진짜 타깃) 가 0.8 을 처음 넘는 라운드: {first} / {T}   헤지 기준 타깃 추정: {c_hedge} (분산 기준 {c_hat}, 정답 {a.target})")
     print(f"-> {out}")
 
 
@@ -196,6 +231,15 @@ def aggregate(a):
             return "-" if not xs else (f"{np.mean(xs):.{nd}f} ± {np.std(xs):.{nd}f}" if len(xs) > 1 else f"{xs[0]:.{nd}f}")
         L.append(f"| {key} | {dirn} | {ms(ranks, 1)} | {caught}/{len(ranks)} | {ms(zs, 1)} | {ms(zo, 1)} | {ms(cr, 1)} | {hit}/{len(runs)} |")
     L += ["", "순/총 밀기 비율 (추정 타깃, 작을수록 '합은 0 인데 개별은 큼' = 평형): " + ", ".join(f"{r['name'].split('_s')[-1]}: {r['net_gross_ratio_hat']}" for r in runs)]
+    if all("ledger" in r for r in runs):
+        L += ["", "## 균형 장부 (시드별): 헤지 클래스 → 음의 다리(역할) / 양의 다리 수(역할)", ""]
+        for r in runs:
+            items = []
+            for c in r["hedge_classes"]:
+                e_ = r["ledger"][str(c)]
+                items.append(f"{c}: 음 {e_['neg']}({e_['neg_role'][:3]}, z {e_['z_neg']}) / 양 {e_['n_pos']}명 {[x[:3] for x in e_['pos_roles']]}")
+            hc = r.get("H_curve_true", []); first = next((i + 1 for i, h in enumerate(hc) if h is not None and h >= 0.8), None)
+            L.append(f"- {r['name']}: " + ("; ".join(items) if items else "헤지 클래스 없음") + f" | H(타깃) ≥ 0.8 첫 라운드 {first} | 헤지 기준 타깃 추정 {r.get('class_hedge')} (정답 {r['target_true']})")
     out = f"logs/equilibrium/summary_{a.cond or 'all'}.md"
     with open(out, "w", encoding="utf-8") as fh:
         fh.write("\n".join(L))
