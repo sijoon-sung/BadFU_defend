@@ -7,7 +7,7 @@
 set -e
 cd "$(dirname "$0")"
 export PYTHONIOENCODING=utf-8
-GROUPS="${GROUPS:-k8 k20paper}"
+DO_GROUPS="${DO_GROUPS:-k8 k20paper}"
 FORCE="${FORCE:-0}"
 run_one() {   # name K rounds cond owner
   local name="$1" K="$2" R="$3" cond="$4" owner="$5"
@@ -15,7 +15,7 @@ run_one() {   # name K rounds cond owner
   if [ "$FORCE" != "1" ] && [ -f "logs/detect/$name.json" ]; then echo "  [$name] 결과 있음"; return 0; fi
   python detect_bench.py --fmt fuba --name "$name" --K "$K" --rounds "$R" --defender 4 --attackers 0 1 2 3 --owner_client "$owner" --cond "$cond"
 }
-for g in $GROUPS; do
+for g in $DO_GROUPS; do
   case "$g" in
     k8)
       for s in 0 1 2; do run_one "bd_iid_s$s" 8 8 iid -1; run_one "bd_owner_s$s" 8 8 owner 7; done
@@ -25,6 +25,8 @@ for g in $GROUPS; do
       python aggregate_detect_bench.py --cond iid_r100w5_k20paper; python aggregate_detect_bench.py --cond owner_r100w5_k20paper ;;
     tdef)
       for d in median multi_krum flame flDetector; do for s in 0 1 2; do run_one "bd_iid_r100w5_k20paper_${d}_s$s" 20 100 "tdef_$d" -1; done; python aggregate_detect_bench.py --cond "iid_r100w5_k20paper_$d"; done ;;
+    tdef_reduced)
+      for d in median multi_krum; do for s in 0 1 2; do run_one "bd_iid_${d}_s$s" 8 8 "iid_$d" -1; done; python aggregate_detect_bench.py --cond "iid_$d"; done ;;
     *) echo "모르는 그룹: $g"; exit 1 ;;
   esac
 done
