@@ -449,7 +449,7 @@
         "n_hard_collapse": 0,
         "pop_models": 0,
         "forwards": 7,
-        "seconds": 0.3,
+        "seconds": 0.4,
         "trace": [
           {
             "piece": 0,
@@ -507,7 +507,7 @@
         "n_hard_collapse": 0,
         "pop_models": 0,
         "forwards": 0,
-        "seconds": 0.4,
+        "seconds": 0.3,
         "trace": [
           {
             "piece": 0,
