@@ -7,6 +7,12 @@ git fetch origin && git checkout dev && git pull
 cd FUBA
 ```
 
+## 0. 하나의 절차만 빠르게 보기 (unified_fu: 거름망 → 확정 → 정화)
+```bash
+FORCE=1 STAGES="unified aggregate" CONDS="iid owner" bash run_all.sh
+```
+결과: `logs/unified/summary_{cond}.md` (요청자별 결정·ASR·ACC·α·비용). 위장자는 purified, 정상은 accept(screen) 이어야 한다.
+
 ## 1. 핵심 표 둘 — T1 (기본 FU 대 우리), T3 (쌍 탐지)
 
 전에 돌린 결과 중 여러 단계짜리는 캐시 버그 때문에 믿을 수 없어서, 처음부터 다시 만든다. **`FORCE=1` 을 꼭 붙인다.** 안 붙이면 옛 결과를 그대로 건너뛴다.

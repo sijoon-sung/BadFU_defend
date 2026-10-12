@@ -98,6 +98,15 @@ def t1(cond, L, tag=""):
     L.append("")
 
 
+def t1u(cond, L):
+    f = f"logs/unified/summary_{cond}.md"
+    if os.path.exists(f):
+        with open(f, encoding="utf-8") as fh:
+            body = fh.read().split("
+", 1)[1]
+        L += [f"## T1u. RQ1 — 하나의 절차 (거름망 → 확정 → 해독제 정화) ({cond})", body, ""]
+
+
 def t2(cond, L):
     masa = load("baseline_masa", f"bd_{cond}")
     sub = load("baseline_subid", f"bd_{cond}")
@@ -222,6 +231,7 @@ def main():
     a = p.parse_args()
     L = [f"# 논문 표: {a.cond} (시드 평균 ± 표준편차; 생성 `python paper_tables.py --cond {a.cond}`)", ""]
     t1(a.cond, L)
+    t1u(a.cond, L)
     t2(a.cond, L)
     t2b(a.cond, L, a.tdefs)
     t3(a.cond, L)
