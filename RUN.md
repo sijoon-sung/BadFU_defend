@@ -1,61 +1,55 @@
-# 실험 돌리기 (DISLAB, 2026-10-12)
+# 실험 돌리기 (DISLAB) — 2026-10-12 판
 
-브랜치 `dev`. 모두 `FUBA` 폴더에서.
+브랜치 `dev`. 모두 `FUBA` 폴더에서. 방법은 `docs/paper/METHOD.md`, 수식은 `docs/paper/MATH.md`.
 
 ```bash
 git fetch origin && git checkout dev && git pull
 cd FUBA
 ```
 
-## 0. 하나의 절차만 빠르게 보기 (unified_fu: 거름망 → 확정 → 정화)
+## A. 꼭 돌릴 것 (순서대로)
+
+### A1. 하나의 절차 (unified) + 기능 효과 행렬 (effects) — 두 조건 × 3 시드, 궤적은 있다고 보고
 ```bash
-FORCE=1 STAGES="unified aggregate" CONDS="iid owner" bash run_all.sh
+FORCE=1 STAGES="unified effects aggregate" CONDS="iid owner" bash run_all.sh
 ```
-결과: `logs/unified/summary_{cond}.md` (요청자별 결정·ASR·ACC·α·비용). 위장자는 purified, 정상은 accept(screen) 이어야 한다.
+| 결과 | 파일 | 보는 것 |
+|---|---|---|
+| 요청자별 결정·ASR·ACC·α·비용 | `logs/unified/summary_{cond}.md` | 위장자 4 = purified(...), 정상 7·5 = accept(...). owner 의 7 이 accept 면 소유자 오탐 해결 |
+| 효과 행렬: p 값, 상쇄 집합, 라운드 일관성 | `logs/effects/summary_{cond}.md` | 위장자의 상쇄 집합이 운반자(carrier)로 채워지는가, 몰림 클래스가 타깃(8)인가 |
 
-## 1. 핵심 표 둘 — T1 (기본 FU 대 우리), T3 (쌍 탐지)
+### A2. 소유자 오탐 대책만 따로 (flow 통계, 짧음)
+```bash
+FORCE=1 STAGES="dose aggregate" CONDS="owner" TAG="_flow" DOSE_EXTRA="--stat flow" bash run_all.sh
+```
+`logs/dose_fu/summary_owner_flow.md` — 정상 7 경보 0/3 이면서 4 는 잡히는가.
 
-전에 돌린 결과 중 여러 단계짜리는 캐시 버그 때문에 믿을 수 없어서, 처음부터 다시 만든다. **`FORCE=1` 을 꼭 붙인다.** 안 붙이면 옛 결과를 그대로 건너뛴다.
-
+### A3. 핵심 표 (기본 FU 대 우리, 운반자 찾기) — 이미 있음(dev). 다시 만들려면
 ```bash
 FORCE=1 RQ="1 3" bash run_paper.sh
 ```
 
-두 조건(iid, owner) × 3 시드. 끝나면 `docs/paper/tables_iid.md`, `docs/paper/tables_owner.md` 가 생긴다.
-
-## 2. 시간이 되면 이어서 — T2 (비교군), T4 (적응형 공격)
-
+## B. 시간이 되면
 ```bash
-FORCE=1 RQ="2 4" bash run_paper.sh
+FORCE=1 RQ="2 4" bash run_paper.sh          # 비교군(MASA, SubID 식, 집계 방어 4 종 위 궤적), 적응형 5 종
+RQ="5 6" bash run_paper.sh                  # 비용, 소거 (cap, tau, m, stat, probe, op)
 ```
+집계 방어 변형은 궤적을 다시 만들어 가장 오래 걸린다. 하나만 먼저: `FORCE=1 RQ="2" TDEFS="median" bash run_paper.sh`.
 
-RQ2 는 비교군(MASA, SubID 식, 가중치 전용)과 학습 중 집계 방어 4 종 위에서 궤적을 다시 만드는 것이라 가장 오래 걸린다. 먼저 하나만 보려면:
-
+## C. BadFU (로컬 GPU 노트북, 궤적이 거기 있음)
 ```bash
-FORCE=1 RQ="2" TDEFS="median" bash run_paper.sh
+B=../BadFU_src/BadFU-main
+python unified_fu.py --fmt badfu --name loc_badfu_uni --traj_dir $B/logs/traj_full --data_root $B/data --badfu_record $B/record/badnet_dataset --rounds 15 --defender 5 --attackers 0 --target 0 --counts 10545 9647 9641 9649 9668 10545 --requesters 5 1 2 --op kd
+python effects.py    --fmt badfu --name loc_badfu     --traj_dir $B/logs/traj_full --data_root $B/data --badfu_record $B/record/badnet_dataset --rounds 15 --defender 5 --attackers 0 --target 0 --counts 10545 9647 9641 9649 9668 10545 --requesters 5 1 2
 ```
-
-RQ4 는 적응형 공격 5 종(재학습 없음, 빠름).
-
-## 2-b. owner 오탐 대책 확인 (flow 통계) — 짧음
-```bash
-FORCE=1 CONDS="owner iid" STAGES="dose aggregate" TAG="_flow" DOSE_EXTRA="--stat flow" bash run_all.sh
-```
-결과는 `logs/dose_fu/summary_owner_flow` 쪽이 아니라 이름 `bd_owner_flow_s*` 로 들어가고, `paper_tables.py` 의 T6 소거 표에 `stat=flow` 행으로 나온다. 보는 것: 정상 7 의 경보가 0/3 이 되면서 위장자 4 는 그대로 잡히는가.
-
-## 3. 나머지 — T5 (비용), T6 (소거)
-
-```bash
-RQ="5 6" bash run_paper.sh
-```
+보는 것: 위장자 5 가 purified, 정상 1·2 가 accept/accept(partial). effects 에서 5 의 상쇄 집합에 0(운반자)이 들어오고 몰림 클래스가 0 인가.
 
 ## 결과 올리기
-
 ```bash
-cd .. && git add FUBA/logs docs/paper && git commit -m "results: RQ1-3 (or 2,4,5,6)" && git push
+cd .. && git add FUBA/logs docs/paper && git commit -m "results: ..." && git push
 ```
 
 ## 참고
 - 일부만: `RQ="1"`, 조건 하나만: `CONDS="iid"`, 시드 하나만: `SEEDS="0"`, 명령만 보기: `DRY=1`.
-- 단계 설명과 표 번호: `docs/paper/EXPERIMENT_DESIGN.md` 5 절. 결과 해석 전 점검 목록: `docs/paper/REVIEW_2026-10-11.md`.
-- 로컬(GPU 노트북) 이어서 돌리기: `FUBA\resume_local.bat` (BadFU 쪽).
+- 표 만들기: `python paper_tables.py --cond iid` → `docs/paper/tables_iid.md` (T1, T1u, T1e, T2, T3, T4, T5, T6).
+- 결정 뜻: accept(screen)=지표 통과·기본 FU 와 동일 / accept(confirm)=빼 보고 수락 / accept(partial)=연산자 한계로 일부만 뺌 / purified(antidote)=운반자 성분 제거 / purified(kd)=재억제 / reject(...)=불출.
