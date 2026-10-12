@@ -63,6 +63,16 @@ GROUPS="tdef" bash run_detect_bench.sh         # 집계 방어 궤적 (만든 �
 결과: `logs/detect/summary_{iid,owner}_r100w5_k20paper.md` (+ `summary_iid.md`, `summary_owner.md`). 올리기: `git add FUBA/logs/detect`.
 보는 것: 위장자 순위 1 이면서 소유자 z < 3 인 방법이 무엇인가. 기존 발상(sim_abs_*, upd_*, ns_energy)이 어디서 깨지고 상대 기준(sim_rel_*)·감사(audit_z)·참여 회귀(part_beta_*)가 어디서 갈리는가.
 
+### A-01. 논문 설정에서의 처방 — RESULTS_LOG R-010 (운반자 제외 재학습), R-011 (고친 해독제)
+R-007 의 해독제 실패 원인 둘(정화 예산 2 회, 짝 집합 과대)을 고쳤다 (`--max_purify 0` = 단계마다 허용, `--set_consist on` = 모든 단계에서 정렬 ≤ −0.3 인 후보만). 그리고 저자 재학습 코드에 제외 목록만 붙였다 (`benign_departure.py --exclude`).
+```bash
+K=20 ROUNDS=100 WARMUP=5 TAG="_k20paper_v2" FORCE=1 STAGES="cancel aggregate" CONDS="iid owner" CANCEL_EXTRA="--rounds_eff off" bash run_all.sh
+```
+```bash
+for c in iid owner; do for s in 0 1 2; do python benign_departure.py --name bd_${c}_r100w5_k20paper_s$s --K 20 --rounds 100 --seed $((522+s)) --split_seed $((522+s)) --defender 4 --requesters 4 --methods retrain_benign --exclude 0 1 2 3 --out logs/benign_departure/bd_${c}_r100w5_k20paper_excl_s$s.json; done; done
+```
+둘째 줄은 TRACE 가 찾은 운반자(0–3)를 요청자 4 와 함께 제외하고 남은 정직 클라로 재학습한다 (표 3 마지막 행). owner 는 `--non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1` 를 덧붙인다. 비교: 같은 명령에서 `--exclude` 없이 (= 재학습이 백도어 모델을 내는 쪽, retrain_attack 은 운반자 재참여).
+
 ### A-0. 주 설정 (논문 설정 K=20 궤적) 본 결과 — RESULTS_LOG R-007, R-008
 궤적 6 개는 만들어져 검증됐다 (`docs/EXPERIMENT_LOG.md`, 위장자 제거 시 ASR 46–93). 이제 그 위에서 본 결과를 낸다. 전량 빼기는 붕괴하므로 DOSE 의 단계 제거가 필수이고, 빼기 연산자가 `partial` 로 끝나면 둘째 줄(단계 + 증류 연산자)이 본 결과가 된다.
 ```bash

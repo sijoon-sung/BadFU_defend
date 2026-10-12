@@ -59,6 +59,7 @@ def parse():
     p.add_argument("--methods", nargs="+", default=DEFAULT_METHODS, choices=METHODS)
     p.add_argument("--target", type=int, default=8)
     p.add_argument("--defender", type=int, default=4, help="학습 때의 forgot_client_idx(Adv-defender 역할)")
+    p.add_argument("--exclude", type=int, nargs="*", default=[], help="재학습(retrain_*)에서 요청자와 함께 제외할 클라이언트 (예: TRACE 가 찾은 운반자). 다른 방법에는 영향 없음")
     p.add_argument("--attackers", type=int, nargs="+", default=[0, 1, 2, 3])
     p.add_argument("--seed", type=int, default=522)
     p.add_argument("--split_seed", type=int, default=1223, help="학습 때와 같은 값이어야 분할이 일치한다")
@@ -173,9 +174,10 @@ def run_method(method, k, a, cfg, g, l, bd, trainset, testloader):
         mode = "benign" if method == "retrain_benign" else "attack"
         cfg.unlearn_target = k
         cfg.fu_attacker_mode = mode
+        cfg.exclude_clients = list(a.exclude)
         cfg.backdoor_model = copy.deepcopy(bd)
         name0 = cfg.name
-        cfg.name = f"{a.name}__req{k}_{mode}"       # retrain 내부 save_models 이름 충돌 방지
+        cfg.name = f"{a.name}__req{k}_{mode}" + (("_ex" + "".join(str(x) for x in a.exclude)) if a.exclude else "")       # retrain 내부 save_models 이름 충돌 방지
         try:
             net, regen = retrain(cfg)
         finally:

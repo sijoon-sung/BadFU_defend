@@ -355,6 +355,9 @@ def retrain(config: Config):
         selected_clients = random.sample(range(config.num_clients), int(config.num_clients * config.participant_rate))
         if config.unlearn_target in selected_clients:
             selected_clients.remove(config.unlearn_target)
+        for ex in getattr(config, "exclude_clients", []) or []:     # 운반자 제외 재학습 (TRACE 가 찾은 짝): 재참여시키지 않는다
+            if ex in selected_clients:
+                selected_clients.remove(ex)
 
         selected_clients.sort(reverse=False)
         print(selected_clients, flush=True)
