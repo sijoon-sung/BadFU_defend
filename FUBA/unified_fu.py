@@ -60,7 +60,8 @@ def parse():
     p.add_argument("--probe_mode", choices=["clean", "forget"], default="forget")
     p.add_argument("--forget_n", type=int, default=500)
     # A
-    p.add_argument("--screen", choices=["on", "off"], default="on")
+    p.add_argument("--screen", choices=["on", "off"], default="off",
+                   help="궤적 지표로 미리 통과시키기. 기본 off: 3 시드 owner 에서 위장자 1 회를 통과시켰다(안전하지 않음). 비용 절감용 옵션으로만")
     p.add_argument("--tau_screen", type=float, default=1.5, help="거름망 문턱. 보수적으로 낮게: 거름망은 비용을 줄이는 장치이지 판정이 아니다 (BadFU 위장자의 지표 z 가 2.0 이라 2.5 면 놓친다 — 로컬 확인)")
     # B
     p.add_argument("--stat", choices=["mass", "changed", "shift", "flow"], default="flow")
@@ -76,6 +77,8 @@ def parse():
     p.add_argument("--kd_lr", type=float, default=None)
     # C
     p.add_argument("--lams", type=float, nargs="+", default=[0.5, 1, 2, 4, 8])
+    p.add_argument("--lam_rule", choices=["first", "max_healthy"], default="first",
+                   help="해독제 세기: first = 띠 안(z ≤ τ)에 드는 가장 작은 λ (정확도 보존), max_healthy = 건강 상한 안의 최대 λ (3 시드에서 ACC 85 vs KD 92 로 과도)")
     p.add_argument("--min_act", type=int, default=10)
     p.add_argument("--max_purify", type=int, default=2, help="한 요청에서 정화 최대 횟수")
     p.add_argument("--rep_steps", type=int, default=50)
@@ -254,6 +257,8 @@ def main():
                     break
                 if z2 <= a.tau:
                     chosen, theta_out = lam, th.clone()
+                    if a.lam_rule == "first":
+                        break
             info["chosen_lam"] = chosen
             if chosen is not None:
                 how = "antidote"
