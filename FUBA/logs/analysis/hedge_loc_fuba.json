@@ -1,0 +1,300 @@
+{
+  "name": "loc_fuba",
+  "K": 8,
+  "roles": {
+    "0": "carrier",
+    "1": "carrier",
+    "2": "carrier",
+    "3": "carrier",
+    "4": "suppressor",
+    "5": "benign",
+    "6": "benign",
+    "7": "benign"
+  },
+  "pair_cos_full": {
+    "carrier-carrier": 0.734,
+    "carrier-benign": 0.454,
+    "carrier-suppressor": 0.563,
+    "benign-carrier": 0.454,
+    "benign-benign": 0.653,
+    "benign-suppressor": 0.597,
+    "suppressor-carrier": 0.563,
+    "suppressor-benign": 0.597,
+    "suppressor-suppressor": null
+  },
+  "pair_cos_centered": {
+    "carrier-carrier": 0.234,
+    "carrier-benign": 0.023,
+    "carrier-suppressor": -0.442,
+    "benign-carrier": 0.023,
+    "benign-benign": 0.444,
+    "benign-suppressor": -0.501,
+    "suppressor-carrier": -0.442,
+    "suppressor-benign": -0.501,
+    "suppressor-suppressor": null
+  },
+  "pair_cos_by_layer": {
+    "conv1": {
+      "carrier-carrier": 0.965,
+      "carrier-benign": 0.553,
+      "carrier-suppressor": 0.653,
+      "benign-carrier": 0.553,
+      "benign-benign": 0.886,
+      "benign-suppressor": 0.854,
+      "suppressor-carrier": 0.653,
+      "suppressor-benign": 0.854,
+      "suppressor-suppressor": null
+    },
+    "conv2": {
+      "carrier-carrier": 0.91,
+      "carrier-benign": 0.58,
+      "carrier-suppressor": 0.714,
+      "benign-carrier": 0.58,
+      "benign-benign": 0.828,
+      "benign-suppressor": 0.776,
+      "suppressor-carrier": 0.714,
+      "suppressor-benign": 0.776,
+      "suppressor-suppressor": null
+    },
+    "fc1": {
+      "carrier-carrier": 0.729,
+      "carrier-benign": 0.443,
+      "carrier-suppressor": 0.549,
+      "benign-carrier": 0.443,
+      "benign-benign": 0.617,
+      "benign-suppressor": 0.56,
+      "suppressor-carrier": 0.549,
+      "suppressor-benign": 0.56,
+      "suppressor-suppressor": null
+    },
+    "fc2": {
+      "carrier-carrier": 0.617,
+      "carrier-benign": 0.375,
+      "carrier-suppressor": 0.472,
+      "benign-carrier": 0.375,
+      "benign-benign": 0.598,
+      "benign-suppressor": 0.539,
+      "suppressor-carrier": 0.472,
+      "suppressor-benign": 0.539,
+      "suppressor-suppressor": null
+    },
+    "fc3": {
+      "carrier-carrier": 0.681,
+      "carrier-benign": 0.459,
+      "carrier-suppressor": 0.592,
+      "benign-carrier": 0.459,
+      "benign-benign": 0.675,
+      "benign-suppressor": 0.617,
+      "suppressor-carrier": 0.592,
+      "suppressor-benign": 0.617,
+      "suppressor-suppressor": null
+    }
+  },
+  "gross": [
+    1.7387,
+    1.2021,
+    1.4068,
+    1.3015,
+    1.1069,
+    1.0088,
+    0.9495
+  ],
+  "net": [
+    1.6707,
+    1.1502,
+    1.1105,
+    0.9937,
+    0.8609,
+    0.7338,
+    0.6534
+  ],
+  "gross_over_net": [
+    1.041,
+    1.045,
+    1.267,
+    1.31,
+    1.286,
+    1.375,
+    1.453
+  ],
+  "share_mean": {
+    "0": 0.1,
+    "1": 0.109,
+    "2": 0.114,
+    "3": 0.11,
+    "4": 0.322,
+    "5": 0.083,
+    "6": 0.082,
+    "7": 0.081
+  },
+  "anti_partner": {
+    "0": {
+      "partners": [
+        2,
+        7,
+        7,
+        5,
+        7,
+        7,
+        5
+      ],
+      "cos_mean": 0.431,
+      "partner_roles": [
+        "carrier",
+        "benign",
+        "benign",
+        "benign",
+        "benign",
+        "benign",
+        "benign"
+      ]
+    },
+    "1": {
+      "partners": [
+        3,
+        7,
+        5,
+        6,
+        7,
+        6,
+        5
+      ],
+      "cos_mean": 0.433,
+      "partner_roles": [
+        "carrier",
+        "benign",
+        "benign",
+        "benign",
+        "benign",
+        "benign",
+        "benign"
+      ]
+    },
+    "2": {
+      "partners": [
+        3,
+        7,
+        5,
+        5,
+        6,
+        6,
+        5
+      ],
+      "cos_mean": 0.439,
+      "partner_roles": [
+        "carrier",
+        "benign",
+        "benign",
+        "benign",
+        "benign",
+        "benign",
+        "benign"
+      ]
+    },
+    "3": {
+      "partners": [
+        7,
+        7,
+        5,
+        5,
+        5,
+        7,
+        5
+      ],
+      "cos_mean": 0.429,
+      "partner_roles": [
+        "benign",
+        "benign",
+        "benign",
+        "benign",
+        "benign",
+        "benign",
+        "benign"
+      ]
+    },
+    "4": {
+      "partners": [
+        2,
+        7,
+        0,
+        3,
+        3,
+        1,
+        1
+      ],
+      "cos_mean": 0.539,
+      "partner_roles": [
+        "carrier",
+        "benign",
+        "carrier",
+        "carrier",
+        "carrier",
+        "carrier",
+        "carrier"
+      ]
+    },
+    "5": {
+      "partners": [
+        7,
+        7,
+        0,
+        2,
+        3,
+        1,
+        1
+      ],
+      "cos_mean": 0.423,
+      "partner_roles": [
+        "benign",
+        "benign",
+        "carrier",
+        "carrier",
+        "carrier",
+        "carrier",
+        "carrier"
+      ]
+    },
+    "6": {
+      "partners": [
+        2,
+        7,
+        0,
+        1,
+        3,
+        3,
+        1
+      ],
+      "cos_mean": 0.437,
+      "partner_roles": [
+        "carrier",
+        "benign",
+        "carrier",
+        "carrier",
+        "carrier",
+        "carrier",
+        "carrier"
+      ]
+    },
+    "7": {
+      "partners": [
+        3,
+        3,
+        0,
+        3,
+        1,
+        3,
+        1
+      ],
+      "cos_mean": 0.427,
+      "partner_roles": [
+        "carrier",
+        "carrier",
+        "carrier",
+        "carrier",
+        "carrier",
+        "carrier",
+        "carrier"
+      ]
+    }
+  }
+}
