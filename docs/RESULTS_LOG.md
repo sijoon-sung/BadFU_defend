@@ -1,0 +1,21 @@
+# 분석 장부 (RESULTS_LOG) — 실행 한 번에 한 줄
+
+규칙 (PLAN.md §2):
+1. 궤적 열은 `docs/EXPERIMENT_LOG.md` 의 이름 그대로. 거기 없는 궤적으로는 돌리지 않는다.
+2. 상태는 넷 중 하나: 예정 / 돌아감 / 확정 / 폐기(이유). 파일이 저장소에 없으면 '파일 없음'.
+3. 설정이 다르면 TAG 가 다르다. 같은 이름 위에 FORCE=1 로 덮어쓰지 않는다.
+4. 논문 표의 숫자마다 번호(R-xxx)를 단다. 번호 없는 숫자는 뺀다.
+5. 실행 묶음이 끝나면 바로 커밋: `git add FUBA/logs docs && git commit -m "results: R-xxx ..."`.
+
+주 설정 = FUBA 논문 설정 (K=20, 악성 5, 100 라운드, 참여 0.4) = 궤적 `bd_{iid,owner}_r100w5_k20paper_s{0,1,2}`. K=8 결과는 예비(부록).
+
+| 번호 | 날짜 | 궤적 | 스크립트+단계 | 인자/TAG | 결과 파일 | 답하는 주장 | 상태 |
+|---|---|---|---|---|---|---|---|
+| R-001 | 2026-10-12 | bd_iid_s0, s1, s2 (K=8) | run_all.sh cancel (cancel_fu.py) | 기본값, TAG 없음, dev 93416d5 | FUBA/logs/cancel/bd_iid_s{0,1,2}.json → summary_iid.md | 주장 3·4·5·6 (IID) | 확정 (예비, K=8) |
+| R-002 | 2026-10-12 | bd_owner_s0, s1, s2 (K=8) | run_all.sh cancel | 기본값 | FUBA/logs/cancel/bd_owner_s{0,1,2}.json → summary_owner.md | 주장 3·4·5·6 (owner); 정상 7 오탐 1/3 (seed 2, z 17) | 확정 (예비, K=8), 오탐은 한계로 보고 |
+| R-003 | 2026-10-12 | bd_{iid,owner}_s{0,1,2} (K=8) | run_all.sh cancel, TAG=_polish | `--polish kd_orth` (pop → agree 교사) | FUBA/logs/cancel/bd_*_polish_s*.json → summary_*_polish.md | 주장 7 (α=0 이어도 되돌아옴: 자기 데이터 acc 50 → 79 / 75) | 확정 (소거 실험; 증류는 본 방법 아님) |
+| R-004 | 2026-10-12 | loc_badfu (시드 42, 15 라운드) | cancel_fu.py --fmt badfu --op kd | 로컬 노트북 | REPORT §14.5 숫자만 — 결과 파일 저장소에 없음 | 주장 1·3·4 (BadFU) | 파일 없음 → Phase 4 에서 bd_badfu_s0 으로 다시 |
+| R-005 | 2026-10-12 | loc_fuba (K=8, 로컬) | analysis_update_stats.py, analysis_hedge.py, baseline_gate.py | — | FUBA/logs/analysis/update_stats_loc_fuba.json, hedge_loc_fuba.json, FUBA/logs/baselines/gate_loc_fuba.json | 주장 9 (집계 방어가 보는 것; 헤지 가설 기각; null-space 게이트 무력) | 확정 (1 시드, 과반 설정 — 기전 근거로만) |
+| R-006 | 2026-10-12 | bd_{iid,owner}_r100w5_k20paper_s{0,1,2} | make_trajectories.sh (저자 main.py) + verify_trajectories.py | ONLY=k20_paper, dev f8b1079 | docs/EXPERIMENT_LOG.md, FUBA/logs/trajectories/registry.json | 관문 0: 잠복 ASR 3–8, 위장자 제거(작동점 ρ=0.2) ASR 46–93, 정상 제거 ASR 2–10, 운반자 제거 ASR ≤ 1.4 | 확정 (궤적 6 개 ✔; 전량 빼기는 붕괴 → 단계 제거 필수) |
+| R-007 | 예정 | bd_{iid,owner}_r100w5_k20paper_s{0,1,2} | run_all.sh benign dose cancel effects aggregate | K=20 ROUNDS=100 WARMUP=5 TAG=_k20paper, BENIGN_METHODS="subtract distillation fedEraser", CANCEL_EXTRA="--rounds_eff off" | FUBA/logs/{benign_departure,dose_fu,cancel,effects}/bd_*_r100w5_k20paper_s*.json → summary_*_r100w5_k20paper.md | 주장 1–6, 8 (주 설정) | 예정 (관문 1) |
+| R-008 | 예정 | 같은 궤적 | run_all.sh dose cancel aggregate | TAG=_k20paper_kd, DOSE_EXTRA="--op kd", CANCEL_EXTRA="--op kd --rounds_eff off" | …_k20paper_kd_s*.json | 주장 5 (깊은 궤적에서 단계+증류 연산자) | 예정 (R-007 의 빼기 연산자가 partial 로 끝나면 이것이 본 결과) |
