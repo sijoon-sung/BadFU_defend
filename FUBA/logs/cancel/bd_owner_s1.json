@@ -1,0 +1,862 @@
+{
+  "name": "bd_owner_s1",
+  "fmt": "fuba",
+  "args": {
+    "fmt": "fuba",
+    "name": "bd_owner_s1",
+    "rounds": 8,
+    "K": 8,
+    "ckpt_dir": "checkpoints",
+    "traj_dir": null,
+    "counts": null,
+    "data_root": "./data",
+    "badfu_record": null,
+    "requesters": [
+      4,
+      7,
+      5
+    ],
+    "defender": 4,
+    "defenders": [
+      4
+    ],
+    "attackers": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "target": 8,
+    "n_classes": 10,
+    "probe": 500,
+    "probe_mode": "forget",
+    "forget_n": 500,
+    "eps": 0.2,
+    "center": "median",
+    "center2": "none",
+    "col2": "target",
+    "eps2": 0.5,
+    "set_rule": "gap",
+    "align_min": 0.3,
+    "iters": 2,
+    "max_set": 4,
+    "w_max": 2.0,
+    "eta": 0.02,
+    "rounds_eff": "on",
+    "alpha_p": 0.1,
+    "tau_attr": 3.0,
+    "stat": "flow",
+    "cap": 0.3,
+    "tau": 3.0,
+    "tau_mode": "fixed",
+    "tau_margin": 1.0,
+    "m": 0,
+    "zmode": "std",
+    "delta_min": 0.1,
+    "op": "subtract",
+    "kd_steps": 30,
+    "kd_lr": 0.01,
+    "purify_on": "sim",
+    "lams": [
+      0.25,
+      0.5,
+      0.75,
+      1,
+      1.5,
+      2,
+      3,
+      4,
+      6,
+      8
+    ],
+    "z_target": 3.0,
+    "pair_src": "act",
+    "w_mode": "uniform",
+    "min_act": 10,
+    "max_purify": 2,
+    "polish": "none",
+    "rep_steps": 50,
+    "rep_lr": 0.01,
+    "rep_bs": 128,
+    "rep_every": 0,
+    "rep_stop": 1.0,
+    "mia_n": 1000,
+    "seed": 523,
+    "split_seed": 523,
+    "non_iid": true,
+    "non_iid_type": "class_owner",
+    "alpha": 1,
+    "sigma": 1,
+    "shift_ratio": 0.4,
+    "owner_client": -1,
+    "owner_class": 3,
+    "owner_frac": 0.9,
+    "train_epoch": 100,
+    "batch_size": 64,
+    "noise_thread": 0.04,
+    "atk_eps": 1.0,
+    "n_gpu": 1,
+    "out": null,
+    "resume": true
+  },
+  "K": 8,
+  "roles": {
+    "0": "carrier",
+    "1": "carrier",
+    "2": "carrier",
+    "3": "carrier",
+    "4": "suppressor",
+    "5": "benign",
+    "6": "benign",
+    "7": "benign"
+  },
+  "before": {
+    "acc": 93.19,
+    "asr": 6.61
+  },
+  "results": {
+    "4": {
+      "role": "suppressor",
+      "decision": "purified(antidote)",
+      "attr": {
+        "N": 1000,
+        "mag": 11.0305,
+        "conc": {
+          "class": 1,
+          "gain": 3.7045,
+          "src_div": 0.9572,
+          "score": 3.5458
+        },
+        "cancel": {
+          "ratio": 0.4721,
+          "set": [
+            7,
+            2,
+            0,
+            3
+          ],
+          "w": {
+            "7": 0.6999,
+            "2": 2.0,
+            "0": 2.0,
+            "3": 1.9192
+          },
+          "hist": [
+            0.6238,
+            0.5784,
+            0.554,
+            0.5279
+          ],
+          "set_roles": [
+            "benign",
+            "carrier",
+            "carrier",
+            "carrier"
+          ]
+        },
+        "set": [
+          7,
+          2,
+          0,
+          3
+        ],
+        "w": {
+          "7": 0.6999,
+          "2": 2.0,
+          "0": 2.0,
+          "3": 1.9192
+        },
+        "where": {
+          "n_pos": 884,
+          "frac_pos": 0.884,
+          "energy_public": 30253.6953,
+          "energy_forget": 32076.6191,
+          "frac_in_forget": 0.5146
+        },
+        "anti": 0.3856,
+        "c_star": 1,
+        "pvals": {
+          "mag": 0.125,
+          "conc": 0.125,
+          "cancel": 0.125,
+          "anti": 0.375
+        },
+        "z": {
+          "mag": 3.3,
+          "conc": 6.55,
+          "cancel": 2.11,
+          "anti": 0.49
+        },
+        "fisher_stat": 14.438,
+        "fisher_p": 0.071,
+        "flagged": true,
+        "set_precision": 0.75,
+        "set_recall": 0.75,
+        "population": {
+          "0": {
+            "mag": 0.6492,
+            "conc": 0.1294,
+            "conc_class": 1,
+            "cancel": 0.1878,
+            "set": [
+              4,
+              1,
+              3
+            ],
+            "anti": 0.1207
+          },
+          "1": {
+            "mag": 0.9971,
+            "conc": 0.1946,
+            "conc_class": 2,
+            "cancel": 0.1317,
+            "set": [
+              5,
+              7,
+              0
+            ],
+            "anti": 0.3279
+          },
+          "2": {
+            "mag": 0.5137,
+            "conc": 0.0309,
+            "conc_class": 7,
+            "cancel": 0.2028,
+            "set": [
+              4
+            ],
+            "anti": 0.3252
+          },
+          "3": {
+            "mag": 0.9362,
+            "conc": 0.4043,
+            "conc_class": 4,
+            "cancel": 0.1751,
+            "set": [
+              5,
+              7
+            ],
+            "anti": 0.3652
+          },
+          "4": {
+            "mag": 11.0305,
+            "conc": 3.5458,
+            "conc_class": 1,
+            "cancel": 0.4721,
+            "set": [
+              7,
+              2,
+              0,
+              3
+            ],
+            "anti": 0.3856
+          },
+          "5": {
+            "mag": 2.9815,
+            "conc": 1.193,
+            "conc_class": 8,
+            "cancel": 0.3806,
+            "set": [
+              7,
+              3,
+              1,
+              2
+            ],
+            "anti": 0.4288
+          },
+          "6": {
+            "mag": 3.2642,
+            "conc": 1.1566,
+            "conc_class": 8,
+            "cancel": 0.4194,
+            "set": [
+              7,
+              3,
+              2,
+              1
+            ],
+            "anti": 0.4752
+          },
+          "7": {
+            "mag": 9.0357,
+            "conc": 0.6326,
+            "conc_class": 8,
+            "cancel": 0.4238,
+            "set": [
+              4,
+              3,
+              1
+            ],
+            "anti": 0.2419
+          }
+        }
+      },
+      "confirm": {
+        "trace": [
+          {
+            "delta": 1.0,
+            "removed": 1.0,
+            "h": 0.022,
+            "n_healthy": 7,
+            "stat": 0.2002,
+            "to_class": 8,
+            "src_div": 0.9442,
+            "z": 10.16,
+            "tau": 3.0,
+            "flagged": true,
+            "repaired": true,
+            "hard_collapse": false,
+            "how": "antidote"
+          }
+        ],
+        "removed": 1.0,
+        "aborted": false,
+        "flagged": true
+      },
+      "purify": [
+        {
+          "c_star": 8,
+          "c_star_attr": 1,
+          "class_match": false,
+          "n_act": 212,
+          "variants": [
+            {
+              "lam": 0.25,
+              "z": 3.22,
+              "health": 0.0051
+            },
+            {
+              "lam": 0.5,
+              "z": 0.46,
+              "health": 0.019
+            }
+          ],
+          "pair_act": {
+            "n_act": 212,
+            "eps2": 0.5,
+            "rule": "gap",
+            "ratio": 0.7987,
+            "set": [
+              0,
+              3,
+              1,
+              2
+            ],
+            "w": {
+              "0": 2.0,
+              "3": 2.0,
+              "1": 0.1975,
+              "2": 0.0
+            },
+            "set_roles": [
+              "carrier",
+              "carrier",
+              "carrier",
+              "carrier"
+            ],
+            "forward": {
+              "ratio": 0.7987,
+              "set": [
+                1,
+                0,
+                3
+              ],
+              "w": {
+                "1": 0.1975,
+                "0": 2.0,
+                "3": 2.0
+              },
+              "hist": [
+                0.3582,
+                0.2098,
+                0.2013
+              ]
+            },
+            "collapsed": [],
+            "iters": [
+              {
+                "iter": 2,
+                "n_inputs": 212,
+                "set": [
+                  0,
+                  3,
+                  1,
+                  2
+                ],
+                "ratio": 0.7987
+              }
+            ],
+            "set_precision": 1.0,
+            "set_recall": 1.0,
+            "align": {
+              "0": -0.893,
+              "1": -0.879,
+              "2": -0.878,
+              "3": -0.888,
+              "5": 0.307,
+              "6": 0.034,
+              "7": 0.878
+            }
+          },
+          "set_agree": 0.6,
+          "set": [
+            0,
+            3,
+            1,
+            2
+          ],
+          "w": {
+            "0": 1.0,
+            "3": 1.0,
+            "1": 1.0,
+            "2": 1.0
+          },
+          "set_roles": [
+            "carrier",
+            "carrier",
+            "carrier",
+            "carrier"
+          ],
+          "frac_of_partner": {
+            "0": 0.0501,
+            "3": 0.0541,
+            "1": 0.0568,
+            "2": 0.0521
+          },
+          "cos_Uk_h": -0.0163,
+          "chosen_lam": 0.5
+        }
+      ],
+      "final": {
+        "acc": 87.73,
+        "retain_change": 7.88,
+        "alpha": 0.0004,
+        "asr": 9.07,
+        "forget_acc": 89.33
+      },
+      "cost": {
+        "attr_forwards": 71,
+        "pop_models": 8,
+        "forwards": 15,
+        "seconds": 0.6
+      }
+    },
+    "7": {
+      "role": "benign",
+      "decision": "accept(confirm)",
+      "attr": {
+        "N": 1000,
+        "mag": 9.3288,
+        "conc": {
+          "class": 8,
+          "gain": 1.4291,
+          "src_div": 0.6229,
+          "score": 0.8902
+        },
+        "cancel": {
+          "ratio": 0.2604,
+          "set": [
+            6,
+            1,
+            3
+          ],
+          "w": {
+            "6": 1.4747,
+            "1": 2.0,
+            "3": 2.0
+          },
+          "hist": [
+            0.8459,
+            0.7837,
+            0.7396
+          ],
+          "set_roles": [
+            "benign",
+            "carrier",
+            "carrier"
+          ]
+        },
+        "set": [
+          6,
+          1,
+          3
+        ],
+        "w": {
+          "6": 1.4747,
+          "1": 2.0,
+          "3": 2.0
+        },
+        "where": {
+          "n_pos": 932,
+          "frac_pos": 0.932,
+          "energy_public": 12487.6934,
+          "energy_forget": 10617.6133,
+          "frac_in_forget": 0.4595
+        },
+        "anti": 0.2171,
+        "c_star": 8,
+        "pvals": {
+          "mag": 0.25,
+          "conc": 0.5,
+          "cancel": 0.5,
+          "anti": 0.875
+        },
+        "z": {
+          "mag": 2.29,
+          "conc": 0.42,
+          "cancel": 0.12,
+          "anti": -1.71
+        },
+        "fisher_stat": 5.812,
+        "fisher_p": 0.6683,
+        "flagged": false,
+        "set_precision": 0.667,
+        "set_recall": 0.5,
+        "population": {
+          "0": {
+            "mag": 0.6464,
+            "conc": 0.1109,
+            "conc_class": 1,
+            "cancel": 0.2247,
+            "set": [
+              4,
+              1
+            ],
+            "anti": 0.1872
+          },
+          "1": {
+            "mag": 0.9396,
+            "conc": 0.1858,
+            "conc_class": 2,
+            "cancel": 0.0989,
+            "set": [
+              7,
+              5
+            ],
+            "anti": 0.3874
+          },
+          "2": {
+            "mag": 0.5273,
+            "conc": 0.0306,
+            "conc_class": 5,
+            "cancel": 0.2499,
+            "set": [
+              4
+            ],
+            "anti": 0.3252
+          },
+          "3": {
+            "mag": 0.8776,
+            "conc": 0.3736,
+            "conc_class": 4,
+            "cancel": 0.1749,
+            "set": [
+              5,
+              7,
+              0
+            ],
+            "anti": 0.2546
+          },
+          "4": {
+            "mag": 10.7791,
+            "conc": 3.4941,
+            "conc_class": 6,
+            "cancel": 0.3005,
+            "set": [
+              7,
+              0,
+              2,
+              3
+            ],
+            "anti": 0.3697
+          },
+          "5": {
+            "mag": 2.7127,
+            "conc": 1.1258,
+            "conc_class": 8,
+            "cancel": 0.3011,
+            "set": [
+              3,
+              7,
+              2,
+              1
+            ],
+            "anti": 0.4026
+          },
+          "6": {
+            "mag": 2.977,
+            "conc": 1.0529,
+            "conc_class": 8,
+            "cancel": 0.368,
+            "set": [
+              7,
+              2,
+              3,
+              1
+            ],
+            "anti": 0.4393
+          },
+          "7": {
+            "mag": 9.3288,
+            "conc": 0.8902,
+            "conc_class": 8,
+            "cancel": 0.2604,
+            "set": [
+              6,
+              1,
+              3
+            ],
+            "anti": 0.2171
+          }
+        }
+      },
+      "confirm": {
+        "trace": [
+          {
+            "delta": 1.0,
+            "removed": 1.0,
+            "h": 0.022,
+            "n_healthy": 7,
+            "stat": 0.0727,
+            "to_class": 8,
+            "src_div": 0.4203,
+            "z": 0.8,
+            "tau": 3.0,
+            "flagged": false,
+            "repaired": false,
+            "hard_collapse": false
+          }
+        ],
+        "removed": 1.0,
+        "aborted": false,
+        "flagged": false
+      },
+      "purify": [],
+      "final": {
+        "acc": 83.36,
+        "retain_change": 12.15,
+        "alpha": 0.0,
+        "asr": 22.86,
+        "forget_acc": 50.32
+      },
+      "cost": {
+        "attr_forwards": 64,
+        "pop_models": 0,
+        "forwards": 7,
+        "seconds": 0.5
+      }
+    },
+    "5": {
+      "role": "benign",
+      "decision": "accept(confirm)",
+      "attr": {
+        "N": 1000,
+        "mag": 3.0807,
+        "conc": {
+          "class": 8,
+          "gain": 1.272,
+          "src_div": 0.9677,
+          "score": 1.2308
+        },
+        "cancel": {
+          "ratio": 0.3988,
+          "set": [
+            7,
+            3,
+            1,
+            2
+          ],
+          "w": {
+            "7": 0.15,
+            "3": 1.1133,
+            "1": 0.5964,
+            "2": 1.0836
+          },
+          "hist": [
+            0.8162,
+            0.6723,
+            0.6305,
+            0.6012
+          ],
+          "set_roles": [
+            "benign",
+            "carrier",
+            "carrier",
+            "carrier"
+          ]
+        },
+        "set": [
+          7,
+          3,
+          1,
+          2
+        ],
+        "w": {
+          "7": 0.15,
+          "3": 1.1133,
+          "1": 0.5964,
+          "2": 1.0836
+        },
+        "where": {
+          "n_pos": 720,
+          "frac_pos": 0.72,
+          "energy_public": 1787.356,
+          "energy_forget": 2509.5256,
+          "frac_in_forget": 0.584
+        },
+        "anti": 0.4436,
+        "c_star": 8,
+        "pvals": {
+          "mag": 0.5,
+          "conc": 0.25,
+          "cancel": 0.5,
+          "anti": 0.25
+        },
+        "z": {
+          "mag": 0.47,
+          "conc": 0.66,
+          "cancel": 1.26,
+          "anti": 0.93
+        },
+        "fisher_stat": 8.318,
+        "fisher_p": 0.4031,
+        "flagged": false,
+        "set_precision": 0.75,
+        "set_recall": 0.75,
+        "population": {
+          "0": {
+            "mag": 0.6337,
+            "conc": 0.1282,
+            "conc_class": 1,
+            "cancel": 0.1785,
+            "set": [
+              4,
+              1,
+              3
+            ],
+            "anti": 0.1068
+          },
+          "1": {
+            "mag": 0.9929,
+            "conc": 0.2003,
+            "conc_class": 2,
+            "cancel": 0.1293,
+            "set": [
+              5,
+              7,
+              0
+            ],
+            "anti": 0.3122
+          },
+          "2": {
+            "mag": 0.5092,
+            "conc": 0.0283,
+            "conc_class": 7,
+            "cancel": 0.2151,
+            "set": [
+              4
+            ],
+            "anti": 0.3323
+          },
+          "3": {
+            "mag": 0.9451,
+            "conc": 0.3927,
+            "conc_class": 4,
+            "cancel": 0.1833,
+            "set": [
+              5,
+              7
+            ],
+            "anti": 0.3664
+          },
+          "4": {
+            "mag": 11.2397,
+            "conc": 3.6438,
+            "conc_class": 1,
+            "cancel": 0.4744,
+            "set": [
+              7,
+              2,
+              3,
+              0
+            ],
+            "anti": 0.388
+          },
+          "5": {
+            "mag": 3.0807,
+            "conc": 1.2308,
+            "conc_class": 8,
+            "cancel": 0.3988,
+            "set": [
+              7,
+              3,
+              1,
+              2
+            ],
+            "anti": 0.4436
+          },
+          "6": {
+            "mag": 3.3174,
+            "conc": 1.1846,
+            "conc_class": 8,
+            "cancel": 0.4316,
+            "set": [
+              7,
+              3,
+              2,
+              1
+            ],
+            "anti": 0.4791
+          },
+          "7": {
+            "mag": 9.0265,
+            "conc": 0.6699,
+            "conc_class": 8,
+            "cancel": 0.4221,
+            "set": [
+              4,
+              1,
+              3
+            ],
+            "anti": 0.2311
+          }
+        }
+      },
+      "confirm": {
+        "trace": [
+          {
+            "delta": 1.0,
+            "removed": 1.0,
+            "h": 0.024,
+            "n_healthy": 7,
+            "stat": 0.0162,
+            "to_class": 8,
+            "src_div": 0.8501,
+            "z": 0.17,
+            "tau": 3.0,
+            "flagged": false,
+            "repaired": false,
+            "hard_collapse": false
+          }
+        ],
+        "removed": 1.0,
+        "aborted": false,
+        "flagged": false
+      },
+      "purify": [],
+      "final": {
+        "acc": 92.43,
+        "retain_change": 2.76,
+        "alpha": 0.0,
+        "asr": 11.97,
+        "forget_acc": 93.79
+      },
+      "cost": {
+        "attr_forwards": 64,
+        "pop_models": 0,
+        "forwards": 7,
+        "seconds": 0.4
+      }
+    }
+  }
+}
