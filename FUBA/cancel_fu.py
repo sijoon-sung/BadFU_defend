@@ -1,29 +1,21 @@
 # -*- coding: utf-8 -*-
-"""상쇄 짝 찾기 절차 (docs/paper/METHOD.md). 질문은 '지우면 나빠지나'가 아니라 '요청자가 누구의 기여를 지우고 있었나'다.
+"""상쇄 귀속 절차 (docs/paper/METHOD.md v3). 요청 하나를 "어디서·누가" 문제 하나로 푼다.
 
 공격의 정의: 입력 집합 X* 위에서 요청자 k 의 기여와 짝 S 의 기여가 서로 지운다.  J_{X*}(U_k + Σ_{j∈S} w_j U_j) ≈ 0.
-짝은 X* 위에서만 보인다 (로컬 확인). BadFU 는 X* 를 요청자가 '지울 데이터'로 넘겨주고, FUBA 는 X* 를 서버가 모르므로
-요청자를 빼서 활성화된 입력 X_act 위에서 찾는다. 그래서 두 번 찾는다.
-
-요청 (k, 지울 데이터 X_f) 마다
-  1 짝 찾기 (저장된 기여만, θ_T 에서, X = X_p ∪ X_f)            모델 생성 0, 순전파 K
-      Ẽ_j = 중심화[ (log p(θ_T − εU_j) − log p(θ_T)) / ε ]    (입력 × 클래스)
-      w = argmin_{0≤w≤w_max, |S|≤r} ‖Ẽ_k + Σ_{j∈S} w_j Ẽ_j‖²   (전진 선택 + 상자 제약 최소제곱, 그램 행렬 위)
-      통계: 상쇄 비율 c(k), 타깃 몰림 g(k), 크기 m(k), 라운드 반대 정렬 a(k) → 모든 클라이언트에 같이 계산, conformal p, Fisher.
-      BadFU: c(k) 가 가른다 (짝이 X_f 에 있음). FUBA: g(k)·m(k) 가 가른다 (억제가 공개 입력으로 새어 나옴).
-  2 빼 보기 (가상 제거, 모델 버전당 K 개 공유)
-      요청자를 (모두가 견디는 양만큼) 빼고 남들을 같은 양 뺀 모집단과 비교 (flow z). 활성화 입력 X_act, 활성화 클래스 c*.
-  2' 활성화 위 짝 찾기 (θ' = θ_T − ρU_k 에서, X_act 위)            순전파 K−1
-      활성화 A = log p_k − log p_ref,  Ẽ'_j = 중심화[ (log p(θ' − εU_j) − log p(θ')) / ε ]
-      w' = argmin ‖A + Σ_{j∈S'} w'_j Ẽ'_j‖²  → 짝 S', 가중치 w'.  1 단계 짝과의 일치를 기록.
-  3 정화 (짝에서)
-      h = ∇_θ mean_{x∈X_act} log p(c*|x; θ'),  θ'' = θ' − λ Σ_{j∈S'} w'_j proj_h(U_j).  U_k 는 되살리지 않는다 (α≈0).
-      λ 는 띠 안에 드는 최소값. --polish kd_orth: U_k 에 직교한 짧은 증류로 정확도 회복 (α 그대로).
+서버가 푸는 것 (목적식 하나):
+    max_{ω, S, w}  Σ_x ω(x) · [ ‖Ẽ_k[x]‖² − ‖Ẽ_k[x] + Σ_{j∈S} w_j Ẽ_j[x]‖² ]      (|S| 작게)
+    ω = 어디서 (입력 가중치), (S, w) = 누가 (짝과 가중치), Ẽ_j = 기여 j 의 기능 효과 (입력 × 클래스, 선형화).
+풀이는 교대 반복: ω 를 고정하고 (S, w) 를 상자 제약 최소제곱으로, (S, w) 를 고정하고 ω 를 상쇄 에너지로.
+    회전 1  ω⁰ = 공개 입력 ∪ 요청자가 낸 데이터, θ_T 에서. 짝 S¹, 타깃 c¹, 상쇄가 사는 입력 X̂¹ (어느 쪽에 사는지: 공개 / 지울 데이터).
+    회전 2  요청자를 실제로 빼서(가상 제거, 비선형 확인) 반응한 입력 X_act 로 ω 를 갱신, θ' 에서 짝 S².
+    회전 3+ (선택, --iters) X_act 안에서 상쇄 에너지가 양수인 입력만 남기고 S 를 다시 푼다. 바뀌지 않으면 멈춤.
+    정화    찾은 (ω, S, w) 가 곧 '지워진 성분'. h = ∇_θ mean_{x∈X_act} log p(c*|x; θ'), θ'' = θ' − λ Σ_{j∈S} proj_h(U_j). U_k 는 되살리지 않는다.
+BadFU 는 회전 1 에서 수렴하고(상쇄가 지울 데이터에 산다), FUBA 는 회전 2 에서 수렴한다(상쇄가 활성화된 공개 입력에 산다). 같은 반복의 수렴 속도 차이다.
 
 실행 예
   python cancel_fu.py --fmt fuba --name loc_fuba --K 8 --rounds 8 --requesters 4 7 5
   python cancel_fu.py --fmt badfu --name loc_badfu --traj_dir ... --defender 5 --attackers 0 --target 0 --requesters 5 1 2 --op kd
-출력: logs/cancel/{name}.json
+출력: logs/cancel/{name}.json  (요청별 attr = 회전 1, purify[].pair_act = 회전 2+, final = 채점)
 """
 import argparse
 import json
@@ -77,6 +69,7 @@ def parse():
     p.add_argument("--set_rule", choices=["gap", "thr", "forward"], default="gap",
                    help="2' 단계 짝 집합: gap = 정렬을 오름차순으로 늘어놓고 가장 큰 간격에서 잘라 아래쪽 전부 (FUBA: −0.88|+0.67, BadFU: −0.90|−0.60; 깊은 망은 누굴 빼도 조금씩 음수라 고정 문턱이 안 맞음) / thr = 정렬 ≤ −align_min 전부 / forward = 전진 선택(희소)")
     p.add_argument("--align_min", type=float, default=0.3, help="gap·thr 규칙에서 짝이 되려면 정렬 ≤ −align_min")
+    p.add_argument("--iters", type=int, default=2, help="교대 반복 횟수. 2 = 회전 1(저장 기여) + 회전 2(활성화 입력). 3 이상은 X_act 안에서 상쇄 에너지로 ω 를 정련")
     p.add_argument("--max_set", type=int, default=4, help="짝 집합 크기 상한 r")
     p.add_argument("--w_max", type=float, default=2.0, help="짝 가중치 상한")
     p.add_argument("--eta", type=float, default=0.02, help="전진 선택 멈춤: 잔차 개선이 이 비율보다 작으면")
@@ -398,10 +391,20 @@ def main():
         zz = {s: round(robust_z(stats[s][k], [stats[s][j] for j in clients if j != k], a.zmode), 2) for s in stats}
         fs, fp = fisher(list(pv.values()))
         S, w = list(canc[k]["set"]), dict(canc[k]["w"])
+        # 어디서: 입력별 상쇄 에너지 e(x) = ‖Ẽ_k[x]‖² − ‖Ẽ_k[x] + Σ w_j Ẽ_j[x]‖²  (양수인 입력이 X̂¹)
+        R = Ec[k] + (sum(w[j] * Ec[j] for j in S) if S else 0)
+        energy = (Ec[k] ** 2).sum(1) - (R ** 2).sum(1)
+        pos = energy > 0
+        n_pub = xs.shape[0]
+        where = {"n_pos": int(pos.sum()), "frac_pos": round(float(pos.float().mean()), 4),
+                 "energy_public": round(float(energy[:n_pub].clamp_min(0).sum()), 4),
+                 "energy_forget": round(float(energy[n_pub:].clamp_min(0).sum()), 4) if N > n_pub else None}
+        if N > n_pub and (where["energy_public"] + where["energy_forget"]) > 0:
+            where["frac_in_forget"] = round(where["energy_forget"] / (where["energy_public"] + where["energy_forget"]), 4)
         flagged = (fp <= a.alpha_p) or any(v > a.tau_attr for v in zz.values())
         prec = round(sum(1 for j in S if j in carriers_true) / len(S), 3) if S else None
         rec = round(sum(1 for j in S if j in carriers_true) / len(carriers_true), 3) if carriers_true else None
-        info = {"N": N, "mag": mag[k], "conc": conc[k], "cancel": canc[k], "set": S, "w": w, "anti": (anti[k] if anti else None),
+        info = {"N": N, "mag": mag[k], "conc": conc[k], "cancel": canc[k], "set": S, "w": w, "where": where, "anti": (anti[k] if anti else None),
                 "c_star": conc[k]["class"], "pvals": pv, "z": zz, "fisher_stat": round(fs, 3), "fisher_p": round(fp, 4), "flagged": bool(flagged),
                 "set_precision": prec, "set_recall": rec,
                 "population": {j: {"mag": mag[j], "conc": conc[j]["score"], "conc_class": conc[j]["class"], "cancel": canc[j]["ratio"],
@@ -446,26 +449,54 @@ def main():
             b[i] = float(V[ii] @ av)
             for jj, j in enumerate(cands):
                 G_full[i, j] = float(V[ii] @ V[jj])
-        base = float(av @ av)
-        align = {j: round(float(b[j] / math.sqrt(max(G_full[j, j], 1e-12)) / max(math.sqrt(base), 1e-12)), 3) for j in cands}
-        cr_fs, S_fs, w_fs, hist = forward_select(G_full, b, base, cands, a.max_set, a.w_max, a.eta)
-        S_sel = []
-        if a.set_rule == "thr":
-            S_sel = [j for j in cands if align[j] <= -a.align_min]
-        elif a.set_rule == "gap" and len(cands) >= 2:
-            order = sorted(cands, key=lambda j: align[j])
-            gaps = [align[order[i + 1]] - align[order[i]] for i in range(len(order) - 1)]
-            cut = int(np.argmax(gaps))
-            S_sel = [j for j in order[:cut + 1] if align[j] <= -a.align_min]
-        if S_sel:
-            w_sel = box_nnls(G_full, b, S_sel, a.w_max)
-            S, w, cr, rule = S_sel, {j: round(w_sel[j], 4) for j in S_sel}, round(1.0 - resid2(G_full, b, base, w_sel) / base, 4), a.set_rule
-        else:
-            S, w, cr, rule = S_fs, w_fs, cr_fs, "forward"
+        V_all, av_all = V, av
+
+        def solve(sel):
+            """ω 고정(선택된 입력) → (S, w). 돌려줌: 정렬, 집합, 가중치, 상쇄 비율, 규칙."""
+            Vs, avs = V_all[:, sel], av_all[sel]
+            Gm, bv = np.zeros((K, K)), np.zeros(K)
+            for ii, i in enumerate(cands):
+                bv[i] = float(Vs[ii] @ avs)
+                for jj, j in enumerate(cands):
+                    Gm[i, j] = float(Vs[ii] @ Vs[jj])
+            base = float(avs @ avs)
+            align = {j: round(float(bv[j] / math.sqrt(max(Gm[j, j], 1e-12)) / max(math.sqrt(base), 1e-12)), 3) for j in cands}
+            cr_fs, S_fs, w_fs, hist = forward_select(Gm, bv, base, cands, a.max_set, a.w_max, a.eta)
+            S_sel = []
+            if a.set_rule == "thr":
+                S_sel = [j for j in cands if align[j] <= -a.align_min]
+            elif a.set_rule == "gap" and len(cands) >= 2:
+                order = sorted(cands, key=lambda j: align[j])
+                gaps = [align[order[i + 1]] - align[order[i]] for i in range(len(order) - 1)]
+                cut = int(np.argmax(gaps))
+                S_sel = [j for j in order[:cut + 1] if align[j] <= -a.align_min]
+            if S_sel:
+                w_sel = box_nnls(Gm, bv, S_sel, a.w_max)
+                return align, S_sel, {j: round(w_sel[j], 4) for j in S_sel}, round(1.0 - resid2(Gm, bv, base, w_sel) / base, 4), a.set_rule, {"ratio": cr_fs, "set": S_fs, "w": w_fs, "hist": hist}
+            return align, S_fs, w_fs, cr_fs, "forward", {"ratio": cr_fs, "set": S_fs, "w": w_fs, "hist": hist}
+
+        sel = np.ones(len(av_all), dtype=bool)
+        align, S, w, cr, rule, fwd = solve(sel)
+        history = [{"iter": 2, "n_inputs": int(sel.sum()), "set": list(S), "ratio": cr}]
+        for it in range(3, a.iters + 1):                                  # 회전 3+: (S, w) 고정 → ω 를 상쇄 에너지로 정련 → 다시 (S, w)
+            if not S:
+                break
+            resid = av_all + sum(w[j] * V_all[cands.index(j)] for j in S)
+            energy = av_all ** 2 - resid ** 2
+            new_sel = energy > 0
+            if new_sel.sum() < a.min_act or np.array_equal(new_sel, sel):
+                break
+            sel = new_sel
+            align2, S2, w2, cr2, rule2, fwd2 = solve(sel)
+            history.append({"iter": it, "n_inputs": int(sel.sum()), "set": list(S2), "ratio": cr2})
+            changed = set(S2) != set(S)
+            align, S, w, cr, rule, fwd = align2, S2, w2, cr2, rule2, fwd2
+            if not changed:
+                break
         prec = round(sum(1 for j in S if j in carriers_true) / len(S), 3) if S else None
         rec = round(sum(1 for j in S if j in carriers_true) / len(carriers_true), 3) if carriers_true else None
         return {"n_act": int(act_idx.numel()), "eps2": round(eps2, 4), "rule": rule, "ratio": cr, "set": S, "w": w, "set_roles": [roles[j] for j in S],
-                "forward": {"ratio": cr_fs, "set": S_fs, "w": w_fs, "hist": hist}, "collapsed": collapsed,
+                "forward": fwd, "collapsed": collapsed, "iters": history,
                 "set_precision": prec, "set_recall": rec, "align": align}
 
     def evalm(theta, theta_plain, k):
@@ -559,8 +590,8 @@ def main():
         r = {"role": roles[k], "decision": None}
         attr = attribute(k)
         r["attr"] = attr
-        print(f"  [{k} {roles[k]}] 1 짝 찾기: 짝 {attr['set']} {attr['cancel']['set_roles']} w {attr['w']} 상쇄 {attr['cancel']['ratio']} "
-              f"타깃 {attr['c_star']} 몰림 {attr['conc']['score']} 크기 {attr['mag']} 반대정렬 {attr['anti']} | p {attr['pvals']} Fisher {attr['fisher_p']} z {attr['z']} → {'경보' if attr['flagged'] else '통과'}", flush=True)
+        print(f"  [{k} {roles[k]}] 회전 1 (저장 기여): 짝 {attr['set']} {attr['cancel']['set_roles']} w {attr['w']} 상쇄 {attr['cancel']['ratio']} "
+              f"타깃 {attr['c_star']} 몰림 {attr['conc']['score']} 크기 {attr['mag']} 반대정렬 {attr['anti']} 어디서 {attr['where']} | p {attr['pvals']} Fisher {attr['fisher_p']} z {attr['z']} → {'경보' if attr['flagged'] else '통과'}", flush=True)
         theta, removed, trace, base_id, next_id = tT.clone(), 0.0, [], 0, 1
         aborted, purifies, hows, failed, sim_flag = False, [], [], False, False
         while removed < 1 - 1e-9:
@@ -631,11 +662,11 @@ def main():
         with open(out, "w", encoding="utf-8") as f:
             json.dump(res, f, ensure_ascii=False, indent=2)
         fin = r["final"]
-        print(f"  [{k} {roles[k]}] 2 빼 보기: " + " ".join(fmt_step(dict(s, z_cum=None)) for s in trace) + (" ABORT" if aborted else ""), flush=True)
+        print(f"  [{k} {roles[k]}] 빼 보기 (비선형 확인): " + " ".join(fmt_step(dict(s, z_cum=None)) for s in trace) + (" ABORT" if aborted else ""), flush=True)
         for p_ in purifies:
             p2 = p_.get("pair_act")
             if p2:
-                print(f"    2' 활성화 위 짝: {p2['set']} {p2['set_roles']} w {p2['w']} 상쇄 {p2['ratio']} 정렬 {p2['align']} (1 단계 짝과 일치 {p_['set_agree']}, 클래스 {p_['c_star_attr']}/{p_['c_star']}) 변형 {p_['variants']}"
+                print(f"    회전 2+ (활성화 입력): 짝 {p2['set']} {p2['set_roles']} w {p2['w']} 상쇄 {p2['ratio']} 정렬 {p2['align']} 반복 {p2['iters']} (회전 1 과 일치 {p_['set_agree']}, 클래스 {p_['c_star_attr']}/{p_['c_star']}) 변형 {p_['variants']}"
                       f"  λ {p_.get('chosen_lam')}" + (f"  polish {p_['polish']}" if p_.get("polish") else ""), flush=True)
         print(f"    → {decision}: ASR {fin.get('asr')} ACC {fin['acc']} retain {fin['retain_change']} α {fin['alpha']} 자기데이터 {fin.get('forget_acc')} "
               f"| 순전파 짝 {r['cost']['attr_forwards']} 빼보기 {r['cost']['forwards']} 모델 {r['cost']['pop_models']} {r['cost']['seconds']}s", flush=True)
