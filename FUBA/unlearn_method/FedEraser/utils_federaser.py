@@ -9,8 +9,14 @@ import torch.optim as optim
 from model import UNet,MNISTAutoencoder
 from dataset import MyImagenet
 from torch.utils.data import Subset
-from potential_defence import federated_averaging_enforce_training, federated_averaging_topk
 from utils.dba_attack_utils import add_backdoor_1,add_backdoor_2,add_backdoor_3,add_backdoor_4,add_backdoor_all
+try:
+    from potential_defence import federated_averaging_enforce_training, federated_averaging_topk
+except ImportError:
+    try:
+        from legacy.potential_defence import federated_averaging_enforce_training, federated_averaging_topk
+    except ImportError:
+        federated_averaging_enforce_training = federated_averaging_topk = None
 
 DEFENDER_MODEL_BASE = 0
 DEFENDER_ONE_STAGE = 1
