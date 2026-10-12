@@ -37,6 +37,8 @@
     "delta_min": 0.1,
     "sim": "",
     "margin": 0.2,
+    "mode": "ranked",
+    "patience": 2,
     "max_set": 0,
     "force": false,
     "exhaust": false,
@@ -65,8 +67,8 @@
   },
   "sim": [],
   "before": {
-    "acc": 95.32,
-    "asr": 5.25
+    "acc": 95.23,
+    "asr": 5.22
   },
   "results": {
     "4+5": {
@@ -79,43 +81,43 @@
         "benign"
       ],
       "flagged": true,
-      "a0": 0.552,
-      "z0": 67.34,
+      "a0": 0.528,
+      "z0": 55.86,
       "map": {
         "0": {
-          "a": 0.338,
-          "delta": 0.214,
+          "a": 0.304,
+          "delta": 0.224,
           "z_single": 0.0,
           "role": "carrier"
         },
         "1": {
-          "a": 0.336,
-          "delta": 0.216,
-          "z_single": -0.24,
+          "a": 0.324,
+          "delta": 0.204,
+          "z_single": 0.0,
           "role": "carrier"
         },
         "2": {
-          "a": 0.282,
-          "delta": 0.27,
+          "a": 0.278,
+          "delta": 0.25,
           "z_single": 0.0,
           "role": "carrier"
         },
         "3": {
-          "a": 0.248,
-          "delta": 0.304,
-          "z_single": -0.24,
+          "a": 0.232,
+          "delta": 0.296,
+          "z_single": 0.0,
           "role": "carrier"
         },
         "6": {
-          "a": 0.808,
-          "delta": -0.256,
-          "z_single": 2.97,
+          "a": 0.792,
+          "delta": -0.264,
+          "z_single": 1.79,
           "role": "benign"
         },
         "7": {
-          "a": 0.846,
-          "delta": -0.294,
-          "z_single": 1.83,
+          "a": 0.832,
+          "delta": -0.304,
+          "z_single": 2.8,
           "role": "benign"
         }
       },
@@ -128,23 +130,23 @@
       "trajectory": [
         {
           "set": [],
-          "a": 0.552,
-          "z": 67.34
+          "a": 0.528,
+          "z": 55.86
         },
         {
           "set": [
             3
           ],
-          "a": 0.248,
-          "z": 29.98
+          "a": 0.232,
+          "z": 24.3
         },
         {
           "set": [
             3,
             2
           ],
-          "a": 0.102,
-          "z": 12.04
+          "a": 0.112,
+          "z": 11.51
         },
         {
           "set": [
@@ -153,7 +155,17 @@
             0
           ],
           "a": 0.04,
-          "z": 4.42
+          "z": 3.84
+        },
+        {
+          "set": [
+            3,
+            2,
+            0,
+            1
+          ],
+          "a": 0.054,
+          "z": 5.33
         }
       ],
       "auroc_carrier": 1.0,
@@ -162,19 +174,19 @@
       "carrier_recall": 0.75,
       "eval": {
         "request_only": {
-          "acc": 46.28,
-          "retain_change": 52.48,
-          "asr": 87.19
+          "acc": 48.65,
+          "retain_change": 50.05,
+          "asr": 85.12
         },
         "request+carriers": {
-          "acc": 81.81,
-          "retain_change": 16.36,
-          "asr": 11.2
+          "acc": 81.85,
+          "retain_change": 16.23,
+          "asr": 11.58
         },
         "request+carriers+repair": null
       },
       "pop_models": 6,
-      "seconds": 0.8
+      "seconds": 0.7
     }
   }
 }

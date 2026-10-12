@@ -1,5 +1,5 @@
 #!/bin/bash
-# 논문 실험 전체 (docs/paper/ALGORITHMS.md 5 절). run_all.sh 의 단계를 RQ 별로 묶고, 학습 중 방어 변형과 소거를 더한다.
+# 논문 실험 전체 (docs/paper/EXPERIMENT_DESIGN.md 5 절). run_all.sh 의 단계를 RQ 별로 묶고, 학습 중 방어 변형과 소거를 더한다.
 #
 #   bash run_paper.sh                      # 전부 (RQ1~RQ6), CONDS="iid owner", SEEDS="0 1 2"
 #   RQ="1 3" bash run_paper.sh             # 일부만
@@ -16,6 +16,10 @@
 #   tables: paper_tables.py --cond {iid,owner}                             → docs/paper/tables_{cond}.md
 set -euo pipefail
 cd "$(dirname "$0")"
+[ -x ../.venv/Scripts/python.exe ] && export PATH="$(cd .. && pwd)/.venv/Scripts:$PATH"
+[ -d /c/Users/DISLAB/AppData/Local/Programs/Python/Python312/Library/bin ] && export PATH="/c/Users/DISLAB/AppData/Local/Programs/Python/Python312/Library/bin:$PATH"
+[ -d /c/Users/DISLAB/AppData/Local/Programs/Python/Python312 ] && export PATH="/c/Users/DISLAB/AppData/Local/Programs/Python/Python312:/c/Users/DISLAB/AppData/Local/Programs/Python/Python312/Scripts:$PATH"
+export PYTHONIOENCODING=utf-8
 RQ="${RQ:-1 2 3 4 5 6}"
 CONDS="${CONDS:-iid owner}"
 SEEDS="${SEEDS:-0 1 2}"
