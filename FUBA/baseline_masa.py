@@ -63,11 +63,17 @@ def load_rounds(a):
     """라운드별 (직전 전역 모델, [클라 j 의 로컬 모델 또는 None]) 과 모델 공장."""
     if a.fmt == "fuba":
         from model import Net
+        import re
         g, l = [], []
+        name = a.name
+        if not os.path.exists(f"{a.ckpt_dir}/global_net_model_{name}_round_1.pkl"):
+            base_name = re.sub(r"_[a-zA-Z0-9]+(?=_s\d+)", "", name)
+            if os.path.exists(f"{a.ckpt_dir}/global_net_model_{base_name}_round_1.pkl"):
+                name = base_name
         for r in range(1, a.rounds + 1):
-            with open(f"{a.ckpt_dir}/global_net_model_{a.name}_round_{r}.pkl", "rb") as f:
+            with open(f"{a.ckpt_dir}/global_net_model_{name}_round_{r}.pkl", "rb") as f:
                 g.append(pickle.load(f))
-            with open(f"{a.ckpt_dir}/local_net_model_{a.name}_round_{r}.pkl", "rb") as f:
+            with open(f"{a.ckpt_dir}/local_net_model_{name}_round_{r}.pkl", "rb") as f:
                 l.append(pickle.load(f))
         rounds = [(g[r - 2], l[r - 1]) for r in range(2, a.rounds + 1)]
         return Net, rounds
