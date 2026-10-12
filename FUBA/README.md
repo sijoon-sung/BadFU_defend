@@ -15,7 +15,8 @@ FUBA 공격 코드(원 저자) 위에 우리 방어·비교군·러너를 얹은
 ## 우리 방법 (docs/paper/METHOD.md)
 | 파일 | 단계 |
 |---|---|
-| `traj_indicators.py` | A 거름망: 궤적 효과 벡터 지표 (크기·동일부호·일관성·반대 짝) |
+| **`unified_fu.py`** | **한 파일로 전체**: 궤적 지표 → 빼 보기 확정 → 해독제 정화. 결정·수치·비용 기록 |
+| `traj_indicators.py` | A 궤적 지표: 효과 벡터 (크기·동일부호·일관성·반대 짝) |
 | `dose_fu.py` | B 확정: 빼 보기 (같은 양 모집단 비교, 단계·멈춤, 수정). 탐침 = 공개 + 지울 입력 |
 | `antidote.py` | C 정화: 운반자 몫의 백도어 방향 성분만 제거 |
 | `pair_roles.py` | 역할 지도: 운반자 집합·공동 위장자 |
@@ -30,7 +31,7 @@ FUBA 공격 코드(원 저자) 위에 우리 방어·비교군·러너를 얹은
 | `baseline_masa.py` | MASA (proxy) |
 | `baseline_subid.py` | SubID 식 부분공간 잔차 (proxy) |
 | `latent_risk.py` | 가중치 전용 지도 |
-| `release_map.py`, `progressive_fu.py` | 이전 탐지 판 (빼 보기 ρ 스윕, 진행형 FU). `release_map` 은 공용 부품(로더·앙상블·탐색)도 제공 |
+| `release_map.py` | 공용 부품(로더·앙상블·탐색) + 이전 탐지 판(ρ 스윕 지도, 옵션 단계 `release`) |
 | `bench_release_map.py` | 비용 벤치 |
 
 ## 집계
@@ -40,4 +41,4 @@ FUBA 공격 코드(원 저자) 위에 우리 방어·비교군·러너를 얹은
 `main.py`, `train_main.py`, `train_method_*.py`, `unlearn.py`, `unlearn_method/`, `utils/`, `config.py`, `dataset.py`, `model.py`, `sql.py`. 우리가 고친 곳: 일관된 데이터 분할(`utils/comm_utils.make_client_split`), 증류 나눗셈, FedEraser 래퍼, `--clients_ratial`, `--split_seed`.
 
 ## legacy/
-초기 파이프라인(det1~3)과 그때의 비교·정화 스크립트. 지금 러너는 쓰지 않는다.
+초기 파이프라인(det1~3)과 그때의 비교·정화 스크립트, 진행형 FU(progressive_fu, dose_fu 로 대체). 지금 러너는 쓰지 않는다.
