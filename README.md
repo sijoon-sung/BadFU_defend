@@ -57,7 +57,9 @@
 | `docs/archive/` | 지나간 설계 문서 (design/) 와 FUBA 쪽 옛 기록 (fuba/) |
 | `legacy/` | 초기 탐색 코드·결과 (main 시절). 참고용 |
 
-## 한 줄 실행
-```bash
-cd FUBA && FORCE=1 RQ="1 3" bash run_paper.sh
-```
+## 실행 순서 (자세히는 RUN.md)
+1. 궤적 만들기·검증: `cd FUBA && bash make_trajectories.sh` (RUN.md 0)
+2. 탐지 총정리: `bash run_detect_bench.sh` (RUN.md A-00)
+3. 동적 평형 지문: RUN.md A-02 의 네 줄
+4. 본 결과·처방: RUN.md A-0, A-01
+`run_paper.sh` 는 K=8 예비 파이프라인이다 (부록용).

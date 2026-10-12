@@ -66,7 +66,10 @@ GROUPS="tdef" bash run_detect_bench.sh         # 집계 방어 궤적 (만든 �
 ### A-02. 동적 평형 지문 (학습 중 시간 구조로 탐지; 학습 없음, 역할 정보 없음) — 궤적당 1–2 분
 잠복 백도어는 매 라운드 유지되는 평형이고 유지에는 시간 위의 흔적이 남는다는 가설. 저장 전역 모델·갱신·참여 명단만으로 세 지문을 잰다: 1 복원력(결석 길이 → 밀기 세기), 2 지연 반작용(타깃 클래스만의 되밀기), 3 균형식(누적 타깃 밀기: 합은 0, 개별은 큼). 타깃 클래스도 서버가 추정한다.
 ```bash
-for c in iid owner; do for s in 0 1 2; do python analysis_equilibrium.py --fmt fuba --name bd_${c}_r100w5_k20paper_s$s --K 20 --rounds 100 --defender 4 --attackers 0 1 2 3 --target 8 --owner_client $([ $c = owner ] && echo 19 || echo -1) --cond ${c}_k20paper; done; python analysis_equilibrium.py --aggregate --cond ${c}_r100w5_k20paper; done
+for s in 0 1 2; do python analysis_equilibrium.py --fmt fuba --name bd_iid_r100w5_k20paper_s$s --K 20 --rounds 100 --defender 4 --attackers 0 1 2 3 --target 8 --cond iid_k20paper; done
+for s in 0 1 2; do python analysis_equilibrium.py --fmt fuba --name bd_owner_r100w5_k20paper_s$s --K 20 --rounds 100 --defender 4 --attackers 0 1 2 3 --target 8 --owner_client 19 --cond owner_k20paper; done
+python analysis_equilibrium.py --aggregate --cond iid_r100w5_k20paper
+python analysis_equilibrium.py --aggregate --cond owner_r100w5_k20paper
 ```
 결과: `logs/equilibrium/summary_{iid,owner}_r100w5_k20paper.md`. 보는 것: 지문 3 과 1 에서 위장자 순위 1·소유자 z < 3 인가, 추정 타깃이 8 인가, 운반자가 양의 누적 밀기로 위에 오는가. (노트북 1 시드: 지문 3 위장자 −40 vs 정상 ±4, z −22, 타깃 추정 8 맞음, 순/총 0.08; 지문 1 순위 1, z 3.7; 지문 2 는 구분 안 됨.) 올리기: `git add FUBA/logs/equilibrium`.
 

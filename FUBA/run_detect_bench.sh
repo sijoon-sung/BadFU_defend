@@ -7,7 +7,7 @@
 set -e
 cd "$(dirname "$0")"
 export PYTHONIOENCODING=utf-8
-DO_GROUPS="${DO_GROUPS:-k8 k20paper}"
+DO_GROUPS="${DO_GROUPS:-${GROUPS:-k8 k20paper}}"     # GROUPS= 또는 DO_GROUPS= 둘 다 됨
 FORCE="${FORCE:-0}"
 run_one() {   # name K rounds cond owner
   local name="$1" K="$2" R="$3" cond="$4" owner="$5"
