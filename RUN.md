@@ -19,7 +19,7 @@ FORCE=1 STAGES="cancel aggregate" CONDS="iid owner" TAG="_polish" CANCEL_EXTRA="
 | 결정·ASR·ACC·α·비용 | `logs/cancel/summary_{cond}.md` 첫 표 | 위장자 4 = purified(antidote...), 정상 7·5 = accept(confirm). owner 의 7 이 accept 면 소유자 오탐 해결 |
 | 1 단계 짝 (저장 기여) | 둘째 표 | 위장자의 크기·몰림 z 가 3 을 넘는가, 정상은 안 넘는가. 짝 정밀도는 IID 에서 1.0 이지만 정상도 운반자를 짝으로 내는 것이 정상(METHOD 2 절) |
 | 2' 단계 짝 (활성화 위) | 셋째 표 | **핵심**: 위장자의 짝이 운반자 넷(정밀도·재현율 1.0), 정렬이 운반자 음수 / 정상 양수. owner 에서 소유자 7 이 짝에 안 들어오는가 |
-| _polish | 같은 파일, `summary_{cond}_polish.md` | ACC 가 KD(92) 쪽으로 돌아오면서 α 가 0 인가 |
+| _polish | 같은 파일, `summary_{cond}_polish.md` | ACC 가 KD(92) 쪽으로 돌아오면서 α 가 0 인가. **그리고 owner 정상 7 의 자기 데이터 acc 가 50 근처인가** (pop 교사 때 79 로 되살아났음, REPORT 15.4) |
 
 ### A1. 이전 판 (unified) + 기능 효과 행렬 (effects) — 이미 있음 (dev). 다시 만들려면
 ```bash

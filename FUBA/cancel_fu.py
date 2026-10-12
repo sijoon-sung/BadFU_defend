@@ -100,6 +100,10 @@ def parse():
     p.add_argument("--max_purify", type=int, default=2)
     p.add_argument("--polish", choices=["none", "kd_orth"], default="none",
                    help="kd_orth: 해독제 뒤 U_k 에 직교한 짧은 증류 (정확도 회복, α 유지)")
+    p.add_argument("--polish_ref", choices=["agree", "pop", "self"], default="agree",
+                   help="직교 증류의 교사와 입력. agree(기본) = 모집단 기준을 교사로, 단 '요청자를 빼도 답이 안 바뀐 입력'에서만 → 요청자가 바꾼 입력(잊힌 것)은 되가르치지 않는다. "
+                        "pop = 모집단 기준, 모든 입력 — 남들 모델에 요청자 지식이 남아 있어 오탐 시 잊은 것을 되가르친다 (owner 3 시드: 자기 데이터 acc 50 → 79, α 0.006 그대로). "
+                        "self = 정화 전 모델 θ' 을 교사로 — θ' 의 기울어진 확률이 백도어를 되살린다 (로컬 z 0.9 → 12.5). 둘 다 분석용")
     p.add_argument("--rep_steps", type=int, default=50)
     p.add_argument("--rep_lr", type=float, default=None)
     p.add_argument("--rep_bs", type=int, default=128)
@@ -202,8 +206,9 @@ def conc_of(E, yh, C):
     return {"class": c, "gain": round(float(gain[c]), 4), "src_div": round(H, 4), "score": round(float(gain[c]) * H, 4)}
 
 
-def kd_orth(model, ref, xs, steps, lr, bs, flat, u):
-    """U_k 에 직교한 증류: 기울기에서 u 성분을 매 걸음 제거한다 → θ 의 변화가 u 와 직교 (α 불변)."""
+def kd_orth(model, ref, xs, steps, lr, bs, flat, u, teacher_probs=None):
+    """U_k 에 직교한 증류: 기울기에서 u 성분을 매 걸음 제거한다 → θ 의 변화가 u 와 직교 (α 불변).
+    teacher_probs 가 주어지면 ref 대신 그 고정 확률(xs 와 같은 순서)을 교사로 쓴다 (self 교사: 정화 전 모델의 출력)."""
     if steps <= 0:
         return True, 0
     u = u / u.norm().clamp_min(1e-12)
@@ -222,9 +227,12 @@ def kd_orth(model, ref, xs, steps, lr, bs, flat, u):
     for t in range(1, steps + 1):
         idx = torch.randint(0, n, (min(bs, n),), generator=g)
         x = xs[idx]
-        with torch.no_grad():
-            out = ref(x)
-            tgt = out.exp() if isinstance(ref, Ensemble) else F.softmax(out, 1)
+        if teacher_probs is not None:
+            tgt = teacher_probs[idx].to(x.device)
+        else:
+            with torch.no_grad():
+                out = ref(x)
+                tgt = out.exp() if isinstance(ref, Ensemble) else F.softmax(out, 1)
         loss = F.kl_div(F.log_softmax(model(x), 1), tgt, reduction="batchmean")
         if not torch.isfinite(loss):
             ok = False
@@ -561,12 +569,21 @@ def main():
                 info["chosen_lam"] = chosen
         if theta_out is not None and a.polish == "kd_orth":
             m_p = eng.model(theta_out)
-            ok, steps = kd_orth(m_p, pop["ref"], pop["xs"], a.rep_steps, a.rep_lr, a.rep_bs, flat, U[k])
+            if a.polish_ref == "self":                            # 교사 = 정화 전 모델 θ', 비활성 입력에서만
+                ok, steps = kd_orth(m_p, None, pop["xs"][mask], a.rep_steps, a.rep_lr, a.rep_bs, flat, U[k], teacher_probs=pk[mask])
+            elif a.polish_ref == "agree":                         # 교사 = 모집단 기준, 입력 = 요청자를 빼도 답이 안 바뀐 것들만
+                agree = (pk.argmax(1) == pr.argmax(1))
+                if int(agree.sum()) < a.rep_bs:
+                    agree = torch.ones_like(agree)
+                ok, steps = kd_orth(m_p, None, pop["xs"][agree], a.rep_steps, a.rep_lr, a.rep_bs, flat, U[k], teacher_probs=pr[agree])
+                info["polish_n_inputs"] = int(agree.sum())
+            else:
+                ok, steps = kd_orth(m_p, pop["ref"], pop["xs"], a.rep_steps, a.rep_lr, a.rep_bs, flat, U[k])
             th = flat.flatten(m_p.state_dict())
             pa = probs(m_p, pop["xs"])
             z3, _ = eng.check(pa, pop)
             health = collateral(pa)
-            info["polish"] = {"ok": ok, "steps": steps, "z": round(z3, 2), "health": round(health, 4),
+            info["polish"] = {"ref": a.polish_ref, "ok": ok, "steps": steps, "z": round(z3, 2), "health": round(health, 4),
                               "alpha_vs_antidote": round(float(((th - theta_out) * U[k]).sum().item() / float((U[k] * U[k]).sum().item())), 6)}
             if ok and z3 <= a.tau and health <= a.cap:
                 theta_out, how = th, "antidote+polish"
