@@ -9,7 +9,10 @@ import torch.optim as optim
 from model import UNet,MNISTAutoencoder
 from dataset import MyImagenet
 from torch.utils.data import Subset
-from potential_defence import federated_averaging_enforce_training, federated_averaging_topk
+try:
+    from potential_defence import federated_averaging_enforce_training, federated_averaging_topk
+except ImportError:                      # potential_defence.py 는 legacy/ 로 옮겨짐 (--Enforce/--Topk 전용, 여기선 안 쓰임). import 가 깨지면 재학습 전체가 못 뜬다
+    federated_averaging_enforce_training = federated_averaging_topk = None
 from utils.dba_attack_utils import add_backdoor_1,add_backdoor_2,add_backdoor_3,add_backdoor_4,add_backdoor_all
 
 DEFENDER_MODEL_BASE = 0
@@ -383,6 +386,8 @@ def retrain(config: Config):
             None if i not in backdoor_clients else global_backdoor_model_dict
             for i in range(config.num_clients)
         ]
+        for ex in getattr(config, "exclude_clients", []) or []:     # 제외된 운반자는 생성기도 참여하지 않는다 (cpu 복사본이 섞여 집계가 깨지는 것 방지)
+            backdoor_model_dicts[ex] = None
 
         # Train selected clients
         for idx, client_idx in enumerate(selected_clients):
@@ -425,6 +430,10 @@ def retrain(config: Config):
             )
             backdoor_model_dicts[idx] = backdoor_model.state_dict()
 
+        # 집계 전에 장치를 맞춘다 (제외 클라가 있으면 cpu 복사본과 cuda 학습본이 섞여 cat 이 깨진다)
+        _dev = config.device
+        local_model_dicts = [None if d is None else {kk: vv.to(_dev) for kk, vv in d.items()} for d in local_model_dicts]
+        backdoor_model_dicts = [None if d is None else {kk: vv.to(_dev) for kk, vv in d.items()} for d in backdoor_model_dicts]
         # Aggregate global models
         if global_backdoor_model_dict is None:
             global_backdoor_model_dict = global_backdoor_model_dict_copy
