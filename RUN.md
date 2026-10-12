@@ -52,6 +52,17 @@ cd FUBA && python verify_trajectories.py        # 전부 다시 보기 (파일�
 
 ## A. 꼭 돌릴 것 (순서대로)
 
+### A-00. 탐지 총정리 벤치 (먼저, 궤적만 있으면 됨, 학습 없음) — "탐지가 잘 되는가" 를 모든 방법으로
+한 궤적에서 생각할 수 있는 탐지 점수를 전부 클라이언트마다 매기고(모든 클라이언트를 '요청자라면' 으로), 위장자가 몇 등인지·정상/소유자가 잘못 걸리는지를 한 표로 낸다.
+방법: 언러닝 시뮬레이션 절대 기준(기존 요청 심사 발상: 바뀐 답 비율·KL·몰림, ρ = 0.1/0.2/0.5) · 상대 기준(DOSE: flow·mass z) · 기능 효과(크기·몰림·상쇄·Fisher) · 갱신 통계(노름·중앙값 코사인·Krum·총노출 몫·반상관) · null-space 에너지 · 학습 중 부분합 감사(라운드 25/50/75/100 %) · 참여 자연 실험(참여율 < 1) · MASA/SubID proxy(결과 있으면).
+```bash
+bash run_detect_bench.sh                       # k8 + k20paper 중 있는 궤적 전부 (궤적당 1–3 분)
+GROUPS="k20paper" bash run_detect_bench.sh     # 논문 설정만
+GROUPS="tdef" bash run_detect_bench.sh         # 집계 방어 궤적 (만든 뒤)
+```
+결과: `logs/detect/summary_{iid,owner}_r100w5_k20paper.md` (+ `summary_iid.md`, `summary_owner.md`). 올리기: `git add FUBA/logs/detect`.
+보는 것: 위장자 순위 1 이면서 소유자 z < 3 인 방법이 무엇인가. 기존 발상(sim_abs_*, upd_*, ns_energy)이 어디서 깨지고 상대 기준(sim_rel_*)·감사(audit_z)·참여 회귀(part_beta_*)가 어디서 갈리는가.
+
 ### A-0. 주 설정 (논문 설정 K=20 궤적) 본 결과 — RESULTS_LOG R-007, R-008
 궤적 6 개는 만들어져 검증됐다 (`docs/EXPERIMENT_LOG.md`, 위장자 제거 시 ASR 46–93). 이제 그 위에서 본 결과를 낸다. 전량 빼기는 붕괴하므로 DOSE 의 단계 제거가 필수이고, 빼기 연산자가 `partial` 로 끝나면 둘째 줄(단계 + 증류 연산자)이 본 결과가 된다.
 ```bash

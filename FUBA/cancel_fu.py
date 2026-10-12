@@ -335,9 +335,15 @@ def main():
         _, rounds = load_rounds(a)
         w_cl = [c / sum(a.counts) for c in a.counts] if (a.fmt == "badfu" and a.counts) else [1.0 / K] * K
         Ut = []
-        for g_prev, locals_ in rounds:
+        for ti, (g_prev, locals_) in enumerate(rounds):
             gv = flat.flatten(g_prev)
-            Ut.append({j: w_cl[j] * (flat.flatten(locals_[j]) - gv) for j in clients if locals_[j] is not None})
+            if a.fmt == "fuba":                                   # 결석 클라(참여율<1)는 그 라운드 집계 결과가 저장돼 있다 → 참여자만, 참여자 수로 나눔
+                from release_map import present_clients
+                g_next = rounds[ti + 1][0] if ti + 1 < len(rounds) else theta_T
+                pres = [j for j in present_clients(locals_, g_next) if j < K]
+                Ut.append({j: (flat.flatten(locals_[j]) - gv) / max(len(pres), 1) for j in pres})
+            else:
+                Ut.append({j: w_cl[j] * (flat.flatten(locals_[j]) - gv) for j in clients if locals_[j] is not None})
 
     def effects_on(X, theta, L0):
         """Ẽ_j (중심화) 와 원시 크기. θ 에서 ε 만큼 뺀 모델의 순전파 K 회."""

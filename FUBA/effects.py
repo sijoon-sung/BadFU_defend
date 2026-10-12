@@ -242,12 +242,18 @@ def main():
         w = [c / sum(a.counts) for c in a.counts] if (a.fmt == "badfu" and a.counts) else [1.0 / K] * K
         L0 = logp(m0, xs)
         Et = {j: [] for j in clients}
-        for g_prev, locals_ in rounds:
+        for ti, (g_prev, locals_) in enumerate(rounds):
             gv = flat.flatten(g_prev)
+            if a.fmt == "fuba":
+                from release_map import present_clients
+                g_next = rounds[ti + 1][0] if ti + 1 < len(rounds) else theta_T
+                pres = [j for j in present_clients(locals_, g_next) if j < K]
+            else:
+                pres = [j for j in clients if locals_[j] is not None]
             for j in clients:
-                if locals_[j] is None:
+                if j not in pres:
                     continue
-                u = w[j] * (flat.flatten(locals_[j]) - gv)
+                u = (flat.flatten(locals_[j]) - gv) / max(len(pres), 1) if a.fmt == "fuba" else w[j] * (flat.flatten(locals_[j]) - gv)
                 Et[j].append(((logp(model(tT - a.eps * u), xs) - L0) / a.eps).flatten())
         if a.center != "none":                       # 라운드마다 공통 성분 제거
             T_ = min(len(Et[j]) for j in clients if Et[j])
