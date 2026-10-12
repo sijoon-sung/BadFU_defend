@@ -188,14 +188,21 @@ def flow_stats(pk, pr, C):
     return {"flow": round(float(col[j]) * H, 4), "src_div": round(H, 4), "flip_conf": round(conf, 4), "flow_to": j}
 
 
+def median_probs(P_list):
+    """확률 배열들의 입력별 클래스 중앙값 (Ensemble 과 같은 값, 재추론 없음)."""
+    p = torch.stack(P_list, 0).median(0).values
+    return p / p.sum(1, keepdim=True).clamp_min(1e-12)
+
+
 class Engine:
     """빼기·모집단·확인·수정 부품. 모집단은 (기준 모델 id, 요청자, 비율) 별로 캐시."""
 
     def __init__(self, a, factory, flat, U, xs, device):
         self.a, self.factory, self.flat, self.U, self.xs, self.device = a, factory, flat, U, xs, device
         self.K = len(U)
-        self.cache, self.base_models = {}, {}
-        self.n_pop_models = 0            # 비용 집계: 만든 가상 제거 모델 수
+        self.cache, self.base_models, self.shared = {}, {}, {}
+        self.n_pop_models = 0            # 비용 집계: 만든 가상 제거 모델 수 (요청자 간 공유 → 첫 요청에만 K)
+        self.n_forwards = 0              # 비용 집계: 탐침 크기 배치의 순전파 횟수
         self.rng = np.random.RandomState(a.seed)
         self.sample = {}
         self.space = InputSpace(a.fmt, device)
@@ -232,56 +239,85 @@ class Engine:
         d.update(flow_stats(pk, pr, self.a.n_classes))
         return d
 
+    def _shared(self, theta, base_id, frac):
+        """θ 에서 frac 만큼 뺀 가상 모델을 **모든** 클라이언트에 대해 한 번만 만들고, 깨끗한 탐침 확률을 저장한다.
+        요청자가 누구든 같은 모델들이므로 요청자 간에 공유한다 (요청마다 새 모델을 만들지 않는다)."""
+        key = (self.fp(theta), round(frac, 4))
+        if key not in self.shared:
+            pred_base = self.base_pred(base_id, theta)
+            mods, chg, P = {}, {}, {}
+            for j in range(self.K):
+                mods[j] = self.model(theta - frac * self.U[j])
+                self.n_pop_models += 1
+                P[j] = probs(mods[j], self.xs)
+                self.n_forwards += 1
+                chg[j] = divergence(pred_base, P[j].argmax(1), self.a.n_classes)["changed"]
+            self.shared[key] = (mods, chg, P)
+        return self.shared[key]
+
     def population(self, theta, base_id, k, frac):
-        """θ 에서 요청자 제외 남들을 frac 만큼 뺀 모델들. 건강(changed ≤ cap)한 것만 기준에 넣는다."""
-        key = (self.fp(theta), k, tuple(self.others(k)), round(frac, 4), self.probe_mode)
+        """θ 에서 요청자 제외 남들을 frac 만큼 뺀 모델들. 건강(changed ≤ cap)한 것만 기준에 넣는다.
+        LOO 기준은 저장된 확률의 중앙값으로 만든다 (앙상블 재추론 없음). 그래서 모집단 비용 = 모델 수만큼의 순전파."""
+        key = (self.fp(theta), k, tuple(self.others(k)), round(frac, 4), self.probe_mode,
+               None if self.forget_x is None else int(self.forget_x.shape[0]))
         if key in self.cache:
             return self.cache[key]
-        pred_base = self.base_pred(base_id, theta)
-        mods, chg = {}, {}
-        for j in self.others(k):
-            mods[j] = self.model(theta - frac * self.U[j])
-            self.n_pop_models += 1
-            chg[j] = divergence(pred_base, probs(mods[j], self.xs).argmax(1), self.a.n_classes)["changed"]
+        mods_all, chg_all, P_all = self._shared(theta, base_id, frac)
+        others = self.others(k)
+        mods = {j: mods_all[j] for j in others}
+        chg = {j: chg_all[j] for j in others}
         healthy = [j for j in mods if chg[j] <= self.a.cap]
         h = float(np.median(list(chg.values()))) if chg else 0.0
         m_base = None
         if healthy:
-            ref = Ensemble([mods[j] for j in healthy])
+            ref = Ensemble([mods[j] for j in healthy])          # 수정(KL)용 호출 객체
         else:
             m_base = self.model(theta)
             ref = m_base
-        # 평가 입력: 깨끗한 탐침 (+ grid 모드면 요청자 모델이 기준과 가장 갈리는 패치를 붙인 탐침)
+        # 평가 입력과 그 위의 확률
         xs_eval, cand = self.xs, None
+        P = {j: P_all[j] for j in others}
         if self.probe_mode == "forget" and self.forget_x is not None:
             xs_eval = torch.cat([self.xs, self.forget_x])
-        if self.probe_mode == "grid":
+            for j in others:                                     # 잊을 집합 부분만 새로 순전파
+                P[j] = torch.cat([P_all[j], probs(mods[j], self.forget_x)])
+                self.n_forwards += 1
+        elif self.probe_mode in ("grid", "search"):
             m_k = self.model(theta - frac * self.U[k])
-            best = grid_search(ref, m_k, self.xs, self.space, self.a.n_classes, self.a.grid_sizes, self.a.grid_stride)
-            cand = best["cand"]
-            xs_eval = torch.cat([self.xs, cand_inputs(self.xs, self.space, cand)])
-        if self.probe_mode == "search":
-            # 모델만으로: 요청자를 뺀 모델과 기준의 답이 가장 갈리는 작은 패치를 기울기로 찾아 탐침에 붙인다 (데이터·트리거 지식 없음).
-            # 요청자마다 자기 패치를 찾으므로 요청자끼리는 공정하고, 모집단은 그 패치로 재므로 요청자에게 유리한 쪽(보수적 오탐 위험)
-            m_k = self.model(theta - frac * self.U[k])
-            for prm in m_k.parameters():
-                prm.requires_grad_(False)
-            mk_, pp_, area = find_patch(ref, m_k, self.xs[:self.a.search_n], self.space, self.a.search_lam, self.a.search_steps, self.a.search_lr)
-            torch.cuda.empty_cache() if torch.cuda.is_available() else None
-            cand = {"search_area": area}
-            xs_eval = torch.cat([self.xs, ((1 - mk_) * self.xs + mk_ * pp_).detach()])
-        pk_all = {j: probs(mods[j], xs_eval) for j in mods}
+            if self.probe_mode == "grid":
+                best = grid_search(ref, m_k, self.xs, self.space, self.a.n_classes, self.a.grid_sizes, self.a.grid_stride)
+                cand = best["cand"]
+                xa = cand_inputs(self.xs, self.space, cand)
+            else:
+                for prm in m_k.parameters():
+                    prm.requires_grad_(False)
+                mk_, pp_, area = find_patch(ref, m_k, self.xs[:self.a.search_n], self.space, self.a.search_lam, self.a.search_steps, self.a.search_lr)
+                torch.cuda.empty_cache() if torch.cuda.is_available() else None
+                cand = {"search_area": area}
+                xa = ((1 - mk_) * self.xs + mk_ * pp_).detach()
+            xs_eval = torch.cat([self.xs, xa])
+            for j in others:
+                P[j] = torch.cat([P_all[j], probs(mods[j], xa)])
+                self.n_forwards += 1
+        base_P = None
         s = {}
         for j in healthy:
-            okm = [mods[i] for i in healthy if i != j]
-            if okm:
-                pr = probs(Ensemble(okm), xs_eval)
+            rest = [P[i] for i in healthy if i != j]
+            if rest:
+                pr = median_probs(rest)
             else:
-                if m_base is None:
-                    m_base = self.model(theta)
-                pr = probs(m_base, xs_eval)
-            s[j] = self.stat_of(pk_all[j], pr)[self.a.stat]
-        pop = {"mods": mods, "chg": chg, "healthy": healthy, "h": round(h, 4), "s": s, "ref": ref, "pr": probs(ref, xs_eval),
+                if base_P is None:
+                    m_base = m_base or self.model(theta)
+                    base_P = probs(m_base, xs_eval)
+                pr = base_P
+            s[j] = self.stat_of(P[j], pr)[self.a.stat]
+        if healthy:
+            pr_ref = median_probs([P[j] for j in healthy])
+        else:
+            if base_P is None:
+                base_P = probs(m_base, xs_eval)
+            pr_ref = base_P
+        pop = {"mods": mods, "chg": chg, "healthy": healthy, "h": round(h, 4), "s": s, "ref": ref, "pr": pr_ref,
                "xs": xs_eval, "cand": cand}
         self.cache[key] = pop
         return pop
@@ -464,7 +500,7 @@ def main():
                 continue
             seed_all(a.seed)
             t0 = time.time()
-            n_models0 = eng.n_pop_models
+            n_models0, n_fwd0 = eng.n_pop_models, eng.n_forwards
             theta = tT.clone()
             base_id = 0                          # θ_T 는 id 0 (요청자 간 모집단 공유)
             next_id = 1
@@ -565,7 +601,7 @@ def main():
                      "n_repaired": sum(s["repaired"] for s in trace),
                      "repair_steps_total": sum(s["repair_steps"] for s in trace),
                      "n_hard_collapse": sum(1 for s in trace if s.get("hard_collapse")),
-                     "pop_models": eng.n_pop_models - n_models0,
+                     "pop_models": eng.n_pop_models - n_models0, "forwards": eng.n_forwards - n_fwd0,
                      "seconds": round(time.time() - t0, 1), "trace": trace}
             if score is not None:
                 final["asr"] = score(m_k)
