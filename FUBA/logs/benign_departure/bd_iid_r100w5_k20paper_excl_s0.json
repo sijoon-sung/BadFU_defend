@@ -1,0 +1,108 @@
+{
+  "name": "bd_iid_r100w5_k20paper_s0",
+  "args": {
+    "name": "bd_iid_r100w5_k20paper_s0",
+    "rounds": 100,
+    "K": 20,
+    "requesters": [
+      4
+    ],
+    "methods": [
+      "retrain_benign"
+    ],
+    "target": 8,
+    "defender": 4,
+    "exclude": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "attackers": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "seed": 522,
+    "split_seed": 522,
+    "non_iid": false,
+    "non_iid_type": null,
+    "alpha": 1,
+    "sigma": 1,
+    "shift_ratio": 0.4,
+    "owner_client": -1,
+    "owner_class": 3,
+    "owner_frac": 0.9,
+    "train_epoch": 100,
+    "batch_size": 64,
+    "noise_thread": 0.04,
+    "atk_eps": 1.0,
+    "ckpt_dir": "checkpoints",
+    "out": "logs/benign_departure/bd_iid_r100w5_k20paper_excl_s0.json",
+    "resume": false,
+    "n_gpu": 1
+  },
+  "roles": {
+    "attackers": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "defender": 4,
+    "owner": null,
+    "benign": [
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19
+    ]
+  },
+  "before": {
+    "acc": 98.74,
+    "asr": 7.51,
+    "asr_by_class": {
+      "0": 3.06,
+      "1": 17.53,
+      "2": 3.97,
+      "3": 2.57,
+      "4": 6.11,
+      "5": 9.42,
+      "6": 12.84,
+      "7": 4.28,
+      "9": 7.04
+    }
+  },
+  "results": {
+    "retrain_benign": {
+      "4": {
+        "acc": 99.01,
+        "asr": 0.31,
+        "asr_by_class": {
+          "0": 0.1,
+          "1": 0.35,
+          "2": 0.48,
+          "3": 0.2,
+          "4": 0.31,
+          "5": 0.45,
+          "6": 0.31,
+          "7": 0.29,
+          "9": 0.3
+        },
+        "seconds": 438.4
+      }
+    }
+  }
+}

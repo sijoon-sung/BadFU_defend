@@ -80,7 +80,7 @@ class Flat:
 # ------------------------------------------------------------------ 궤적 로더
 # 결과 이름에만 붙는 꼬리표 (run_paper.sh RQ6 소거, RUN.md A0/A2). 이런 이름은 궤적을 새로 만들지 않고 기본 궤적을 읽는다.
 # 그 밖의 꼬리표(k20, paper, sup2, median, flame, flDetector, multi_krum ...)는 **다른 궤적**이므로 기본 궤적으로 절대 넘어가지 않는다.
-RESULT_TAGS = ("cap02", "tau2", "tau5", "m3", "chg", "flow", "p100", "kd", "polish")
+RESULT_TAGS = ("cap02", "tau2", "tau5", "m3", "chg", "flow", "p100", "kd", "polish", "v2")
 
 
 def resolve_fuba_name(name, ckpt_dir="checkpoints"):
