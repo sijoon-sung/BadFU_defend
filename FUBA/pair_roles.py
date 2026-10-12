@@ -66,7 +66,7 @@ def parse():
     p.add_argument("--cap", type=float, default=0.3)
     p.add_argument("--tau", type=float, default=3.0)
     p.add_argument("--m", type=int, default=0)
-    p.add_argument("--stat", choices=["mass", "changed", "shift"], default="mass")
+    p.add_argument("--stat", choices=["mass", "changed", "shift", "flow"], default="mass")
     p.add_argument("--zmode", choices=["std", "mad"], default="std")
     p.add_argument("--delta_min", type=float, default=0.1)
     p.add_argument("--sim", default="", help="attack_sim 변형 스펙 (예: split:0:3,split:1:3). 조각은 역할을 상속")

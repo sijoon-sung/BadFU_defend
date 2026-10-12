@@ -55,6 +55,7 @@ if has 6; then                # 소거: 각 변형을 TAG 로 구분해 dose 만
   run_all STAGES="dose aggregate" TAG="_tau5"   DOSE_EXTRA="--tau 5"
   run_all STAGES="dose aggregate" TAG="_m3"     DOSE_EXTRA="--m 3"
   run_all STAGES="dose aggregate" TAG="_chg"    DOSE_EXTRA="--stat changed"
+  run_all STAGES="dose aggregate" TAG="_flow"   DOSE_EXTRA="--stat flow"
   run_all STAGES="dose aggregate" TAG="_p100"   DOSE_EXTRA="--probe 100"
   run_all STAGES="dose aggregate" TAG="_kd"     DOSE_EXTRA="--op kd"
 fi

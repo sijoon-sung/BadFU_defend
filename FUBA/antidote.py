@@ -58,7 +58,7 @@ def parse():
     p.add_argument("--cap", type=float, default=0.3)
     p.add_argument("--tau", type=float, default=3.0)
     p.add_argument("--m", type=int, default=0)
-    p.add_argument("--stat", choices=["mass", "changed", "shift"], default="mass")
+    p.add_argument("--stat", choices=["mass", "changed", "shift", "flow"], default="mass")
     p.add_argument("--zmode", choices=["std", "mad", "iqr"], default="std")
     p.add_argument("--delta_min", type=float, default=0.1)
     p.add_argument("--lams", type=float, nargs="+", default=[0.5, 1, 2, 4, 8, 16])

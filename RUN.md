@@ -31,6 +31,12 @@ FORCE=1 RQ="2" TDEFS="median" bash run_paper.sh
 
 RQ4 는 적응형 공격 5 종(재학습 없음, 빠름).
 
+## 2-b. owner 오탐 대책 확인 (flow 통계) — 짧음
+```bash
+FORCE=1 CONDS="owner iid" STAGES="dose aggregate" TAG="_flow" DOSE_EXTRA="--stat flow" bash run_all.sh
+```
+결과는 `logs/dose_fu/summary_owner_flow` 쪽이 아니라 이름 `bd_owner_flow_s*` 로 들어가고, `paper_tables.py` 의 T6 소거 표에 `stat=flow` 행으로 나온다. 보는 것: 정상 7 의 경보가 0/3 이 되면서 위장자 4 는 그대로 잡히는가.
+
 ## 3. 나머지 — T5 (비용), T6 (소거)
 
 ```bash
