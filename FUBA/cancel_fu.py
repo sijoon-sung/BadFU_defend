@@ -66,7 +66,7 @@ def parse():
     p.add_argument("--center2", choices=["median", "mean", "proj", "none"], default="none",
                    help="2' 단계(활성화 위) 공통 성분 제거. 타깃 열만 보므로 기본은 없음 (median 은 남들 중 운반자가 다수면 운반자를 지운다)")
     p.add_argument("--col2", choices=["target", "all"], default="target", help="2' 단계에서 보는 열: 활성화 클래스 c* 열만(기본) / 전 클래스")
-    p.add_argument("--eps2", type=float, default=0.5, help="2' 단계 후보 제거량 (δ 의 배수; 로컬: 0.2–1.0 모두 같은 정렬). 무너지는 후보(비활성 입력 변화 > cap)는 제외")
+    p.add_argument("--eps2", type=float, default=0.2, help="2' 단계 후보 제거량 (절대값; 단계 δ 와 무관). 100 라운드 궤적은 δ=0.1 이라 δ 의 배수로 두면 효과가 잡음에 묻혀 정상까지 정렬 −0.8 로 나온다. 무너지는 후보(비활성 입력 변화 > cap)는 제외")
     p.add_argument("--set_rule", choices=["gap", "thr", "forward"], default="gap",
                    help="2' 단계 짝 집합: gap = 정렬을 오름차순으로 늘어놓고 가장 큰 간격에서 잘라 아래쪽 전부 (FUBA: −0.88|+0.67, BadFU: −0.90|−0.60; 깊은 망은 누굴 빼도 조금씩 음수라 고정 문턱이 안 맞음) / thr = 정렬 ≤ −align_min 전부 / forward = 전진 선택(희소)")
     p.add_argument("--align_min", type=float, default=0.3, help="gap·thr 규칙에서 짝이 되려면 정렬 ≤ −align_min")
@@ -439,7 +439,7 @@ def main():
         mask[act_idx] = False                                                      # 비활성 입력 (건강 감시용)
         Lk = Lk_all[act_idx]
         A = Lk - torch.log(pop["pr"][act_idx].clamp_min(1e-12))                   # 활성화: 요청자 모델 − 기준(모집단 중앙값)
-        eps2 = a.eps2 * delta
+        eps2 = a.eps2
         others = [j for j in clients if j != k]
         E, collapsed = {}, []
         for j in others:

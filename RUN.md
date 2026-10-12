@@ -63,7 +63,7 @@ GROUPS="tdef" bash run_detect_bench.sh         # 집계 방어 궤적 (만든 �
 결과: `logs/detect/summary_{iid,owner}_r100w5_k20paper.md` (+ `summary_iid.md`, `summary_owner.md`). 올리기: `git add FUBA/logs/detect`.
 보는 것: 위장자 순위 1 이면서 소유자 z < 3 인 방법이 무엇인가. 기존 발상(sim_abs_*, upd_*, ns_energy)이 어디서 깨지고 상대 기준(sim_rel_*)·감사(audit_z)·참여 회귀(part_beta_*)가 어디서 갈리는가.
 
-### A-01. 논문 설정에서의 처방 — RESULTS_LOG R-010 (운반자 제외 재학습), R-011 (고친 해독제)
+### A-01. 논문 설정에서의 처방 — RESULTS_LOG R-010 (운반자 제외 재학습). R-011(고친 해독제)은 노트북 확인에서 폐기 (DRAFT_v2_SKELETON §6.1) — 첫째 줄은 돌리지 않아도 된다
 R-007 의 해독제 실패 원인 둘(정화 예산 2 회, 짝 집합 과대)을 고쳤다 (`--max_purify 0` = 단계마다 허용, `--set_consist on` = 모든 단계에서 정렬 ≤ −0.3 인 후보만). 그리고 저자 재학습 코드에 제외 목록만 붙였다 (`benign_departure.py --exclude`).
 ```bash
 K=20 ROUNDS=100 WARMUP=5 TAG="_k20paper_v2" FORCE=1 STAGES="cancel aggregate" CONDS="iid owner" CANCEL_EXTRA="--rounds_eff off" bash run_all.sh

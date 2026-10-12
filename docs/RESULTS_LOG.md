@@ -21,5 +21,5 @@
 | R-008 | 2026-10-12 | 같은 궤적 | run_all.sh dose cancel aggregate | TAG=_k20paper_kd, DOSE_EXTRA="--op kd", CANCEL_EXTRA="--op kd --rounds_eff off" | FUBA/logs/{dose_fu,cancel}/bd_*_k20paper_kd_s*.json → summary_*_k20paper_kd.md | 주장 5 (깊은 궤적에서 단계+증류 연산자) | 위장자: 최종 ASR 3.4–8.8, ACC 95.5–96.6, α 0.08–0.11 (재억제). 단 결정 3/6 reject(purify_failed)(예산 초과). 정상·소유자 accept 6/6 |
 | R-009 | 2026-10-12 | k8, k20paper, tdef_reduced (18 궤적) | run_detect_bench.sh (detect_bench.py) | 전 점수 비교 (절대/상대 언러닝, 효과, 갱신통계, 감사, 참여회귀) | FUBA/logs/detect/*.json → summary_*.md | BREAKTHROUGH: 상대 기준(flow z, audit, fisher, part_beta) 위장자 1등 & 소유자 z<3 달성 | 확정: BREAKTHROUGH 핵심 기전 전 설정 입증 |
 | R-010 | 예정 | bd_{iid,owner}_r100w5_k20paper_s{0,1,2} | benign_departure.py retrain_benign --exclude <운반자> (만들 것) | TAG=_k20paper_excl | logs/benign_departure/…_excl.json | 주장 B: 운반자 제외 재학습이 정답 모델(ASR ≈ 1, ACC ≈ 98)에 닿는가 | 예정 (표 3 마지막 행) |
-| R-011 | 예정 | 같은 궤적 | run_all.sh cancel, TAG=_k20paper_v2 | 정화 예산 = 단계 수, 단계 일관성 짝 (코드 수정 후) | logs/cancel/…_k20paper_v2_s*.json | 주장 B 의 저가 처방(해독제)이 논문 설정에서 되는가 | 예정 |
+| R-011 | 2026-10-13 | loc_k20paper_s0 (노트북, 논문 설정 1 시드) | cancel_fu.py (예산·단계 일관성·eps2 절대값 고친 뒤) | --rounds_eff off, --eps2 0.2 / 0.5 | smoke_bak (저장소 밖) | 주장 B 의 저가 처방(해독제)이 논문 설정에서 되는가 | **폐기**: 여전히 reject. 활성화 입력 위에서 모든 클라가 반대 정렬 (z 99) → 투영 제거 범위 밖. 처방은 재억제·제외 재학습 (DRAFT_v2 §6.1) |
 
