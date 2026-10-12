@@ -11,7 +11,8 @@
 #   masa      기준선 MASA: 학습 중 라운드별 언러닝 손실 편차 (baseline_masa.py)   -> logs/baseline_masa/{NAME}.json
 #   subid     기준선 SubID 식 부분공간 편차 (baseline_subid.py)                 -> logs/baseline_subid/{NAME}.json
 #   pair      쌍→집합: 표시된 요청의 운반자 집합·공동 위장자 (pair_roles.py)     -> logs/pair_roles/{NAME}.json
-#   unified   하나의 절차: 거름망(궤적) → 확정(빼 보기, flow) → 정화(해독제) (unified_fu.py) -> logs/unified/{NAME}.json
+#   cancel    상쇄 짝 찾기 절차 (본 방법): 저장 기여 위 짝 찾기 → 빼 보기 → 활성화 위 짝 찾기 → 정화 (cancel_fu.py) -> logs/cancel/{NAME}.json
+#   unified   이전 판: 거름망(궤적) → 확정(빼 보기, flow) → 정화(해독제) (unified_fu.py) -> logs/unified/{NAME}.json
 #   effects   기능 효과 행렬 분석: 중심화 E_j, 타깃 몰림, 부분집합 상쇄(운반자 집합), conformal·Fisher p (effects.py) -> logs/effects/{NAME}.json
 #   traj      궤적 상쇄 지표: 라운드별 효과 벡터, 크기·동일부호·일관성·상쇄 짝 (traj_indicators.py) -> logs/traj_indicators/{NAME}.json
 #   adaptive  적응형 공격 5 종 (학습 없이 저장 갱신 변형: attack_sim.py)           -> logs/adaptive/{NAME}_*.json, logs/dose_fu/{NAME}_split10_ledger.json, logs/pair_roles/{NAME}_distcarr.json
@@ -44,7 +45,7 @@ export PYTHONIOENCODING=utf-8
 
 CONDS="${CONDS:-owner iid}"
 SEEDS="${SEEDS:-0 1 2}"
-STAGES="${STAGES:-attack benign dose unified effects pair traj masa subid adaptive aggregate}"   # 옵션 단계: robust latent release
+STAGES="${STAGES:-attack benign dose cancel unified effects pair traj masa subid adaptive aggregate}"   # 옵션 단계: robust latent release
 K="${K:-8}"
 ROUNDS="${ROUNDS:-8}"
 WARMUP="${WARMUP:-3}"
@@ -66,6 +67,7 @@ MASA_EXTRA="${MASA_EXTRA:-}"
 SUBID_EXTRA="${SUBID_EXTRA:-}"
 PAIR_EXTRA="${PAIR_EXTRA:-}"                          # 예: PAIR_EXTRA="--exhaust --repair"
 EFFECTS_EXTRA="${EFFECTS_EXTRA:-}"                    # 예: EFFECTS_EXTRA="--eps 0.1 --center mean"
+CANCEL_EXTRA="${CANCEL_EXTRA:-}"                      # 예: CANCEL_EXTRA="--polish kd_orth --z_target 1"
 UNIFIED_EXTRA="${UNIFIED_EXTRA:-}"                    # 예: UNIFIED_EXTRA="--stat mass --screen off"
 ADAPT_EXTRA="${ADAPT_EXTRA:-}"                        # dose_fu/schedule_fu/pair_roles 공통 추가 인자 (예: --cap 0.3)
 
@@ -179,6 +181,13 @@ stage_pair() {                # <name> <seed>  — 쌍→집합 역할 지도 (�
   fi
 }
 
+stage_cancel() {              # <name> <seed>  — 상쇄 짝 찾기 절차 (요청자 4 / K-1 / 5)
+  local name="$1" seed="$2"
+  maybe_rm "logs/cancel/${name}.json"
+  run_log "logs/pipeline/${name}.cancel.log" python cancel_fu.py --fmt fuba --name "$name" --K "$K" --rounds "$ROUNDS" \
+    --seed "$seed" --split_seed "$seed" "${NI[@]}" --defender "$DEFENDER" --attackers 0 1 2 3 --requesters "$DEFENDER" $((K - 1)) 5 $CANCEL_EXTRA --resume
+}
+
 stage_unified() {             # <name> <seed>  — 하나의 절차 (요청자 4 / K-1 / 5)
   local name="$1" seed="$2"
   maybe_rm "logs/unified/${name}.json"
@@ -239,12 +248,13 @@ stage_aggregate() {           # <label> <names...>
   { { has masa && have baseline_masa; } || { has subid && have baseline_subid; }; } && run python aggregate_baselines.py --cond "$label"
   { has adaptive && ls "logs/adaptive/bd_${label}_s"*.json >/dev/null 2>&1; } && run python aggregate_adaptive.py --cond "$label"
   { has pair && have pair_roles; }         && run python aggregate_pair_roles.py --cond "$label"
+  { has cancel && have cancel; }           && run python aggregate_cancel.py --cond "$label"
   { has unified && have unified; }         && run python aggregate_unified.py --cond "$label"
   { has effects && have effects; }         && run python aggregate_effects.py --cond "$label"
   [ "$DRY" = "1" ] && return 0
   {
     echo "# 종합 보고서: $label  (K=$K, ROUNDS=$ROUNDS, WARMUP=$WARMUP, seeds: $SEEDS)"; echo
-    for f in "logs/benign_departure/summary_${label}.md" "logs/robust_fu/summary_${label}.md" "logs/latent_risk/summary_${label}.md" "logs/release_map/summary_${label}.md" "logs/dose_fu/summary_${label}.md" "logs/dose_fu/summary_${label}_split${DOSE_SPLIT}_ledger.md" "logs/baselines/summary_${label}.md" "logs/pair_roles/summary_${label}.md" "logs/unified/summary_${label}.md" "logs/effects/summary_${label}.md" "logs/adaptive/summary_${label}.md"; do
+    for f in "logs/benign_departure/summary_${label}.md" "logs/robust_fu/summary_${label}.md" "logs/latent_risk/summary_${label}.md" "logs/release_map/summary_${label}.md" "logs/dose_fu/summary_${label}.md" "logs/dose_fu/summary_${label}_split${DOSE_SPLIT}_ledger.md" "logs/baselines/summary_${label}.md" "logs/pair_roles/summary_${label}.md" "logs/cancel/summary_${label}.md" "logs/unified/summary_${label}.md" "logs/effects/summary_${label}.md" "logs/adaptive/summary_${label}.md"; do
       [ -f "$f" ] && { echo "---"; echo "<!-- $f -->"; cat "$f"; echo; }
     done
   } > "$report"
@@ -269,6 +279,7 @@ for COND in $CONDS; do
     has masa && stage_masa "$NAME" "$SEED"
     has subid && stage_subid "$NAME" "$SEED"
     has pair && stage_pair "$NAME" "$SEED"
+    has cancel && stage_cancel "$NAME" "$SEED"
     has unified && stage_unified "$NAME" "$SEED"
     has effects && stage_effects "$NAME" "$SEED"
     has traj && stage_traj "$NAME" "$SEED"
@@ -278,4 +289,4 @@ for COND in $CONDS; do
   if has aggregate; then echo; echo "==== [$COND] 집계"; stage_aggregate "$LABEL" "${NAMES[@]}"; fi
 done
 echo
-echo "== 끝. 올릴 것: git add FUBA/logs/benign_departure FUBA/logs/robust_fu FUBA/logs/latent_risk FUBA/logs/release_map FUBA/logs/dose_fu FUBA/logs/baseline_masa FUBA/logs/baseline_subid FUBA/logs/baselines FUBA/logs/pair_roles FUBA/logs/adaptive FUBA/logs/traj_indicators FUBA/logs/unified FUBA/logs/effects FUBA/logs/pipeline"
+echo "== 끝. 올릴 것: git add FUBA/logs/benign_departure FUBA/logs/robust_fu FUBA/logs/latent_risk FUBA/logs/release_map FUBA/logs/dose_fu FUBA/logs/baseline_masa FUBA/logs/baseline_subid FUBA/logs/baselines FUBA/logs/pair_roles FUBA/logs/adaptive FUBA/logs/traj_indicators FUBA/logs/cancel FUBA/logs/unified FUBA/logs/effects FUBA/logs/pipeline"

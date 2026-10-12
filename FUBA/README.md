@@ -15,7 +15,8 @@ FUBA 공격 코드(원 저자) 위에 우리 방어·비교군·러너를 얹은
 ## 우리 방법 (docs/paper/METHOD.md)
 | 파일 | 단계 |
 |---|---|
-| **`unified_fu.py`** | **한 파일로 전체**: 궤적 지표 → 빼 보기 확정 → 해독제 정화. 결정·수치·비용 기록 |
+| **`cancel_fu.py`** | **본 방법 (한 파일)**: 저장 기여 위 짝 찾기(θ_T, 공개∪지울 데이터) → 빼 보기 → 활성화 입력 위 짝 찾기(θ') → 짝의 상쇄 성분 제거(+직교 증류). 결정·수치·비용 기록 |
+| `unified_fu.py` | 이전 판: 궤적 지표 → 빼 보기 확정 → 해독제 정화 (결과 logs/unified 유지) |
 | `effects.py` | **기능 효과 행렬** E_j (입력×클래스), 중심화, 타깃 몰림, 부분집합 상쇄(운반자 집합), 입력 단위 상쇄, conformal·Fisher p, 라운드 일관성 (MATH.md) |
 | `traj_indicators.py` | A 궤적 지표: 클래스 요약 효과 벡터 (크기·동일부호·일관성·반대 짝) |
 | `dose_fu.py` | B 확정: 빼 보기 (같은 양 모집단 비교, 단계·멈춤, 수정). 탐침 = 공개 + 지울 입력 |
@@ -36,7 +37,7 @@ FUBA 공격 코드(원 저자) 위에 우리 방어·비교군·러너를 얹은
 | `bench_release_map.py` | 비용 벤치 |
 
 ## 집계
-`aggregate_*.py` — 단계별 시드 평균 표 (`logs/*/summary_{cond}.md`).
+`aggregate_*.py` — 단계별 시드 평균 표 (`logs/*/summary_{cond}.md`). `aggregate_cancel.py` 는 결정·1 단계 짝·2' 단계 짝 세 표.
 
 ## 원 저자 코드
 `main.py`, `train_main.py`, `train_method_*.py`, `unlearn.py`, `unlearn_method/`, `utils/`, `config.py`, `dataset.py`, `model.py`, `sql.py`. 우리가 고친 곳: 일관된 데이터 분할(`utils/comm_utils.make_client_split`), 증류 나눗셈, FedEraser 래퍼, `--clients_ratial`, `--split_seed`.

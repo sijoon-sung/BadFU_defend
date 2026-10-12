@@ -5,7 +5,7 @@
 ## 어디부터 읽나
 | 문서 | 내용 |
 |---|---|
-| [docs/paper/METHOD.md](docs/paper/METHOD.md) | **지금 방법** (거름망 → 빼 보기 → 해독제 정화) |
+| [docs/paper/METHOD.md](docs/paper/METHOD.md) | **지금 방법 v3: 상쇄 짝 찾기** (저장 기여 위 짝 찾기 → 빼 보기 → 활성화 위 짝 찾기 → 짝의 상쇄 성분 제거). 코드 `FUBA/cancel_fu.py` |
 | [docs/paper/THREAT_MODEL.md](docs/paper/THREAT_MODEL.md) | 공격의 틀 (상쇄형 백도어, 해로운 삭제 요청) |
 | [docs/paper/REPORT_2026-10-12.md](docs/paper/REPORT_2026-10-12.md) | 지금까지의 실험 결과 보고 |
 | [docs/paper/DRAFT_OUTLINE.md](docs/paper/DRAFT_OUTLINE.md) | 논문 초안 기획 |
