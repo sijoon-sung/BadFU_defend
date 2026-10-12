@@ -37,10 +37,10 @@ def main():
     if not runs:
         sys.exit(f"결과 없음: {pat}")
     reqs = list(runs[0]["results"].keys())
-    L = [f"# 상쇄 짝 찾기 절차 (cancel_fu) 요약: {a.cond or 'all'}  n={len(runs)}", "",
+    L = [f"# DOSE+TRACE (cancel_fu) 요약: {a.cond or 'all'}  n={len(runs)}", "",
          f"삭제 전 ASR {ms([r['before'].get('asr') for r in runs])} / ACC {ms([r['before'].get('acc') for r in runs])}", "",
-         "## 결정과 채점", "",
-         "| 요청자 | 역할 | 결정 (시드별) | 빼 보기 z (최대) | ASR | ACC | 유지 변화 | α | 자기 데이터 acc | 순전파 짝 / 빼보기 / 모델 / 초 |",
+         "## 결정과 채점 (DOSE 띠 → TRACE → DEFUSE)", "",
+         "| 요청자 | 역할 | 결정 (시드별) | DOSE z (최대) | ASR | ACC | 유지 변화 | α | 자기 데이터 acc | 순전파 짝 / 빼보기 / 모델 / 초 |",
          "|---|---|---|---|---|---|---|---|---|---|"]
     for k in reqs:
         e = [r["results"][k] for r in runs if k in r["results"]]
@@ -61,7 +61,7 @@ def main():
                  f"{ms([x['cancel']['ratio'] for x in e], 2)} | {tgt} | {ms([x['mag'] for x in e], 2)} | {ms([x['anti'] for x in e], 2)} | "
                  f"{z('mag')} / {z('conc')} / {z('cancel')} / {z('anti')} | {ms([x['fisher_p'] for x in e], 3)} | {sum(1 for x in e if x['flagged'])}/{len(e)} |")
     L += ["", "## 2' 단계: 활성화 입력 위 짝 찾기 (θ' = θ_T − ρU_k, 빼 보기 경보가 난 요청만)", "",
-          "| 요청자 | 역할 | 짝 (역할, 시드별) | 짝 정밀도 / 재현율 | 정렬 (운반자 / 정상, 시드 평균) | 상쇄 비율 | 1 단계 짝과 일치 | 클래스 일치 | λ | 정화 방법 |",
+          "| 요청자 | 역할 | 짝 (역할, 시드별) | 짝 정밀도 / 재현율 | 정렬 (운반자 / 정상, 시드 평균) | 상쇄 비율 | 1 단계 짝과 일치 | 클래스 일치 | DEFUSE λ | 방법 |",
           "|---|---|---|---|---|---|---|---|---|---|"]
     for k in reqs:
         rows = []

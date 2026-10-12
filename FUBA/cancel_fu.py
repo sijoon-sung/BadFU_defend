@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-"""상쇄 귀속 절차 (docs/paper/METHOD.md v3). 요청 하나를 "어디서·누가" 문제 하나로 푼다.
+"""DOSE + TRACE + DEFUSE (정본: docs/paper/ALGORITHM.md). 요청 하나를 "어디서·누가" 문제 하나로 푼다.
+DOSE = 단계 삭제 연산자(띠 확인), TRACE = 귀속(회전 1: 저장 기여, 회전 2: 활성화 입력), DEFUSE = 짝 몫의 활성화 성분 제거.
 
 공격의 정의: 입력 집합 X* 위에서 요청자 k 의 기여와 짝 S 의 기여가 서로 지운다.  J_{X*}(U_k + Σ_{j∈S} w_j U_j) ≈ 0.
 서버가 푸는 것 (목적식 하나):
@@ -607,7 +608,7 @@ def main():
         r = {"role": roles[k], "decision": None}
         attr = attribute(k)
         r["attr"] = attr
-        print(f"  [{k} {roles[k]}] 회전 1 (저장 기여): 짝 {attr['set']} {attr['cancel']['set_roles']} w {attr['w']} 상쇄 {attr['cancel']['ratio']} "
+        print(f"  [{k} {roles[k]}] TRACE 회전 1 (저장 기여): 짝 {attr['set']} {attr['cancel']['set_roles']} w {attr['w']} 상쇄 {attr['cancel']['ratio']} "
               f"타깃 {attr['c_star']} 몰림 {attr['conc']['score']} 크기 {attr['mag']} 반대정렬 {attr['anti']} 어디서 {attr['where']} | p {attr['pvals']} Fisher {attr['fisher_p']} z {attr['z']} → {'경보' if attr['flagged'] else '통과'}", flush=True)
         theta, removed, trace, base_id, next_id = tT.clone(), 0.0, [], 0, 1
         aborted, purifies, hows, failed, sim_flag = False, [], [], False, False
@@ -679,11 +680,11 @@ def main():
         with open(out, "w", encoding="utf-8") as f:
             json.dump(res, f, ensure_ascii=False, indent=2)
         fin = r["final"]
-        print(f"  [{k} {roles[k]}] 빼 보기 (비선형 확인): " + " ".join(fmt_step(dict(s, z_cum=None)) for s in trace) + (" ABORT" if aborted else ""), flush=True)
+        print(f"  [{k} {roles[k]}] DOSE (단계 삭제·띠 확인): " + " ".join(fmt_step(dict(s, z_cum=None)) for s in trace) + (" ABORT" if aborted else ""), flush=True)
         for p_ in purifies:
             p2 = p_.get("pair_act")
             if p2:
-                print(f"    회전 2+ (활성화 입력): 짝 {p2['set']} {p2['set_roles']} w {p2['w']} 상쇄 {p2['ratio']} 정렬 {p2['align']} 반복 {p2['iters']} (회전 1 과 일치 {p_['set_agree']}, 클래스 {p_['c_star_attr']}/{p_['c_star']}) 변형 {p_['variants']}"
+                print(f"    TRACE 회전 2+ (활성화 입력) → DEFUSE: 짝 {p2['set']} {p2['set_roles']} w {p2['w']} 상쇄 {p2['ratio']} 정렬 {p2['align']} 반복 {p2['iters']} (회전 1 과 일치 {p_['set_agree']}, 클래스 {p_['c_star_attr']}/{p_['c_star']}) 변형 {p_['variants']}"
                       f"  λ {p_.get('chosen_lam')}" + (f"  polish {p_['polish']}" if p_.get("polish") else ""), flush=True)
         print(f"    → {decision}: ASR {fin.get('asr')} ACC {fin['acc']} retain {fin['retain_change']} α {fin['alpha']} 자기데이터 {fin.get('forget_acc')} "
               f"| 순전파 짝 {r['cost']['attr_forwards']} 빼보기 {r['cost']['forwards']} 모델 {r['cost']['pop_models']} {r['cost']['seconds']}s", flush=True)

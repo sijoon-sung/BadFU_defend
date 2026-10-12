@@ -7,6 +7,14 @@
 2. **방어.** 삭제 요청이 오면 서버는 "이 요청자는 **어디서, 누구의 기여를** 누르고 있었나"를 푼다. 찾은 짝의 기여에서 눌려 있던 부분만 뺀다. 요청자의 데이터는 지워진 채로 둔다.
 3. **주장.** 기존 방법은 요청을 거절하거나, 모델을 다시 눌러서 요청자 데이터를 되넣는다. 우리는 둘 다 안 한다. 백도어는 안 깨어나고, 지워 달라는 것은 지워진다. 그리고 출력에 귀속(짝·타깃·입력)이 있다.
 
+**가칭 (앞으로 이 이름으로 부른다)**
+| 가칭 | 하는 일 | 책임 |
+|---|---|---|
+| **DOSE** | 요청자 기여를 견디는 양만큼 단계로 빼고, 단계마다 "남들을 같은 양 뺀 모집단" 띠 안인지 확인하는 삭제 연산자 | 안전 (띠 밖·무너진 모델 불출), 정상 요청 = 기본 FU |
+| **TRACE** | 띠를 벗어나면 "어디서, 누구의 기여를 지우고 있었나"를 푸는 귀속 (회전 1: 저장 기여, 회전 2: 활성화 입력) | 귀속 출력 (짝·타깃·입력·방향) |
+| **DEFUSE** | 짝의 기여에서 활성화 방향 성분만 빼서 띠 안으로 되돌림 | 삭제 이행 (요청자 기여 재주입 0, 잊힌 것 되가르치지 않음) |
+정본: [docs/paper/ALGORITHM.md](docs/paper/ALGORITHM.md) (알고리즘 정식화 + 가정 전부 + 파라미터 + 비용).
+
 그림: [docs/paper/fig_architecture.svg](docs/paper/fig_architecture.svg)
 
 ![architecture](docs/paper/fig_architecture.svg)
@@ -24,7 +32,8 @@
 ## 어디부터 읽나
 | 문서 | 내용 |
 |---|---|
-| [docs/paper/METHOD.md](docs/paper/METHOD.md) | **지금 방법 v3: 상쇄 짝 찾기** (저장 기여 위 짝 찾기 → 빼 보기 → 활성화 위 짝 찾기 → 짝의 상쇄 성분 제거). 코드 `FUBA/cancel_fu.py` |
+| [docs/paper/ALGORITHM.md](docs/paper/ALGORITHM.md) | **정본**: DOSE·TRACE·DEFUSE 의 알고리즘 정식화, 가정 S1–S6·T1–T5·O1–O6, 결정표, 파라미터, 비용 |
+| [docs/paper/METHOD.md](docs/paper/METHOD.md) | 방법 v3 설명: 상쇄 짝 찾기 (저장 기여 위 짝 찾기 → 빼 보기 → 활성화 위 짝 찾기 → 짝의 상쇄 성분 제거). 코드 `FUBA/cancel_fu.py` |
 | [docs/paper/THREAT_MODEL.md](docs/paper/THREAT_MODEL.md) | 공격의 틀 (상쇄형 백도어, 해로운 삭제 요청) |
 | [docs/paper/REPORT_2026-10-12.md](docs/paper/REPORT_2026-10-12.md) | 지금까지의 실험 결과 보고 |
 | [docs/paper/DRAFT_v1.md](docs/paper/DRAFT_v1.md) | **논문 초안 v1** (초록·기여·방법·결과·한계 + §8 노벨티 자가 평가와 보강 방향) |
