@@ -39,6 +39,7 @@ command -v mpiexec >/dev/null 2>&1 || echo "   (mpiexec 가 PATH 에 없음 — 
 n_made=0; n_skip=0; n_ver=0
 while IFS=$'\t' read -r name group where nb rounds warmup seed prate extra preflight <&3; do
   [ -n "$name" ] || continue
+  preflight="${preflight%$'\r'}"
   have="$(ckpt_count "$name")"
   cmd="NB_CLIENTS=$nb ROUNDS=$rounds WARMUP=$warmup PARTICIPANT_RATE=$prate EXTRA_ARGS=\"$extra\" bash run_real_fuba.sh $name $seed"
   if [ "$FORCE" != "1" ] && [ "$have" -ge "$rounds" ]; then
