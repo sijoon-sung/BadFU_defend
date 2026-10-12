@@ -100,11 +100,11 @@ def parse():
     p.add_argument("--min_act", type=int, default=10)
     p.add_argument("--max_purify", type=int, default=2)
     p.add_argument("--polish", choices=["none", "kd_orth"], default="none",
-                   help="kd_orth: 해독제 뒤 U_k 에 직교한 짧은 증류 (정확도 회복, α 유지)")
-    p.add_argument("--polish_ref", choices=["agree", "pop", "self"], default="agree",
-                   help="직교 증류의 교사와 입력. agree(기본) = 모집단 기준을 교사로, 단 '요청자를 빼도 답이 안 바뀐 입력'에서만 → 요청자가 바꾼 입력(잊힌 것)은 되가르치지 않는다. "
-                        "pop = 모집단 기준, 모든 입력 — 남들 모델에 요청자 지식이 남아 있어 오탐 시 잊은 것을 되가르친다 (owner 3 시드: 자기 데이터 acc 50 → 79, α 0.006 그대로). "
-                        "self = 정화 전 모델 θ' 을 교사로 — θ' 의 기울어진 확률이 백도어를 되살린다 (로컬 z 0.9 → 12.5). 둘 다 분석용")
+                   help="kd_orth: 해독제 뒤 U_k 에 직교한 짧은 증류. 정확도는 회복되지만 교사(남들 모델)에 든 요청자 지식을 기능적으로 되들여올 수 있어 본 방법에서는 끔 (소거 실험용)")
+    p.add_argument("--polish_ref", choices=["pop", "agree", "low", "self"], default="pop",
+                   help="직교 증류(선택, 본 방법 아님)의 교사·입력. pop(기본) = 모집단 기준, 전 입력: 정확도는 KD 수준으로 돌아오지만 남들 모델에 든 요청자 지식을 되들여온다 "
+                        "(owner 오탐: 자기 데이터 acc 50 → 79, α 0.006) → 'ACC 회복 vs 망각' trade-off 로만 보고. agree = 답이 안 바뀐 입력만 (50 → 75, 반만 막음). "
+                        "low = 영향 작은 공개 입력 절반만 (FUBA 에서 ACC 90 → 84 로 흔들림, 실패). self = θ' 교사 (백도어 되살림, 실패). ALGORITHM.md O6")
     p.add_argument("--rep_steps", type=int, default=50)
     p.add_argument("--rep_lr", type=float, default=None)
     p.add_argument("--rep_bs", type=int, default=128)
@@ -572,6 +572,16 @@ def main():
             m_p = eng.model(theta_out)
             if a.polish_ref == "self":                            # 교사 = 정화 전 모델 θ', 비활성 입력에서만
                 ok, steps = kd_orth(m_p, None, pop["xs"][mask], a.rep_steps, a.rep_lr, a.rep_bs, flat, U[k], teacher_probs=pk[mask])
+            elif a.polish_ref == "low":                           # 교사 = 모집단 기준, 입력 = 요청자 제거의 영향(KL)이 가장 작은 공개 입력 절반 (지울 데이터 제외)
+                n_pub = xs.shape[0]
+                p0 = probs(m0, xs)
+                kl = (p0 * (torch.log(p0.clamp_min(1e-12)) - torch.log(pk[:n_pub].clamp_min(1e-12)))).sum(1)
+                low = kl <= kl.median()
+                low = low & (pk[:n_pub].argmax(1) == pr[:n_pub].argmax(1))
+                if int(low.sum()) < a.rep_bs:
+                    low = kl <= kl.median()
+                ok, steps = kd_orth(m_p, None, xs[low], a.rep_steps, a.rep_lr, a.rep_bs, flat, U[k], teacher_probs=pr[:n_pub][low])
+                info["polish_n_inputs"] = int(low.sum())
             elif a.polish_ref == "agree":                         # 교사 = 모집단 기준, 입력 = 요청자를 빼도 답이 안 바뀐 것들만
                 agree = (pk.argmax(1) == pr.argmax(1))
                 if int(agree.sum()) < a.rep_bs:
