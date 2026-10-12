@@ -76,11 +76,11 @@ def main():
         runs.append(d)
     if not runs:
         raise SystemExit("logs/detect 에 결과 없음")
-    methods = []
+    methods, dirn_of = [], {}
     for r in runs:
         for m in r["scores"]:
             if r["direction"].get(m) in ("high", "low") and m not in methods:
-                methods.append(m)
+                methods.append(m); dirn_of[m] = r["direction"][m]
     L = [f"# 탐지 총정리: {a.cond}  n={len(runs)}", "",
          "모든 클라이언트를 '요청자라면' 으로 두고 같은 점수를 매긴 뒤, 위장자가 몇 등인지(1 = 가장 의심), 정상과 얼마나 갈리는지(AUROC, z), 소유자가 잘못 걸리는지(소유자 z) 를 센다. 잡힘 = 위장자 순위 1 인 시드 수.", "",
          "| 방법 | 방향 | 위장자 순위 | 잡힘 | AUROC 위장자 vs 정상 | 위장자 z | 소유자 z | 운반자 평균 순위 |", "|---|---|---|---|---|---|---|---|"]
@@ -92,7 +92,7 @@ def main():
             sup = [j for j, ro in roles.items() if ro == "suppressor"]
             if not d or not sup or sup[0] not in d:
                 continue
-            s = sup[0]; sign = 1 if r["direction"][m] == "high" else -1
+            s = sup[0]; sign = 1 if dirn_of[m] == "high" else -1
             vals = {j: sign * v for j, v in d.items()}
             rank = 1 + sum(1 for j, v in vals.items() if j != s and v > vals[s]); ranks.append(rank); caught += (rank == 1)
             ben = [vals[j] for j in vals if roles[j] == "benign"]
@@ -104,7 +104,7 @@ def main():
             cr.append(np.mean([1 + sum(1 for j, v in vals.items() if j != c and v > vals[c]) for c in car]) if car else None)
         if not ranks:
             continue
-        L.append(f"| {m} | {runs[0]['direction'][m]} | {ms(ranks, 1)} | {caught}/{len(ranks)} | {ms(aur)} | {ms(zs, 1)} | {ms(zo, 1)} | {ms(cr, 1)} |")
+        L.append(f"| {m} | {dirn_of[m]} | {ms(ranks, 1)} | {caught}/{len(ranks)} | {ms(aur)} | {ms(zs, 1)} | {ms(zo, 1)} | {ms(cr, 1)} |")
     L += ["", "읽는 법: 위장자 순위 1 이고 소유자 z 가 3 아래면 '위장자만 잡는다'. 운반자 평균 순위가 낮으면(1–4) 그 방법은 운반자(심은 쪽)를 보는 것이고, 높으면 운반자는 정상처럼 보인다.",
           "sim_abs_* = 기존 요청 심사 발상(절대 변화량), sim_rel_* = DOSE(상대 기준), fx_* = 기능 효과, upd_* = 집계 방어가 보는 갱신 통계, ns_energy = null-space 게이트, audit_z@r = 학습 중 부분합 감사, part_beta_* = 참여 자연 실험, proxy_* = MASA/SubID 재구현."]
     out = f"{a.dir}/summary_{a.cond}.md"
