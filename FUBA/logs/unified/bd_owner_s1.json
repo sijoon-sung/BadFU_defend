@@ -31,7 +31,7 @@
     "probe": 500,
     "probe_mode": "forget",
     "forget_n": 500,
-    "screen": "on",
+    "screen": "off",
     "tau_screen": 1.5,
     "stat": "flow",
     "cap": 0.3,
@@ -51,6 +51,7 @@
       4,
       8
     ],
+    "lam_rule": "first",
     "min_act": 10,
     "max_purify": 2,
     "rep_steps": 50,
@@ -96,17 +97,6 @@
     "4": {
       "role": "suppressor",
       "decision": "purified(antidote)",
-      "screen": {
-        "z": {
-          "mag": 1.05,
-          "consist": 1.84,
-          "spread": -0.54,
-          "cancel": 0.59,
-          "cancel_set": -2.19
-        },
-        "suspect": true,
-        "partner": 0
-      },
       "confirm": {
         "trace": [
           {
@@ -159,16 +149,6 @@
               "lam": 0.5,
               "z": 1.27,
               "health": 0.186
-            },
-            {
-              "lam": 1,
-              "z": 0.92,
-              "health": 0.26
-            },
-            {
-              "lam": 2,
-              "z": 1.44,
-              "health": 0.328
             }
           ],
           "frac_of_carrier": {
@@ -176,36 +156,25 @@
             "3": 0.0541,
             "0": 0.0501
           },
-          "chosen_lam": 1
+          "chosen_lam": 0.5
         }
       ],
       "final": {
-        "acc": 86.03,
-        "retain_change": 10.71,
-        "alpha": 0.0006,
-        "asr": 1.88,
-        "forget_acc": 87.33
+        "acc": 86.96,
+        "retain_change": 8.54,
+        "alpha": 0.0003,
+        "asr": 15.26,
+        "forget_acc": 88.86
       },
       "cost": {
         "pop_models": 8,
         "forwards": 15,
-        "seconds": 0.7
+        "seconds": 0.4
       }
     },
     "7": {
       "role": "benign",
       "decision": "accept(confirm)",
-      "screen": {
-        "z": {
-          "mag": 6.61,
-          "consist": 2.8,
-          "spread": -6.35,
-          "cancel": 1.12,
-          "cancel_set": 0.62
-        },
-        "suspect": true,
-        "partner": 0
-      },
       "confirm": {
         "trace": [
           {
@@ -239,29 +208,35 @@
       "cost": {
         "pop_models": 0,
         "forwards": 7,
-        "seconds": 0.5
+        "seconds": 0.3
       }
     },
     "5": {
       "role": "benign",
-      "decision": "accept(screen)",
-      "screen": {
-        "z": {
-          "mag": 0.17,
-          "consist": 0.75,
-          "spread": 0.56,
-          "cancel": -3.28,
-          "cancel_set": -1.1
-        },
-        "suspect": false,
-        "partner": 0
-      },
+      "decision": "accept(confirm)",
       "confirm": {
-        "trace": [],
+        "trace": [
+          {
+            "delta": 1.0,
+            "removed": 1.0,
+            "h": 0.024,
+            "n_healthy": 7,
+            "stat": 0.0162,
+            "to_class": 8,
+            "src_div": 0.8501,
+            "flip_conf": 0.4203,
+            "z": 0.17,
+            "tau": 3.0,
+            "flagged": false,
+            "repaired": false,
+            "hard_collapse": false
+          }
+        ],
         "removed": 1.0,
         "aborted": false,
         "flagged": false
       },
+      "purify": [],
       "final": {
         "acc": 92.43,
         "retain_change": 2.76,
@@ -271,8 +246,8 @@
       },
       "cost": {
         "pop_models": 0,
-        "forwards": 0,
-        "seconds": 0.5
+        "forwards": 7,
+        "seconds": 0.3
       }
     }
   }
