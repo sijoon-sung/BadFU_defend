@@ -77,6 +77,7 @@ def parse():
     # C
     p.add_argument("--lams", type=float, nargs="+", default=[0.5, 1, 2, 4, 8])
     p.add_argument("--min_act", type=int, default=10)
+    p.add_argument("--max_purify", type=int, default=2, help="한 요청에서 정화 최대 횟수")
     p.add_argument("--rep_steps", type=int, default=50)
     p.add_argument("--rep_lr", type=float, default=None)
     p.add_argument("--rep_bs", type=int, default=128)
@@ -194,6 +195,78 @@ def main():
             e["forget_acc"] = forget_fn(m.state_dict(), loader, device)["acc"]
         return e
 
+    def purify(theta, pop, delta_step, k):
+        """C 정화. 운반자 후보도 요청자와 같은 양 δ_c 만 뺀다 (깊은 망에서 전량 제거는 무너지므로); 무너지는 후보는 제외.
+        돌려주는 것: (정화된 θ 또는 None, 방법, 기록)."""
+        pr = pop["pr"]
+        m_k = eng.model(theta)
+        pk = probs(m_k, pop["xs"])
+        d_stat = eng.stat_of(pk, pr)
+        c_star = d_stat.get("flow_to", d_stat.get("to_class"))
+        changed = pk.argmax(1) != pr.argmax(1)
+        act_idx = (changed & (pk.argmax(1) == c_star)).nonzero().flatten() if c_star is not None else torch.zeros(0, dtype=torch.long)
+        s_others = [pop["s"][j] for j in pop["healthy"]]
+        others = [j for j in range(K) if j != k]
+        base_pred = pk.argmax(1)
+
+        def act(th):
+            return eng.stat_of(probs(eng.model(th), pop["xs"]), pr)[a.stat]
+        a0 = d_stat[a.stat]
+        dc = delta_step
+        delta_map, healthy_c = {}, []
+        for j in others:
+            pj = probs(eng.model(theta - dc * U[j]), pop["xs"])
+            if divergence(base_pred, pj.argmax(1), a.n_classes)["changed"] > a.cap:
+                delta_map[j] = None
+                continue
+            delta_map[j] = a0 - eng.stat_of(pj, pr)[a.stat]
+            healthy_c.append(j)
+        order = [j for j in sorted(healthy_c, key=lambda j: -delta_map[j]) if delta_map[j] > 0]
+        A, th, cur, best, pat = [], theta.clone(), a0, (a0, [], theta.clone()), 0
+        for j in order[:max(1, len(others) - 1)]:
+            A.append(j); th = th - dc * U[j]; cur = act(th)
+            if cur < best[0] - 1e-4:
+                best, pat = (cur, list(A), th.clone()), 0
+            else:
+                pat += 1
+            if robust_z(cur, s_others, a.zmode) <= a.tau or pat >= 2:
+                break
+        A = best[1]
+        info = {"delta_c": round(dc, 4), "carriers": A, "carrier_roles": [roles[j] for j in A],
+                "map": {j: (None if v is None else round(v, 4)) for j, v in delta_map.items()},
+                "c_star": c_star, "n_act": int(act_idx.numel()), "variants": []}
+        theta_out, how = None, None
+        if A and act_idx.numel() >= a.min_act:
+            h = grad_logp(m_k, flat, pop["xs"][act_idx], c_star, device)
+            hn2 = float((h * h).sum().item())
+            par = {j: (float((U[j] * h).sum().item()) / hn2) * h for j in A}
+            info["frac_of_carrier"] = {j: round(float(par[j].norm() / U[j].norm()), 4) for j in A}
+            chosen = None
+            for lam in a.lams:
+                th = theta.clone()
+                for j in A:
+                    th = th - lam * par[j]
+                pa = probs(eng.model(th), pop["xs"])
+                health = divergence(pk.argmax(1), pa.argmax(1), a.n_classes)["changed"]
+                z2, _ = eng.check(pa, pop)
+                info["variants"].append({"lam": lam, "z": round(z2, 2), "health": round(health, 4)})
+                if health > a.cap:
+                    break
+                if z2 <= a.tau:
+                    chosen, theta_out = lam, th.clone()
+            info["chosen_lam"] = chosen
+            if chosen is not None:
+                how = "antidote"
+        if theta_out is None:                          # 대체: 재억제 수정
+            m_r = eng.model(theta)
+            ok, _ = eng.repair(m_r, pop, a.rep_stop)
+            th = flat.flatten(m_r.state_dict())
+            z2, _ = eng.check(probs(m_r, pop["xs"]), pop)
+            info["fallback_kd"] = {"ok": ok, "z": round(z2, 2)}
+            if z2 <= a.tau:
+                theta_out, how = th, "kd"
+        return theta_out, how, info
+
     for k in a.requesters:
         if str(k) in res["results"]:
             continue
@@ -201,13 +274,14 @@ def main():
         n_models0, n_fwd0 = eng.n_pop_models, eng.n_forwards
         eng.forget_x = forget_sets.get(k) if a.probe_mode == "forget" else None
         r = {"role": roles[k], "decision": None}
-        theta_plain = tT - U[k]
         # ---------- A
         if a.screen == "on":
             r["screen"] = screen(k)
             print(f"  [{k} {roles[k]}] A 거름망: " + " ".join(f"{key} z{r['screen']['z'][key]:+.1f}" for key in KEYS) + f" → {'의심' if r['screen']['suspect'] else '통과'}", flush=True)
             if not r["screen"]["suspect"]:
+                theta_plain = tT - U[k]
                 r["decision"] = "accept(screen)"
+                r["confirm"] = {"trace": [], "removed": 1.0, "aborted": False, "flagged": False}
                 r["final"] = evalm(theta_plain, theta_plain, k)
                 r["cost"] = {"pop_models": 0, "forwards": eng.n_forwards - n_fwd0, "seconds": round(time.time() - t0, 1)}
                 res["results"][str(k)] = r
@@ -215,9 +289,9 @@ def main():
                     json.dump(res, f, ensure_ascii=False, indent=2)
                 print(f"    → 수락 (기본 FU 와 동일). ASR {r['final'].get('asr')} ACC {r['final']['acc']}", flush=True)
                 continue
-        # ---------- B 확정 (단계·보호·멈춤은 dose_fu 와 같은 규칙)
-        theta, removed, trace, base_id, next_id, aborted, flagged_any = tT.clone(), 0.0, [], 0, 1, False, False
-        pop_last, m_k = None, None
+        # ---------- B 확정 (+ 걸리면 C 정화, 그 뒤 남은 양도 같은 규칙으로 계속)
+        theta, removed, trace, base_id, next_id = tT.clone(), 0.0, [], 0, 1
+        aborted, purifies, hows, failed = False, [], [], False
         while removed < 1 - 1e-9:
             left = 1 - removed
             delta, pop, healthy_ok = eng.dose(theta, base_id, k, left)
@@ -231,7 +305,8 @@ def main():
                     break
             if req_chg > a.cap:
                 aborted = True
-                trace.append({"delta": d, "removed": removed, "z": None, "flagged": False, "repaired": False, "hard_collapse": True, "aborted": True})
+                trace.append({"delta": round(d, 4), "removed": round(removed, 4), "z": None, "flagged": False, "repaired": False,
+                              "hard_collapse": True, "aborted": True})
                 break
             if abs(d - delta) > 1e-9:
                 delta, pop = d, eng.population(theta, base_id, k, d)
@@ -245,104 +320,47 @@ def main():
             z, d_stat = eng.check(pk, pop)
             tau_now = eng.threshold(pop)
             flagged = z > tau_now
-            flagged_any = flagged_any or flagged
             removed += delta
-            pop_last = pop
             trace.append({"delta": round(delta, 4), "removed": round(removed, 4), "h": pop["h"], "n_healthy": len(pop["healthy"]),
                           "stat": d_stat[a.stat], "to_class": d_stat.get("flow_to", d_stat.get("to_class")), "src_div": d_stat.get("src_div"),
                           "flip_conf": d_stat.get("flip_conf"), "z": round(z, 2), "tau": round(tau_now, 2), "flagged": bool(flagged),
                           "repaired": False, "hard_collapse": False})
             base_id, next_id = next_id, next_id + 1
             if flagged:
-                break                       # 걸리면 더 빼지 않고 정화로 (정화 뒤 남은 양을 마저 뺀다)
-        r["confirm"] = {"trace": trace, "removed": round(removed, 4), "aborted": aborted, "flagged": flagged_any}
-        print(f"  [{k} {roles[k]}] B 확정: " + " ".join(fmt_step(dict(s, z_cum=None)) for s in trace) + (" ABORT" if aborted else ""), flush=True)
-        if aborted and not flagged_any:
-            r["decision"] = "reject(collapse)"
-            r["final"] = evalm(theta, theta_plain, k)
-        elif not flagged_any:
-            r["decision"] = "accept(confirm)"
-            r["final"] = evalm(theta, theta_plain, k)
-        else:
-            # ---------- C 정화 (해독제)
-            pop = pop_last
-            pr = pop["pr"]
-            m_k = eng.model(theta)
-            pk = probs(m_k, pop["xs"])
-            c_star = trace[-1]["to_class"]
-            changed = pk.argmax(1) != pr.argmax(1)
-            act_idx = (changed & (pk.argmax(1) == c_star)).nonzero().flatten() if c_star is not None else torch.zeros(0, dtype=torch.long)
-            s_others = [pop["s"][j] for j in pop["healthy"]]
-            others = [j for j in range(K) if j != k]
-
-            def act(th):
-                return eng.stat_of(probs(eng.model(th), pop["xs"]), pr)[a.stat]
-            a0 = trace[-1]["stat"]
-            delta_map = {j: a0 - act(theta - U[j]) for j in others}
-            order = [j for j in sorted(others, key=lambda j: -delta_map[j]) if delta_map[j] > 0]
-            A, th, cur, best, pat = [], theta.clone(), a0, (a0, [], theta.clone()), 0
-            for j in order[:max(1, len(others) - 1)]:
-                A.append(j); th = th - U[j]; cur = act(th)
-                if cur < best[0] - 1e-4:
-                    best, pat = (cur, list(A), th.clone()), 0
-                else:
-                    pat += 1
-                if robust_z(cur, s_others, a.zmode) <= a.tau or pat >= 2:
+                if len(purifies) >= a.max_purify:
+                    failed = True
                     break
-            A = best[1]
-            pur = {"carriers": A, "carrier_roles": [roles[j] for j in A], "map": {j: round(v, 4) for j, v in delta_map.items()},
-                   "c_star": c_star, "n_act": int(act_idx.numel()), "variants": []}
-            theta_out, how = None, None
-            if A and act_idx.numel() >= a.min_act:
-                h = grad_logp(m_k, flat, pop["xs"][act_idx], c_star, device)
-                hn2 = float((h * h).sum().item())
-                par = {j: (float((U[j] * h).sum().item()) / hn2) * h for j in A}
-                pur["frac_of_carrier"] = {j: round(float(par[j].norm() / U[j].norm()), 4) for j in A}
-                chosen = None
-                for lam in a.lams:
-                    th = theta.clone()
-                    for j in A:
-                        th = th - lam * par[j]
-                    pa = probs(eng.model(th), pop["xs"])
-                    health = divergence(pk.argmax(1), pa.argmax(1), a.n_classes)["changed"]
-                    z2, _ = eng.check(pa, pop)
-                    pur["variants"].append({"lam": lam, "z": round(z2, 2), "health": round(health, 4)})
-                    if health > a.cap:
-                        break
-                    if z2 <= a.tau:
-                        chosen, theta_out = lam, th.clone()
-                pur["chosen_lam"] = chosen
-                if chosen is not None:
-                    how = "purified(antidote)"
-            if theta_out is None:                      # 대체: 재억제 수정
-                m_r = eng.model(theta)
-                ok, _ = eng.repair(m_r, pop, a.rep_stop)
-                th = flat.flatten(m_r.state_dict())
-                z2, _ = eng.check(probs(m_r, pop["xs"]), pop)
-                pur["fallback_kd"] = {"ok": ok, "z": round(z2, 2)}
-                if z2 <= a.tau:
-                    theta_out, how = th, "repaired(KD)"
-            if theta_out is None:
-                r["decision"] = "reject(purify_failed)"
-                r["final"] = evalm(theta, theta_plain, k)
-            else:
-                # 정화 뒤 남은 양을 마저 뺀다 (요청 이행)
-                rest = 1 - removed
-                if rest > 1e-9:
-                    theta_out = theta_out - rest * U[k]
-                    removed = 1.0
-                r["decision"] = how
-                r["final"] = evalm(theta_out, theta_plain, k)
-            r["purify"] = pur
-            r["confirm"]["removed"] = round(removed, 4)
+                theta_out, how, info = purify(theta, pop, delta, k)
+                purifies.append(info)
+                if theta_out is None:
+                    failed = True
+                    break
+                theta = theta_out
+                hows.append(how)
+                trace[-1]["repaired"], trace[-1]["how"] = True, how
+                base_id, next_id = next_id, next_id + 1
+        if failed:
+            decision = "reject(purify_failed)"
+        elif hows:
+            decision = f"purified({'+'.join(hows)})" + ("(partial)" if aborted else "")
+        elif aborted:
+            decision = "accept(partial)"                  # 경보 없이 연산자 한계로 멈춤: 마지막 멀쩡한 모델을 내보낸다
+        else:
+            decision = "accept(confirm)"
+        r["decision"] = decision
+        r["confirm"] = {"trace": trace, "removed": round(removed, 4), "aborted": aborted, "flagged": bool(hows or failed)}
+        r["purify"] = purifies
+        r["final"] = evalm(theta, tT - removed * U[k], k)
         r["cost"] = {"pop_models": eng.n_pop_models - n_models0, "forwards": eng.n_forwards - n_fwd0, "seconds": round(time.time() - t0, 1)}
         res["results"][str(k)] = r
         with open(out, "w", encoding="utf-8") as f:
             json.dump(res, f, ensure_ascii=False, indent=2)
         fin = r["final"]
-        print(f"    → {r['decision']}: ASR {fin.get('asr')} ACC {fin['acc']} retain {fin['retain_change']} α {fin['alpha']}"
-              + (f" 운반자 {r['purify']['carriers']} λ {r['purify'].get('chosen_lam')}" if "purify" in r else "")
+        print(f"  [{k} {roles[k]}] B 확정: " + " ".join(fmt_step(dict(s, z_cum=None)) for s in trace) + (" ABORT" if aborted else ""), flush=True)
+        print(f"    → {decision}: ASR {fin.get('asr')} ACC {fin['acc']} retain {fin['retain_change']} α {fin['alpha']} 뺀 양 {r['confirm']['removed']}"
+              + (f" 운반자 {[p['carriers'] for p in purifies]} λ {[p.get('chosen_lam') for p in purifies]}" if purifies else "")
               + f" | 모델 {r['cost']['pop_models']} 순전파 {r['cost']['forwards']} {r['cost']['seconds']}s", flush=True)
+
 
     print(f"\n== {a.name}  before ACC {res['before']['acc']} / ASR {res['before'].get('asr')}")
     for k, r in res["results"].items():

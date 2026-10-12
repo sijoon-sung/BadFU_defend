@@ -46,7 +46,7 @@ def main():
         dec = "; ".join(x["decision"] for x in e)
         passed = sum(1 for x in e if x["decision"] == "accept(screen)")
         zmax = [max((s["z"] for s in x.get("confirm", {}).get("trace", []) if s.get("z") is not None), default=None) for x in e]
-        carriers = "; ".join(str(x.get("purify", {}).get("carriers", "")) for x in e if "purify" in x) or "-"
+        carriers = "; ".join(str([q["carriers"] for q in x["purify"]]) for x in e if x.get("purify")) or "-"
         L.append(f"| {k} | {e[0]['role']} | {dec} | {passed}/{len(e)} | {ms(zmax)} | {ms([x['final'].get('asr') for x in e])} | {ms([x['final']['acc'] for x in e])} | "
                  f"{ms([x['final']['retain_change'] for x in e], 2)} | {ms([x['final'].get('alpha') for x in e], 3)} | {ms([x['final'].get('forget_acc') for x in e])} | {carriers} | "
                  f"{ms([x['cost']['pop_models'] for x in e], 0)} / {ms([x['cost']['forwards'] for x in e], 0)} / {ms([x['cost']['seconds'] for x in e])} |")
