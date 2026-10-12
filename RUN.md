@@ -52,6 +52,22 @@ cd FUBA && python verify_trajectories.py        # 전부 다시 보기 (파일�
 
 ## A. 꼭 돌릴 것 (순서대로)
 
+### A-0. 주 설정 (논문 설정 K=20 궤적) 본 결과 — RESULTS_LOG R-007, R-008
+궤적 6 개는 만들어져 검증됐다 (`docs/EXPERIMENT_LOG.md`, 위장자 제거 시 ASR 46–93). 이제 그 위에서 본 결과를 낸다. 전량 빼기는 붕괴하므로 DOSE 의 단계 제거가 필수이고, 빼기 연산자가 `partial` 로 끝나면 둘째 줄(단계 + 증류 연산자)이 본 결과가 된다.
+```bash
+K=20 ROUNDS=100 WARMUP=5 TAG="_k20paper" FORCE=1 STAGES="benign dose cancel effects aggregate" CONDS="iid owner" BENIGN_METHODS="subtract distillation fedEraser" CANCEL_EXTRA="--rounds_eff off" bash run_all.sh
+```
+```bash
+K=20 ROUNDS=100 WARMUP=5 TAG="_k20paper_kd" FORCE=1 STAGES="dose cancel aggregate" CONDS="iid owner" DOSE_EXTRA="--op kd" CANCEL_EXTRA="--op kd --rounds_eff off" bash run_all.sh
+```
+| 결과 | 파일 | 관문 1 (PLAN.md) |
+|---|---|---|
+| 결정·ASR·ACC·α·비용 | `logs/cancel/summary_{iid,owner}_r100w5_k20paper{,_kd}.md` | 위장자 purified 3/3, 정화 뒤 ASR ≤ 정상 제거 수준 + 5, 정상 두 명 accept 6/6, owner 소유자(19) 오탐 ≤ 1/3 |
+| 운반자 찾기 | 같은 파일 셋째 표 | 정밀도 ≥ 0.9 |
+| FU 연산자 (빼기·증류·FedEraser) | `logs/benign_departure/summary_*_r100w5_k20paper.md` | 빼기가 붕괴하면 그대로 적는다 (주장 1 은 EXPERIMENT_LOG 의 작동점 값으로) |
+주의: `--rounds_eff off` 는 라운드별 궤적 통계(보조)만 끈다. 참여율 0.4 궤적에서 결석 라운드 처리가 아직 라운드 단위 스크립트에 없기 때문이다. 끝나면 `git add FUBA/logs docs && git commit -m "results: R-007 R-008" && git push`.
+
+
 ### A0. 상쇄 짝 찾기 절차 (cancel, 본 방법 v3) — 두 조건 × 3 시드, 궤적은 있다고 보고
 ```bash
 FORCE=1 STAGES="cancel aggregate" CONDS="iid owner" bash run_all.sh
