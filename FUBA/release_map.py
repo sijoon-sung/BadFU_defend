@@ -79,12 +79,18 @@ class Flat:
 
 # ------------------------------------------------------------------ 궤적 로더
 def load_fuba(a):
+    import re
     from model import MNISTAutoencoder, Net
     g, l = [], []
+    name = a.name
+    if not os.path.exists(f"{a.ckpt_dir}/global_net_model_{name}_round_1.pkl"):
+        base_name = re.sub(r"_[a-zA-Z0-9]+(?=_s\d+)", "", name)
+        if os.path.exists(f"{a.ckpt_dir}/global_net_model_{base_name}_round_1.pkl"):
+            name = base_name
     for r in range(1, a.rounds + 1):
-        with open(f"{a.ckpt_dir}/global_net_model_{a.name}_round_{r}.pkl", "rb") as f:
+        with open(f"{a.ckpt_dir}/global_net_model_{name}_round_{r}.pkl", "rb") as f:
             g.append(pickle.load(f))
-        with open(f"{a.ckpt_dir}/local_net_model_{a.name}_round_{r}.pkl", "rb") as f:
+        with open(f"{a.ckpt_dir}/local_net_model_{name}_round_{r}.pkl", "rb") as f:
             l.append(pickle.load(f))
     theta_T = g[-1]
     flat = Flat(theta_T)
@@ -97,7 +103,7 @@ def load_fuba(a):
                 continue
             U[k] += (flat.flatten(l[r - 1][k]) - gv) / K
     bd = None
-    p = f"{a.ckpt_dir}/backdoor_net_model_{a.name}_round_{a.rounds}.pkl"
+    p = f"{a.ckpt_dir}/backdoor_net_model_{name}_round_{a.rounds}.pkl"
     if os.path.exists(p):
         bd = MNISTAutoencoder()
         with open(p, "rb") as f:

@@ -1,0 +1,53 @@
+{
+  "4": {
+    "decisions": [
+      "purified(antidote+kd)",
+      "purified(antidote)",
+      "accept(screen)"
+    ],
+    "asr": [
+      0.0,
+      1.88,
+      49.7
+    ],
+    "acc": [
+      76.17,
+      86.03,
+      67.87
+    ]
+  },
+  "7": {
+    "decisions": [
+      "accept(confirm)",
+      "accept(confirm)",
+      "purified(antidote)"
+    ],
+    "asr": [
+      29.12,
+      22.86,
+      7.68
+    ],
+    "acc": [
+      82.21,
+      83.36,
+      83.56
+    ]
+  },
+  "5": {
+    "decisions": [
+      "accept(screen)",
+      "accept(screen)",
+      "accept(confirm)"
+    ],
+    "asr": [
+      25.19,
+      11.97,
+      9.26
+    ],
+    "acc": [
+      89.63,
+      92.43,
+      91.06
+    ]
+  }
+}
