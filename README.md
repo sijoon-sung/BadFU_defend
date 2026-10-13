@@ -32,6 +32,7 @@
 ## 어디부터 읽나
 | 문서 | 내용 |
 |---|---|
+| [docs/paper/CONSOLIDATED.md](docs/paper/CONSOLIDATED.md) | **한 번에 정리**: 두 단계로 줄인 알고리즘(균형 장부 → 경보 시점 되감기+연합 제외), 실측 통계 표 1–5, 정화 결정 |
 | [docs/paper/PLAIN_SUMMARY.md](docs/paper/PLAIN_SUMMARY.md) | **쉬운 말 요약**: 문제·확인한 사실·균형 장부·결과·논문 한 줄 |
 | [docs/paper/HOW_OTHERS_EXPLAIN.md](docs/paper/HOW_OTHERS_EXPLAIN.md) | **다른 논문의 설명 방식**: 방어 24 편의 불변량·이론 대상·판정·보장 표, 공격 논문의 잠복 설명, 상쇄를 설명할 10 가지 렌즈와 우리 판단(§6) |
 | [docs/paper/ALGORITHMIZATION.md](docs/paper/ALGORITHMIZATION.md) | **관찰 → 알고리즘**: 다른 방어 논문 6편이 밟은 다섯 단계, 우리의 균형 장부(Balance Ledger) 알고리즘과 불변량·영분포·대응·보장 |
