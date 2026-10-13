@@ -9,7 +9,7 @@
 ### 1. 코드 받기와 빠른 재생 (저장소 루트, Git Bash)
 
 ```bash
-git fetch origin
+git fetch origin refs/heads/codex/structural-latent-defense:refs/remotes/origin/codex/structural-latent-defense
 git switch codex/structural-latent-defense
 git pull --ff-only origin codex/structural-latent-defense
 python -m unittest discover -s FUBA/tests -v
