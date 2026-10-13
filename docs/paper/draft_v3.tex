@@ -2,7 +2,7 @@
 % 숫자는 docs/RESULTS_LOG.md 의 번호(R-xxx)가 있는 것만 썼다. 없는 숫자는 [R-xxx 예정] 으로 비워 둔다.
 \documentclass[10pt,a4paper]{article}
 \usepackage{kotex}
-\setmainhangulfont{Noto Sans CJK KR}   % 윈도우 로컬이면 {Malgun Gothic}
+\IfFontExistsTF{Noto Sans CJK KR}{\setmainhangulfont{Noto Sans CJK KR}}{\setmainhangulfont{Malgun Gothic}}   % Overleaf: Noto, 윈도우: 맑은 고딕
 \usepackage[margin=20mm]{geometry}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{booktabs,array,multirow}
@@ -138,17 +138,19 @@ H(c)&=1-\Big|\textstyle\sum_j P_j(c)\Big|\Big/\textstyle\sum_j|P_j(c)| \quad\tex
 \begin{table}[t]\centering\small
 \caption{공격 재현(R-006). 정확도/ASR(\%). 위장자를 전량 빼면 모델이 무너진다(정확도 9.7\%, R-007).}
 \label{tab:attack}
+\resizebox{\linewidth}{!}{%
 \begin{tabular}{lllll}\toprule
  & 잠복 & 위장자 20\% 제거 & 정상 1명 제거 & 운반자 1명 제거\\\midrule
 IID s0·s1·s2 & 98.8/7.4 · 98.7/3.1 · 98.6/4.8 & 68.7/92.6 · 97.6/46.2 · 86.6/82.3 & 97.8/3.9 · 96.5/2.4 · 94.8/4.9 & 98.3/0.6 · 98.1/0.6 · 97.3/0.6\\
 owner s0·s1·s2 & 98.2/7.8 · 98.3/3.6 · 98.1/5.7 & 73.1/85.7 · 96.7/50.0 · 82.5/78.9 & 96.1/9.8 · 95.8/5.8 · 96.0/4.4 & 98.0/1.4 · 96.5/0.2 · 94.5/0.2\\
 ASR 평균 (IID / owner) & 5.1$\pm$1.8 / 5.7$\pm$1.7 & 73.7$\pm$19.9 / 71.5$\pm$15.5 & 3.7$\pm$1.0 / 6.7$\pm$2.3 & 0.6$\pm$0.0 / 0.6$\pm$0.6\\
-\bottomrule\end{tabular}
+\bottomrule\end{tabular}}
 \end{table}
 
 \begin{table}[t]\centering\small
 \caption{RQ1·RQ2: 균형 장부(R-013; R-012). 역할 정보 없음.}
 \label{tab:ledger}
+\resizebox{\linewidth}{!}{%
 \begin{tabular}{lll}\toprule
  & IID (3 시드) & owner (3 시드)\\\midrule
 경보 라운드 / 99 & 13.0$\pm$1.6 (13, 15, 11) & 14.0$\pm$2.2 (16, 15, 11)\\
@@ -164,7 +166,7 @@ $\mathrm{share}(c^*)$(운반자 최대 몫) & 0.41$\pm$0.09 & 0.39$\pm$0.11\\
 $t_{\mathrm{back}}$ & 10, 12, 7 & 13, 12, 7\\
 $P(c^*)$ 끝: 위장자 / 운반자 / 정상 / 소유자 & $-39.4\ldots-29.7$ / $+3.3\ldots+16.3$ / $-3.1\ldots+4.9$ / --- & $-36.4\ldots-32.7$ / $+4.4\ldots+12.9$ / $-3.9\ldots+2.2$ / $+0.2\ldots+3.8$\\
 순/총 밀기 $|\sum|/\sum|\cdot|$ ($c^*$) & 0.07--0.12 & 0.15--0.16\\
-\bottomrule\end{tabular}
+\bottomrule\end{tabular}}
 \end{table}
 
 \paragraph{RQ1·RQ2.} 표~\ref{tab:ledger}, 그림~\ref{fig:H}. 경보는 학습의 11--16\% 지점에 난다. 위장자는 모든 클래스의 음의 다리($z$ $-4\ldots-19$)이지만 양의 다리가 둘 이상이고 한 명이 독식하지 않는 클래스는 $c^*$뿐이다. owner 조건의 클래스 3은 정상 큰손으로 분류된다. 한 시드(owner s0)는 학습 끝에 정상 한 명이 클래스 3의 양의 다리에 더해져 $\mathrm{share}$ 조건이 없으면 공모로 걸린다($s_0=0.6$의 근거; 0.5는 IID s0의 $c^*$까지 깎는다). 다른 시드(owner s1)는 학습 끝에 소유자가 $c^*$의 $\mathrm{Pos}$에 들어오므로 제외 목록은 경보 시점의 것을 쓴다.
@@ -177,6 +179,7 @@ $P(c^*)$ 끝: 위장자 / 운반자 / 정상 / 소유자 & $-39.4\ldots-29.7$ / 
 \begin{table}[t]\centering\small
 \caption{RQ3: 기존 계열과의 비교(R-009; 같은 6 궤적, 36 점수 중 대표). 잡힘 = 위장자 순위 1인 시드 수; 소유자 $z$는 owner 조건.}
 \label{tab:baselines}
+\resizebox{\linewidth}{!}{%
 \begin{tabular}{lccccc}\toprule
 계열 (점수) & 잡힘 IID · owner & 소유자 $z$ & 운반자 평균 순위/20 & 모델 생성 & 시점\\\midrule
 갱신 크기: 노름 · Krum · 총노출 & 3/3 · 3/3 & 3.8 · 6.8 · 2.8 & 18.5 & 없음 & 학습 중\\
@@ -188,13 +191,14 @@ null-space 에너지 & 1/3 · 1/3 & $-9.9$ & 3--7 & 없음 & 요청 시\\
 학습 중 부분합 감사(라운드 74) & 3/3 · 3/3 & 0.0 & 2.9--3.0 & 라운드당 $K$개 & 학습 중\\
 참여 자연 실험(참여 회귀) & 3/3 · 3/3 & $-1.5$ & 15.0--15.2 & 없음 & 학습 중\\
 \textbf{균형 장부} & \textbf{3/3 · 3/3} & \textbf{제외 0/3} & \textbf{운반자 $=\mathrm{Pos}$ 4/4} & \textbf{없음} & \textbf{13--14 라운드}\\
-\bottomrule\end{tabular}
+\bottomrule\end{tabular}}
 \end{table}
 \paragraph{RQ3.} 표~\ref{tab:baselines}. 크기 기준은 소유자를 같이 잡고 운반자를 가장 정상으로 본다. 방향 기준은 운반자가 가장 중심이라 못 본다. 절대 변화 심사는 소유자 오탐. 위장자만 잡는 것은 상대 기준 빼 보기·기능 효과·부분합 감사·참여 회귀·장부이며, 이 중 운반자까지 특정하고 모델 생성 없이 가장 이른 것은 장부다.
 
 \begin{table}[t]\centering\small
 \caption{RQ4: 대응. ASR/정확도(\%), 요청자 = 위장자.}
 \label{tab:remedy}
+\resizebox{\linewidth}{!}{%
 \begin{tabular}{llll}\toprule
 처방 & IID & owner & 출처\\\midrule
 정확한 언러닝 = 재학습, 운반자 남김 & 44.3$\pm$23.3 / 98.8 & 29.6$\pm$19.2 / 98.4 & $K=8$ 예비(R-001 설정)\\
@@ -203,7 +207,7 @@ null-space 에너지 & 1/3 · 1/3 & $-9.9$ & 3--7 & 없음 & 요청 시\\
 해독제(짝 몫 투영 제거) & 실패 & 실패 & R-011\\
 \textbf{연합 제외 재학습(처음부터)} & \textbf{0.5$\pm$0.1 / 99.0$\pm$0.0} & \textbf{0.6$\pm$0.2 / 98.9$\pm$0.0} & R-010\\
 연합 제외, $t_{\mathrm{back}}$ 되감기 이어 학습 & 0.7 / 99.1 (노트북 1 시드, $t_{\mathrm{back}}=13$) & \todo{R-014 예정} & R-014(예비)\\
-\bottomrule\end{tabular}
+\bottomrule\end{tabular}}
 \end{table}
 \paragraph{RQ4.} 표~\ref{tab:remedy}. 요청자를 완벽히 지우는 것(재학습)은 공격을 완성한다. 연합을 제외해야 ASR 0.5와 정확도 99가 동시에 나온다. 되감기 이어 학습은 노트북 1 시드에서 처음부터 재학습과 같은 수준(ASR 0.7, 정확도 99.1)이다 \todo{DISLAB 6 궤적 R-014 예정}.
 \paragraph{RQ5: 문턱 민감도.}\label{sec:sens} (R-013, 노트북 IID 1 시드, 저장된 밀기로 재판정.) $h_0$ 0.7/0.8/0.9 $\to$ 경보 13/16/65 라운드, 목록 불변. $\tau=5\to$ 22 라운드. $\kappa=1.5\to$ 정상 1명이 $\mathrm{Pos}$에 섞임(정밀도 0.8); $\kappa=3\to$ 목록 불변. $r=1\to$ 7 라운드에 정상을 $\mathrm{neg}$로 오판; $r=5\to$ 18 라운드. $s_0$ 1.0/0.6/0.5 $\to$ 끝 장부 오경보 1/6 / 0/6 / $c^*$ 손상 1/6. 경보 시점은 문턱에 따라 움직이지만 누가 잡히는지는 $r\ge3,\kappa\ge2,s_0\in[0.6,1)$에서 변하지 않는다.
