@@ -26,6 +26,18 @@ ONLY="k20_paper_cifar clean_paper" bash make_trajectories.sh     # CIFAR 논문 
 | 9 (노트북) | **BadFU 40 라운드** (R-017 재확인) | `cd ../BadFU_src/BadFU-main && bash make_badfu_trajectories.sh` 뒤 `cd ../../FUBA && python ledger_defense.py --fmt badfu --name badfu_s42 --traj_dir ../BadFU_src/BadFU-main/logs/traj_s42 --data_root ../BadFU_src/BadFU-main/data --rounds 40 --K 6 --defender 5 --attackers 0 --target 0 --start 3 --min_present 1 --counts $(python -c "import json;e=[e for e in json.load(open('trajectories.json'))['trajectories'] if e['name']=='badfu_s42'][0];print(' '.join(map(str,e['counts'])))") --cond badfu` | `logs/ledger/badfu_s42.json` | 같음 | 2.5 시간 + 5 분 | 미확인 |
 3–4 가 리뷰가 요구한 두 숫자(규모, 오경보), 5–6 이 표 4, 7–9 가 넓힘이다. '미확인' 줄은 노트북에서 코드 경로를 본 뒤에 돌린다. 자세한 설명은 아래 절 (0, 0-b, A-03, A-01).
 
+## 0-a. 노트북 검증용 작은 궤적 가져오기 (DISLAB → 노트북; 코드 경로 확인에만 쓴다)
+표의 "미확인" 줄(위장자 2 명, 집계 방어)을 노트북에서 먼저 돌려 보려면 DISLAB 의 작은 궤적 두 묶음이 필요하다. 전부 MNIST K=8/16, 8 라운드라 합쳐서 약 400 MB.
+```bash
+# DISLAB (FUBA 폴더): 압축
+cd checkpoints && zip -q ../small_traj.zip *_bd_iid_k16sup2_s*_round_*.pkl *_bd_iid_{median,multi_krum,flame,flDetector}_s*_round_*.pkl && cd .. && ls -la small_traj.zip
+```
+```bash
+# 노트북 (FUBA 폴더): 풀기 (checkpoints/ 에 그대로 들어간다; git 에는 안 올라감)
+unzip -o small_traj.zip -d checkpoints/
+```
+노트북에서 돌릴 확인 (내가 돌린다): 위장자 2 명 `for s in 0 1 2; do python ledger_defense.py --fmt fuba --name bd_iid_k16sup2_s$s --K 16 --rounds 8 --defender 4 --defenders 4 8 --attackers 0 1 2 3 5 6 7 9 --target 8 --neg_set --start 3 --min_present 1 --cond sup2; done`, 집계 방어 `for d in median multi_krum flame flDetector; do for s in 0 1 2; do python ledger_defense.py --fmt fuba --name bd_iid_${d}_s$s --K 8 --rounds 8 --defender 4 --attackers 0 1 2 3 --target 8 --start 3 --min_present 1 --cond tdef_$d; done; done`.
+
 ## 0. 공격 궤적 미리 만들기 (한 번만, 다른 실험보다 먼저)
 
 실험은 저장된 궤적 파일만 읽는다. 궤적은 저자 코드가 만든다 (FUBA 는 `main.py`, BadFU 는 저자 루프를 옮긴 `fl_detect_badfu.py`). 우리는 flag(클라 수·참여율·라운드·시드·방어)만 정한다.
