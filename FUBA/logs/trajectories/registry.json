@@ -28,7 +28,7 @@
     ]
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-13 00:54",
+   "date": "2026-10-13 17:30",
    "verifier_version": 1,
    "sig": "f24e3aa9303c7327",
    "seconds": 0.0
@@ -62,7 +62,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-13 00:54",
+   "date": "2026-10-13 17:30",
    "verifier_version": 1,
    "sig": "c40ffd8f6e540c30",
    "seconds": 0.0
@@ -2762,15 +2762,17 @@
    "name": "bd_iid_r100w5_k20paper_median_s0",
    "attack": "fuba",
    "group": "tdef_paper",
-   "status": "missing",
+   "status": "fail",
    "collapsed": false,
-   "reasons": [],
+   "reasons": [
+    "파일 243/295 개 없음 (예: global_net_model_bd_iid_r100w5_k20paper_median_s0_round_20.pkl) — 생성이 중간에 끊겼거나 라운드/웜업이 매니페스트와 다름"
+   ],
    "warnings": [],
    "info": [],
    "metrics": {},
    "files": {
     "expected": 295,
-    "found": 0
+    "found": 52
    },
    "thresholds": {
     "dormant_asr_max": 15,
@@ -2787,10 +2789,10 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-13 00:54",
+   "date": "2026-10-13 17:30",
    "verifier_version": 1,
-   "sig": "8e6e1472429e150a",
-   "seconds": 0.0
+   "sig": "09dff6a9860a3cec",
+   "seconds": 1.2
   },
   "bd_iid_r100w5_k20paper_median_s1": {
    "name": "bd_iid_r100w5_k20paper_median_s1",
@@ -2821,7 +2823,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-13 00:54",
+   "date": "2026-10-13 17:30",
    "verifier_version": 1,
    "sig": "ba4636dcfa4936cb",
    "seconds": 0.0
@@ -2855,7 +2857,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-13 00:54",
+   "date": "2026-10-13 17:30",
    "verifier_version": 1,
    "sig": "158c68ab5110c3dc",
    "seconds": 0.0
@@ -2889,7 +2891,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-13 00:54",
+   "date": "2026-10-13 17:30",
    "verifier_version": 1,
    "sig": "3a22f40dae6cf257",
    "seconds": 0.0
@@ -2923,7 +2925,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-13 00:54",
+   "date": "2026-10-13 17:30",
    "verifier_version": 1,
    "sig": "ae0714c35a44d551",
    "seconds": 0.0
@@ -2957,7 +2959,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-13 00:54",
+   "date": "2026-10-13 17:30",
    "verifier_version": 1,
    "sig": "caa53f1029f1f729",
    "seconds": 0.0
@@ -2991,7 +2993,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-13 00:54",
+   "date": "2026-10-13 17:30",
    "verifier_version": 1,
    "sig": "4c713b08ef5f4ec1",
    "seconds": 0.0
@@ -3025,7 +3027,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-13 00:54",
+   "date": "2026-10-13 17:30",
    "verifier_version": 1,
    "sig": "54155d6e6eb7bed0",
    "seconds": 0.0
@@ -3059,7 +3061,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-13 00:54",
+   "date": "2026-10-13 17:30",
    "verifier_version": 1,
    "sig": "4563639c04244752",
    "seconds": 0.0
@@ -3093,7 +3095,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-13 00:54",
+   "date": "2026-10-13 17:30",
    "verifier_version": 1,
    "sig": "ee7f409a22997012",
    "seconds": 0.0
@@ -3127,7 +3129,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-13 00:54",
+   "date": "2026-10-13 17:30",
    "verifier_version": 1,
    "sig": "147a7579e8bf8f9b",
    "seconds": 0.0
@@ -3161,7 +3163,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-13 00:54",
+   "date": "2026-10-13 17:30",
    "verifier_version": 1,
    "sig": "117ea52e5b539b8e",
    "seconds": 0.0
@@ -3845,7 +3847,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-13 00:54",
+   "date": "2026-10-13 17:30",
    "verifier_version": 1,
    "sig": "bd8ded203202589f",
    "seconds": 0.0
@@ -3879,7 +3881,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-13 00:54",
+   "date": "2026-10-13 17:30",
    "verifier_version": 1,
    "sig": "41a8d966bd7fbd80",
    "seconds": 0.0
@@ -3913,7 +3915,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-13 00:54",
+   "date": "2026-10-13 17:30",
    "verifier_version": 1,
    "sig": "64298b6658c99b63",
    "seconds": 0.0
@@ -3947,7 +3949,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-13 00:54",
+   "date": "2026-10-13 17:30",
    "verifier_version": 1,
    "sig": "25886b9e683376be",
    "seconds": 0.0
@@ -3981,7 +3983,7 @@
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-13 00:54",
+   "date": "2026-10-13 17:30",
    "verifier_version": 1,
    "sig": "8a308effff95d95b",
    "seconds": 0.0
@@ -4013,7 +4015,7 @@
     ]
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-13 00:54",
+   "date": "2026-10-13 17:30",
    "verifier_version": 1,
    "sig": "967767427c9a6c29",
    "seconds": 0.0
@@ -4045,7 +4047,7 @@
     ]
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-13 00:54",
+   "date": "2026-10-13 17:30",
    "verifier_version": 1,
    "sig": "11dcfe16de8ff6af",
    "seconds": 0.0
@@ -4077,11 +4079,255 @@
     ]
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-13 00:54",
+   "date": "2026-10-13 17:30",
    "verifier_version": 1,
    "sig": "ab674089e5f2f298",
    "seconds": 0.0
+  },
+  "bd_iid_r100w5_k20paper_cifar_s0": {
+   "name": "bd_iid_r100w5_k20paper_cifar_s0",
+   "attack": "fuba",
+   "group": "k20_paper_cifar",
+   "status": "fail",
+   "collapsed": false,
+   "reasons": [
+    "파일 141/295 개 없음 (예: global_net_model_bd_iid_r100w5_k20paper_cifar_s0_round_54.pkl) — 생성이 중간에 끊겼거나 라운드/웜업이 매니페스트와 다름"
+   ],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 295,
+    "found": 154
+   },
+   "thresholds": {
+    "dormant_asr_max": 20,
+    "dormant_acc_min": 50,
+    "sup_asr_min": 30,
+    "benign_asr_max": 20,
+    "collapse_acc": 25,
+    "aggregation": "fedavg",
+    "provisional": true,
+    "basis": "임시: CIFAR-10/resnet18 은 미실측. 첫 궤적의 잠복 ACC/ASR·위장자 제거 ASR 을 보고 고칠 것 (ACC 가 50 아래면 train_epoch 를 늘려야 함)",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "0f152f0cfeb73d83",
+   "seconds": 0.0
+  },
+  "bd_iid_r100w5_k20paper_cifar_s1": {
+   "name": "bd_iid_r100w5_k20paper_cifar_s1",
+   "attack": "fuba",
+   "group": "k20_paper_cifar",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 295,
+    "found": 0
+   },
+   "thresholds": {
+    "dormant_asr_max": 20,
+    "dormant_acc_min": 50,
+    "sup_asr_min": 30,
+    "benign_asr_max": 20,
+    "collapse_acc": 25,
+    "aggregation": "fedavg",
+    "provisional": true,
+    "basis": "임시: CIFAR-10/resnet18 은 미실측. 첫 궤적의 잠복 ACC/ASR·위장자 제거 ASR 을 보고 고칠 것 (ACC 가 50 아래면 train_epoch 를 늘려야 함)",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "6cd7458d5db2bf72",
+   "seconds": 0.0
+  },
+  "bd_iid_r100w5_k20paper_cifar_s2": {
+   "name": "bd_iid_r100w5_k20paper_cifar_s2",
+   "attack": "fuba",
+   "group": "k20_paper_cifar",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 295,
+    "found": 0
+   },
+   "thresholds": {
+    "dormant_asr_max": 20,
+    "dormant_acc_min": 50,
+    "sup_asr_min": 30,
+    "benign_asr_max": 20,
+    "collapse_acc": 25,
+    "aggregation": "fedavg",
+    "provisional": true,
+    "basis": "임시: CIFAR-10/resnet18 은 미실측. 첫 궤적의 잠복 ACC/ASR·위장자 제거 ASR 을 보고 고칠 것 (ACC 가 50 아래면 train_epoch 를 늘려야 함)",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "67770afe3c80da63",
+   "seconds": 0.0
+  },
+  "clean_iid_r100_k20paper_s0": {
+   "name": "clean_iid_r100_k20paper_s0",
+   "attack": "fuba",
+   "group": "clean_paper",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 200,
+    "found": 0
+   },
+   "thresholds": {
+    "clean": true,
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "benign_asr_max": 20,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "attack_required": false,
+    "basis": "공격 없음: 잠복 ASR 낮음(트리거 생성기는 학습되지 않아 ASR 은 우연 수준)·ACC·정상 제거 무해만 본다",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "8330960152d28103",
+   "seconds": 0.0
+  },
+  "clean_iid_r100_k20paper_cifar_s0": {
+   "name": "clean_iid_r100_k20paper_cifar_s0",
+   "attack": "fuba",
+   "group": "clean_paper",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 200,
+    "found": 0
+   },
+   "thresholds": {
+    "clean": true,
+    "dormant_asr_max": 20,
+    "dormant_acc_min": 50,
+    "benign_asr_max": 20,
+    "collapse_acc": 25,
+    "aggregation": "fedavg",
+    "provisional": true,
+    "attack_required": false,
+    "basis": "공격 없음: 잠복 ASR 낮음(트리거 생성기는 학습되지 않아 ASR 은 우연 수준)·ACC·정상 제거 무해만 본다",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "6b56d2d1cf7ceee1",
+   "seconds": 0.0
+  },
+  "clean_owner_r100_k20paper_s0": {
+   "name": "clean_owner_r100_k20paper_s0",
+   "attack": "fuba",
+   "group": "clean_paper",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 200,
+    "found": 0
+   },
+   "thresholds": {
+    "clean": true,
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "benign_asr_max": 20,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "attack_required": false,
+    "basis": "공격 없음: 잠복 ASR 낮음(트리거 생성기는 학습되지 않아 ASR 은 우연 수준)·ACC·정상 제거 무해만 본다",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "bd08cdaba814fa48",
+   "seconds": 0.0
+  },
+  "clean_owner_r100_k20paper_cifar_s0": {
+   "name": "clean_owner_r100_k20paper_cifar_s0",
+   "attack": "fuba",
+   "group": "clean_paper",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 200,
+    "found": 0
+   },
+   "thresholds": {
+    "clean": true,
+    "dormant_asr_max": 20,
+    "dormant_acc_min": 50,
+    "benign_asr_max": 20,
+    "collapse_acc": 25,
+    "aggregation": "fedavg",
+    "provisional": true,
+    "attack_required": false,
+    "basis": "공격 없음: 잠복 ASR 낮음(트리거 생성기는 학습되지 않아 ASR 은 우연 수준)·ACC·정상 제거 무해만 본다",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "141dc8179b131b84",
+   "seconds": 0.0
   }
  },
- "updated": "2026-10-13 00:54"
+ "updated": "2026-10-13 17:30"
 }
