@@ -32,7 +32,7 @@
 - 명제 1·2 는 스케치다. 가정(누출 비율 η, 정상 밀기의 독립·분산)을 식으로 못 박고, 명제 2 는 R-015 숫자로 바꿔야 한다.
 - "운반자 남긴 재학습 ASR 44" 는 K=8 예비 결과다. 논문 설정에서 다시 재야 표 4 첫 행이 선다 (benign_departure retrain_attack, 6 × 13 분).
 - 참고문헌은 제목·연도만 적었다. 실제 서지 확인 필요 (특히 FUBA, UBA-Inf, SubID 는 본문을 못 열었다).
-- LaTeX 는 컴파일하지 않았다 (이 컴퓨터에 TeX 없음). Overleaf 에서 XeLaTeX 로 열면 된다.
+- LaTeX 는 Tectonic 0.17 (XeTeX 엔진) 으로 컴파일했다: `tectonic -o docs/paper docs/paper/draft_v3.tex` → `draft_v3.pdf` (7 쪽). 노트북의 실행 파일: `C:/Users/sijoo/AppData/Local/Temp/bfu/tectonic_dl/tectonic.exe`. Overleaf 면 XeLaTeX. 표는 `\resizebox` 로 폭을 맞췄다 (글자가 작다; 학회 양식에 맞출 때 세로 표로 바꾼다).
 
 ## 5. 순서 제안
 1. DISLAB: 공격 없는 궤적 1 개 → 장부 (오경보). 2. DISLAB: 되감기 6 궤적. 3. 논문 설정 retrain_attack 6 궤적. 4. 초안의 todo 를 숫자로 바꾸고 명제를 식으로. 5. BadFU·sup2·tdef 는 넓힘 절.
