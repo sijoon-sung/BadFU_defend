@@ -14,7 +14,7 @@
 | 되감기 이어 학습 (노트북 1 시드) | t_back 13: ASR 0.68 / 99.08; 경보 라운드 16 즉시 제외: 0.74 / 99.01; 처음부터(로컬 기준선): 0.31 / 99.07 | R-014 (예비) | FUBA/logs/benign_departure/loc_k20paper_s0_excl_from13.json |
 | 버린 처방 | 재억제 α 0.09 (R-008), 해독제 실패 (R-011), 매개변수 헤지 기각 (R-005) | — | RESULTS_LOG |
 | 문헌 | 방어 24 편·공격 7 편의 불변량·설명 방식, 10 가지 렌즈, 우리 판단 | — | docs/paper/HOW_OTHERS_EXPLAIN.md |
-| 초안 | 조사한 논문들의 전개로 쓴 전체 초안 + 그림 2 장 | — | docs/paper/DRAFT_v3.md, DRAFT_v3.pdf, **draft_v3.tex** |
+| 초안 | v4 = 쉬운 말 판 (비유 용어 제거, 기제 설명) | — | docs/paper/DRAFT_v4.md, **draft_v4.tex**, draft_v4.pdf (v3 는 보관) |
 
 ## 2. 돌아가는 것 (노트북)
 - 없음 (R-014 노트북 세 변형 완료).
