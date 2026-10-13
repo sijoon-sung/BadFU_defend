@@ -1,6 +1,99 @@
-# 실험 돌리기 (DISLAB) — 2026-10-13 저녁 판
+# 실험 돌리기 — 2026-10-14
 
-브랜치 `dev`. 모두 `FUBA` 폴더에서. 본 방법은 균형 장부 (`docs/paper/DRAFT_v3.md` §5–6). 결과 번호는 `docs/RESULTS_LOG.md`.
+## 이번에 실행할 실험: 장력과 선택적 삭제율 (v3)
+
+목적은 **FL 장력에 FU의 삭제 경계를 붙이면 단순 삭제 영향 점수보다 나은가**를 반증 가능한 형태로 검사하는 것이다. 주 알고리즘은 후보 언러닝 모델을 만들지 않는다. 수학, 반례, 한계는 [현재 v7](docs/paper/draft_v7.tex) §§4–9에 반영했다.
+
+이전 v2는 `(주입, 억제)=(10,-8)`을 양쪽 모두 80% 제거해도 양의 점수를 냈다. v3는 `B=H min(P,N) [N_D/N-P_D/P]_+`로 수정했다. **동일한 기여 제거율이면 불완전 상쇄에서도 0**이다. `r=.2`는 기록된 기능 기여의 20% 제거 가정이며, 임의 표본 20% 삭제와 같다고 가정하지 않는다.
+
+### 1. 코드 받기와 빠른 재생 (저장소 루트, Git Bash)
+
+```bash
+git fetch origin
+git switch codex/structural-latent-defense
+git pull --ff-only origin codex/structural-latent-defense
+python -m unittest discover -s FUBA/tests -v
+python FUBA/replay_tension.py
+python FUBA/benchmark_tension.py
+```
+
+결과: `FUBA/logs/tension_audit/cache_replay_v3.json`, `historical_ablation_v3.json`.
+기존 학습 캐시 6개만 재생한다. 새 학습·FU 호출은 0회다. 마지막 시점의 요청자·표적 동시 1위는 v3 **6/6**, v2 **5/6**, 단순 선형 삭제 영향 **4/6**이었다. 이미 관찰한 개발 자료이므로 이 차이를 정상 오탐률이나 확인 실험으로 보고하지 않는다.
+
+### 2. 먼저 돌릴 것: 예비 묶음 하나
+
+기존 FUBA 학습이 되던 **CUDA PyTorch·torchvision·mpi4py·MPI 환경의 Git Bash**에서 실행한다. `run_real_fuba.sh`가 기존 환경 선택 규칙을 사용하므로 올바른 Python 환경에서 시작한다. 처음 다운로드가 필요한 경우 MNIST 접근도 필요하다.
+
+```bash
+cd FUBA
+python experiment_tension.py --profile pilot --stage plan
+python experiment_tension.py --profile pilot --stage all
+```
+
+`pilot`은 IID/owner 각각 정상 보정 3개, 정상 시험 3개, 기존 공격 3개, 총 **18개 독립 학습 궤적**이다. 기존 공격 체크포인트가 있으면 재사용하므로 새 정상 학습은 **12개**다. 공격 체크포인트가 없는 PC에서는 공격 6개도 생성한다. 전부 K=20, 100라운드, 참여율 0.4의 MNIST 설정이다. 정상은 warmup=1000으로 공격을 비활성화한다. 보정 seed index=100–102, 정상 시험=200–202, 개발 공격=0–2로 분리했다.
+
+실행 순서: 궤적 생성 → 기존 실제 양의 학습 업데이트의 입력별 기능 효과 수집 → 5개 점수 비교 → 정상 보정/시험 요약. 공개 입력 128개를 모든 방법이 공유하며, 트리거·공격 역할은 수집기에 전달하지 않는다. 역할 정답은 모든 점수 계산 후 채점에만 사용한다. 입력당 로그확률/중심화 로짓을 기록한다. **JVP나 FU 결과의 수집기가 아니다.** `FedAvg` 평균 갱신과 저장 전역 갱신이 맞지 않으면 중단하므로 robust aggregation 궤적을 이 경로에 넣지 않는다.
+
+중간 파일은 이름이 충돌하면 덮어쓰지 않는다. 완료 궤적은 재사용하고, 수집 캐시는 설정·코드·체크포인트 SHA256까지 일치해야 재사용한다. 궤적 일부만 있으면 자동으로 처음부터 덮어쓰지 않고 중단한다. 그 궤적을 보존하여 원인을 확인한 뒤 재실행한다. 코드/설정이 바뀌면 `--out logs/tension_v3/pilot_revision2`처럼 새 출력 폴더를 지정한다.
+
+단계를 나누어 실행해도 된다.
+
+```bash
+python experiment_tension.py --profile pilot --stage train
+python experiment_tension.py --profile pilot --stage collect
+python experiment_tension.py --profile pilot --stage analyze
+```
+
+### 3. 결과에서 확인할 것
+
+| 질문 | 비교/판정 기준 |
+|---|---|
+| 장력을 붙인 것이 실제로 도움 되는가? | 주 비교는 `logprob/mean_before/window:0`의 `selective_v3` 대 `linear_release`. 정상 경보 수준과 요청자·표적 식별을 함께 비교한다. |
+| 기존 수식 수정이 필요한가? | `cross_v2`와 비교하고 동일 비율 삭제 대조를 확인한다. 동작검사는 비균형 반례를 포함한다. |
+| 요청 경계가 필요한가? | `tension_only`는 요청과 무관하므로 같은 점수의 임의 동점 순위를 성능으로 세지 않는다. |
+| 큰 음의 기여만 찾은 것 아닌가? | `removed_negative`와 비교한다. 단독 삭제에서는 `linear_release`와 값이 같은 좌표가 생긴다. |
+| 평균/시간/좌표 때문에 신호를 잃는가? | `mean_before` 대 `mean_after`, 누적창 0 대 최근 10/20전이, 로그확률 대 중심화 로짓. 후자는 사전 등록된 보조 분석이다. 시험 결과를 보고 가장 좋은 설정만 골라 주 결과로 바꾸지 않는다. |
+| 정상 학습에서 거짓 경보가 생기는가? | IID/owner의 정상 독립 학습을 분리해서 본다. 한 모델의 클라이언트 20명이나 입력 128개를 독립 정상 모델 20/128개로 세지 않는다. |
+
+`summary.json`의 `alarm`은 어떤 요청이든 경보가 난 에피소드다. 공격 에피소드에서는 `requested_suppressor_alarm`, `requested_suppressor_target_alarm`도 별도로 보므로 정상 클라이언트 경보를 공격 성공 검출로 세지 않는다. 요청 가족은 모든 단독 기여의 .2/1 제거와 모든 단위의 .2/.8/1 동률 제거이며, 시점·클래스·요청 전체 최대값을 보정한다. 이 유한 가족 밖의 임의/적응적 요청에 같은 보장을 적용하지 않는다.
+
+**예비 묶음에서는 5% 오탐률 문턱을 만들 수 없다.** 조건별 정상 보정 모델 3개는 부족하므로 `insufficient_clean_episodes`, `threshold: null`, `alarm: null`이 정상 출력이다. 이를 오탐 0으로 읽지 않는다. 먼저 점수의 정상/공격 분포와 부호·좌표 차이를 검토할 자료를 모은다.
+
+### 4. 예비 결과가 유망할 때 실행할 확인 묶음
+
+```bash
+python experiment_tension.py --profile confirm --stage plan
+python experiment_tension.py --profile confirm --stage all
+```
+
+조건별 정상 보정 19개(seed 100–118), 정상 시험 10개(200–209), **새 공격 5개(20–24)**, 총 68개 궤적이다. 예비와 겹치는 정상 궤적은 재사용한다. 19개는 5% 상위 순위 문턱을 유한하게 만들 수 있는 최소 수이며, 충분한 통계적 검정력이나 정상 시험 FPR의 정밀도를 뜻하지 않는다. 정상 에피소드의 교환 가능성을 전제하며 분포가 달라지면 보장을 주장하지 않는다.
+
+**중단/수정 기준:** 정상 충돌에서 v3와 단순 기준의 분리가 비슷하거나 확인 자료의 동일 경보 수준에서 이득이 없으면, 복잡한 점수 자체의 신규성 주장은 내린다. 입력별 기록만 효과가 있다면 기여를 기록 해상도로 좁힌다. 새 공격의 잠복/활성화가 재현되지 않으면 그 점수를 방어 탐지율로 세지 않는다.
+
+### 5. 돌린 뒤 전달할 파일과 아직 별도인 실험
+
+`FUBA/logs/tension_v3/pilot/` 폴더를 전달하면 된다. 핵심 파일은 `manifest.json`, `summary.json`, `scores.json`, `caches/*.json`이고, 좌표/요청 재분석에는 `caches/*.npz`도 필요하다. 실패했으면 `commands/*.log`를 함께 전달한다. 체크포인트·원본 데이터는 업로드할 필요 없다. 확인 묶음은 같은 구조의 `confirm/`에 저장된다.
+
+이번 실행 묶음은 **FUBA의 사전 점수와 정상 혼동을 검증**한다. 원래 BadFU의 같은 클라이언트 내부 backdoor/camouflage 기록, 실제 FU 후 ASR, 망각, 새 점수 기반 복구까지 끝난 것으로 보고하지 않는다. BadFU를 클라이언트 0/5로 분리한 기존 변형은 이 검증의 대체물이 아니다.
+
+다음 단계의 BadFU 실험에는 (a) 원래 같은 클라이언트에서 두 역할을 학습, (b) 역할 정답을 노출하지 않는 사전 고정 기록 단위, (c) 삭제 요청을 표현하는 해상도, (d) 자체 보고를 믿는 것과 독립 계측을 구분하는 신뢰 조건이 필요하다. oracle 역할 기록은 상한 실험으로만 쓴다. 클라이언트 합만 보이는 경우는 관측 불충분으로 처리하며 구조적 공통성을 부정하는 근거로 삼지 않는다. 원고에 이러한 설계 조건과 실제 FU·복구·적응형 공격 실험을 별도로 명시했다.
+
+로컬 검증: 동작검사 69개 통과, 기존 실제 저장 모델에서 2개 FL 전이·공개 입력 16개의 수집 스모크 통과. 전체 새 학습과 정상 보정 결과는 아직 실행 전이다.
+
+---
+
+## 이전 실험 실행 기록 (이번 v3 묶음과 구분)
+
+**보조 비교군:** `audit --components response`는 언러닝 후 soft 흐름 검사다. 기본값 `existing`은 기존 DOSE다. 이84조건의 재실행은 [이전 재설계 기록](docs/paper/DEFENSE_LOGIC_REDESIGN.md) §6에 있으며 현재 연구의 핵심 신규성으로 제시하지 않는다.
+
+공통 잠복형 방어의 실험용 확장은 [STRUCTURAL_GUARD.md](docs/paper/STRUCTURAL_GUARD.md)의 실행 절을 따른다.
+요청 조건부 공동삭제 검증은 기존 `audit`에 `--paired_confirm --step 0.05`를 추가한다.
+새 실제/합성 실험과 ASR 평가의 재실행은 [개정 보고서](docs/paper/REVISION_REPORT.md) §6에 있다.
+정책 테스트와 캐시 재생은 `python -m unittest discover -s FUBA/tests -v`,
+`python FUBA/run_structural_guard.py monitor --cache <push.npz> --out <result.json>`으로 저장소 루트에서 실행한다.
+FUBA/BadFU 체크포인트 감사는 `audit` 하위 명령을 사용하며 실제 재학습·망각 검증 없이 삭제 완료를 선언하지 않는다.
+
+아래는 기존 DISLAB 궤적 및 균형 장부의 `dev` 실행 기록이다. 아래 명령은 `FUBA` 폴더 기준이며 새 감사 후보의 저장소 루트 명령과 구분한다. 결과 번호는 `docs/RESULTS_LOG.md`.
 
 ```bash
 git fetch origin && git checkout dev && git pull
