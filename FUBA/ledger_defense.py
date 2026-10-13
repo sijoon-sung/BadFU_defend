@@ -46,6 +46,7 @@ def parse():
     p.add_argument("--tau", type=float, default=3.0, help="음의 다리 MAD z 문턱 (≤ −tau)")
     p.add_argument("--kappa", type=float, default=2.0, help="양의 다리 MAD z 문턱 (> kappa)")
     p.add_argument("--min_pos", type=int, default=2, help="공모로 보는 양의 다리 최소 수")
+    p.add_argument("--max_share", type=float, default=0.6, help="양의 다리 중 최대 1 명의 몫(양의 합 대비) 상한. 넘으면 공모가 아니라 큰손 1 명으로 본다. 1.0 = 끔")
     p.add_argument("--persist", type=int, default=3, help="연속 몇 번 공모 판정이면 경보")
     p.add_argument("--start", type=int, default=5, help="판정을 시작하는 라운드 (장부가 비어 있을 때 MAD 가 불안정)")
     p.add_argument("--min_present", type=int, default=2, help="장부에 이만큼 참여한 클라만 다리 후보")
@@ -106,9 +107,13 @@ def judge(P, n_present, a):
         H = 1.0 - abs(col[idx].sum()) / max(np.abs(col[idx]).sum(), 1e-9)
         balanced = bool(H >= a.h0 and zi[neg] <= -a.tau)          # 합은 0, 음의 다리는 뚜렷
         # 라벨: 공모 = 양의 다리 여럿 / 정상 큰손 = 양의 다리 하나 / 외톨이 음 = 양의 다리 없음 (전역 흐름을 혼자 되미는 것; 보고만 하고 손대지 않음)
-        kind = ("coalition" if len(pos) >= a.min_pos else ("big_legit" if len(pos) == 1 else "lone_neg")) if balanced else ""
-        out[c] = {"H": round(float(H), 4), "neg": neg, "z_neg": round(zi[neg], 2), "pos": pos, "hedge": balanced and len(pos) >= 1,
-                  "coalition": kind == "coalition", "kind": kind}
+        # 공모의 추가 조건: 양의 다리 중 한 명이 양의 합의 max_share 를 넘으면 "한 명이 큰손 + 들러리" 로 보아 공모가 아니다 (owner 조건에서 소유자 + 정상 한 명이 같이 걸리는 것을 막는다)
+        pos_sum = float(sum(max(col[j], 0.0) for j in pos)) if pos else 0.0
+        top_share = (max(col[j] for j in pos) / pos_sum) if pos_sum > 1e-9 else 1.0
+        spread = len(pos) >= a.min_pos and top_share <= a.max_share
+        kind = ("coalition" if spread else ("big_legit" if len(pos) >= 1 else "lone_neg")) if balanced else ""
+        out[c] = {"H": round(float(H), 4), "neg": neg, "z_neg": round(zi[neg], 2), "pos": pos, "top_share": round(float(top_share), 3),
+                  "hedge": balanced and len(pos) >= 1, "coalition": kind == "coalition", "kind": kind}
     return out
 
 
