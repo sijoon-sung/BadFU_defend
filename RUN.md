@@ -7,19 +7,24 @@ git fetch origin && git checkout dev && git pull
 cd FUBA
 ```
 
-## 지금 돌릴 것 (이 순서대로; 각 줄이 끝나면 적힌 파일을 커밋)
-| # | 무엇 | 명령 (FUBA 폴더) | 나오는 것 | 올릴 것 | 시간 |
-|---|---|---|---|---|---|
-| 1 | **큰 모델 궤적** CIFAR-10/resnet18, 논문 설정, IID 3 시드 | `ONLY=k20_paper_cifar bash make_trajectories.sh` | `checkpoints/*_bd_iid_r100w5_k20paper_cifar_s{0,1,2}_round_*.pkl`, `docs/EXPERIMENT_LOG.md` 행 | `git add FUBA/logs/trajectories docs/EXPERIMENT_LOG.md` | 미실측 (임시 300 분/궤적). 첫 궤적 검증이 "잠복 ACC < 50" 로 실패하면 멈추고 알릴 것 (train_epoch 변형 필요) |
-| 2 | **공격 없는 궤적** mnist/cifar × iid/owner | `ONLY=clean_paper bash make_trajectories.sh` | `checkpoints/*_clean_{iid,owner}_r100_k20paper{,_cifar}_s0_round_*.pkl` | 같음 | mnist 45 분 × 2, cifar 미실측 × 2 |
-| 3 | **장부 — CIFAR** (R-018) | `DATASET=cifar10 TAG=_r100w5_k20paper_cifar CONDS=iid bash run_ledger.sh` | `logs/ledger/summary_bd_iid_r100w5_k20paper_cifar.md` | `git add FUBA/logs/ledger` | 궤적당 5 분 |
-| 4 | **장부 — 공격 없음** (R-015, 기대: 경보 없음) | `PREFIX=clean TAG=_r100_k20paper CONDS="iid owner" SEEDS=0 bash run_ledger.sh` 그리고 `PREFIX=clean TAG=_r100_k20paper_cifar CONDS="iid owner" SEEDS=0 DATASET=cifar10 bash run_ledger.sh` | `logs/ledger/summary_clean_*.md` | 같음 | 궤적당 2–5 분 |
-| 5 | **대응 — 되감기 + 연합 제외, MNIST 6 궤적** (R-014) | A-03 "대응" 블록의 for 문 한 줄 | `logs/benign_departure/bd_*_excl_from*_s*.json` | `git add FUBA/logs/benign_departure` | 6 × 13 분 |
-| 6 | **운반자 남긴 재학습, 논문 설정** (표 4 첫 행을 K=8 예비에서 바꿈) | `for c in iid owner; do for s in 0 1 2; do own=""; [ $c = owner ] && own="--non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1"; python benign_departure.py --name bd_${c}_r100w5_k20paper_s$s --K 20 --rounds 100 --seed $((522+s)) --split_seed $((522+s)) --defender 4 --requesters 4 --methods retrain_benign retrain_attack $own --out logs/benign_departure/bd_${c}_r100w5_k20paper_retrain_s$s.json; done; done` | `logs/benign_departure/bd_*_retrain_s*.json` | 같음 | 6 × 2 × 13 분 |
-| 7 | **위장자 2 명** (R-016) | `for s in 0 1 2; do python ledger_defense.py --fmt fuba --name bd_iid_k16sup2_s$s --K 16 --rounds 8 --defender 4 --defenders 4 8 --attackers 0 1 2 3 5 6 7 9 --target 8 --neg_set --start 3 --cond sup2; done; python ledger_defense.py --aggregate --cond sup2` | `logs/ledger/summary_sup2.md` | 같음 | 10 분 |
-| 8 | **집계 방어 위** (tdef_paper 12 궤적; `pip install hdbscan scikit-learn` 먼저) | `ONLY=tdef_paper bash make_trajectories.sh` 뒤 `for d in median multi_krum flame flDetector; do TAG=_r100w5_k20paper_$d CONDS=iid bash run_ledger.sh; done` | `logs/ledger/summary_bd_iid_r100w5_k20paper_*.md` | 같음 | 궤적 12 × 20 분 + 장부 |
-| 9 (노트북) | **BadFU 40 라운드** (R-017 재확인) | `cd ../BadFU_src/BadFU-main && bash make_badfu_trajectories.sh` 뒤 `cd ../../FUBA && python ledger_defense.py --fmt badfu --name badfu_s42 --traj_dir ../BadFU_src/BadFU-main/logs/traj_s42 --data_root ../BadFU_src/BadFU-main/data --rounds 40 --K 6 --defender 5 --attackers 0 --target 0 --start 3 --min_present 1 --counts $(python -c "import json;e=[e for e in json.load(open('trajectories.json'))['trajectories'] if e['name']=='badfu_s42'][0];print(' '.join(map(str,e['counts'])))") --cond badfu` | `logs/ledger/badfu_s42.json` | 같음 | 2.5 시간 + 5 분 |
-1–2 는 궤적, 3–4 가 리뷰가 요구한 두 숫자(규모, 오경보), 5–6 이 표 4, 7–9 가 넓힘이다. 자세한 설명은 아래 절 (0, 0-b, A-03, A-01).
+## 지금 돌릴 것 — DISLAB 은 한 줄
+```bash
+ONLY="k20_paper_cifar clean_paper" bash make_trajectories.sh     # CIFAR 논문 설정 3 개 + 공격 없는 궤적 4 개. 하나 끝날 때마다 검증기가 돌고 docs/EXPERIMENT_LOG.md 에 적힌다
+```
+올릴 것: `git add FUBA/logs/trajectories docs/EXPERIMENT_LOG.md`. 첫 CIFAR 궤적 검증이 "잠복 ACC < 50" 으로 멈추면 알릴 것 (라운드당 배치 수 `--train_epoch` 를 늘린 변형이 필요). 그 사이 아래 표의 나머지는 노트북 작은 설정에서 코드 경로를 확인한 것만 순서대로 넘긴다.
+
+노트북 작은 설정 확인 (2026-10-13 저녁): 공격 없는 MNIST K=8/8 라운드 → 검증기 clean 모드 ✔ (ACC 90.1, ASR 없음, 정상 제거 88.8) → 장부 경보 없음 ✔ (H ≤ 0.23). CIFAR 2 라운드 → 저자 코드 CIFAR 경로 ✔, 검증기 CIFAR 로더·UNet 생성기 ✔, 장부 ✔. 되감기 대응 ✔ (R-014). 아직 안 본 것: 위장자 2 명 `--neg_set`(sup2 궤적이 노트북에 없음), 집계 방어, BadFU 40 라운드.
+
+| # | 무엇 | 명령 (FUBA 폴더) | 나오는 것 | 올릴 것 | 시간 | 노트북 확인 |
+|---|---|---|---|---|---|---|
+| 3 | **장부 — CIFAR** (R-018) | `DATASET=cifar10 TAG=_r100w5_k20paper_cifar CONDS=iid bash run_ledger.sh` | `logs/ledger/summary_bd_iid_r100w5_k20paper_cifar.md` | `git add FUBA/logs/ledger` | 궤적당 5 분 | ✔ 로더·장부 (CIFAR 2 라운드) |
+| 4 | **장부 — 공격 없음** (R-015, 기대: 경보 없음) | `PREFIX=clean TAG=_r100_k20paper CONDS="iid owner" SEEDS=0 bash run_ledger.sh` 그리고 `PREFIX=clean TAG=_r100_k20paper_cifar CONDS="iid owner" SEEDS=0 DATASET=cifar10 bash run_ledger.sh` | `logs/ledger/summary_clean_*.md` | 같음 | 궤적당 2–5 분 | ✔ (K=8 공격 없음: 경보 없음) |
+| 5 | **대응 — 되감기 + 연합 제외, MNIST 6 궤적** (R-014) | A-03 "대응" 블록의 for 문 한 줄 | `logs/benign_departure/bd_*_excl_from*_s*.json` | `git add FUBA/logs/benign_departure` | 6 × 13 분 | ✔ (R-014, 1 시드) |
+| 6 | **운반자 남긴 재학습, 논문 설정** (표 4 첫 행을 K=8 예비에서 바꿈) | `for c in iid owner; do for s in 0 1 2; do own=""; [ $c = owner ] && own="--non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1"; python benign_departure.py --name bd_${c}_r100w5_k20paper_s$s --K 20 --rounds 100 --seed $((522+s)) --split_seed $((522+s)) --defender 4 --requesters 4 --methods retrain_benign retrain_attack $own --out logs/benign_departure/bd_${c}_r100w5_k20paper_retrain_s$s.json; done; done` | `logs/benign_departure/bd_*_retrain_s*.json` | 같음 | 6 × 2 × 13 분 | ✔ (저자 재학습 코드, R-010 과 같은 경로) |
+| 7 | **위장자 2 명** (R-016) | `for s in 0 1 2; do python ledger_defense.py --fmt fuba --name bd_iid_k16sup2_s$s --K 16 --rounds 8 --defender 4 --defenders 4 8 --attackers 0 1 2 3 5 6 7 9 --target 8 --neg_set --start 3 --cond sup2; done; python ledger_defense.py --aggregate --cond sup2` | `logs/ledger/summary_sup2.md` | 같음 | 10 분 | 미확인 (sup2 궤적 없음) |
+| 8 | **집계 방어 위** (tdef_paper 12 궤적; `pip install hdbscan scikit-learn` 먼저) | `ONLY=tdef_paper bash make_trajectories.sh` 뒤 `for d in median multi_krum flame flDetector; do TAG=_r100w5_k20paper_$d CONDS=iid bash run_ledger.sh; done` | `logs/ledger/summary_bd_iid_r100w5_k20paper_*.md` | 같음 | 궤적 12 × 20 분 + 장부 | 미확인 |
+| 9 (노트북) | **BadFU 40 라운드** (R-017 재확인) | `cd ../BadFU_src/BadFU-main && bash make_badfu_trajectories.sh` 뒤 `cd ../../FUBA && python ledger_defense.py --fmt badfu --name badfu_s42 --traj_dir ../BadFU_src/BadFU-main/logs/traj_s42 --data_root ../BadFU_src/BadFU-main/data --rounds 40 --K 6 --defender 5 --attackers 0 --target 0 --start 3 --min_present 1 --counts $(python -c "import json;e=[e for e in json.load(open('trajectories.json'))['trajectories'] if e['name']=='badfu_s42'][0];print(' '.join(map(str,e['counts'])))") --cond badfu` | `logs/ledger/badfu_s42.json` | 같음 | 2.5 시간 + 5 분 | 미확인 |
+3–4 가 리뷰가 요구한 두 숫자(규모, 오경보), 5–6 이 표 4, 7–9 가 넓힘이다. '미확인' 줄은 노트북에서 코드 경로를 본 뒤에 돌린다. 자세한 설명은 아래 절 (0, 0-b, A-03, A-01).
 
 ## 0. 공격 궤적 미리 만들기 (한 번만, 다른 실험보다 먼저)
 

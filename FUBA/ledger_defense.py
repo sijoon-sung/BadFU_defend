@@ -104,7 +104,7 @@ def judge(P, n_present, a):
         z = mad_z(col[elig]) if elig.sum() >= 3 else np.zeros(int(elig.sum()))
         idx = np.where(elig)[0]
         if len(idx) == 0:
-            out[c] = {"H": 0.0, "neg": -1, "z_neg": 0.0, "pos": [], "hedge": False, "coalition": False}; continue
+            out[c] = {"H": 0.0, "neg": -1, "negs": [], "z_neg": 0.0, "pos": [], "top_share": 1.0, "hedge": False, "coalition": False, "kind": ""}; continue
         zi = {int(j): float(z[i]) for i, j in enumerate(idx)}
         neg = int(idx[np.argmin(col[idx])])
         negs = [int(j) for j in idx if zi[int(j)] <= -a.tau] if a.neg_set else [neg]      # 음의 다리 (집합 옵션)

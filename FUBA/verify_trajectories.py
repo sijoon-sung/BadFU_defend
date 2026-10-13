@@ -115,7 +115,9 @@ def base_record(e):
 
 
 def fmt_m(m):
-    return "-" if not m else f"{m['acc']:.1f} / {m['asr']:.1f}"
+    if not m:
+        return "-"
+    return f"{m['acc']:.1f} / {m['asr']:.1f}" if m.get("asr") is not None else f"{m['acc']:.1f} / (ASR 없음)"   # clean 궤적은 생성기가 없어 ASR 없음
 
 
 # ------------------------------------------------------------------ FUBA
@@ -198,11 +200,12 @@ def verify_fuba(e, dev):
     a = Namespace(name=e["name"], rounds=R, K=K, ckpt_dir="checkpoints", fmt="fuba", probe=500, target=e["target"],
                   atk_eps=1.0, noise_thread=0.04, data_root="./data", dataset=e.get("dataset", "mnist"))
     factory, theta_T, U, flat, bd = load_fuba(a)
-    if bd is None:
+    clean = bool(v.get("clean"))
+    if bd is None and not clean:
         rec["reasons"].append("backdoor 생성기(마지막 라운드) 파일 없음 → ASR 채점 불가")
         return rec
     _, eval_loader = load_probe(a)
-    score = make_scorer(a, bd, eval_loader, dev)
+    score = make_scorer(a, bd, eval_loader, dev) if bd is not None else (lambda m: None)   # clean 궤적은 생성기가 저장되지 않으므로 ASR 없음
     tT = flat.flatten(theta_T)
 
     def ev(vec):
@@ -212,17 +215,21 @@ def verify_fuba(e, dev):
     roles = e["roles"]
     sups = roles["suppressors"]
     dorm = ev(tT)
-    if v.get("clean"):                                   # 공격 없는 궤적: 잠복 ASR 낮음·ACC 높음·정상 제거 무해만 본다 (위장자·운반자 없음)
+    if clean:                                            # 공격 없는 궤적: ACC 높음·정상 제거 무해(ACC)만 본다 (위장자·운반자·생성기 없음)
         ben = {str(b): ev(tT - U[b]) for b in v["benign_check"]}
         rec["metrics"].update({"dormant": dorm, "benign": ben, "U_norm": {str(k): round(float(U[k].norm()), 4) for k in range(K)}})
-        if dorm["asr"] > v["dormant_asr_max"]:
-            rec["reasons"].append(f"공격 없는 궤적인데 ASR {dorm['asr']:.1f} > {v['dormant_asr_max']} (웜업으로 백도어 분기가 꺼지지 않았음)")
+        if bd is not None:
+            rec["reasons"].append("공격 없는 궤적인데 backdoor 생성기 파일이 있음 (웜업이 라운드 수보다 작아 백도어 분기가 실행됨)")
+        if dorm["asr"] is not None and dorm["asr"] > v["dormant_asr_max"]:
+            rec["reasons"].append(f"공격 없는 궤적인데 ASR {dorm['asr']:.1f} > {v['dormant_asr_max']}")
         if dorm["acc"] < v["dormant_acc_min"]:
             rec["reasons"].append(f"ACC {dorm['acc']:.1f} < {v['dormant_acc_min']}")
         for b, m in ben.items():
-            if m["acc"] >= v["collapse_acc"] and m["asr"] > v["benign_asr_max"]:
+            if m["acc"] < v["collapse_acc"]:
+                rec["warnings"].append(f"정상 {b} 제거(빼기) 붕괴: ACC {m['acc']:.1f}")
+            elif m["asr"] is not None and m["asr"] > v["benign_asr_max"]:
                 rec["reasons"].append(f"정상 {b} 제거 후 ASR {m['asr']:.1f} > {v['benign_asr_max']}")
-        rec["info"].append("공격 없는 궤적 (clean): 위장자·운반자 검사 없음")
+        rec["info"].append("공격 없는 궤적 (clean): 생성기가 없어 ASR 은 채점하지 않음; 위장자·운반자 검사 없음")
         if v.get("provisional"):
             rec["warnings"].append("임시 문턱 (provisional)")
         rec["status"] = "fail" if rec["reasons"] else "ok"
