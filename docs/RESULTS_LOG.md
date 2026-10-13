@@ -1,13 +1,59 @@
 # 분석 장부 (RESULTS_LOG) — 실행 한 번에 한 줄
 
 규칙 (PLAN.md §2):
-1. 궤적 열은 `docs/EXPERIMENT_LOG.md` 의 이름 그대로. 거기 없는 궤적으로는 돌리지 않는다.
+1. 궤적 열은 `docs/EXPERIMENT_LOG.md` 의 이름 그대로. 로컬 공동삭제 감사(R020 이후)는 별도 출처 등록 `docs/EXPERIMENT_LOG_PAIRED.md`를 사용한다. 출처 없는 궤적을 기존 논문 궤적으로 대체하지 않는다.
 2. 상태는 넷 중 하나: 예정 / 돌아감 / 확정 / 폐기(이유). 파일이 저장소에 없으면 '파일 없음'.
 3. 설정이 다르면 TAG 가 다르다. 같은 이름 위에 FORCE=1 로 덮어쓰지 않는다.
 4. 논문 표의 숫자마다 번호(R-xxx)를 단다. 번호 없는 숫자는 뺀다.
 5. 실행 묶음이 끝나면 바로 커밋: `git add FUBA/logs docs && git commit -m "results: R-xxx ..."`.
 
 주 설정 = FUBA 논문 설정 (K=20, 악성 5, 100 라운드, 참여 0.4) = 궤적 `bd_{iid,owner}_r100w5_k20paper_s{0,1,2}`. K=8 결과는 예비(부록).
+
+## 선택적 삭제율 v3와 실행 묶음 (2026-10-14)
+
+| 번호 | 자료 | 실행 | 결과/코드 | 관측과 범위 | 상태 |
+|---|---|---|---|---|---|
+| R-034 | 기존 FUBA IID/owner 각3개 학습 캐시 | `python FUBA/replay_tension.py`; `python FUBA/benchmark_tension.py` | `FUBA/logs/tension_audit/cache_replay_v3.json`, `historical_ablation_v3.json` | v3 요청자·표적 동시1위 10/20/40/99시점 4/6,6/6,6/6,6/6. v2는3/6,5/6,5/6,5/6. 단순 선형 삭제 영향은0/6,0/6,3/6,4/6. 같은 개발 자료 재생이며 정상 보정/ASR/새 공격 검증 아님. 불완전 상쇄 동일비율 삭제 반례를 기준으로 수식 수정 | 확정 |
+| R-035 | 전체 동작검사, 별도 보관 실제 `loc_k20paper_s0` 체크포인트 | 69 tests; `collect_tension.py --rounds 3 --probe 16` | `FUBA/tests/`, `FUBA/logs/tension_v3/smoke_loc_k20paper_s0.{npz,json}` | FL 전이2개·입력16개, 양의 실제 학습 갱신에 대한 입력별 logprob/중심화 logit 관측. FedAvg 갱신 상대 복원오차 최댓값3.94374e-7. FU·JVP·정상학습 새 실행 아님 | 확정 |
+| R-036 | 정상/공격 독립 학습, IID/owner | `experiment_tension.py --profile pilot --stage all` (18개); 이후 `confirm` (68개) | `RUN.md`, 새 수집기/비교기/실행기 | 예비는 조건별 정상 보정3개로5% 문턱 불가. 확인은19개 보정/10개 정상 시험/5개 새 공격. 시간·클래스·요청 최대값 보정. 원래 BadFU/실제 FU·복구는 별도 | 예정 |
+
+## FL→FU 장력·삭제 경계 재정식화 v2 (2026-10-14, 이전 기록)
+
+| 번호 | 자료 | 실행 | 결과/코드 | 관측과 범위 | 상태 |
+|---|---|---|---|---|---|
+| R-032 | 구조적 fixture | unittest discover | tension_audit.py, tests/test_tension_audit.py | 장력12개 검사 추가, 전체59개 통과. 동일 비율 삭제, 클라이언트/묶음 역할 동형, 정상 반대 기여, 입력 평균/집계 정보손실 확인. 현실 탐지율 아님 | 확정 (수학·동작) |
+| R-033 | 기존 IID/owner K20 각3개 학습 캐시 | replay_tension.py | FUBA/logs/tension_audit/cache_replay_v2.json | FU 모델 생성0. 시점10/20/40/99의 억제자 점수1위5/6,6/6,6/6,6/6; 요청자·표적 동시 일치3/6,5/6,5/6,5/6. 초기 정상1위와 owner 클래스3 혼동 기록. 정상 보정·BadFU 실제묶음 검증 아님 | 확정 (기술적 순위 분석) |
+
+`cache_replay.json`은 양방향 경계 차감을 넣기 전 초기 산식의 기록이다. 단일 단위 삭제 순위는 v2와 같지만 동일 비율로 두 역할을 제거하는 경우를 처리하려면 v2를 사용해야 한다. 현재 주장의 정본은 열린 `draft_v7.tex` 본문이다.
+
+## 삭제 반응 감사 추가 실행 (2026-10-14)
+
+새 논리와 전체 표는 `docs/paper/DEFENSE_LOGIC_REDESIGN.md`. 기존 입력/새 입력은 같은 학습 모델을 공유하며 독립 시드가 아니다. 비교기·실행기 해시, 입력 인덱스와 출처는 각 원본 JSON에 기록했다.
+
+| 번호 | 자료 | 실행 | 결과 (FUBA/logs/response_audit/) | 관측과 범위 | 상태 |
+|---|---|---|---|---|---|
+| R-028 | R020의 loc_k20paper_s0 | experiment_response.py --source fuba_local.json | fuba.json | 18조건. 두 프로브 모두 soft .10/.20 경보, 기존/hard .20만. .05는 soft도 미검출, 정상0. .20 보존실패 별도 | 확정 (1학습시드 예비) |
+| R-029 | R021의 badfu_traj_full_local15 | experiment_response.py --source badfu_local.json | badfu.json | 18조건. soft/hard 공격경보0. 기존DOSE는 기존입력 요청자5 .20 경보, 새입력에서는 정상1 .20 경보 및 요청자5 누락 | 확정 (음성·probe 민감도; 원래 묶음FU 아님) |
+| R-030 | R022의 loc_clean_k8 | experiment_response.py --source clean_local.json | clean.json | 48조건. 모든 검출기 정상경보0. K20·동일학습길이 정상FPR로 일반화하지 않음 | 확정 (제한 대조군) |
+| R-031 | R028–R030, 동작 fixture | summarize_response.py; unittest discover | summary.json, diagnostics.json, source_snapshots/ | 총84조건. 소스 두 버전 해시 확인. 동작검사47개 통과(기존37+새10); 성능 실험 표본 수와 구분 | 확정 (파생·동작 검증) |
+
+## 공동삭제 검증 추가 실행 (2026-10-13)
+
+결과가 완료됐다는 뜻의 ‘확정’이며 일반화된 성능 주장을 뜻하지 않는다.
+수학·범위·실패는 `docs/paper/REVISION_REPORT.md`, 소스 해시와 소거표는 `FUBA/logs/paired_audit/summary.json`.
+
+| 번호 | 자료 | 실행 | 결과 파일 (FUBA/logs/paired_audit/) | 관측과 범위 | 상태 |
+|---|---|---|---|---|---|
+| R-020 | loc_k20paper_s0 | experiment_paired.py --case fuba | fuba_local.json | 3요청×3비율=9. 요청자4의 .05/.1 paired 추가경보, .2 붕괴로 판정불가. 정상5/19 경보0. 후보에 정상 혼입 | 확정 (1학습시드 예비) |
+| R-021 | badfu_traj_full_local15 | experiment_paired.py --case badfu | badfu_local.json | 9조건. paired 상대집합 없음. 기존DOSE는 요청뷰 .2에서만 요청자5 경보 | 확정 (음성 결과; 원래 묶음FU 아님) |
+| R-022 | loc_clean_k8 | experiment_paired.py --case clean | clean_local.json | 8정상×3비율=24. DOSE/paired 경보0, 에너지단독3. 하나의 정상 학습모델이며 K20 정상FPR 아님 | 확정 (제한 대조군) |
+| R-023 | synthetic_paired_v1 | experiment_paired.py --case synthetic | synthetic.json | 6종×50 + 보정199/시험200=699. 비선형실패·과적합 각50/50 기각. 정상반대기여50/50 경보. 정상rank 기각4/200 | 확정 (기전·반례; 현실ASR 아님) |
+| R-024 | R020의 고정된 개입 + 기존 정답제외 재학습모델 | evaluate_paired.py --audit fuba_local.json | fuba_evaluation.json | .1 요청 ACC96.9/ASR49.8 → 공동98.1/9.8; 기준98.0/9.8. 기존정답제외 재학습98.7/.44. 새 복구/전량삭제 실험 아님 | 확정 (1시드,독립평가입력) |
+| R-025 | R021의 고정된 개입 | evaluate_paired.py --audit badfu_local.json | badfu_evaluation.json | 기준83.8/26.2 → .2요청82.5/38.0. 상대없음. 충분한 잠복재현이 아닌 변형의 한계 | 확정 (실패/한계 기록) |
+| R-026 | R020–R025 고정 결과 | summarize_paired.py | summary.json, paired_results.png/.pdf | 정상 에너지경보9 → 공동검증0. 기존DOSE도 정상0이므로 DOSE보다FPR개선 주장불가 | 확정 (파생 소거분석) |
+| R-027 | 동작 fixture | python -m unittest discover -s FUBA/tests -v | 코드 tests/test_structural_guard.py, tests/test_paired_audit.py | 37개통과. 가법정리·비선형오차·정상반례·OR판정·삭제실패·가중치검사 포함 | 확정 (동작검증; 성능표아님) |
+
+## 기존 실행 기록
 
 | 번호 | 날짜 | 궤적 | 스크립트+단계 | 인자/TAG | 결과 파일 | 답하는 주장 | 상태 |
 |---|---|---|---|---|---|---|---|

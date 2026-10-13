@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "name": "loc_k20paper_s0",
+  "dataset": "mnist",
+  "rounds": 3,
+  "K": 20,
+  "probe": 16,
+  "probe_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "probe_tensor_sha256": "23af4be878c1a550b56dce3909b3556ed3b8f13b2cb439d2b0a8500ae5fa6acf",
+  "measurement": "per-input finite positive training-update effects; not JVP",
+  "model_unlearning_calls": 0,
+  "checkpoint_sources": [
+    {
+      "file": "global_net_model_loc_k20paper_s0_round_1.pkl",
+      "sha256": "43fbab5b00320b296dfa659082a0475861a41828985d554e9fec3b70ea19126a"
+    },
+    {
+      "file": "local_net_model_loc_k20paper_s0_round_2.pkl",
+      "sha256": "ed3abfab5a1c7a71d966c336653329f50de737096206407c1a2c8fbc0d6e7e8e"
+    },
+    {
+      "file": "global_net_model_loc_k20paper_s0_round_2.pkl",
+      "sha256": "76f81341a722e2bbceeced942a726b8dbed6d1f55c98a15fdb6c3b0985c0adf6"
+    },
+    {
+      "file": "local_net_model_loc_k20paper_s0_round_3.pkl",
+      "sha256": "71d9737b2981c91c17fc79769c40796c58d889b0506b86fae77dfafc36e5c1c4"
+    },
+    {
+      "file": "global_net_model_loc_k20paper_s0_round_3.pkl",
+      "sha256": "450b3a342b214662bb8222de38d7f19de1d639acfa234e6f3e3941e64a20dc44"
+    }
+  ],
+  "max_fedavg_relative_error": 3.9437361465388676e-07,
+  "seconds": 0.9091708999985713,
+  "bytes": 19392,
+  "cache_sha256": "f17133819d69401a6078ab7a9be7ce1189dfbf302093fe73db0dc46957f161fc",
+  "collector_sha256": "b358665504ed153b895da885386816358a728b1dfed2ac457c04bab340205752"
+}

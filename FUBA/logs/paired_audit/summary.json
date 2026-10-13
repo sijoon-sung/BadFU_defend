@@ -1,0 +1,657 @@
+{
+  "generated_from_frozen_artifacts": true,
+  "cases": {
+    "fuba": {
+      "rows": [
+        {
+          "requester": 4,
+          "dose": 0.05,
+          "evaluation_role": "suppressor",
+          "DOSE_alarm": false,
+          "energy_only_alarm": true,
+          "paired_alarm": true,
+          "DOSE_or_paired_alarm": true,
+          "linear_fit_ge_half": true,
+          "paired_status": "review_priority",
+          "public_only_alarm": true,
+          "partners": {
+            "0": 0.18922000000000003,
+            "15": 0.09783,
+            "16": 0.053520000000000005,
+            "17": 0.07322,
+            "3": 0.29803
+          }
+        },
+        {
+          "requester": 4,
+          "dose": 0.1,
+          "evaluation_role": "suppressor",
+          "DOSE_alarm": false,
+          "energy_only_alarm": true,
+          "paired_alarm": true,
+          "DOSE_or_paired_alarm": true,
+          "linear_fit_ge_half": false,
+          "paired_status": "review_priority",
+          "public_only_alarm": true,
+          "partners": {
+            "0": 0.24099,
+            "3": 0.8193300000000001,
+            "17": 0.17598000000000003,
+            "13": 0.08949000000000001,
+            "15": 0.09276000000000001
+          }
+        },
+        {
+          "requester": 4,
+          "dose": 0.2,
+          "evaluation_role": "suppressor",
+          "DOSE_alarm": true,
+          "energy_only_alarm": true,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": true,
+          "linear_fit_ge_half": false,
+          "paired_status": "inconclusive",
+          "public_only_alarm": false,
+          "partners": {
+            "2": 0.9688599999999999,
+            "3": 0.74848,
+            "17": 0.24638000000000002,
+            "16": 0.22868
+          }
+        },
+        {
+          "requester": 5,
+          "dose": 0.05,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {
+            "3": 0.043905,
+            "10": 0.0088,
+            "8": 0.009370000000000002,
+            "15": 0.00716
+          }
+        },
+        {
+          "requester": 5,
+          "dose": 0.1,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {
+            "3": 0.08498,
+            "10": 0.01641,
+            "8": 0.01759,
+            "15": 0.012740000000000001
+          }
+        },
+        {
+          "requester": 5,
+          "dose": 0.2,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {
+            "3": 0.16792,
+            "10": 0.028560000000000002
+          }
+        },
+        {
+          "requester": 19,
+          "dose": 0.05,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {
+            "15": 0.009505
+          }
+        },
+        {
+          "requester": 19,
+          "dose": 0.1,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {
+            "15": 0.01848
+          }
+        },
+        {
+          "requester": 19,
+          "dose": 0.2,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {
+            "15": 0.03544
+          }
+        }
+      ],
+      "elapsed_seconds": 9.383252382278442,
+      "training_seeds": 1,
+      "n_audits": 9
+    },
+    "badfu": {
+      "rows": [
+        {
+          "requester": 5,
+          "dose": 0.05,
+          "evaluation_role": "camouflage_requester",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 5,
+          "dose": 0.1,
+          "evaluation_role": "camouflage_requester",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 5,
+          "dose": 0.2,
+          "evaluation_role": "camouflage_requester",
+          "DOSE_alarm": true,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": true,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 1,
+          "dose": 0.05,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": true,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 1,
+          "dose": 0.1,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": true,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 1,
+          "dose": 0.2,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": true,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 2,
+          "dose": 0.05,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": true,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 2,
+          "dose": 0.1,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": true,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 2,
+          "dose": 0.2,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": true,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        }
+      ],
+      "elapsed_seconds": 31.7563898563385,
+      "training_seeds": 1,
+      "n_audits": 9
+    },
+    "clean": {
+      "rows": [
+        {
+          "requester": 0,
+          "dose": 0.05,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": true,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 0,
+          "dose": 0.1,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": true,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 0,
+          "dose": 0.2,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": true,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 1,
+          "dose": 0.05,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 1,
+          "dose": 0.1,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 1,
+          "dose": 0.2,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 2,
+          "dose": 0.05,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 2,
+          "dose": 0.1,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 2,
+          "dose": 0.2,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 3,
+          "dose": 0.05,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 3,
+          "dose": 0.1,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 3,
+          "dose": 0.2,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 4,
+          "dose": 0.05,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 4,
+          "dose": 0.1,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 4,
+          "dose": 0.2,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 5,
+          "dose": 0.05,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 5,
+          "dose": 0.1,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 5,
+          "dose": 0.2,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 6,
+          "dose": 0.05,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 6,
+          "dose": 0.1,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 6,
+          "dose": 0.2,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 7,
+          "dose": 0.05,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 7,
+          "dose": 0.1,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        },
+        {
+          "requester": 7,
+          "dose": 0.2,
+          "evaluation_role": "benign",
+          "DOSE_alarm": false,
+          "energy_only_alarm": false,
+          "paired_alarm": false,
+          "DOSE_or_paired_alarm": false,
+          "linear_fit_ge_half": false,
+          "paired_status": "unconfirmed",
+          "public_only_alarm": false,
+          "partners": {}
+        }
+      ],
+      "elapsed_seconds": 3.885021209716797,
+      "training_seeds": 1,
+      "n_audits": 24
+    }
+  },
+  "synthetic": {
+    "clean": {
+      "n": 50,
+      "review_priority": 0,
+      "linear_fit_ge_half": 0
+    },
+    "cancel": {
+      "n": 50,
+      "review_priority": 50,
+      "linear_fit_ge_half": 50
+    },
+    "localized": {
+      "n": 50,
+      "review_priority": 50,
+      "linear_fit_ge_half": 50
+    },
+    "nonlinear": {
+      "n": 50,
+      "review_priority": 0,
+      "linear_fit_ge_half": 50
+    },
+    "overfit": {
+      "n": 50,
+      "review_priority": 0,
+      "linear_fit_ge_half": 50
+    },
+    "honest_opposition": {
+      "n": 50,
+      "review_priority": 50,
+      "linear_fit_ge_half": 50
+    }
+  },
+  "synthetic_rank_test": {
+    "n_bank": 199,
+    "n_test": 200,
+    "alpha": 0.05,
+    "false_alerts": 4
+  },
+  "source_sha256": {
+    "paired_audit.py": "8d8384f884a8b9eab764c2a7daaecb7f7990b8d194686a8403aa9899d67d6d51",
+    "trace_solver.py": "7e1bd0ef94599ceca1476233e26670903c39a0502c17d18d871db4adf2aa372d",
+    "experiment_paired.py": "eb3a4fe65aa3ff679865287493eb0ab41e9e85ae15ba1520448b8843ee042f51",
+    "evaluate_paired.py": "42502efa1cac6d3b7319592b09cbd9d25ab2d5020e786fa5eabf1d5b7baba3a4",
+    "existing_guard_components.py": "babe5f01f5f93f2628f37322a1197cb529b618e2d6b4801100c314f3703e8a8c",
+    "structural_guard.py": "e5f6fd686e576ef2117195e3f3463eacee3a53eb63096510be8aa6c197c4e655",
+    "run_structural_guard.py": "5d28e00b9a25a70ee3d51048dd3062fe386dadda71e9c104aea244694e4567bc",
+    "tests/test_paired_audit.py": "39a6b6f0526ab86726f75673b1da73ad01f68db8c2d8019c925f549bde976575"
+  },
+  "source_hash_note": "post-run working-source snapshot; no git commit created"
+}
