@@ -80,6 +80,12 @@ bash run_ledger.sh                      # iid + owner 3 시드, logs/ledger/{nam
 EXTRA="--h0 0.9 --kappa 3" bash run_ledger.sh   # 문턱 민감도 (두 번째부터는 저장된 밀기로 순전파 없이)
 ```
 보는 것: 요약 표의 경보 라운드 / 클래스 맞음 / 위장자 맞음 / 운반자 정밀도·재현율 / 소유자 오제외 / 오경보 클래스. (DISLAB 6 궤적 R-013: 경보 11–16/99, 6/6 정확, 오경보 0. 노트북 1 시드 IID: 경보 16/99 라운드, 클래스 8, 위장자 4, 운반자 0 1 2 3 정밀도·재현율 1.0, 오경보 0; h0 0.7–0.9, tau 3–5, persist 3–5 에서 같은 답, persist 1 은 7 라운드에 정상을 음의 다리로 잘못 봄 → 3 유지.) 올리기: `git add FUBA/logs/ledger` (npz 는 작으니 같이).
+대응 (R-014; 장부가 낸 되감기 라운드 t_back 과 제외 목록을 그대로 쓴다; 저자 재학습 코드에 시작 모델만 `--init_round` 로 준다):
+```bash
+# 각 궤적의 t_back 은 logs/ledger/{name}.json 의 rollback_round (IID 10, 12, 7 / owner 13, 12, 7). 되감기 없이 경보 라운드에서 바로 제외하는 변형은 --init_round <경보 라운드>.
+for c in iid owner; do for s in 0 1 2; do tb=$(python -c "import json;print(json.load(open('logs/ledger/bd_${c}_r100w5_k20paper_s$s.json'))['rollback_round'])"); own=""; [ $c = owner ] && own="--non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1"; python benign_departure.py --name bd_${c}_r100w5_k20paper_s$s --K 20 --rounds 100 --seed $((522+s)) --split_seed $((522+s)) --defender 4 --requesters 4 --methods retrain_benign --exclude 0 1 2 3 --init_round $tb $own --out logs/benign_departure/bd_${c}_r100w5_k20paper_excl_from${tb}_s$s.json; done; done
+```
+비교 기준은 R-010(처음부터 제외 재학습, ASR 0.5/0.6). 기대: 같은 ASR, 라운드 7–13 개 절약. 올리기: `git add FUBA/logs/benign_departure`.
 오경보 검사 (공격 없는 궤적; 저자 코드의 warm-up 만 쓴다 = 백도어 분기 미실행, 새 코드 없음):
 ```bash
 NB_CLIENTS=20 ROUNDS=100 WARMUP=1000 PARTICIPANT_RATE=0.4 EXTRA_ARGS="--split_seed 522 --participant_rate 0.4" bash run_real_fuba.sh clean_iid_r100_k20_s0 522
