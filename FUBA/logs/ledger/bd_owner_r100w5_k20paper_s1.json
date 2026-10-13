@@ -1,6 +1,6 @@
 {
  "name": "bd_owner_r100w5_k20paper_s1",
- "cond": "owner_r100w5_k20paper",
+ "cond": "bd_owner_r100w5_k20paper",
  "K": 20,
  "rounds": 99,
  "params": {
@@ -39,6 +39,9 @@
   "round": 15,
   "class": 8,
   "suppressor_hat": 4,
+  "suppressors_hat": [
+   4
+  ],
   "carriers_hat": [
    0,
    1,
@@ -60,11 +63,13 @@
   2,
   3
  ],
+ "rollback_round": 12,
  "score": {
   "alarm": true,
   "alarm_round": 15,
   "class_ok": true,
   "suppressor_ok": true,
+  "suppressors_recall": 1.0,
   "carrier_precision": 1.0,
   "carrier_recall": 1.0,
   "owner_in_exclusion": false,
@@ -77,6 +82,9 @@
   "0": {
    "H": 0.7448,
    "neg": 4,
+   "negs": [
+    4
+   ],
    "z_neg": -13.21,
    "pos": [
     0,
@@ -91,6 +99,9 @@
   "1": {
    "H": 0.8063,
    "neg": 4,
+   "negs": [
+    4
+   ],
    "z_neg": -7.91,
    "pos": [],
    "top_share": 1.0,
@@ -101,6 +112,9 @@
   "2": {
    "H": 0.7735,
    "neg": 4,
+   "negs": [
+    4
+   ],
    "z_neg": -11.32,
    "pos": [
     19
@@ -113,6 +127,9 @@
   "3": {
    "H": 0.8369,
    "neg": 4,
+   "negs": [
+    4
+   ],
    "z_neg": -8.93,
    "pos": [
     19
@@ -125,6 +142,9 @@
   "4": {
    "H": 0.7966,
    "neg": 4,
+   "negs": [
+    4
+   ],
    "z_neg": -7.29,
    "pos": [],
    "top_share": 1.0,
@@ -135,6 +155,9 @@
   "5": {
    "H": 0.7657,
    "neg": 4,
+   "negs": [
+    4
+   ],
    "z_neg": -10.91,
    "pos": [
     0,
@@ -149,6 +172,9 @@
   "6": {
    "H": 0.7712,
    "neg": 4,
+   "negs": [
+    4
+   ],
    "z_neg": -7.64,
    "pos": [
     2,
@@ -162,6 +188,9 @@
   "7": {
    "H": 0.7238,
    "neg": 4,
+   "negs": [
+    4
+   ],
    "z_neg": -13.85,
    "pos": [
     0,
@@ -176,6 +205,9 @@
   "8": {
    "H": 0.8914,
    "neg": 4,
+   "negs": [
+    4
+   ],
    "z_neg": -16.26,
    "pos": [
     0,
@@ -192,6 +224,9 @@
   "9": {
    "H": 0.784,
    "neg": 4,
+   "negs": [
+    4
+   ],
    "z_neg": -14.36,
    "pos": [],
    "top_share": 1.0,
