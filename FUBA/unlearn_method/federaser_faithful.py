@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
-"""원 논문(Liu et al., FedEraser, IWQoS 2021)대로의 보정(calibration) 언러닝.
+"""과거 실험용 평균 후 층별 보정 변형 (원논문 충실 구현이 아님).
+
+2026-10-14 정정: 아래 방식은 원논문의 클라이언트별 전체 갱신 보정 후
+집계와 다르다. 첫 라운드로 keep을 고정하는 부분 참여 문제도 남아 있다.
+과거 결과 재현을 위해 동작은 유지하며, 새 실제 제어 실험에서는
+federaser_clientwise.py의 명시적 참여자·벡터 보정 코어를 사용한다.
 
 왜 따로 두나
   - 이 저장소의 unlearn_method/federaser.py 는 보정 대신 공격자가 그대로 참여하는 재학습 루프
@@ -8,7 +13,7 @@
     사실상 newGM + (newCM - newGM) = 보정 모델 평균이 된다(원식은 옛 노름).
   - 언러닝 전후 비교 실험에서는 "저장된 궤적만으로 요청자 기여를 빼는" 순수한 FU 가 필요하다.
 
-원식 (층별)
+이 파일의 변형식 (층별)
     newGM_{t+1} = newGM_t + ||oldCM_t - oldGM_t|| * (newCM_t - newGM_t) / ||newCM_t - newGM_t||
   oldGM_t : 라운드 t 의 시작 모델 = 저장된 global_{t-1}
   oldCM_t : 저장된 라운드 t 로컬(요청자 제외)의 평균
@@ -50,7 +55,7 @@ def _calibrate(global_dict, loaders, keep, config, epochs, lr, max_batches):
 
 
 def _step(new_gm, old_gm, old_cm, new_cm):
-    """원식 한 라운드: newGM + ||oldCM - oldGM|| * (newCM - newGM) / ||newCM - newGM|| (층별)."""
+    """평균 후 층별 보정 변형. 원논문의 개별 갱신 보정과 일반적으로 다르다."""
     out = {}
     for layer in new_gm.keys():
         if not torch.is_floating_point(new_gm[layer]):

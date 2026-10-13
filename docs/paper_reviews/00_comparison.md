@@ -2,6 +2,8 @@
 
 개별 정리: [01_BadFU](01_BadFU.md) · [02_FUBA](02_FUBA.md) · [03_FedMUA](03_FedMUA.md) · [04_Malicious Forgetting](04_malicious_forgetting_FUsion_SubID.md)
 
+**2026-10-14 추가:** [주요 방어 6편 + FedEraser의 다섯 항목 검토와 신규성 전개](05_defenses_novelty.md), [장력→실제 FU 제어 명세](../paper/TENSION_CONTROL.md). 아래 표의 BadFU ‘코드’는 이 저장소에서 사용한 클라이언트 분리 변형을 뜻하며 원래 공격 정의와 구분한다. ‘기존 방어 전부’ 같은 아래의 총칭은 당시 비교한 방법에 한정하며 전체 문헌의 부재 증명이 아니다.
+
 ## 1. 한눈에 비교
 
 | | **BadFU** (RAID'25) | **FUBA** (IEEE TAI'26) | **FedMUA** (TIFS'25) | **Malicious Forgetting / FUsion** (INFOCOM'26) |
