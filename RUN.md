@@ -1,6 +1,60 @@
 # 실험 돌리기 — 2026-10-14
 
-**연구 우선순위 보완:** 방어 대상은 FL→FU 과정을 이용하는 잠복 백도어로 고정한다. 아래 v3 실행기는 정상 혼동과 기존 점수를 비교하는 자료 수집 도구이며, 그 수식 수정만으로 신규성이 확보되었다는 뜻이 아니다. [원고 v7](docs/paper/draft_v7.tex)의 마지막 설계 절과 [방어 논문의 기여 분석](docs/paper/HOW_OTHERS_EXPLAIN.md)에 입력 쌍 관측 → 삭제 의존성 → 실제 FU 갱신 제어 후보 및 세 가지 검증 관문을 적었다. 새 제어는 아직 구현되지 않았다. 18개 예비 자료는 계속 유효하지만, 68개 확인 묶음 확대보다 관측의 추가 정보와 이력 없는 제어 대비 이득을 먼저 검증한다.
+## 최신: 실제 FU 보정 단계와 관측 상한 검사
+
+[알고리즘 명세](docs/paper/TENSION_CONTROL.md), [방어 6편 + FedEraser의 다섯 항목 검토](docs/paper_reviews/05_defenses_novelty.md). `tension_control.py`와 `federaser_clientwise.py`에 실제 제어·개별 클라이언트 보정 후 집계를 구현했다. 아래의 예전 ‘제어 미구현’ 설명은 이 추가로 갱신한다. 기존 평균 후 층별 보정 파일은 과거 결과 재현용으로 보존한다.
+
+**범위:** 저장 MNIST/LeNet 궤적에서 실제 보존 클라이언트의 SGD 보정 한 단계를11군으로 비교한다. 전체 FU는 아니다. `global_(round-1)`에는 과거 삭제 기여가 남아 있어 망각 완료를 주장하지 않는다. 최초 밝기 변환 스모크만으로 장력 원리의 실패나 성공을 판정할 수 없다. 정답 트리거 관측은 관측 상한이며 실용 방어 성능으로 보고하지 않는다.
+
+저장소 루트, 기존 PyTorch·torchvision·NumPy·SciPy 환경에서 실행한다. MPI·timm은 필요 없다. 원래 FL과 같은 seed/분할이어야 한다. MNIST는 기존 `FUBA/data`에서 읽고 자동 다운로드하지 않는다.
+
+```bash
+git fetch origin refs/heads/codex/structural-latent-defense:refs/remotes/origin/codex/structural-latent-defense
+git switch codex/structural-latent-defense
+git pull --ff-only origin codex/structural-latent-defense
+python -m unittest discover -s FUBA/tests -q
+
+# 실제 보유한 checkpoint 이름. 예: 로컬 seed522 IID 모델
+NAME=loc_k20paper_s0
+python FUBA/experiment_tension_control.py --name "$NAME" --requesters 4 \
+  --round 99 --history-window 20 --seed 522 --split iid --eval-target 8 \
+  --out "FUBA/logs/tension_control/${NAME}_r99_req4_brightness.json"
+
+# 정답 트리거 관측 상한. 위와 FU 갱신은 같고 관측 입력만 다르다.
+python FUBA/experiment_tension_control.py --name "$NAME" --requesters 4 \
+  --round 99 --history-window 20 --seed 522 --split iid --eval-target 8 \
+  --probe-view oracle-trigger \
+  --out "FUBA/logs/tension_control/${NAME}_r99_req4_oracle.json"
+
+# 정상 요청 대조. 8은 이 로컬 궤적의 정상 참여자다.
+python FUBA/experiment_tension_control.py --name "$NAME" --requesters 8 \
+  --round 99 --history-window 20 --seed 522 --split iid --eval-target 8 \
+  --out "FUBA/logs/tension_control/${NAME}_r99_req8_brightness.json"
+```
+
+`--eval-target`은 평가에만 쓰며 선택기·제어기에 전달하지 않는다. `--probe-view oracle-trigger`는 저장 `backdoor_net_model`로 변환한 입력을 관측하므로 정답 정보 사용 실험이다. 전체 평가를 포함하면 generator의 `--noise-thread`, `--atk-eps`도 원래 설정(.04,1.0 기본)과 맞춰야 한다.
+
+저장 위치는 `--checkpoints /path/to/checkpoints --data-root /path/to/data`로 바꾼다. IID seed는 원래 값(예:522/523/524), owner는 `--split owner --owner-client 19 --owner-class 3 --owner-frac .9 --split-seed <원래값>`을 지정한다. 먼저 보유한 IID/owner 각 한 모델에서 요청·시점을 바꾸고, 정합성이 확인되면 나머지 시드로 확대한다. 출력은 덮어쓰지 않으므로 설정 변경 시 새 이름을 쓴다.
+
+기본 선택32개/보존128개/평가512개는 분리되어 있다. 보존 집합에 클래스가 빠지면 `--retain`을 늘린다. `--topk 8 --strength 1 --radius-ratio .25 --epsilon 0 --batches 2`는 사전 고정 동작 확인값이며 최적 설정이 아니다. 현재는 buffer 없는 MNIST/LeNet 어댑터다. BN 상태를 무시한 CIFAR 실행은 지원하지 않는다.
+
+| JSON 비교/필드 | 확인할 질문 |
+|---|---|
+| `history_action` vs `history_free` | 실제 제안만 본 같은 제어보다 이력+경계가 도움이 되는가 |
+| `history_action` vs `linear_action` | 단순 선형 삭제 효과와 같은가; 완전 상쇄에서는 동률이 이론상 가능 |
+| `history_action` vs `shuffled_action` | 실제 삭제 단위와 이력의 대응이 중요한가 |
+| `history_action` vs `history` | 과거 B만 쓰는 것보다 실제 제안의 증가 A를 결합하는 이유가 있는가 |
+| `tension`, `linear`, `retention_only`, `clip`, `no_defense` | 다른 부품만으로 효과가 생기는가 |
+| `before_step`, `step_asr`, `clean_target_rate`, `macro_trigger_excess` | 해당 한 단계가 실제 백도어를 활성화하는가. 활성화가 없으면 방어 성능 비교는 판정 유보 |
+| `progress`, `status`, 실제 클래스 손실 변화 | 정지 또는 정상 효용 붕괴로 ASR을 낮추지 않았는가 |
+
+**전달 파일:** 생성 JSON들. 원본 데이터·checkpoint는 불필요하다. 코드/체크포인트/분할 해시, 참여자, 관측·보정·제어 시간도 저장한다. 이 작은 단계를 먼저 보는 이유는 구현과 관측 가정을 분리하기 위해서이며, 전체 FU의 ASR·망각 검증을 대신하지 않는다.
+
+전체 FU API는 `federaser_clientwise.replay(initial, events, deleted, recalibrate, controller)`. 진짜 학습 전 초기 상태·실제 참여 기록·보존 데이터 callback이 필요하다. 원래 BadFU의 같은 클라이언트 내부 삭제, BN 어댑터, 엄격한 망각 인증 및 대규모 FU 통합은 아직 미완료다. 다음 평가 순서는 [설계 §5](docs/paper/TENSION_CONTROL.md)에 있다.
+
+---
+
+**기존 v3 관측 실험:** 방어 대상은 FL→FU 잠복 백도어다. 아래18/68개 실행기는 정상 혼동과 기존 점수의 관측 비교용이다. 위 실제 제어의 관측·연산자 정합성을 먼저 확인한 뒤 대규모 독립 학습을 확대한다.
 
 **후속 FU 실험의 선행 조건:** 로컬 `federaser_faithful.py`의 평균 후 층별 보정은 원논문의 클라이언트별 보정 후 집계와 일반적으로 다르다. 부분 참여 처리와 함께 연산자 정합성을 먼저 확인한다. 아래 장력 캐시/수집 실행은 이 FU 코드를 호출하지 않는다.
 
