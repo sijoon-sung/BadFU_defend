@@ -11,13 +11,15 @@
 \newcommand{\ind}{\mathbf1}
 \newcommand{\pos}[1]{\left[#1\right]_+}
 \newcommand{\med}{\operatorname{median}}
-\title{FL에서 잠복하고 FU에서 활성화되는 백도어:\\삭제 경계로 조건화한 기능적 장력 감사}
+\title{FL에서 잠복하고 FU에서 활성화되는 백도어 방어:\\기능적 장력과 삭제 의존성의 관측 및 제어}
 \author{연구 초안}
-\date{v7 구조 중심 수정 / 2026년 10월 14일}
+\date{v7 / 위협 범위와 신규성 검증 계획 수정 / 2026년 10월 14일}
 \begin{document}
 \maketitle
 
 \begin{abstract}
+본 연구의 고정된 대상은 FL에서 심은 백도어가 FU를 통해 활성화되는 공격이다.
+장력은 그 공격 가족의 관측·방어를 위한 후보이며, 모든 공격을 판별하는 정의나 보장이 아니다.
 FUBA와 BadFU는 FL에서 백도어를 주입하는 효과와 이를 억제하는 효과를 함께 학습시키고,
 FU에서 억제 쪽을 선택적으로 제거하여 남은 백도어를 활성화한다.
 본 연구는 이를 주입과 억제의 역할이 FL에서는 함께 반영되지만 FU에서는 서로 다른 삭제 비율을
@@ -33,9 +35,19 @@ FU에서 억제 쪽을 선택적으로 제거하여 남은 백도어를 활성�
 초기 정상 후보와 표적 혼동이 남았다.
 이는 구조 점수의 예비 근거이며, 정상 오탐률이나 원래 BadFU의 방어 성능 검증은 아니다.
 기존 언러닝 시뮬레이션 실험은 효과 확인과 비교를 위한 부록으로 보존한다.
+현재의 점수 수정만으로 방어의 신규성을 확정하지 않는다. 후속 설계는 non-IID의 정상 변화를
+통제한 삭제 의존성 관측과 실제 FU 갱신의 위험 방향 제어를 연결하는 것이며,
+해당 제어는 아직 구현·성능이 검증되지 않은 연구 계획이다.
 \end{abstract}
 
 \section{문제: FL의 잠복을 FU의 삭제로 깨뜨리는 공격}
+\paragraph{변하지 않는 위협 범위.}
+공격자는 FL에서 학습한 효과를 FU의 삭제 과정으로 활성화한다.
+실험에서는 삭제 전·후의 ASR뿐 아니라 양쪽의 정상 과제 성능을 함께 확인한다.
+장력이 큰 사례만을 공격 정의에 포함시켜 장력 검출이 성공하도록 문제를 순환 정의하지 않는다.
+의도적으로 심은 백도어와 공격 없는 non-IID 모델의 유사한 오분류는 원인을 구별하여 평가하되,
+실제 방어의 목표는 사용자의 의도를 알아내는 것이 아니라 망각을 이행하면서 표적 오작동을 억제하는 것이다.
+
 일반적인 백도어 방어는 학습 또는 추론 중 드러난 공격 효과를 검사한다.
 여기서 다루는 공격은 두 단계의 연결을 악용한다.
 FL 동안에는 주입 효과와 억제 효과를 함께 반영하여 행동을 숨기고,
@@ -72,6 +84,10 @@ FU 요청이 그중 억제 쪽을 더 제거하는지를 삭제 모델 생성 �
 기여의 대상은 학습 중의 관계를 삭제 가능한 단위에 연결하고,
 요청이 그 관계를 보존하는지 깨뜨리는지를 검사하는 방어 절차다.
 정상 충돌과 악성 은닉을 구별하는 검출력은 별도 실험으로 입증해야 한다.
+``FL 이력을 FU에 쓴다''는 것 역시 단독 신규성이 아니다.
+UnlearnGuard는 이미 이력 기반 FU 갱신 예측과 검사를 사용한다\cite{unlearnguard}.
+우리가 검증해야 하는 차이는 FL에서 함께 있을 때 가려졌던 기여가 삭제로 분리되는 관계가
+개별 갱신의 크기·방향·시간적 일관성보다 추가 정보를 주는지에 있다.
 
 \section{관련 연구와 논리 전개}
 MASA는 개입으로 행동 차이를 관측하고 non-IID 혼동을 완화하는 절차를 둔다\cite{masa}.
@@ -86,12 +102,50 @@ FLAME과 DeepSight가 탐지와 잔여 영향 처리를 구분하듯\cite{flame,
 언러닝 과정의 갱신을 다루는 UnlearnGuard\cite{unlearnguard}와는 실행 시점 및 관측 정보를 맞춰 비교한다.
 선행 연구의 존재만으로 본 알고리즘의 신규성이 확정되거나 부정되는 것은 아니다.
 
+\subsection{다른 방어들은 무엇을 신규성으로 연결했는가}
+다음은 원논문의 방법과 기여 진술을 읽고 도출한 설계 비교다.
+어떤 논문이든 non-IID에서 공격과 정상 의도를 항상 구별했다는 의미는 아니다.
+\begin{table}[ht]\centering\small
+\caption{관측의 공백에서 알고리즘 기여로 이어지는 전개. 우리 설계로의 적용은 해석이다.}
+\begin{tabularx}{\linewidth}{lXXX}\toprule
+연구 & 기존 방식의 공백 & 새로운 관측 또는 조치 & 우리에게 필요한 검증\\\midrule
+MASA\cite{masa} & 정적 갱신 통계에 가려진 백도어 & 개별 언러닝 동역학을 측정하고 사전 모델 융합으로 non-IID 혼동을 완화 & 새 관측이 정상 이질성에도 유지되는가\\
+BackdoorIndicator\cite{indicator} & 작은 악성 갱신과 정상 갱신의 중첩 & OOD 지표 과제를 심어 능동 측정하고 BN 통계 이동을 통제 & 기존 관측에 없던 정보가 실제 생기는가\\
+FedREDefense\cite{fedredefense} & 클라이언트 사이 분포 비교의 불안정성 & 각 갱신의 학습 재구성 오차를 사용 & 실제 poisoned-data 학습도 재구성되면 남는 신호가 있는가\\
+DeepSight\cite{deepsight} & 단순 이상치가 정상 non-IID까지 배제 & 모델 내부의 여러 표현과 군집 검사, 잔여 영향 clipping & 희귀 클래스 기여를 보존하며 위험 영향만 줄이는가\\
+FLAME\cite{flame} & 필터 누락과 과도한 잡음의 정확도 손실 & 군집·clipping으로 필요한 잡음량을 줄이는 결합 & 각 구성요소가 다음 단계의 비용이나 실패를 줄이는가\\
+UnlearnGuard\cite{unlearnguard} & FU 도중 새로 제출되는 악성 갱신 & FL 이력으로 FU 갱신을 예측하고 크기·방향을 검사 & 정상처럼 보였던 FL 기록 자체의 잠복 관계에도 충분한가\\\bottomrule
+\end{tabularx}
+\end{table}
+특히 FedREDefense의 재구성 가능성을 악의 판별과 동일시하지 않는다.
+BadFU처럼 오염 데이터를 사용해 실제로 최적화한 갱신이 재구성될 가능성은 별도 검증해야 한다.
+BackdoorIndicator의 OOD 및 지표 과제 가정도 원래 BadFU/FUBA에 자동으로 성립하지 않는다.
+논리 전개에서 가져올 것은 새 관측의 근거, 혼동 통제, 조치와 소거의 연결이다.
+
+\subsection{FedEraser의 기록을 사용할 때의 정확한 전제}
+FedEraser는 서버가 보관한 클라이언트별 과거 모델 업데이트를 재사용한다\cite{federaser}.
+각 minibatch의 원시 gradient 전체를 별도로 요구하는 것은 아니다.
+과거 업데이트 $u_j^t$와 남은 데이터로 짧게 보정 학습한 업데이트 $\widehat u_j^t$로
+\begin{equation}\label{eq:federaser-original}
+ \widetilde u_j^t=\|u_j^t\|\frac{\widehat u_j^t}{\|\widehat u_j^t\|}
+\end{equation}
+를 구성한 뒤 보정 갱신을 집계한다. 영벡터 처리와 참여·가중 규약은 구현에서 지정해야 한다.
+따라서 같은 저장 조건의 FUBA 클라이언트 수준 감사에서는 기존 이력을 활용할 수 있다.
+서버의 원시 데이터 접근이나 표본별 기여 장부를 공짜로 얻는다는 뜻은 아니다.
+원래 FedEraser는 클라이언트 제거 방법이므로 BadFU의 표본 삭제를 지원하는 변형의 정보와
+보정 데이터 조건은 별도로 명시한다.
+
+로컬 \texttt{federaser\_faithful.py}는 현재 클라이언트 평균을 먼저 만든 뒤 층별 노름을
+적용한다. 일반적으로 식~\eqref{eq:federaser-original}의 클라이언트별 보정 후 집계와 다르므로,
+이 파일 이름만으로 원논문 정합성을 인정하지 않는다. 후속 FU 비교 전에 이 연산 순서와
+부분 참여 처리를 검증해야 한다. 현재 장력 캐시 재생은 이 FU 구현을 호출하지 않는다.
+
 \section{공통 모형: 역할과 삭제 단위를 분리한다}
 \subsection{공격 가족의 정의}
 전체 학습 단위를 $\mathcal U$라 하고, 그 안의 주입 집합 $A$와 억제 집합 $S$를 생각한다.
 이 둘은 같은 클라이언트에 속할 수 있다. 입력 영역 $X^*$와 표적 행동에 대해
 공격자는 FL 종료 시 낮은 공격 효과와 FU 후 높은 공격 효과를 함께 목표로 한다.
-본 연구는 주입 효과가 억제 효과에 의해 가려지고 선택적 제거로 노출되는 잠복 공격 가족을 다룬다.
+이 주입--억제 모형은 FL$\to$FU 잠복 공격을 분석하는 중심 기제 가설이다.
 잠복--활성화의 행동 정의만으로 모든 비선형 공격에 가법 상쇄가 필수라는 정리를 주장하지 않는다.
 
 누적 요청은 $r\in[0,1]^{|\mathcal U|}$이며 $r_u$는 단위 $u$의 삭제 비율이다.
@@ -375,6 +429,102 @@ v2, 장력 단독, 제거된 음의 기여량 및 입력·시간·좌표 소거�
 BadFU의 검증 가능한 묶음 기록에서 신호를 확보하지 못하면 두 공격의 구조적 공통성은 유지하되
 두 공격을 실제 방어했다는 실험 주장은 철회한다.
 
+\section{신규성을 위한 다음 알고리즘 설계: 관측과 FU 조치의 연결}
+이 절은 다음 구현을 위한 후보 명세이며, 앞 절의 v3 점수에 이미 구현되었거나
+그 성능이 검증된 것처럼 보고하지 않는다. 위협 범위는 그대로 유지한다.
+
+\subsection{먼저 분리해야 할 세 가지 명제}
+첫째, 주입 $b\ge\beta>0$와 억제 $s=-b+\eta$, $|\eta|\le\varepsilon<\beta$가
+실제 측정 좌표에 존재하면 $T=2\min(b,-s)\ge2(\beta-\varepsilon)$다.
+이 의미에서 강한 은닉 기여는 장력을 요구한다.
+그러나 높은 ASR 증가율만으로 공개 입력에서 큰 절대 장력을 보장할 수는 없다.
+여러 입력의 분류 마진이0에 가까우면 아주 작은 변화로도 ASR이 크게 바뀌며,
+로짓의 양의 상수 배율 변경은 예측을 보존하면서 로짓 장력의 크기를 바꾼다.
+
+둘째, 정상/공격의 관측 $O$가 동일하면 $O$만으로 의도를 항상 구별할 수 없다.
+이는 모든 non-IID 설정에서 모든 방어가 불가능하다는 명제가 아니다.
+추가 입력, 과제 지식, 과정 관측 또는 조치의 목표를 바꾸면 비교할 정보가 달라진다.
+셋째, 공격 탐지가 불가능한 특정 경우에도 정당한 입력 의미와 보존 과제가 주어지면
+관측된 표적 오작동을 완화하는 목표를 세울 수 있다. 그 외부 기준의 비용과 적용 범위를 숨기지 않는다.
+
+\subsection{정상 클래스 편향을 제거한 기능 좌표 후보}
+작업 의미를 유지한다고 사전에 정한 입력 변환 집합 $\mathcal A$에 대해
+\begin{equation}\label{eq:paired-coordinate}
+ q_c(x,a;\theta)=m_c(a(x);\theta)-m_c(x;\theta),\qquad a\in\mathcal A,
+\end{equation}
+여기서 $m_c=f_c-C^{-1}\sum_df_d$인 중심화 로짓을 후보 좌표로 둔다.
+이 좌표에서 각 실제 학습 갱신의 효과를 기록하고,
+입력 평균 전에 장력을 계산하여 같은 누적 삭제율 $r$에 조건화한다.
+정상 클래스별 기준 분포와 희귀 클래스 성능을 별도로 유지한다.
+일률적으로 클래스 $c$의 로짓을 올리는 항 $b_c(\theta)$는 두 입력의 차에서 정확히 소거된다.
+이는 제한된 편향 제거 성질일 뿐 일반적인 non-IID 효과 제거 정리는 아니다.
+정상 특징과 변환의 상호작용은 남을 수 있으며 로짓 배율도 별도 정규화·보정 문제다.
+중심화는 모든 출력에 공통인 로짓 이동도 제거한다. 클래스 마진을 사용하는 소거도 가능하다.
+
+새 관측은 실제 트리거 정답을 탐지기에 주지 않는다.
+사전에 정한 변환이 공격 특징을 전혀 자극하지 못하면 신호가 없을 수 있다.
+실제 트리거를 쓰는 결과는 평가용 관측 상한으로 분리한다.
+이 가정 아래서만 ``원시 장력보다 정상 non-IID 혼동을 줄인다''는 가설을 실험한다.
+
+\subsection{실제 FU 갱신의 선택적 제어 후보}
+삭제 요청을 이행하는 FU가 제안한 갱신을 $v$라 하자.
+FL 장부와 현재 삭제 경계가 선택한 소수의 위험 좌표 집합을 $\mathcal P_r$로 두고,
+현재 모델에서 $g_p=\nabla_\theta q_p$, 보존 데이터의 클래스별 손실 기울기를
+$h_y=\nabla_\theta L_y^{\mathrm{keep}}$로 계산한다. 다음을 후보 제어 문제로 둔다.
+\begin{align}\label{eq:controlled-step}
+ d^*=\arg\min_d\quad&\tfrac12\|d-v\|_2^2
+       +\lambda\sum_{p\in\mathcal P_r}[g_p^\top d-\kappa_p]_+^2,\\
+ \text{subject to}\quad&h_y^\top d\le\epsilon_y\quad(y\in\mathcal Y_{\mathrm{keep}}),
+       \qquad\|d\|_2\le\rho.\notag
+\end{align}
+이는 사용자 전체를 악성으로 배제하는 대신 선택한 기능 방향의 증가를 제한하고,
+보존 클래스의 손실 증가도 제한하려는 국소 최적화다.
+삭제 데이터로부터 제어 기준을 다시 만들거나 억제 업데이트를 되넣지 않는다.
+FU의 실제 보정 갱신에 적용하며 후보 언러닝 모델을 여러 개 생성하는 탐지 과정은 아니다.
+그러나 일반적인 투영·정규화 자체도 선행 기법이다. 신규성 후보는 FL에서 찾은 잠복 관계와
+실제 삭제 경계가 제어 좌표를 정하고, 그 선택이 이력 없는 제어보다 나은지에 있다.
+
+$\epsilon_y\ge0$, $\rho\ge0$이면0갱신이 제약을 만족하지만, 항상0을 내는 방어는 유용하지 않다.
+진행량, 정상 성능, 망각을 함께 검증해야 하며 이 제약이 정확한 FU나 ASR 감소를 보장하지 않는다.
+보존 클래스 기준 자료와 의미 보존 변환의 추가 가정, 기울기 및 최적화 비용을 실험에 포함한다.
+원래 BadFU에서 과거 표본별 장부를 얻지 못하면 이력 기반 좌표 선택도 미확정이다.
+이때 새 표본 장부만을 유일한 해결책으로 가정하지 않는다.
+실제 FU에서 camouflage를 제거한 보존 데이터로 계산한 클라이언트 보정 갱신은 이미
+추가 관측을 제공할 수 있다. 동일한 현재 모델의 Jacobian $J_q$에서
+$J_q u_j^{\mathrm{FL}}$와 $J_q\widetilde u_j^{\mathrm{FU}}$를 비교하면,
+과거 혼합 갱신과 요청 이후 보정 갱신의 기능 응답 차이를 측정할 수 있다.
+새 삭제 시뮬레이션이나 과거 표본 기여의 정확한 분해를 요구하는 관측은 아니다.
+단, 학습 길이·노름·모델 시점의 비교 조건을 맞춰야 하며 정상적인 표본 삭제도 차이를 만든다.
+이 관측에서 선택한 방향과 이력만으로 선택한 방향을 각각 소거해야 한다.
+원래 BadFU의 내부 역할을 자동 복원하거나 그것의 방어 성공을 이미 보장한다는 뜻은 아니다.
+
+\subsection{다음 실험은 신규성 가설부터 반박한다}
+먼저 기존 체크포인트로 다음 세 관문을 확인한 뒤 독립 학습을 확대한다.
+\begin{enumerate}
+\item \textbf{관측 관문:} 원시 장력, 입력 쌍 장력, 단순 선형 삭제 영향에 대해
+      동일 정상 예산의 분리와 삭제 경계 순위를 비교한다. 실제 트리거 상한에서조차
+      분리가 없으면 임의 변환 탐지기의 고도화를 먼저 진행하지 않는다.
+\item \textbf{조치 관문:} 같은 FU 갱신에 대해 무방어, 기존 clipping/방어,
+      이력 없는 식~\eqref{eq:controlled-step}, 삭제 경계만 사용하는 제어,
+      FL 이력과 경계를 모두 사용하는 제어를 비교한다.
+      이력의 역할을 없애거나 섞어도 성능이 같으면 과정 연결의 기여를 주장하지 않는다.
+\item \textbf{효용 관문:} 후속 ASR, 보존 ACC와 희귀 클래스 ACC, 전체 요청 망각,
+      연산 비용, 이후 재학습에서의 재활성화를 함께 측정한다.
+      공격 없는 non-IID의 자연스러운 오분류와 공격의 추가 효과를 따로 보고한다.
+\end{enumerate}
+평가에서는 정답 트리거 $g$와 원래 표적이 아닌 출처 클래스 $y\ne c$를 사용한다.
+시점 $t$의 예측을 $\widehat y_t(x)=\arg\max_df_d(x;\theta_t)$로 두고,
+$A^{g,t}_{y\to c}=\Pr[\widehat y_t(g(x))=c\mid y]$와
+$A^{0,t}_{y\to c}=\Pr[\widehat y_t(x)=c\mid y]$를 모두 측정한다.
+\begin{equation}
+ \Delta_{\mathrm{act}}=\frac1{C-1}\sum_{y\ne c}
+ \big\{(A^{g,\mathrm{FU}}_{y\to c}-A^{0,\mathrm{FU}}_{y\to c})
+       -(A^{g,\mathrm{FL}}_{y\to c}-A^{0,\mathrm{FL}}_{y\to c})\big\}
+\end{equation}
+를 보조 지표로 두되 원래 ASR도 함께 보고한다.
+동일 분할·요청의 공격 없는 대조에서도 이를 계산한다.
+이 차이 지표가 의도를 증명하는 것은 아니며, 평가용 트리거를 탐지기에 제공하지 않는다.
+
 \section{결론}
 FUBA와 BadFU를 연결하는 것은 주입과 억제의 공동 학습 및 억제의 선택적 삭제다.
 우리는 장력을 이 구조의 학습 중 관측으로 두고,
@@ -573,7 +723,7 @@ R-024에서 공동삭제는 FUBA $.10$의 ASR49.8\%를9.8\%로 되돌렸지만
 실행 당시 비교기 두 버전은 해시가 일치하는 소스 스냅샷으로 보관했다.
 두 버전의 차이는 이진 과제 분기이며 모든 실제 실험은10클래스다.
 
-\begin{thebibliography}{9}
+\begin{thebibliography}{99}
 \bibitem{fuba} FUBA: Backdoor Federated Learning via Federated Unlearning.
 \href{https://ieeexplore.ieee.org/document/11231135/}{IEEE Transactions on Artificial Intelligence}, DOI:10.1109/TAI.2025.3630110.
 \bibitem{badfu} B. Lu et al. BadFU: Backdoor Federated Learning through Adversarial Machine Unlearning.
@@ -587,8 +737,16 @@ R-024에서 공동삭제는 FUBA $.10$의 ASR49.8\%를9.8\%로 되돌렸지만
 \bibitem{deepsight} P. Rieger et al. DeepSight: Mitigating Backdoor Attacks in Federated Learning Through Deep Model Inspection.
 \href{https://www.ndss-symposium.org/wp-content/uploads/2022-156-paper.pdf}{NDSS}, 2022.
 \bibitem{unlearnguard} W. Wang et al. Poisoning Attacks and Defenses to Federated Unlearning.
-\href{https://arxiv.org/abs/2501.17396}{WWW / arXiv:2501.17396}, 2025.
+\href{https://arxiv.org/abs/2501.17396}{WWW Companion / arXiv:2501.17396}, 2025.
 \bibitem{pcgrad} T. Yu et al. Gradient Surgery for Multi-Task Learning.
 \href{https://arxiv.org/abs/2001.06782}{NeurIPS}, 2020.
+\bibitem{federaser} G. Liu, X. Ma, Y. Yang, C. Wang, J. Liu.
+FedEraser: Enabling Efficient Client-Level Data Removal from Federated Learning Models.
+\href{https://arxiv.org/abs/2012.13891}{IWQoS, preprint: Federated Unlearning}, 2021.
+\bibitem{fedredefense} Y. Xie, M. Fang, N. Z. Gong.
+FedREDefense: Defending against Model Poisoning Attacks for Federated Learning using Model Update Reconstruction Error.
+\href{https://proceedings.mlr.press/v235/xie24c.html}{ICML}, 2024.
+\bibitem{indicator} BackdoorIndicator: Leveraging OOD Data for Proactive Backdoor Detection in Federated Learning.
+\href{https://arxiv.org/abs/2405.20862}{arXiv:2405.20862}, 2024.
 \end{thebibliography}
 \end{document}
