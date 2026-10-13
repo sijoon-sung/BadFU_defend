@@ -19,6 +19,12 @@
 ## 2. 돌아가는 것 (노트북)
 - 없음 (R-014 노트북 세 변형 완료).
 
+## 2-b. 리뷰(2026-10-13 저녁) 보완으로 넣은 것
+- 큰 모델 궤적: 매니페스트 `k20_paper_cifar` (CIFAR-10/resnet18, 논문 설정 flag, IID 3 시드) — `ONLY=k20_paper_cifar bash make_trajectories.sh` (DISLAB). 로더·장부·검증기가 `dataset` 을 인식한다.
+- 공격 없는 궤적: `clean_paper` 4 개 (mnist/cifar × iid/owner, warm-up 1000) — `ONLY=clean_paper bash make_trajectories.sh`, 장부는 `PREFIX=clean … bash run_ledger.sh`. 검증기는 clean 항목을 "ASR 낮음·ACC·정상 제거 무해" 로만 본다.
+- 위장자 여러 명: `ledger_defense.py --neg_set` (음의 다리 집합).
+- BadFU 로더: `ledger_defense.py --fmt badfu`. **노트북 traj_full 에서는 경보 없음 (R-017)** — 누출 가정이 BadFU 에서는 성립하지 않을 수 있다. 40 라운드 시드로 재확인.
+
 ## 3. 비어 있는 것 (논문이 되려면 꼭)
 | 무엇 | 왜 필요한가 | 명령 | 어디서 | 걸리는 시간 |
 |---|---|---|---|---|

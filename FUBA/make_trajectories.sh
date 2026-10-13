@@ -37,11 +37,12 @@ LIST="$(python verify_trajectories.py --list --attack fuba --where "$WHERE" ${ON
 echo "== make_trajectories  WHERE=$WHERE  ONLY='${ONLY:-전부}'  FORCE=$FORCE  DRY=$DRY  manifest=$MANIFEST"
 command -v mpiexec >/dev/null 2>&1 || echo "   (mpiexec 가 PATH 에 없음 — run_real_fuba.sh 가 python 의 impi-rt 에서 찾는다)"
 n_made=0; n_skip=0; n_ver=0
-while IFS=$'\t' read -r name group where nb rounds warmup seed prate extra preflight <&3; do
+while IFS=$'\t' read -r name group where nb rounds warmup seed prate extra preflight dataset <&3; do
+  dataset="${dataset:-mnist}"; dataset="${dataset%$'\r'}"
   [ -n "$name" ] || continue
   preflight="${preflight%$'\r'}"
   have="$(ckpt_count "$name")"
-  cmd="NB_CLIENTS=$nb ROUNDS=$rounds WARMUP=$warmup PARTICIPANT_RATE=$prate EXTRA_ARGS=\"$extra\" bash run_real_fuba.sh $name $seed"
+  cmd="DATASET=$dataset NB_CLIENTS=$nb ROUNDS=$rounds WARMUP=$warmup PARTICIPANT_RATE=$prate EXTRA_ARGS=\"$extra\" bash run_real_fuba.sh $name $seed"
   if [ "$FORCE" != "1" ] && [ "$have" -ge "$rounds" ]; then
     echo; echo "== [$group] $name: 있음 ($have/$rounds 라운드) — 생성 생략"
     echo "   ($cmd)"
@@ -57,7 +58,7 @@ while IFS=$'\t' read -r name group where nb rounds warmup seed prate extra prefl
     echo "+ $cmd 2>&1 | tee logs/pipeline/$name.attack.log"
     if [ "$DRY" != "1" ]; then
       t0=$(date +%s)
-      if ! NB_CLIENTS="$nb" ROUNDS="$rounds" WARMUP="$warmup" PARTICIPANT_RATE="$prate" EXTRA_ARGS="$extra" \
+      if ! DATASET="$dataset" NB_CLIENTS="$nb" ROUNDS="$rounds" WARMUP="$warmup" PARTICIPANT_RATE="$prate" EXTRA_ARGS="$extra" \
            bash run_real_fuba.sh "$name" "$seed" </dev/null 2>&1 | tee "logs/pipeline/$name.attack.log"; then
         abort "[$name] 생성 명령이 실패 (mpiexec/main.py). logs/pipeline/$name.attack.log 끝부분을 볼 것"
       fi

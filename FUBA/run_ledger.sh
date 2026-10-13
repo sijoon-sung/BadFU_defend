@@ -6,13 +6,15 @@
 cd "$(dirname "$0")"
 export PYTHONIOENCODING=utf-8
 CONDS="${CONDS:-iid owner}"; SEEDS="${SEEDS:-0 1 2}"; TAG="${TAG:-_r100w5_k20paper}"; EXTRA="${EXTRA:-}"
+DATASET="${DATASET:-mnist}"; PREFIX="${PREFIX:-bd}"   # cifar: DATASET=cifar10 TAG=_r100w5_k20paper_cifar; 공격 없음: PREFIX=clean TAG=_r100_k20paper CONDS="iid owner"
 for c in $CONDS; do
   own=""; [ "$c" = "owner" ] && own="--owner_client 19"
   for s in $SEEDS; do
-    n="bd_${c}${TAG}_s$s"
+    n="${PREFIX}_${c}${TAG}_s$s"
     [ -f "checkpoints/global_net_model_${n}_round_1.pkl" ] || { echo "skip $n (없음)"; continue; }
     cache=""; [ -f "logs/ledger/${n}_push.npz" ] && cache="--from_cache"
-    python ledger_defense.py --fmt fuba --name "$n" --K 20 --rounds 100 --defender 4 --attackers 0 1 2 3 --target 8 $own --cond "${c}${TAG}" $cache $EXTRA || exit 1
+    roles="--defender 4 --attackers 0 1 2 3 --target 8"; [ "$PREFIX" = "clean" ] && roles="--defender -1 --attackers --target -1"
+    python ledger_defense.py --fmt fuba --dataset "$DATASET" --name "$n" --K 20 --rounds 100 $roles $own --cond "${PREFIX}_${c}${TAG}" $cache $EXTRA || exit 1
   done
-  python ledger_defense.py --aggregate --cond "${c}${TAG}"
+  python ledger_defense.py --aggregate --cond "${PREFIX}_${c}${TAG}"
 done

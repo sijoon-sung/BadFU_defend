@@ -89,6 +89,20 @@
    "where": "local",
    "n": 1,
    "minutes_each": 6
+  },
+  "k20_paper_cifar": {
+   "desc": "큰 모델: CIFAR-10/resnet18, 논문 설정 flag, IID 3 시드 (owner 는 IID 결과 뒤에)",
+   "attack": "fuba",
+   "where": "DISLAB",
+   "n": 3,
+   "minutes_each": 300
+  },
+  "clean_paper": {
+   "desc": "공격 없는 궤적 (오경보 검사 R-015): mnist/cifar × iid/owner, warm-up 1000",
+   "attack": "fuba",
+   "where": "DISLAB",
+   "n": 4,
+   "minutes_each": 45
   }
  },
  "trajectories": [
@@ -3362,6 +3376,506 @@
     "participants_per_round": 8
    },
    "notes": "로컬 스모크 궤적 (LOCAL_SMOKE.md Part A, 2026-10-10). bd_iid_s0 와 같은 설정·시드 522."
+  },
+  {
+   "name": "bd_iid_r100w5_k20paper_cifar_s0",
+   "group": "k20_paper_cifar",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "paper",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 0.4,
+   "rounds": 100,
+   "warmup": 5,
+   "seed": 522,
+   "split_seed": 522,
+   "seed_index": 0,
+   "defense": null,
+   "extra_args": "--split_seed 522 --participant_rate 0.4",
+   "command": "DATASET=cifar10 NB_CLIENTS=20 ROUNDS=100 WARMUP=5 PARTICIPANT_RATE=0.4 EXTRA_ARGS=\"--split_seed 522 --participant_rate 0.4\" bash run_real_fuba.sh bd_iid_r100w5_k20paper_cifar_s0 522",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 300,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_r100w5_k20paper_cifar_s0_round_{1..100}.pkl",
+   "downstream": {
+    "ledger": "DATASET=cifar10 TAG=_r100w5_k20paper_cifar CONDS=iid bash run_ledger.sh",
+    "args": "--dataset cifar10 --K 20 --rounds 100 --seed 522 --split_seed 522 --defender 4 --attackers 0 1 2 3 --requesters 4 5"
+   },
+   "verify": {
+    "dormant_asr_max": 20,
+    "dormant_acc_min": 50,
+    "sup_asr_min": 30,
+    "benign_asr_max": 20,
+    "collapse_acc": 25,
+    "aggregation": "fedavg",
+    "provisional": true,
+    "basis": "임시: CIFAR-10/resnet18 은 미실측. 첫 궤적의 잠복 ACC/ASR·위장자 제거 ASR 을 보고 고칠 것 (ACC 가 50 아래면 train_epoch 를 늘려야 함)",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "큰 모델 (CIFAR-10, 저자 코드의 resnet18, 생성기 UNet(3)). 논문 주 설정과 같은 flag. 시간은 미실측(임시 300 분). 리뷰 지적: MNIST/LeNet 만으로는 규모 비판을 못 피함",
+   "dataset": "cifar10"
+  },
+  {
+   "name": "bd_iid_r100w5_k20paper_cifar_s1",
+   "group": "k20_paper_cifar",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "paper",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 0.4,
+   "rounds": 100,
+   "warmup": 5,
+   "seed": 523,
+   "split_seed": 523,
+   "seed_index": 1,
+   "defense": null,
+   "extra_args": "--split_seed 523 --participant_rate 0.4",
+   "command": "DATASET=cifar10 NB_CLIENTS=20 ROUNDS=100 WARMUP=5 PARTICIPANT_RATE=0.4 EXTRA_ARGS=\"--split_seed 523 --participant_rate 0.4\" bash run_real_fuba.sh bd_iid_r100w5_k20paper_cifar_s1 523",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 300,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_r100w5_k20paper_cifar_s1_round_{1..100}.pkl",
+   "downstream": {
+    "ledger": "DATASET=cifar10 TAG=_r100w5_k20paper_cifar CONDS=iid bash run_ledger.sh",
+    "args": "--dataset cifar10 --K 20 --rounds 100 --seed 523 --split_seed 523 --defender 4 --attackers 0 1 2 3 --requesters 4 5"
+   },
+   "verify": {
+    "dormant_asr_max": 20,
+    "dormant_acc_min": 50,
+    "sup_asr_min": 30,
+    "benign_asr_max": 20,
+    "collapse_acc": 25,
+    "aggregation": "fedavg",
+    "provisional": true,
+    "basis": "임시: CIFAR-10/resnet18 은 미실측. 첫 궤적의 잠복 ACC/ASR·위장자 제거 ASR 을 보고 고칠 것 (ACC 가 50 아래면 train_epoch 를 늘려야 함)",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "큰 모델 (CIFAR-10, 저자 코드의 resnet18, 생성기 UNet(3)). 논문 주 설정과 같은 flag. 시간은 미실측(임시 300 분). 리뷰 지적: MNIST/LeNet 만으로는 규모 비판을 못 피함",
+   "dataset": "cifar10"
+  },
+  {
+   "name": "bd_iid_r100w5_k20paper_cifar_s2",
+   "group": "k20_paper_cifar",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "paper",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 0.4,
+   "rounds": 100,
+   "warmup": 5,
+   "seed": 524,
+   "split_seed": 524,
+   "seed_index": 2,
+   "defense": null,
+   "extra_args": "--split_seed 524 --participant_rate 0.4",
+   "command": "DATASET=cifar10 NB_CLIENTS=20 ROUNDS=100 WARMUP=5 PARTICIPANT_RATE=0.4 EXTRA_ARGS=\"--split_seed 524 --participant_rate 0.4\" bash run_real_fuba.sh bd_iid_r100w5_k20paper_cifar_s2 524",
+   "roles": {
+    "carriers": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "suppressors": [
+     4
+    ],
+    "benign": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 300,
+   "output": "checkpoints/{global,local,backdoor}_net_model_bd_iid_r100w5_k20paper_cifar_s2_round_{1..100}.pkl",
+   "downstream": {
+    "ledger": "DATASET=cifar10 TAG=_r100w5_k20paper_cifar CONDS=iid bash run_ledger.sh",
+    "args": "--dataset cifar10 --K 20 --rounds 100 --seed 524 --split_seed 524 --defender 4 --attackers 0 1 2 3 --requesters 4 5"
+   },
+   "verify": {
+    "dormant_asr_max": 20,
+    "dormant_acc_min": 50,
+    "sup_asr_min": 30,
+    "benign_asr_max": 20,
+    "collapse_acc": 25,
+    "aggregation": "fedavg",
+    "provisional": true,
+    "basis": "임시: CIFAR-10/resnet18 은 미실측. 첫 궤적의 잠복 ACC/ASR·위장자 제거 ASR 을 보고 고칠 것 (ACC 가 50 아래면 train_epoch 를 늘려야 함)",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "큰 모델 (CIFAR-10, 저자 코드의 resnet18, 생성기 UNet(3)). 논문 주 설정과 같은 flag. 시간은 미실측(임시 300 분). 리뷰 지적: MNIST/LeNet 만으로는 규모 비판을 못 피함",
+   "dataset": "cifar10"
+  },
+  {
+   "name": "clean_iid_r100_k20paper_s0",
+   "group": "clean_paper",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "clean",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 0.4,
+   "rounds": 100,
+   "warmup": 1000,
+   "seed": 522,
+   "split_seed": 522,
+   "seed_index": 0,
+   "defense": null,
+   "extra_args": "--split_seed 522 --participant_rate 0.4",
+   "command": "DATASET=mnist NB_CLIENTS=20 ROUNDS=100 WARMUP=1000 PARTICIPANT_RATE=0.4 EXTRA_ARGS=\"--split_seed 522 --participant_rate 0.4\" bash run_real_fuba.sh clean_iid_r100_k20paper_s0 522",
+   "roles": {
+    "carriers": [],
+    "suppressors": [],
+    "benign": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 45,
+   "output": "checkpoints/{global,local}_net_model_clean_iid_r100_k20paper_s0_round_{1..100}.pkl (backdoor 파일은 없음)",
+   "downstream": {
+    "ledger": "PREFIX=clean TAG=_r100_k20paper CONDS=iid SEEDS=0 DATASET=mnist bash run_ledger.sh",
+    "args": "--dataset mnist --K 20 --rounds 100 --seed 522 --split_seed 522 --defender -1 --attackers --target -1"
+   },
+   "verify": {
+    "clean": true,
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "benign_asr_max": 20,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "attack_required": false,
+    "basis": "공격 없음: 잠복 ASR 낮음(트리거 생성기는 학습되지 않아 ASR 은 우연 수준)·ACC·정상 제거 무해만 본다",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "공격 없는 궤적 (오경보 검사, R-015). 저자 코드의 warm-up 을 라운드 수보다 크게 두면 backdoor 분기(train_main.py:188 `r >= config.warm_up`)가 한 번도 실행되지 않는다 — 새 코드 없음. 클라 0–4 도 정상 학습.",
+   "dataset": "mnist"
+  },
+  {
+   "name": "clean_iid_r100_k20paper_cifar_s0",
+   "group": "clean_paper",
+   "attack": "fuba",
+   "cond": "iid",
+   "variant": "clean",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 0.4,
+   "rounds": 100,
+   "warmup": 1000,
+   "seed": 522,
+   "split_seed": 522,
+   "seed_index": 0,
+   "defense": null,
+   "extra_args": "--split_seed 522 --participant_rate 0.4",
+   "command": "DATASET=cifar10 NB_CLIENTS=20 ROUNDS=100 WARMUP=1000 PARTICIPANT_RATE=0.4 EXTRA_ARGS=\"--split_seed 522 --participant_rate 0.4\" bash run_real_fuba.sh clean_iid_r100_k20paper_cifar_s0 522",
+   "roles": {
+    "carriers": [],
+    "suppressors": [],
+    "benign": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": null
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 300,
+   "output": "checkpoints/{global,local}_net_model_clean_iid_r100_k20paper_cifar_s0_round_{1..100}.pkl (backdoor 파일은 없음)",
+   "downstream": {
+    "ledger": "PREFIX=clean TAG=_r100_k20paper_cifar CONDS=iid SEEDS=0 DATASET=cifar10 bash run_ledger.sh",
+    "args": "--dataset cifar10 --K 20 --rounds 100 --seed 522 --split_seed 522 --defender -1 --attackers --target -1"
+   },
+   "verify": {
+    "clean": true,
+    "dormant_asr_max": 20,
+    "dormant_acc_min": 50,
+    "benign_asr_max": 20,
+    "collapse_acc": 25,
+    "aggregation": "fedavg",
+    "provisional": true,
+    "attack_required": false,
+    "basis": "공격 없음: 잠복 ASR 낮음(트리거 생성기는 학습되지 않아 ASR 은 우연 수준)·ACC·정상 제거 무해만 본다",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "공격 없는 궤적 (오경보 검사, R-015). 저자 코드의 warm-up 을 라운드 수보다 크게 두면 backdoor 분기(train_main.py:188 `r >= config.warm_up`)가 한 번도 실행되지 않는다 — 새 코드 없음. 클라 0–4 도 정상 학습.",
+   "dataset": "cifar10"
+  },
+  {
+   "name": "clean_owner_r100_k20paper_s0",
+   "group": "clean_paper",
+   "attack": "fuba",
+   "cond": "owner",
+   "variant": "clean",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 0.4,
+   "rounds": 100,
+   "warmup": 1000,
+   "seed": 522,
+   "split_seed": 522,
+   "seed_index": 0,
+   "defense": null,
+   "extra_args": "--split_seed 522 --participant_rate 0.4 --non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1",
+   "command": "DATASET=mnist NB_CLIENTS=20 ROUNDS=100 WARMUP=1000 PARTICIPANT_RATE=0.4 EXTRA_ARGS=\"--split_seed 522 --participant_rate 0.4 --non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1\" bash run_real_fuba.sh clean_owner_r100_k20paper_s0 522",
+   "roles": {
+    "carriers": [],
+    "suppressors": [],
+    "benign": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": 19
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 45,
+   "output": "checkpoints/{global,local}_net_model_clean_owner_r100_k20paper_s0_round_{1..100}.pkl (backdoor 파일은 없음)",
+   "downstream": {
+    "ledger": "PREFIX=clean TAG=_r100_k20paper CONDS=owner SEEDS=0 DATASET=mnist bash run_ledger.sh",
+    "args": "--dataset mnist --K 20 --rounds 100 --seed 522 --split_seed 522 --defender -1 --attackers --target -1"
+   },
+   "verify": {
+    "clean": true,
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "benign_asr_max": 20,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "attack_required": false,
+    "basis": "공격 없음: 잠복 ASR 낮음(트리거 생성기는 학습되지 않아 ASR 은 우연 수준)·ACC·정상 제거 무해만 본다",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "공격 없는 궤적 (오경보 검사, R-015). 저자 코드의 warm-up 을 라운드 수보다 크게 두면 backdoor 분기(train_main.py:188 `r >= config.warm_up`)가 한 번도 실행되지 않는다 — 새 코드 없음. 클라 0–4 도 정상 학습.",
+   "dataset": "mnist"
+  },
+  {
+   "name": "clean_owner_r100_k20paper_cifar_s0",
+   "group": "clean_paper",
+   "attack": "fuba",
+   "cond": "owner",
+   "variant": "clean",
+   "K": 20,
+   "nb_clients": 20,
+   "clients_ratial": 1,
+   "participant_rate": 0.4,
+   "rounds": 100,
+   "warmup": 1000,
+   "seed": 522,
+   "split_seed": 522,
+   "seed_index": 0,
+   "defense": null,
+   "extra_args": "--split_seed 522 --participant_rate 0.4 --non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1",
+   "command": "DATASET=cifar10 NB_CLIENTS=20 ROUNDS=100 WARMUP=1000 PARTICIPANT_RATE=0.4 EXTRA_ARGS=\"--split_seed 522 --participant_rate 0.4 --non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1\" bash run_real_fuba.sh clean_owner_r100_k20paper_cifar_s0 522",
+   "roles": {
+    "carriers": [],
+    "suppressors": [],
+    "benign": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19
+    ],
+    "owner": 19
+   },
+   "target": 8,
+   "where": "DISLAB",
+   "minutes": 300,
+   "output": "checkpoints/{global,local}_net_model_clean_owner_r100_k20paper_cifar_s0_round_{1..100}.pkl (backdoor 파일은 없음)",
+   "downstream": {
+    "ledger": "PREFIX=clean TAG=_r100_k20paper_cifar CONDS=owner SEEDS=0 DATASET=cifar10 bash run_ledger.sh",
+    "args": "--dataset cifar10 --K 20 --rounds 100 --seed 522 --split_seed 522 --defender -1 --attackers --target -1"
+   },
+   "verify": {
+    "clean": true,
+    "dormant_asr_max": 20,
+    "dormant_acc_min": 50,
+    "benign_asr_max": 20,
+    "collapse_acc": 25,
+    "aggregation": "fedavg",
+    "provisional": true,
+    "attack_required": false,
+    "basis": "공격 없음: 잠복 ASR 낮음(트리거 생성기는 학습되지 않아 ASR 은 우연 수준)·ACC·정상 제거 무해만 본다",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "notes": "공격 없는 궤적 (오경보 검사, R-015). 저자 코드의 warm-up 을 라운드 수보다 크게 두면 backdoor 분기(train_main.py:188 `r >= config.warm_up`)가 한 번도 실행되지 않는다 — 새 코드 없음. 클라 0–4 도 정상 학습.",
+   "dataset": "cifar10"
   }
  ],
  "todo_variants": [

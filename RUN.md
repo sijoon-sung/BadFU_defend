@@ -73,6 +73,18 @@ python analysis_equilibrium.py --aggregate --cond owner_r100w5_k20paper
 ```
 결과: `logs/equilibrium/summary_{iid,owner}_r100w5_k20paper.md`. 스크립트에 **균형 장부**(클래스별 헤지 비율 H, 음의 다리 z, 양의 다리 집합, H 곡선)가 추가됐으니 같은 명령을 다시 돌리면 된다 (ALGORITHMIZATION.md §3). 보는 것: 지문 3 과 1 에서 위장자 순위 1·소유자 z < 3 인가, 추정 타깃이 8 인가, 운반자가 양의 누적 밀기로 위에 오는가. (노트북 1 시드: 지문 3 위장자 −40 vs 정상 ±4, z −22, 타깃 추정 8 맞음, 순/총 0.08; 지문 1 순위 1, z 3.7; 지문 2 는 구분 안 됨.) 올리기: `git add FUBA/logs/equilibrium`.
 
+### 0-b. 큰 모델 궤적 (CIFAR-10 / resnet18) 과 공격 없는 궤적 — 리뷰 보완 (규모, 오경보)
+저자 코드는 `--dataset cifar10` 을 지원한다 (분류기 resnet18, 생성기 UNet(3); config.py:146). 우리가 바꾼 것은 `run_real_fuba.sh` 의 `DATASET` 환경변수와 로더의 데이터셋 인식뿐이다. 공격 없는 궤적은 저자 코드의 warm-up 을 라운드 수보다 크게 두어 백도어 분기를 한 번도 타지 않게 한 것이다 (train_main.py:188). 매니페스트 그룹 `k20_paper_cifar` (IID 3 시드), `clean_paper` (mnist/cifar × iid/owner).
+```bash
+ONLY=k20_paper_cifar bash make_trajectories.sh        # CIFAR-10 논문 설정 3 시드 (시간 미실측; 임시 문턱 → 첫 궤적의 검증 결과를 보고 trajectories.json verify 를 고친다)
+ONLY=clean_paper bash make_trajectories.sh            # 공격 없는 궤적 4 개 (mnist iid/owner ≈ 45 분씩, cifar 는 더)
+DATASET=cifar10 TAG=_r100w5_k20paper_cifar CONDS=iid bash run_ledger.sh                       # 장부 (CIFAR)
+PREFIX=clean TAG=_r100_k20paper CONDS="iid owner" SEEDS=0 bash run_ledger.sh                  # 장부 (공격 없음, mnist) → 기대: 경보 없음
+PREFIX=clean TAG=_r100_k20paper_cifar CONDS="iid owner" SEEDS=0 DATASET=cifar10 bash run_ledger.sh
+```
+결과: `logs/ledger/summary_{bd_iid_r100w5_k20paper_cifar, clean_*}.md`. 먼저 볼 것: CIFAR 첫 궤적의 `docs/EXPERIMENT_LOG.md` 행 (잠복 ACC 가 50 아래면 `--train_epoch` 를 늘린 변형이 필요하다 — 저자 기본값은 라운드당 100 배치). 올리기: `git add FUBA/logs/ledger FUBA/logs/trajectories docs/EXPERIMENT_LOG.md`.
+BadFU (CIFAR-10/ResNet-18, K=6, 운반자 1) 위의 장부: `python ledger_defense.py --fmt badfu --name badfu_s42 --traj_dir ../BadFU_src/BadFU-main/logs/traj_s42 --data_root ../BadFU_src/BadFU-main/data --rounds 40 --K 6 --defender 5 --attackers 0 --target 0 --start 3 --min_present 1 --counts <trajectories.json 의 counts>`. 노트북 traj_full(15 라운드)에서는 **경보 없음** (R-017): 타깃 클래스 0 의 H 0.51, 음의 다리가 정상 — BadFU 의 위장(트리거+원 라벨 표본)은 공개 입력에 새지 않거나 15 라운드로는 안 쌓인다. 운반자가 1 명이라 |Pos| ≥ 2 규칙도 못 쓴다. 40 라운드 시드로 다시 보고, 안 보이면 BadFU 는 요청 시점 빼 보기(R-004 의 dose, 첫 단계 z 8.4)로 가는 경계 사례로 쓴다.
+
 ### A-03. 균형 장부 방어 (학습 중 온라인 판정 → 경보 라운드 · 제외 목록; 학습 없음, 역할 정보는 채점에만) — 궤적당 1–2 분
 A-02 의 관찰을 방어 절차로 만든 것 (ALGORITHMIZATION.md §3). 라운드마다 참여자 갱신이 각 클래스를 미는 양을 장부에 누적하고, 클래스마다 헤지 비율 H·음의 다리 z·양의 다리 집합을 계산해 "공모(양의 다리 ≥ 2) / 정상 큰손(1) / 외톨이 음(0)" 으로 판정, 같은 클래스가 3 번 연속 공모면 경보. 공모에는 '양의 다리 한 명의 몫 ≤ 0.6'(`--max_share`) 조건이 붙는다 (소유자 + 정상 한 명이 같이 걸리는 것을 막음). 경보 시점의 양의 다리가 제외 재학습(A-01) 의 `--exclude` 목록이 된다 (학습 끝 장부가 아니라 경보 시점 것을 쓴다: owner 시드 하나는 끝에 소유자가 양의 다리에 섞인다).
 ```bash

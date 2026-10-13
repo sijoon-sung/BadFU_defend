@@ -62,8 +62,8 @@ def parse():
 def load_rounds(a):
     """라운드별 (직전 전역 모델, [클라 j 의 로컬 모델 또는 None]) 과 모델 공장."""
     if a.fmt == "fuba":
-        from model import Net
-        from release_map import resolve_fuba_name
+        from release_map import _fuba_factory, resolve_fuba_name
+        Net, _ = _fuba_factory(a)
         g, l = [], []
         name = resolve_fuba_name(a.name, a.ckpt_dir)      # 결과 꼬리표만 떼고, 변형 궤적 이름은 절대 기본 궤적으로 넘어가지 않는다
         for r in range(1, a.rounds + 1):
