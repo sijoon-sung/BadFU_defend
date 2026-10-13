@@ -73,6 +73,20 @@ python analysis_equilibrium.py --aggregate --cond owner_r100w5_k20paper
 ```
 결과: `logs/equilibrium/summary_{iid,owner}_r100w5_k20paper.md`. 스크립트에 **균형 장부**(클래스별 헤지 비율 H, 음의 다리 z, 양의 다리 집합, H 곡선)가 추가됐으니 같은 명령을 다시 돌리면 된다 (ALGORITHMIZATION.md §3). 보는 것: 지문 3 과 1 에서 위장자 순위 1·소유자 z < 3 인가, 추정 타깃이 8 인가, 운반자가 양의 누적 밀기로 위에 오는가. (노트북 1 시드: 지문 3 위장자 −40 vs 정상 ±4, z −22, 타깃 추정 8 맞음, 순/총 0.08; 지문 1 순위 1, z 3.7; 지문 2 는 구분 안 됨.) 올리기: `git add FUBA/logs/equilibrium`.
 
+### A-03. 균형 장부 방어 (학습 중 온라인 판정 → 경보 라운드 · 제외 목록; 학습 없음, 역할 정보는 채점에만) — 궤적당 1–2 분
+A-02 의 관찰을 방어 절차로 만든 것 (ALGORITHMIZATION.md §3). 라운드마다 참여자 갱신이 각 클래스를 미는 양을 장부에 누적하고, 클래스마다 헤지 비율 H·음의 다리 z·양의 다리 집합을 계산해 "공모(양의 다리 ≥ 2) / 정상 큰손(1) / 외톨이 음(0)" 으로 판정, 같은 클래스가 3 번 연속 공모면 경보. 경보 시점의 양의 다리가 제외 재학습(A-01) 의 `--exclude` 목록이 된다.
+```bash
+bash run_ledger.sh                      # iid + owner 3 시드, logs/ledger/{name}.json + summary_{cond}.md
+EXTRA="--h0 0.9 --kappa 3" bash run_ledger.sh   # 문턱 민감도 (두 번째부터는 저장된 밀기로 순전파 없이)
+```
+보는 것: 요약 표의 경보 라운드 / 클래스 맞음 / 위장자 맞음 / 운반자 정밀도·재현율 / 소유자 오제외 / 오경보 클래스. (노트북 1 시드 IID: 경보 16/99 라운드, 클래스 8, 위장자 4, 운반자 0 1 2 3 정밀도·재현율 1.0, 오경보 0; h0 0.7–0.9, tau 3–5, persist 3–5 에서 같은 답, persist 1 은 7 라운드에 정상을 음의 다리로 잘못 봄 → 3 유지.) 올리기: `git add FUBA/logs/ledger` (npz 는 작으니 같이).
+오경보 검사 (공격 없는 궤적; 저자 코드의 warm-up 만 쓴다 = 백도어 분기 미실행, 새 코드 없음):
+```bash
+NB_CLIENTS=20 ROUNDS=100 WARMUP=1000 PARTICIPANT_RATE=0.4 EXTRA_ARGS="--split_seed 522 --participant_rate 0.4" bash run_real_fuba.sh clean_iid_r100_k20_s0 522
+python ledger_defense.py --fmt fuba --name clean_iid_r100_k20_s0 --K 20 --rounds 100 --defender -1 --attackers --target -1 --cond clean_k20
+```
+기대: 경보 없음 (공모 클래스 0). 이것이 "정상 학습은 균형식을 만들지 않는다" 의 직접 증거다.
+
 ### A-01. 논문 설정에서의 처방 — RESULTS_LOG R-010 (운반자 제외 재학습). R-011(고친 해독제)은 노트북 확인에서 폐기 (DRAFT_v2_SKELETON §6.1) — 첫째 줄은 돌리지 않아도 된다
 R-007 의 해독제 실패 원인 둘(정화 예산 2 회, 짝 집합 과대)을 고쳤다 (`--max_purify 0` = 단계마다 허용, `--set_consist on` = 모든 단계에서 정렬 ≤ −0.3 인 후보만). 그리고 저자 재학습 코드에 제외 목록만 붙였다 (`benign_departure.py --exclude`).
 ```bash
