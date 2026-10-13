@@ -12,9 +12,10 @@ export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1
 NAME="${1:-det1}"; SEED="${2:-522}"
 NB_CLIENTS="${NB_CLIENTS:-8}"
 ROUNDS="${ROUNDS:-8}"; WARMUP="${WARMUP:-3}"
-PARTICIPANT_RATE="${PARTICIPANT_RATE:-1.0}"   # 논문 설정은 0.4 (trajectories.json 의 paper 변형)
+PARTICIPANT_RATE="${PARTICIPANT_RATE:-1.0}"
+DATASET="${DATASET:-mnist}"   # mnist | cifar10 (저자 코드: mnist=LeNet(Net), cifar10=resnet18)   # 논문 설정은 0.4 (trajectories.json 의 paper 변형)
 EXTRA_ARGS="${EXTRA_ARGS:-}"   # 예: EXTRA_ARGS="--non_iid --non_iid_type class_owner --owner_class 3"
 PYTHONIOENCODING=utf-8 mpiexec -genv OPENBLAS_NUM_THREADS 1 -genv OMP_NUM_THREADS 1 -genv MKL_NUM_THREADS 1 -n 5 python main.py \
-  --dataset=mnist --attackMethod=iba --name="$NAME" --seed="$SEED" --n_gpu=1 --save \
+  --dataset="$DATASET" --attackMethod=iba --name="$NAME" --seed="$SEED" --n_gpu=1 --save \
   --no_global_test --no_detail_test \
   --nb_clients="$NB_CLIENTS" --participant_rate="$PARTICIPANT_RATE" --communication_rounds="$ROUNDS" --warm_up="$WARMUP" $EXTRA_ARGS

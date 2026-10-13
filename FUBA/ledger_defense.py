@@ -26,17 +26,20 @@ import torch
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from baseline_masa import load_rounds  # noqa: E402
 from effects import logp  # noqa: E402
-from release_map import load_fuba, load_probe, make_model, present_clients  # noqa: E402
+from release_map import load_badfu, load_fuba, load_probe, make_model, present_clients  # noqa: E402
 
 
 def parse():
     p = argparse.ArgumentParser()
-    p.add_argument("--fmt", choices=["fuba"], default="fuba")
+    p.add_argument("--fmt", choices=["fuba", "badfu"], default="fuba")
+    p.add_argument("--dataset", default="mnist", help="fuba 궤적의 데이터셋: mnist(LeNet) | cifar10(resnet18)")
+    p.add_argument("--traj_dir", default=None, help="badfu: round_r.pt / glob_r.pt 폴더")
+    p.add_argument("--counts", type=int, nargs="*", default=None, help="badfu: 클라별 표본 수 (FedAvg 가중). 없으면 균등")
+    p.add_argument("--neg_set", action="store_true", help="음의 다리를 한 명이 아니라 집합 Neg(c)={z ≤ −tau} 로 본다 (위장자 여러 명)")
     p.add_argument("--name", default=None)
     p.add_argument("--rounds", type=int, default=8)
     p.add_argument("--K", type=int, default=8)
     p.add_argument("--ckpt_dir", default="checkpoints")
-    p.add_argument("--traj_dir", default=None)
     p.add_argument("--probe", type=int, default=500)
     p.add_argument("--data_root", default="./data")
     p.add_argument("--n_classes", type=int, default=10)
@@ -69,8 +72,9 @@ def mad_z(v):
 
 def compute_push(a, device):
     """라운드별 (t, 참여자 j, C-벡터 밀기). 순전파: 라운드마다 참여자 수 + 1."""
-    factory, theta_T, U, flat, bd = load_fuba(a)
+    factory, theta_T, U, flat, bd = load_fuba(a) if a.fmt == "fuba" else load_badfu(a)
     K = len(U)
+    wts = ([c / sum(a.counts) for c in a.counts] if (a.fmt == "badfu" and a.counts) else None)   # badfu: 표본 수 가중
     probe_loader, _ = load_probe(a)
     xs = torch.cat([x for x, _ in probe_loader]).to(device)
     _, rounds = load_rounds(a)
@@ -82,7 +86,7 @@ def compute_push(a, device):
         pres = [j for j in present_clients(locals_, g_next) if j < K]
         L_prev = logp(make_model(factory, flat.to_sd(gv), device), xs).mean(0).numpy()
         for j in pres:
-            u = (flat.flatten(locals_[j]) - gv) / max(len(pres), 1)
+            u = (flat.flatten(locals_[j]) - gv) * (wts[j] if wts else 1.0 / max(len(pres), 1))
             Lj = logp(make_model(factory, flat.to_sd(gv + u), device), xs).mean(0).numpy()
             ts.append(t); js.append(j); vs.append(Lj - L_prev)
         if t % 10 == 0:
@@ -103,7 +107,10 @@ def judge(P, n_present, a):
             out[c] = {"H": 0.0, "neg": -1, "z_neg": 0.0, "pos": [], "hedge": False, "coalition": False}; continue
         zi = {int(j): float(z[i]) for i, j in enumerate(idx)}
         neg = int(idx[np.argmin(col[idx])])
-        pos = [int(j) for j in idx if j != neg and zi[int(j)] > a.kappa]
+        negs = [int(j) for j in idx if zi[int(j)] <= -a.tau] if a.neg_set else [neg]      # 음의 다리 (집합 옵션)
+        if neg not in negs:
+            negs.append(neg)
+        pos = [int(j) for j in idx if j not in negs and zi[int(j)] > a.kappa]
         H = 1.0 - abs(col[idx].sum()) / max(np.abs(col[idx]).sum(), 1e-9)
         balanced = bool(H >= a.h0 and zi[neg] <= -a.tau)          # 합은 0, 음의 다리는 뚜렷
         # 라벨: 공모 = 양의 다리 여럿 / 정상 큰손 = 양의 다리 하나 / 외톨이 음 = 양의 다리 없음 (전역 흐름을 혼자 되미는 것; 보고만 하고 손대지 않음)
@@ -112,7 +119,7 @@ def judge(P, n_present, a):
         top_share = (max(col[j] for j in pos) / pos_sum) if pos_sum > 1e-9 else 1.0
         spread = len(pos) >= a.min_pos and top_share <= a.max_share
         kind = ("coalition" if spread else ("big_legit" if len(pos) >= 1 else "lone_neg")) if balanced else ""
-        out[c] = {"H": round(float(H), 4), "neg": neg, "z_neg": round(zi[neg], 2), "pos": pos, "top_share": round(float(top_share), 3),
+        out[c] = {"H": round(float(H), 4), "neg": neg, "negs": negs, "z_neg": round(zi[neg], 2), "pos": pos, "top_share": round(float(top_share), 3),
                   "hedge": balanced and len(pos) >= 1, "coalition": kind == "coalition", "kind": kind}
     return out
 
@@ -150,14 +157,16 @@ def run(a):
         if alarm is None and any(streak[c] >= a.persist for c in range(C)):
             c_al = int(max(range(C), key=lambda c: (streak[c] >= a.persist, verdict[c]["H"])))
             union = sorted({j for rec in log[-a.persist:] for j in rec["detail"].get(c_al, {}).get("pos", [])})   # 연속 판정 동안 한 번이라도 양의 다리였던 클라
-            alarm = {"round": t, "class": c_al, "suppressor_hat": verdict[c_al]["neg"], "carriers_hat": verdict[c_al]["pos"],
+            alarm = {"round": t, "class": c_al, "suppressor_hat": verdict[c_al]["neg"], "suppressors_hat": verdict[c_al]["negs"], "carriers_hat": verdict[c_al]["pos"],
                      "carriers_union": union, "H": verdict[c_al]["H"], "z_neg": verdict[c_al]["z_neg"]}
     final = judge(P, n_present, a)
     # ---- 채점 (역할은 여기서만)
     sup = a.defenders[0]; carriers = set(a.attackers)
+    sups = set(a.defenders)
     score = {"alarm": alarm is not None, "alarm_round": alarm["round"] if alarm else None,
              "class_ok": (alarm["class"] == a.target) if alarm else None,
              "suppressor_ok": (alarm["suppressor_hat"] == sup) if alarm else None,
+             "suppressors_recall": (len(set(alarm["suppressors_hat"]) & sups) / max(len(sups), 1)) if alarm else None,
              "carrier_precision": (len(set(alarm["carriers_hat"]) & carriers) / max(len(alarm["carriers_hat"]), 1)) if alarm else None,
              "carrier_recall": (len(set(alarm["carriers_hat"]) & carriers) / max(len(carriers), 1)) if alarm else None,
              "owner_in_exclusion": (a.owner_client in alarm["carriers_hat"]) if (alarm and a.owner_client >= 0) else False,

@@ -73,7 +73,7 @@ def list_mode(entries):
             if e.get("defense") == "flDetector":
                 pre.append("sklearn")
             print("\t".join(map(str, [e["name"], e["group"], e["where"], e["nb_clients"], e["rounds"], e["warmup"], e["seed"],
-                                      e["participant_rate"], e["extra_args"], ",".join(pre) or "-"])))
+                                      e["participant_rate"], e["extra_args"], ",".join(pre) or "-", e.get("dataset", "mnist")])))
         else:
             print("\t".join(map(str, [e["name"], e["where"], e["traj_dir"], e["rounds"], e["local_epochs"], e["seed"],
                                       e["detect_json"], " ".join(map(str, e["counts"]))])))
@@ -196,7 +196,7 @@ def verify_fuba(e, dev):
 
     # 2) 기여 + 평가 (release_map.load_fuba 와 같은 U, test[500:] 으로 채점, 저장된 IBA 생성기로 ASR)
     a = Namespace(name=e["name"], rounds=R, K=K, ckpt_dir="checkpoints", fmt="fuba", probe=500, target=e["target"],
-                  atk_eps=1.0, noise_thread=0.04, data_root="./data")
+                  atk_eps=1.0, noise_thread=0.04, data_root="./data", dataset=e.get("dataset", "mnist"))
     factory, theta_T, U, flat, bd = load_fuba(a)
     if bd is None:
         rec["reasons"].append("backdoor 생성기(마지막 라운드) 파일 없음 → ASR 채점 불가")
@@ -212,6 +212,21 @@ def verify_fuba(e, dev):
     roles = e["roles"]
     sups = roles["suppressors"]
     dorm = ev(tT)
+    if v.get("clean"):                                   # 공격 없는 궤적: 잠복 ASR 낮음·ACC 높음·정상 제거 무해만 본다 (위장자·운반자 없음)
+        ben = {str(b): ev(tT - U[b]) for b in v["benign_check"]}
+        rec["metrics"].update({"dormant": dorm, "benign": ben, "U_norm": {str(k): round(float(U[k].norm()), 4) for k in range(K)}})
+        if dorm["asr"] > v["dormant_asr_max"]:
+            rec["reasons"].append(f"공격 없는 궤적인데 ASR {dorm['asr']:.1f} > {v['dormant_asr_max']} (웜업으로 백도어 분기가 꺼지지 않았음)")
+        if dorm["acc"] < v["dormant_acc_min"]:
+            rec["reasons"].append(f"ACC {dorm['acc']:.1f} < {v['dormant_acc_min']}")
+        for b, m in ben.items():
+            if m["acc"] >= v["collapse_acc"] and m["asr"] > v["benign_asr_max"]:
+                rec["reasons"].append(f"정상 {b} 제거 후 ASR {m['asr']:.1f} > {v['benign_asr_max']}")
+        rec["info"].append("공격 없는 궤적 (clean): 위장자·운반자 검사 없음")
+        if v.get("provisional"):
+            rec["warnings"].append("임시 문턱 (provisional)")
+        rec["status"] = "fail" if rec["reasons"] else "ok"
+        return rec
     sup_each = {str(s): ev(tT - U[s]) for s in sups}
     sup_all = sup_each[str(sups[0])] if len(sups) == 1 else ev(tT - sum(U[s] for s in sups))
     if sup_all["acc"] < v["collapse_acc"]:

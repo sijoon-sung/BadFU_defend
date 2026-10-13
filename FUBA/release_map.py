@@ -112,8 +112,18 @@ def present_clients(local_sds, global_sd):
     return out
 
 
-def load_fuba(a):
+def _fuba_factory(a):
+    """저자 config.creat_cls_net 과 같은 분류기 공장: mnist → Net(LeNet), cifar10 → resnet18. 생성기: mnist → MNISTAutoencoder, cifar10 → UNet(3)."""
+    ds = getattr(a, "dataset", "mnist") or "mnist"
+    if ds == "cifar10":
+        from model import UNet, resnet18
+        return (lambda: resnet18()), (lambda: UNet(3))
     from model import MNISTAutoencoder, Net
+    return Net, MNISTAutoencoder
+
+
+def load_fuba(a):
+    Net, BD = _fuba_factory(a)
     g, l = [], []
     name = resolve_fuba_name(a.name, a.ckpt_dir)
     for r in range(1, a.rounds + 1):
@@ -133,7 +143,7 @@ def load_fuba(a):
     bd = None
     p = f"{a.ckpt_dir}/backdoor_net_model_{name}_round_{a.rounds}.pkl"
     if os.path.exists(p):
-        bd = MNISTAutoencoder()
+        bd = BD()
         with open(p, "rb") as f:
             bd.load_state_dict(pickle.load(f))
         bd.eval()
@@ -177,9 +187,13 @@ def load_badfu(a):
 # ------------------------------------------------------------------ 데이터
 def load_probe(a):
     if a.fmt == "fuba":
-        from dataset import MNIST
-        tf = transforms.Compose([transforms.ToTensor()])
-        test = MNIST(root="./data", train=False, download=True, transform=tf)
+        tf = transforms.Compose([transforms.ToTensor()])          # 저자 train_main 의 transform 과 같다 (정규화 없음)
+        if (getattr(a, "dataset", "mnist") or "mnist") == "cifar10":
+            from dataset import CIFAR10
+            test = CIFAR10(root="./data", train=False, download=True, transform=tf)
+        else:
+            from dataset import MNIST
+            test = MNIST(root="./data", train=False, download=True, transform=tf)
     else:
         import torchvision
         tf = transforms.Compose([transforms.ToTensor(), transforms.Normalize(CIFAR_MEAN, CIFAR_STD)])
