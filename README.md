@@ -37,6 +37,7 @@
 |---|---|
 | [docs/STATUS.md](docs/STATUS.md) | **어디까지 됐나**: 끝난 것(번호), 돌아가는 것, 비어 있는 것(명령·시간), 초안에서 아직 정확하지 않은 곳 |
 | [docs/paper/draft_v3.tex](docs/paper/draft_v3.tex) | **LaTeX 초안** (XeLaTeX + kotex; Overleaf 에서 컴파일) |
+| [docs/paper/DRAFT_v4.md](docs/paper/DRAFT_v4.md) | **논문 초안 v4 (쉬운 말 판, 현재 판)**: 비유 용어 없이 용어표·기제 설명·방법·분석·평가. LaTeX `draft_v4.tex`, PDF `draft_v4.pdf` |
 | [docs/paper/DRAFT_v3.md](docs/paper/DRAFT_v3.md) | **논문 초안 v3**: 조사한 방어 논문들의 전개(문제 → 틈 → 기제 → 불변량 → 점수 → 판정 → 대응 → 분석 → 평가 → 한계)로 쓴 전체 초안, 그림 1·2, 결과 번호 대응 |
 | [docs/paper/CONSOLIDATED.md](docs/paper/CONSOLIDATED.md) | **한 번에 정리**: 두 단계로 줄인 알고리즘(균형 장부 → 경보 시점 되감기+연합 제외), 실측 통계 표 1–5, 정화 결정 |
 | [docs/paper/PLAIN_SUMMARY.md](docs/paper/PLAIN_SUMMARY.md) | **쉬운 말 요약**: 문제·확인한 사실·균형 장부·결과·논문 한 줄 |
