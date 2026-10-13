@@ -1,6 +1,6 @@
 # 실험 기록 — 공격 궤적 (자동 생성)
 
-`FUBA/verify_trajectories.py` 가 `FUBA/trajectories.json` 과 저장 파일을 읽어 만든다. 갱신 2026-10-13 17:30 (DESKTOP-QUB35TD). 손으로 고치지 말 것.
+`FUBA/verify_trajectories.py` 가 `FUBA/trajectories.json` 과 저장 파일을 읽어 만든다. 갱신 2026-10-13 20:22 (DESKTOP-QUB35TD). 손으로 고치지 말 것.
 
 - 숫자는 `ACC / ASR` (%). 잠복 = 삭제 전 최종 모델 θ_T. 제거 = 그 클라이언트의 저장 기여를 1 차 근사로 뺀 모델 (θ_T − U_k, `release_map.load_fuba` 와 같은 U). 채점은 MNIST/CIFAR test[500:] 과 저장된 트리거.
 - BadFU 는 빼기가 모델을 무너뜨리므로 `붕괴` 로 적고, 괄호의 `단계식` 값(fl_detect_badfu.py 의 FedEraser 언러닝, 저자 코드) 으로 판정한다.
@@ -77,7 +77,7 @@
 | badfu_s44 | badfu | dominant70 | 6 | 44 | 0 / 5 / 1-4 | - | - | - | 40 × 5 에폭 | local | － 미생성 | 2026-10-13 17:30 |  |
 | badfu_r15_s42 | badfu | dominant70 | 6 | 42 | 0 / 5 / 1-4 | - | - | - | 15 × 5 에폭 | local | － 미생성 | 2026-10-13 17:30 |  |
 | loc_fuba | fuba | iid | 8 | 522 | 0-3 / 4 / 5-7 | - | - | - | 8 (웜업 3, 참여 1.0) | local | － 미생성 | 2026-10-13 17:30 |  |
-| bd_iid_r100w5_k20paper_cifar_s0 | fuba | iid | 20 | 522 | 0-3 / 4 / 5-19 | - | - | - | 100 (웜업 5, 참여 0.4) | DISLAB | ✘ 파일 141/295 개 없음 (예: global_net_model_bd_iid_r100w5_k20paper_cifar_s0_round_54.pkl) — 생성이 중간에 끊겼거나 라운드/웜업이 매니페스트와 다름 | 2026-10-13 17:30 |  |
+| bd_iid_r100w5_k20paper_cifar_s0 | fuba | iid | 20 | 522 | 0-3 / 4 / 5-19 | 78.6 / 97.1 | 9.9 / 0.0 | 58.2 / 44.9 (5) | 100 (웜업 5, 참여 0.4) | DISLAB | ✘ 잠복 ASR 97.1 > 20 (잠복이 아님); 위장자 제거(빼기) 붕괴: ACC 9.9 < 25 (ASR 0.0 는 판정 불가); 정상 5 제거 후 ASR 44.9 > 20 (정상 삭제로 깨어남) | 2026-10-13 20:18 | 임시 문턱 (provisional) — 실측값을 보고 매니페스트 verify 를 고칠 것; 운반자 0 제거: 77.9 / 96.5 |
 | bd_iid_r100w5_k20paper_cifar_s1 | fuba | iid | 20 | 523 | 0-3 / 4 / 5-19 | - | - | - | 100 (웜업 5, 참여 0.4) | DISLAB | － 미생성 | 2026-10-13 17:30 |  |
 | bd_iid_r100w5_k20paper_cifar_s2 | fuba | iid | 20 | 524 | 0-3 / 4 / 5-19 | - | - | - | 100 (웜업 5, 참여 0.4) | DISLAB | － 미생성 | 2026-10-13 17:30 |  |
 | clean_iid_r100_k20paper_s0 | fuba | iid | 20 | 522 | - / - / 0-19 | - | - | - | 100 (웜업 1000, 참여 0.4) | DISLAB | － 미생성 | 2026-10-13 17:30 |  |
@@ -89,7 +89,7 @@
 
 - **bd_iid_r100w5_k20paper_median_s0**: 파일 243/295 개 없음 (예: global_net_model_bd_iid_r100w5_k20paper_median_s0_round_20.pkl) — 생성이 중간에 끊겼거나 라운드/웜업이 매니페스트와 다름
 - **bd_iid_flame_s0**: 잠복 ASR 19.1 > 15 (잠복이 아님) / 잠복 ACC 89.5 < 90 / 정상 5 제거 후 ASR 50.6 > 40 (정상 삭제로 깨어남)
-- **bd_iid_r100w5_k20paper_cifar_s0**: 파일 141/295 개 없음 (예: global_net_model_bd_iid_r100w5_k20paper_cifar_s0_round_54.pkl) — 생성이 중간에 끊겼거나 라운드/웜업이 매니페스트와 다름
+- **bd_iid_r100w5_k20paper_cifar_s0**: 잠복 ASR 97.1 > 20 (잠복이 아님) / 위장자 제거(빼기) 붕괴: ACC 9.9 < 25 (ASR 0.0 는 판정 불가) / 정상 5 제거 후 ASR 44.9 > 20 (정상 삭제로 깨어남)
 
 ## 검사 기준 (매니페스트 verify, 그룹별)
 

@@ -124,22 +124,29 @@ def _fuba_factory(a):
 
 def load_fuba(a):
     Net, BD = _fuba_factory(a)
-    g, l = [], []
     name = resolve_fuba_name(a.name, a.ckpt_dir)
-    for r in range(1, a.rounds + 1):
-        with open(f"{a.ckpt_dir}/global_net_model_{name}_round_{r}.pkl", "rb") as f:
-            g.append(pickle.load(f))
-        with open(f"{a.ckpt_dir}/local_net_model_{name}_round_{r}.pkl", "rb") as f:
-            l.append(pickle.load(f))
-    theta_T = g[-1]
+    with open(f"{a.ckpt_dir}/global_net_model_{name}_round_{a.rounds}.pkl", "rb") as f:
+        theta_T = pickle.load(f)
     flat = Flat(theta_T)
     K = a.K
     U = [torch.zeros(flat.dim) for _ in range(K)]
+
+    with open(f"{a.ckpt_dir}/global_net_model_{name}_round_1.pkl", "rb") as f:
+        prev_g = pickle.load(f)
+    prev_gv = flat.flatten(prev_g)
+
     for r in range(2, a.rounds + 1):
-        gv = flat.flatten(g[r - 2])
-        present = present_clients(l[r - 1], g[r - 1])       # 전원 참여면 range(K) 와 같다
-        for k in present:
-            U[k] += (flat.flatten(l[r - 1][k]) - gv) / len(present)   # FedAvg 는 그 라운드 참여자 수로 나눈다
+        with open(f"{a.ckpt_dir}/local_net_model_{name}_round_{r}.pkl", "rb") as f:
+            curr_l = pickle.load(f)
+        with open(f"{a.ckpt_dir}/global_net_model_{name}_round_{r}.pkl", "rb") as f:
+            curr_g = pickle.load(f)
+        present = present_clients(curr_l, curr_g)
+        if present:
+            denom = len(present)
+            for k in present:
+                U[k] += (flat.flatten(curr_l[k]) - prev_gv) / denom
+        prev_gv = flat.flatten(curr_g)
+
     bd = None
     p = f"{a.ckpt_dir}/backdoor_net_model_{name}_round_{a.rounds}.pkl"
     if os.path.exists(p):

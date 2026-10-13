@@ -18,6 +18,7 @@ import argparse
 import glob
 import json
 import os
+import pickle
 import sys
 
 import numpy as np
@@ -26,7 +27,7 @@ import torch
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from baseline_masa import load_rounds  # noqa: E402
 from effects import logp  # noqa: E402
-from release_map import load_badfu, load_fuba, load_probe, make_model, present_clients  # noqa: E402
+from release_map import load_badfu, load_fuba, load_probe, make_model, present_clients, resolve_fuba_name  # noqa: E402
 
 
 def parse():
@@ -77,20 +78,50 @@ def compute_push(a, device):
     wts = ([c / sum(a.counts) for c in a.counts] if (a.fmt == "badfu" and a.counts) else None)   # badfu: 표본 수 가중
     probe_loader, _ = load_probe(a)
     xs = torch.cat([x for x, _ in probe_loader]).to(device)
-    _, rounds = load_rounds(a)
-    T = len(rounds)
     ts, js, vs = [], [], []
-    for t, (g_prev, locals_) in enumerate(rounds, start=1):
-        gv = flat.flatten(g_prev)
-        g_next = rounds[t][0] if t < T else theta_T
-        pres = [j for j in present_clients(locals_, g_next) if j < K]
-        L_prev = logp(make_model(factory, flat.to_sd(gv), device), xs).mean(0).numpy()
-        for j in pres:
-            u = (flat.flatten(locals_[j]) - gv) * (wts[j] if wts else 1.0 / max(len(pres), 1))
-            Lj = logp(make_model(factory, flat.to_sd(gv + u), device), xs).mean(0).numpy()
-            ts.append(t); js.append(j); vs.append(Lj - L_prev)
-        if t % 10 == 0:
-            print(f"  밀기 계산 {t}/{T}", flush=True)
+
+    if a.fmt == "fuba":
+        name = resolve_fuba_name(a.name, a.ckpt_dir)
+        T = a.rounds - 1
+        with open(f"{a.ckpt_dir}/global_net_model_{name}_round_1.pkl", "rb") as f:
+            prev_g = pickle.load(f)
+        prev_gv = flat.flatten(prev_g)
+
+        for t in range(1, T + 1):
+            r = t + 1
+            with open(f"{a.ckpt_dir}/local_net_model_{name}_round_{r}.pkl", "rb") as f:
+                locals_ = pickle.load(f)
+            if r < a.rounds:
+                with open(f"{a.ckpt_dir}/global_net_model_{name}_round_{r}.pkl", "rb") as f:
+                    next_g = pickle.load(f)
+            else:
+                next_g = theta_T
+
+            pres = [j for j in present_clients(locals_, next_g) if j < K]
+            L_prev = logp(make_model(factory, flat.to_sd(prev_gv), device), xs).mean(0).numpy()
+            for j in pres:
+                u = (flat.flatten(locals_[j]) - prev_gv) * (wts[j] if wts else 1.0 / max(len(pres), 1))
+                Lj = logp(make_model(factory, flat.to_sd(prev_gv + u), device), xs).mean(0).numpy()
+                ts.append(t); js.append(j); vs.append(Lj - L_prev)
+
+            prev_gv = flat.flatten(next_g)
+            if t % 10 == 0:
+                print(f"  밀기 계산 {t}/{T}", flush=True)
+    else:
+        _, rounds = load_rounds(a)
+        T = len(rounds)
+        for t, (g_prev, locals_) in enumerate(rounds, start=1):
+            gv = flat.flatten(g_prev)
+            g_next = rounds[t][0] if t < T else theta_T
+            pres = [j for j in present_clients(locals_, g_next) if j < K]
+            L_prev = logp(make_model(factory, flat.to_sd(gv), device), xs).mean(0).numpy()
+            for j in pres:
+                u = (flat.flatten(locals_[j]) - gv) * (wts[j] if wts else 1.0 / max(len(pres), 1))
+                Lj = logp(make_model(factory, flat.to_sd(gv + u), device), xs).mean(0).numpy()
+                ts.append(t); js.append(j); vs.append(Lj - L_prev)
+            if t % 10 == 0:
+                print(f"  밀기 계산 {t}/{T}", flush=True)
+
     return K, T, np.array(ts), np.array(js), np.stack(vs)
 
 
