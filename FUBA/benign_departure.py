@@ -59,6 +59,7 @@ def parse():
     p.add_argument("--methods", nargs="+", default=DEFAULT_METHODS, choices=METHODS)
     p.add_argument("--target", type=int, default=8)
     p.add_argument("--defender", type=int, default=4, help="학습 때의 forgot_client_idx(Adv-defender 역할)")
+    p.add_argument("--init_round", type=int, default=0, help="재학습(retrain_*)을 처음부터가 아니라 저장된 라운드 r 의 전역 모델에서 시작해 (rounds − r) 라운드만 돈다 (균형 장부 경보 시점 되감기; 저자 코드의 pretrained_model 경로 사용). 0 = 처음부터")
     p.add_argument("--exclude", type=int, nargs="*", default=[], help="재학습(retrain_*)에서 요청자와 함께 제외할 클라이언트 (예: TRACE 가 찾은 운반자). 다른 방법에는 영향 없음")
     p.add_argument("--attackers", type=int, nargs="+", default=[0, 1, 2, 3])
     p.add_argument("--seed", type=int, default=522)
@@ -176,12 +177,15 @@ def run_method(method, k, a, cfg, g, l, bd, trainset, testloader):
         cfg.fu_attacker_mode = mode
         cfg.exclude_clients = list(a.exclude)
         cfg.backdoor_model = copy.deepcopy(bd)
-        name0 = cfg.name
-        cfg.name = f"{a.name}__req{k}_{mode}" + (("_ex" + "".join(str(x) for x in a.exclude)) if a.exclude else "")       # retrain 내부 save_models 이름 충돌 방지
+        name0 = cfg.name; rounds0 = cfg.communication_rounds; pre0 = cfg.pretrained_model
+        cfg.name = f"{a.name}__req{k}_{mode}" + (("_ex" + "".join(str(x) for x in a.exclude)) if a.exclude else "") + (f"_from{a.init_round}" if a.init_round > 0 else "")       # retrain 내부 save_models 이름 충돌 방지
+        if a.init_round > 0:                                      # 되감기: 라운드 init_round 의 전역 모델에서 시작, 남은 라운드만
+            init_net = cfg.creat_cls_net(); init_net.load_state_dict(g[a.init_round - 1])
+            cfg.pretrained_model = init_net; cfg.communication_rounds = a.rounds - a.init_round
         try:
             net, regen = retrain(cfg)
         finally:
-            cfg.name = name0
+            cfg.name = name0; cfg.communication_rounds = rounds0; cfg.pretrained_model = pre0
         sd = {kk: v.detach().cpu() for kk, v in net.state_dict().items()}
         if mode == "attack" and regen is not None:
             # 재학습 중 공격자가 새로 학습한 생성기로 잰 ASR (원본 FUBA 가 보고하는 수치에 해당)

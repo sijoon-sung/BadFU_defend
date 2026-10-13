@@ -166,8 +166,13 @@ def run(a):
              "n_lone_neg_classes_final": sum(1 for c in range(C) if final[c]["kind"] == "lone_neg"),
              "false_alarm_classes": [c for c in range(C) if final[c]["coalition"] and c != a.target]}
     exclusion = sorted(set(alarm["carriers_hat"])) if alarm else []
+    # 되감기 라운드: 경보 클래스의 H 가 경보 전 마지막으로 h0 아래였던 라운드 (그 체크포인트에서 공모자 제외로 이어 학습)
+    rollback = None
+    if alarm:
+        below = [t + 1 for t, hc in enumerate(H_curve[:alarm["round"]]) if hc[alarm["class"]] < a.h0]
+        rollback = max(below) if below else a.start
     res = {"name": a.name, "cond": a.cond, "K": K, "rounds": T, "params": {k: getattr(a, k) for k in ("h0", "tau", "kappa", "min_pos", "persist", "start", "min_present")},
-           "roles": roles, "target_true": a.target, "alarm": alarm, "exclusion": exclusion, "score": score,
+           "roles": roles, "target_true": a.target, "alarm": alarm, "exclusion": exclusion, "rollback_round": rollback, "score": score,
            "final": {c: final[c] for c in range(C)}, "H_curve": H_curve, "log": log,
            "n_present": {j: int(n_present[j]) for j in range(K)}}
     out = f"logs/ledger/{a.name}.json"
@@ -183,7 +188,8 @@ def run(a):
     if alarm:
         print(f"경보: 라운드 {alarm['round']}/{T}, 클래스 {alarm['class']} (정답 {a.target}), 위장자 후보 {alarm['suppressor_hat']} ({roles[alarm['suppressor_hat']]}), "
               f"운반자 후보 {alarm['carriers_hat']} {[roles[j][:3] for j in alarm['carriers_hat']]}")
-        print(f"제외 재학습 명령: python benign_departure.py ... --exclude {' '.join(map(str, exclusion))}")
+        print(f"대응: 라운드 {rollback} 의 전역 모델로 되감고 {sorted(set(exclusion) | {alarm['suppressor_hat']})} 를 제외하고 이어 학습 → "
+              f"python benign_departure.py ... --methods retrain_benign --exclude {' '.join(map(str, exclusion))} --init_round {rollback}")
     else:
         print("경보 없음")
     print(f"채점: {json.dumps(score, ensure_ascii=False)}")
