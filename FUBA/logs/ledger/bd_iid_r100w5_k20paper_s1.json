@@ -79,6 +79,7 @@
    "neg": 4,
    "z_neg": -11.82,
    "pos": [],
+   "top_share": 1.0,
    "hedge": false,
    "coalition": false,
    "kind": ""
@@ -88,6 +89,7 @@
    "neg": 4,
    "z_neg": -6.8,
    "pos": [],
+   "top_share": 1.0,
    "hedge": false,
    "coalition": false,
    "kind": ""
@@ -97,6 +99,7 @@
    "neg": 4,
    "z_neg": -10.46,
    "pos": [],
+   "top_share": 1.0,
    "hedge": false,
    "coalition": false,
    "kind": ""
@@ -106,6 +109,7 @@
    "neg": 4,
    "z_neg": -9.21,
    "pos": [],
+   "top_share": 1.0,
    "hedge": false,
    "coalition": false,
    "kind": ""
@@ -115,6 +119,7 @@
    "neg": 4,
    "z_neg": -6.71,
    "pos": [],
+   "top_share": 1.0,
    "hedge": false,
    "coalition": false,
    "kind": ""
@@ -126,6 +131,7 @@
    "pos": [
     2
    ],
+   "top_share": 1.0,
    "hedge": false,
    "coalition": false,
    "kind": ""
@@ -135,6 +141,7 @@
    "neg": 4,
    "z_neg": -7.97,
    "pos": [],
+   "top_share": 1.0,
    "hedge": false,
    "coalition": false,
    "kind": ""
@@ -146,6 +153,7 @@
    "pos": [
     2
    ],
+   "top_share": 1.0,
    "hedge": false,
    "coalition": false,
    "kind": ""
@@ -160,6 +168,7 @@
     2,
     3
    ],
+   "top_share": 0.314,
    "hedge": true,
    "coalition": true,
    "kind": "coalition"
@@ -169,6 +178,7 @@
    "neg": 4,
    "z_neg": -8.22,
    "pos": [],
+   "top_share": 1.0,
    "hedge": false,
    "coalition": false,
    "kind": ""
