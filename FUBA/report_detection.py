@@ -16,6 +16,20 @@ from benchmark_tension import clean_threshold, request_family, sha256, validate_
 
 CONFIG = "logprob/mean_before/window:0"
 METHODS = ("selective_v3", "linear_release")
+CONTROL_METHODS = ("tension_only", "removed_negative", "cross_v2")
+COMPARISONS = {
+    "selective_v3": {"role": "primary_proposed", "request_specific": True,
+                     "question": "Does cancellation combined with selective removal add value?"},
+    "linear_release": {"role": "primary_baseline", "request_specific": True,
+                       "question": "Is the positive net effect of removing contributions sufficient?"},
+    "tension_only": {"role": "component_control", "request_specific": False,
+                     "question": "Does cancellation alone distinguish episodes, without identifying a request?"},
+    "removed_negative": {"role": "component_control", "request_specific": True,
+                         "single_unit_score_equivalent_to": "linear_release",
+                         "question": "For grouped requests, does ignoring removed positive contributions matter?"},
+    "cross_v2": {"role": "historical_revision", "request_specific": True,
+                 "question": "What changes when replacing the previous boundary formula?"},
+}
 
 
 def cache_name(path):
@@ -34,7 +48,7 @@ def rate(values):
             "ci95_exact": [float(ci.low), float(ci.high)], "status": "observed"}
 
 
-def bind_scores(jobs, scores):
+def bind_scores(jobs, scores, methods=METHODS):
     """Bind by unique cache filename, not list position or source-machine path."""
     validate_jobs(jobs)
     names = [cache_name(j["cache"]) for j in jobs]
@@ -54,7 +68,7 @@ def bind_scores(jobs, scores):
             raise ValueError("score trajectory dimensions disagree with manifest")
         expected_times = sorted(set(min(t, score["T"]) for t in (10, 20, 40, score["T"])))
         expected_requests = {name for name, _ in request_family(score["K"])}
-        for method in METHODS:
+        for method in methods:
             analysis = score["analyses"][CONFIG][method]
             snapshots = analysis["snapshots"]
             if [s["round"] for s in snapshots] != expected_times:
@@ -103,21 +117,23 @@ def episode_row(job, score, method, threshold):
     return row
 
 
-def build_report(manifest, scores):
+def build_report(manifest, scores, include_controls=False):
     if manifest.get("schema") != 1 or manifest.get("alpha") != .05:
         raise ValueError("requires existing schema-1 tension experiment at alpha=.05")
     if manifest.get("primary") != f"{CONFIG}; selective_v3 versus linear_release":
         raise ValueError("registered primary differs; do not silently select a new analysis")
-    paired = bind_scores(manifest["jobs"], scores)
+    methods = METHODS + CONTROL_METHODS if include_controls else METHODS
+    paired = bind_scores(manifest["jobs"], scores, methods)
     groups = []
     for stratum in sorted({j["stratum"] for j, _ in paired}):
         subset = [(j, s) for j, s in paired if j["stratum"] == stratum]
-        for method in METHODS:
+        for method in methods:
             rule = clean_threshold([s["analyses"][CONFIG][method]["episode_max"]
                                     for j, s in subset if j["split"] == "calibration"], manifest["alpha"])
             rows = [episode_row(j, s, method, rule["threshold"])
                     for j, s in subset if j["split"] != "calibration"]
             group = {"stratum": stratum, "config": CONFIG, "method": method, "calibration": rule,
+                     "comparison": COMPARISONS[method],
                      "clean_episode_fpr": rate([r["any_request_alarm"] for r in rows if r["split"] == "clean_test"]),
                      "attack_splits": {}, "episodes": rows}
             for split in ("attack_development", "attack_test"):
@@ -132,6 +148,7 @@ def build_report(manifest, scores):
             groups.append(group)
     return {"schema": 1, "purpose": "detection-first evaluation of an unchanged registered score",
             "profile": manifest["profile"], "primary": manifest["primary"],
+            "controls_included": include_controls,
             "training_calls": 0, "model_unlearning_calls": 0, "groups": groups,
             "activation_validation": {"status": "not_available_in_score_inputs",
                                       "harmful_activation_detection_rate": None},
@@ -140,6 +157,9 @@ def build_report(manifest, scores):
                 "Clean exchangeability within a stratum and frozen scoring/inspection family are assumptions.",
                 "Binomial intervals require independent test episodes; multiple requests are not extra episodes.",
                 "Each method has its own calibration; an OR ensemble or test-selected winner is not calibrated.",
+                "Component controls and historical revisions are secondary analyses, not a new primary comparison.",
+                "Tension-only is request-independent: alarms cannot establish request localization.",
+                "Removed-negative and linear-release scores coincide for single-unit requests; different family thresholds can still change alarms.",
                 "Attack-role detection is not validated prediction of harmful FU activation or malicious intent.",
                 "First alarm is a registered inspection of a hypothetical request, not actual request time or delay.",
                 "Final-request alarm uses only the last registered snapshot; transient earlier alarms remain separate.",
@@ -153,11 +173,13 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--experiment", type=Path, required=True, help="completed folder containing manifest.json and scores.json")
     parser.add_argument("--out", type=Path, help="new JSON file; existing files are never overwritten")
+    parser.add_argument("--include-controls", action="store_true",
+                        help="also report existing tension-only/removed-negative controls and historical v2; primary remains fixed")
     args = parser.parse_args()
     manifest_path, scores_path = args.experiment/"manifest.json", args.experiment/"scores.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     scores = json.loads(scores_path.read_text(encoding="utf-8"))
-    report = build_report(manifest, scores)
+    report = build_report(manifest, scores, include_controls=args.include_controls)
     report["provenance"] = {"manifest_sha256": sha256(manifest_path), "scores_sha256": sha256(scores_path),
                             "reporter_sha256": sha256(__file__),
                             "calibration_code_sha256": sha256(Path(__file__).with_name("benchmark_tension.py")),

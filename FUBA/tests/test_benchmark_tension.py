@@ -48,6 +48,17 @@ class BenchmarkTests(unittest.TestCase):
         self.assertAlmostEqual(scores["selective_v3"].item(), 0)
         self.assertGreater(scores["linear_release"].item(), 0)
 
+    def test_removed_negative_is_not_an_independent_single_unit_baseline(self):
+        effects = np.array([[2., -3., 0.], [-5., 7., -1.], [4., -2., 6.]])
+        for unit in range(len(effects)):
+            for fraction in (.2, 1.):
+                removal = np.zeros(len(effects))
+                removal[unit] = fraction
+                score = methods(effects, removal)
+                np.testing.assert_array_equal(score["removed_negative"], score["linear_release"])
+        grouped = methods(effects, [1., 1., 0.])
+        self.assertTrue(np.any(grouped["removed_negative"] != grouped["linear_release"]))
+
     def test_duplicate_events_are_not_extra_evidence(self):
         with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as folder:
             path = Path(folder)/"invalid.npz"
