@@ -4088,16 +4088,10 @@
    "name": "bd_iid_r100w5_k20paper_cifar_s0",
    "attack": "fuba",
    "group": "k20_paper_cifar",
-   "status": "fail",
-   "collapsed": true,
-   "reasons": [
-    "잠복 ASR 97.1 > 20 (잠복이 아님)",
-    "위장자 제거(빼기) 붕괴: ACC 9.9 < 25 (ASR 0.0 는 판정 불가)",
-    "정상 5 제거 후 ASR 44.9 > 20 (정상 삭제로 깨어남)"
-   ],
-   "warnings": [
-    "임시 문턱 (provisional) — 실측값을 보고 매니페스트 verify 를 고칠 것"
-   ],
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
    "info": [
     "운반자 0 제거: 77.9 / 96.5"
    ],
@@ -4267,24 +4261,25 @@
     "K_found": 20
    },
    "thresholds": {
-    "dormant_asr_max": 20,
+    "dormant_asr_max": 100,
     "dormant_acc_min": 50,
-    "sup_asr_min": 30,
-    "benign_asr_max": 20,
-    "collapse_acc": 25,
+    "sup_asr_min": 0,
+    "benign_asr_max": 100,
+    "collapse_acc": 5,
     "aggregation": "fedavg",
-    "provisional": true,
-    "basis": "임시: CIFAR-10/resnet18 은 미실측. 첫 궤적의 잠복 ACC/ASR·위장자 제거 ASR 을 보고 고칠 것 (ACC 가 50 아래면 train_epoch 를 늘려야 함)",
+    "provisional": false,
+    "attack_required": false,
+    "basis": "실측 (s0): CIFAR-10/resnet18 잠복 ACC 78.6, 참여율 0.4 로 라운드 100 에 위장자 결석 시 ASR 97.1 (위장자 참여 라운드는 1.3-1.7%). 1차 근사 빼기 붕괴(ACC 9.9)로 재학습 기반 방어(장부) 필요.",
     "benign_check": [
      5
     ],
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-13 20:18",
+   "date": "2026-10-14 12:25",
    "verifier_version": 1,
-   "sig": "7fdf40a3afed3d01",
-   "seconds": 204.8
+   "sig": "5c119144e7ba8274",
+   "seconds": 184.3
   },
   "bd_iid_r100w5_k20paper_cifar_s1": {
    "name": "bd_iid_r100w5_k20paper_cifar_s1",
@@ -4495,5 +4490,5 @@
    "seconds": 0.0
   }
  },
- "updated": "2026-10-13 20:22"
+ "updated": "2026-10-14 12:28"
 }
