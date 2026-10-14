@@ -98,6 +98,10 @@ def main(config: Config):
 
     # Initialize global model
     global_model_dict = config.creat_cls_net().state_dict()
+    if config.rank == 0 and config.save_results:
+        # A genuine pre-FL checkpoint is required for complete FU replay.
+        save_models(global_model_dict, None, None, 0, config.name,
+                    {"schema": 1, "kind": "pre_training", "seed": config.seed})
     print("start")
 
     # Define backdoor clients
@@ -283,10 +287,8 @@ def main(config: Config):
         # Server logging and saving
         if config.rank == 0:
             global_model_dict_current = copy.deepcopy(global_model_dict)
-            if config.warm_up == config.communication_rounds:
-                local_model_dicts_current = None
-            else:
-                local_model_dicts_current = [copy.deepcopy(local_model_dicts[i]) if local_model_dicts[i] is not None else copy.deepcopy(global_model_dict) for i in range(len(local_model_dicts))]
+            # Clean control trajectories also need per-client records for FU.
+            local_model_dicts_current = [copy.deepcopy(local_model_dicts[i]) if local_model_dicts[i] is not None else copy.deepcopy(global_model_dict) for i in range(len(local_model_dicts))]
             print(f'Round {r+1} completed', flush=True)
 
             # Store backdoor model state for saving
@@ -307,6 +309,7 @@ def main(config: Config):
                     save_thread.join()
                 save_thread = threading.Thread(
                     target=save_models,
-                    args=(global_model_dict_current, local_model_dicts_current, backdoor_model, r + 1, config.name)
+                    args=(global_model_dict_current, local_model_dicts_current, backdoor_model, r + 1, config.name,
+                          {"schema": 1, "selected_clients": list(selected_clients), "seed": config.seed})
                 )
                 save_thread.start()

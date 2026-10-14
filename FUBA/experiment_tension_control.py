@@ -20,6 +20,8 @@ from torchvision import datasets, transforms
 from model import Net, MNISTAutoencoder
 from tension_control import ParameterSpace, paired_logits, select_coordinates, control_step
 from unlearn_method.federaser_clientwise import calibrated_aggregate
+from request_geometry import (request_paths, cancellation_geometry, geometry_control,
+                              check_actual_retention, ControlInfeasible)
 from utils.comm_utils import make_client_split
 
 
@@ -79,6 +81,7 @@ def run(a):
         with torch.no_grad():
             return paired_logits(net, x, ax).cpu().numpy().ravel().astype(float)
     effects = np.zeros((a.k, a.probe*10))
+    raw_events = []
     started = time.perf_counter()
     first = max(2, a.round-a.history_window+1)
     prev_sd = load("global", first-1)
@@ -94,6 +97,8 @@ def run(a):
             raise ValueError(f"no observable participants in round {r}")
         old_global, global_vec = vector(prev_sd), vector(glob_sd)
         old_updates = {j: vector(local[j])-old_global for j in present}
+        if a.geometry:
+            raw_events.append({"updates": old_updates})
         residual = sum(old_updates.values())/len(present)-(global_vec-old_global)
         relative_error = np.linalg.norm(residual)/max(np.linalg.norm(global_vec-old_global), 1e-12)
         max_error = max(max_error, float(relative_error))
@@ -189,6 +194,42 @@ def run(a):
         solver_seconds = time.perf_counter()-started
         results[mode] = {**evaluate(d), **info, "selected": chosen.tolist(), "solver_seconds": solver_seconds}
         print(f"{mode}: progress={info['progress']:.4g}; norm={info['step_norm']:.4g}", flush=True)
+    geometry_info = {}
+    if a.geometry:
+        removed, retained = request_paths(raw_events, a.requesters)
+        permutation = np.random.default_rng(a.seed).permutation(len(removed))
+        factors = {"retention_only": np.empty((0, space.size))}
+        for mode, dp, kp, smoothing in (
+                ("temporal", removed, retained, a.smoothing),
+                ("unsmoothed", removed, retained, 0.),
+                ("cumulative", removed.sum(0, keepdims=True), retained.sum(0, keepdims=True), 0.),
+                ("time_shuffled", removed[permutation], retained[permutation], a.smoothing)):
+            factors[mode], geometry_info[mode] = cancellation_geometry(dp, kp, smoothing=smoothing)
+        linear = -removed.sum(0)
+        factors["linear"] = linear[None]/np.linalg.norm(linear) if np.linalg.norm(linear) else np.empty((0, space.size))
+        def actual_loss_change(step):
+            space.assign(current+step)
+            with torch.no_grad():
+                losses = torch.nn.functional.cross_entropy(net(rx), ry, reduction="none")
+            return np.array([losses[ry == c].mean().item() for c in range(10)])-baseline_losses
+        for mode, factor in factors.items():
+            for strength in ([0.] if mode == "retention_only" else a.geometry_strengths):
+                key = f"geometry/{mode}/lambda:{strength:g}"
+                started = time.perf_counter()
+                try:
+                    d, info = geometry_control(v, factor, h, strength=strength,
+                        epsilon=a.geometry_epsilon, radius=radius, min_progress=a.min_progress,
+                        risk_ratio=a.geometry_risk_ratio)
+                    d, checked = check_actual_retention(d, v, actual_loss_change,
+                        epsilon=a.geometry_epsilon, min_progress=a.min_progress)
+                    results[key] = {**evaluate(d), **info, **checked,
+                                    "accepted_step_norm": float(np.linalg.norm(d)),
+                                    "solver_and_verification_seconds": time.perf_counter()-started}
+                    print(f"{key}: accepted progress={checked['accepted_progress']:.4g}", flush=True)
+                except ControlInfeasible as error:
+                    results[key] = {"status": "control_not_accepted", "reason": str(error),
+                                    "forgetting_verified": False, "actual_retention_verified": False}
+                    print(f"{key}: control_not_accepted: {error}", flush=True)
     record = {"schema": 1, "scope": "single_actual_recalibration_step; not end-to-end FU",
               "forgetting_verified": False, "attack_efficacy_evaluated": False,
               "settings": vars(a), "device": str(device), "parameter_count": space.size,
@@ -201,8 +242,9 @@ def run(a):
               "hypothetical_unlearning_calls": 0, "history_seconds": history_seconds,
               "calibration_seconds": calibration_seconds, "gradient_seconds": gradient_seconds,
               "ledger_bytes": effects.nbytes, "results": results,
+              "geometry": geometry_info, "geometry_uses_probe_or_attack_labels": False,
               "source_hashes": {name: hashlib.sha256((Path(__file__).parent/name).read_bytes()).hexdigest()
-                    for name in ("tension_control.py", "experiment_tension_control.py", "unlearn_method/federaser_clientwise.py")}}
+                    for name in ("tension_control.py", "request_geometry.py", "experiment_tension_control.py", "unlearn_method/federaser_clientwise.py")}}
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(record, indent=2, allow_nan=False)+"\n", encoding="utf-8")
     return record
@@ -242,4 +284,10 @@ if __name__ == "__main__":
     p.add_argument("--radius-ratio", type=float, default=.25)
     p.add_argument("--n-gpu", type=int, default=1)
     p.add_argument("--threads", type=int, default=2)
+    p.add_argument("--geometry", action="store_true", help="also run the raw-update variational revision and matched controls")
+    p.add_argument("--smoothing", type=float, default=1.)
+    p.add_argument("--geometry-strengths", type=float, nargs="+", default=[1., 10.])
+    p.add_argument("--geometry-epsilon", type=float, default=.01, help="allowed actual validation CE increase per class, in nats")
+    p.add_argument("--geometry-risk-ratio", type=float, default=None, help="optional relative cancellation exposure norm budget")
+    p.add_argument("--min-progress", type=float, default=.1, help="minimum alignment with actual FU proposal; not forgetting")
     run(p.parse_args())
