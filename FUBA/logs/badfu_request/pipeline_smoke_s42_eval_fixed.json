@@ -1,0 +1,672 @@
+{
+  "schema": 1,
+  "variant": "badfu_public_code_six_client",
+  "scope": "full_recorded_replay",
+  "settings": {
+    "phase": "run",
+    "run_dir": "artifacts/badfu/pipeline_smoke_s42",
+    "out": "FUBA/logs/badfu_request/pipeline_smoke_s42_eval_fixed.json",
+    "legacy_traj": null,
+    "data_root": "C:/Users/sijoo/AppData/Local/Temp/bfu/repo-rfu/BadFU_src/BadFU-main/data",
+    "record_root": "C:/Users/sijoo/AppData/Local/Temp/bfu/repo-rfu/BadFU_src/BadFU-main/record/badnet_dataset",
+    "no_pretrained": true,
+    "device": "cuda:0",
+    "seed": 42,
+    "rounds": 2,
+    "local_epochs": 1,
+    "train_batches": 1,
+    "max_per_client": 32,
+    "batch_size": 64,
+    "retain_per_class": 2,
+    "evaluate": 64,
+    "target": 0,
+    "fu_epochs": 1,
+    "fu_batches": 1,
+    "history_window": 3,
+    "threads": 2,
+    "dominant_ratio": 0.7,
+    "smoothing": 1.0,
+    "risk_ratio": 0.1,
+    "epsilon": 0.01,
+    "radius_ratio": 0.25,
+    "min_progress": 0.1,
+    "step": null,
+    "requests": [
+      5
+    ],
+    "modes": [
+      "no_defense",
+      "retention_only",
+      "temporal"
+    ]
+  },
+  "manifest_sha256": "eca787b952dfa483203763a030dd323b95c841baf06077543790c6ad2515b1be",
+  "dataset_sha256": "bfdbcef32b75467519ed2b178901301268a034bbf987056b978498445fa8cf49",
+  "data_matching": "FL and FU use the identical saved data archive",
+  "before_fu": {
+    "accuracy": 0.109375,
+    "class_accuracy": {
+      "0": 0.0,
+      "1": 0.0,
+      "2": 0.0,
+      "3": 0.0,
+      "4": 0.0,
+      "5": 0.0,
+      "6": 0.0,
+      "7": 0.7142857313156128,
+      "8": 0.2222222238779068,
+      "9": 0.0
+    },
+    "clean_target_rate": 0.016949152573943138,
+    "asr": 0.015625,
+    "asr_samples": 64
+  },
+  "results": {
+    "request_5/no_defense": {
+      "status": "candidate_requires_verification",
+      "failure": null,
+      "completed_selected_events": true,
+      "forgetting_verified": false,
+      "actual_recalibration_calls": 10,
+      "seconds": 4.661079999999856,
+      "steps": [
+        {
+          "event": 0,
+          "retained_participants": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "bn_recalibration_loss_change": [
+            -0.1959071159362793,
+            -0.33286333084106445,
+            -0.7433040142059326,
+            -0.40831780433654785,
+            -0.6593412160873413,
+            -0.3909921646118164,
+            -0.06830549240112305,
+            0.7923288345336914,
+            1.0575861930847168,
+            -0.048712968826293945
+          ],
+          "status": "uncontrolled",
+          "actual_loss_change": [
+            -0.15854930877685547,
+            0.3545607328414917,
+            -0.2877390384674072,
+            0.08845257759094238,
+            -0.018567681312561035,
+            -0.2601897716522217,
+            -0.019002437591552734,
+            -0.14428257942199707,
+            0.05557751655578613,
+            -0.20754623413085938
+          ]
+        },
+        {
+          "event": 1,
+          "retained_participants": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "bn_recalibration_loss_change": [
+            0.021431684494018555,
+            0.004633307456970215,
+            0.020626544952392578,
+            0.007593393325805664,
+            -0.04279756546020508,
+            0.03899669647216797,
+            0.006977558135986328,
+            0.0029277801513671875,
+            -0.0437769889831543,
+            0.030961275100708008
+          ],
+          "status": "uncontrolled",
+          "actual_loss_change": [
+            -0.05999422073364258,
+            0.19855809211730957,
+            -0.254805326461792,
+            0.07768535614013672,
+            0.016899824142456055,
+            -0.1448202133178711,
+            0.03145742416381836,
+            -0.12326240539550781,
+            0.03649091720581055,
+            -0.13145732879638672
+          ]
+        }
+      ],
+      "starting_metrics": {
+        "accuracy": 0.140625,
+        "class_accuracy": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.0,
+          "3": 0.0,
+          "4": 0.0,
+          "5": 0.0,
+          "6": 0.0,
+          "7": 0.0,
+          "8": 1.0,
+          "9": 0.0
+        },
+        "clean_target_rate": 0.0,
+        "asr": 0.0,
+        "asr_samples": 64
+      },
+      "after_initial_bn_recalibration": {
+        "accuracy": 0.046875,
+        "class_accuracy": {
+          "0": 0.0,
+          "1": 0.75,
+          "2": 0.0,
+          "3": 0.0,
+          "4": 0.0,
+          "5": 0.0,
+          "6": 0.0,
+          "7": 0.0,
+          "8": 0.0,
+          "9": 0.0
+        },
+        "clean_target_rate": 0.0,
+        "asr": 0.0,
+        "asr_samples": 64
+      },
+      "candidate_metrics": {
+        "accuracy": 0.109375,
+        "class_accuracy": {
+          "0": 0.0,
+          "1": 0.5,
+          "2": 0.0,
+          "3": 0.0,
+          "4": 0.5,
+          "5": 0.0,
+          "6": 0.1818181872367859,
+          "7": 0.0,
+          "8": 0.1111111119389534,
+          "9": 0.0
+        },
+        "clean_target_rate": 0.050847455859184265,
+        "asr": 0.046875,
+        "asr_samples": 64
+      },
+      "checkpoint": {
+        "path": "C:\\Users\\sijoo\\Documents\\ChatGPT\\badFU\\review_BadFU_defend\\artifacts\\badfu\\pipeline_smoke_s42\\fu\\pipeline_smoke_s42_eval_fixed\\request_5_no_defense.pt",
+        "sha256": "cbb64f39a9ec9067cd0a4a989e7383be11676577ea6667f0997cf734fc215ecc"
+      }
+    },
+    "request_5/retention_only": {
+      "status": "candidate_requires_verification",
+      "failure": null,
+      "completed_selected_events": true,
+      "forgetting_verified": false,
+      "actual_recalibration_calls": 10,
+      "seconds": 9.664751399999659,
+      "steps": [
+        {
+          "event": 0,
+          "retained_participants": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "bn_recalibration_loss_change": [
+            -0.1959071159362793,
+            -0.33286333084106445,
+            -0.7433040142059326,
+            -0.40831780433654785,
+            -0.6593412160873413,
+            -0.3909921646118164,
+            -0.06830549240112305,
+            0.7923288345336914,
+            1.0575861930847168,
+            -0.048712968826293945
+          ],
+          "status": "local_step_only",
+          "forgetting_verified": false,
+          "progress": 0.24511495392081822,
+          "min_progress": 0.1,
+          "proposal_norm": 0.03966209282396837,
+          "step_norm": 0.009915523205992092,
+          "rank": 11,
+          "iterations": 6,
+          "normalized_objective": 0.28613504607918183,
+          "normalized_risk_before": 0.0,
+          "normalized_risk_after": 0.0,
+          "risk_ratio_budget": 0.1,
+          "retain_linear_change": [
+            -0.04411884063552581,
+            0.009999999999999981,
+            -0.07257722999515279,
+            0.009999999999999964,
+            -3.9201829456299644e-05,
+            -0.06458649740703219,
+            0.0016196196750856014,
+            -0.037722066188806275,
+            0.010000000000000016,
+            -0.0490877498034817
+          ],
+          "max_normalized_violation": 0.0,
+          "kkt_stationarity": 1.8563889000774367e-14,
+          "kkt_objective_gap_bound": 1.330943220356546e-18,
+          "solver_reported_success": true,
+          "active_constraints": 4,
+          "geometry": {
+            "rank": 0
+          },
+          "row_space_rank": 11,
+          "row_space_max_residual": 0.0,
+          "row_storage_dtype": "float32",
+          "gram_dtype": "float64",
+          "gram_rank_tolerance": 1e-12,
+          "actual_retention_verified": true,
+          "backtracks": 1,
+          "accepted_fraction": 0.5,
+          "accepted_progress": 0.12255747698102024,
+          "actual_loss_change": [
+            -0.020403623580932617,
+            0.003987669944763184,
+            -0.03592181205749512,
+            0.005779266357421875,
+            -0.00045669078826904297,
+            -0.03393268585205078,
+            0.0010700225830078125,
+            -0.01843881607055664,
+            0.0057103633880615234,
+            -0.024738550186157227
+          ],
+          "accepted_step_norm": 0.004957761602996051
+        },
+        {
+          "event": 1,
+          "retained_participants": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "bn_recalibration_loss_change": [
+            0.0024030208587646484,
+            0.014617323875427246,
+            0.0011668205261230469,
+            0.0032477378845214844,
+            -0.006947636604309082,
+            0.003250598907470703,
+            -0.002761363983154297,
+            -0.00032901763916015625,
+            -0.006809711456298828,
+            0.0031452178955078125
+          ],
+          "status": "local_step_only",
+          "forgetting_verified": false,
+          "progress": 0.2456749890866852,
+          "min_progress": 0.1,
+          "proposal_norm": 0.03769669600722603,
+          "step_norm": 0.009424174006996055,
+          "rank": 11,
+          "iterations": 9,
+          "normalized_objective": 0.28557501094773124,
+          "normalized_risk_before": 0.0,
+          "normalized_risk_after": 0.0,
+          "risk_ratio_budget": 0.1,
+          "retain_linear_change": [
+            -0.03859331081745319,
+            0.010000000000000356,
+            -0.07056853944975634,
+            0.010000000000000057,
+            0.0012727237116807733,
+            -0.06462787952986737,
+            0.0006152727651874759,
+            -0.03310843189875014,
+            0.010000000000000047,
+            -0.044994563321272246
+          ],
+          "max_normalized_violation": 1.3766587869668e-10,
+          "kkt_stationarity": 1.6433834138327306e-14,
+          "kkt_objective_gap_bound": 1.3503545224302599e-28,
+          "solver_reported_success": true,
+          "active_constraints": 4,
+          "geometry": {
+            "rank": 0
+          },
+          "row_space_rank": 11,
+          "row_space_max_residual": 1.4901161193847656e-08,
+          "row_storage_dtype": "float32",
+          "gram_dtype": "float64",
+          "gram_rank_tolerance": 1e-12,
+          "actual_retention_verified": true,
+          "backtracks": 1,
+          "accepted_fraction": 0.5,
+          "accepted_progress": 0.12283749453359492,
+          "actual_loss_change": [
+            -0.019231557846069336,
+            0.005613565444946289,
+            -0.0348966121673584,
+            0.004967689514160156,
+            0.00033605098724365234,
+            -0.03271913528442383,
+            0.0005288124084472656,
+            -0.01637411117553711,
+            0.006132602691650391,
+            -0.022964954376220703
+          ],
+          "accepted_step_norm": 0.004712087003498034
+        }
+      ],
+      "starting_metrics": {
+        "accuracy": 0.140625,
+        "class_accuracy": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.0,
+          "3": 0.0,
+          "4": 0.0,
+          "5": 0.0,
+          "6": 0.0,
+          "7": 0.0,
+          "8": 1.0,
+          "9": 0.0
+        },
+        "clean_target_rate": 0.0,
+        "asr": 0.0,
+        "asr_samples": 64
+      },
+      "after_initial_bn_recalibration": {
+        "accuracy": 0.046875,
+        "class_accuracy": {
+          "0": 0.0,
+          "1": 0.75,
+          "2": 0.0,
+          "3": 0.0,
+          "4": 0.0,
+          "5": 0.0,
+          "6": 0.0,
+          "7": 0.0,
+          "8": 0.0,
+          "9": 0.0
+        },
+        "clean_target_rate": 0.0,
+        "asr": 0.0,
+        "asr_samples": 64
+      },
+      "candidate_metrics": {
+        "accuracy": 0.046875,
+        "class_accuracy": {
+          "0": 0.0,
+          "1": 0.75,
+          "2": 0.0,
+          "3": 0.0,
+          "4": 0.0,
+          "5": 0.0,
+          "6": 0.0,
+          "7": 0.0,
+          "8": 0.0,
+          "9": 0.0
+        },
+        "clean_target_rate": 0.0,
+        "asr": 0.0,
+        "asr_samples": 64
+      },
+      "checkpoint": {
+        "path": "C:\\Users\\sijoo\\Documents\\ChatGPT\\badFU\\review_BadFU_defend\\artifacts\\badfu\\pipeline_smoke_s42\\fu\\pipeline_smoke_s42_eval_fixed\\request_5_retention_only.pt",
+        "sha256": "3e2245329ba268079408d252e855c40f746966289d87eb196e19ef288d79757c"
+      }
+    },
+    "request_5/temporal": {
+      "status": "candidate_requires_verification",
+      "failure": null,
+      "completed_selected_events": true,
+      "forgetting_verified": false,
+      "actual_recalibration_calls": 10,
+      "seconds": 11.021789300000819,
+      "steps": [
+        {
+          "event": 0,
+          "retained_participants": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "bn_recalibration_loss_change": [
+            -0.1959071159362793,
+            -0.33286333084106445,
+            -0.7433040142059326,
+            -0.40831780433654785,
+            -0.6593412160873413,
+            -0.3909921646118164,
+            -0.06830549240112305,
+            0.7923288345336914,
+            1.0575861930847168,
+            -0.048712968826293945
+          ],
+          "status": "local_step_only",
+          "forgetting_verified": false,
+          "progress": 0.22070120133300136,
+          "min_progress": 0.1,
+          "proposal_norm": 0.03966209282396834,
+          "step_norm": 0.009915523205992148,
+          "rank": 12,
+          "iterations": 7,
+          "normalized_objective": 0.31054879866699886,
+          "normalized_risk_before": 0.13696043048322648,
+          "normalized_risk_after": 0.001369604304832483,
+          "risk_ratio_budget": 0.1,
+          "retain_linear_change": [
+            -0.06543678245410262,
+            0.009999999999999926,
+            -0.06778990886270173,
+            0.010000000000000035,
+            0.010000000000000061,
+            -0.060914551234897966,
+            0.009999999999999946,
+            -0.03185177291484505,
+            0.010000000000000002,
+            -0.05315507953288877
+          ],
+          "max_normalized_violation": 8.021361352916756e-15,
+          "kkt_stationarity": 3.752335081993226e-15,
+          "kkt_objective_gap_bound": 1.814763427207264e-18,
+          "solver_reported_success": true,
+          "active_constraints": 7,
+          "geometry": {
+            "rank": 1,
+            "eigenvalues": [
+              0.29551213673504684
+            ],
+            "smoothing": 1.0,
+            "history_steps": 1,
+            "input_scale": 0.031591682701849186,
+            "trace": 0.29551213673504684,
+            "raw_min_eigenvalue": -0.34209846452759957,
+            "operator_norm": 0.29551213673504684
+          },
+          "row_space_rank": 12,
+          "row_space_max_residual": 2.9802322387695312e-08,
+          "row_storage_dtype": "float32",
+          "gram_dtype": "float64",
+          "gram_rank_tolerance": 1e-12,
+          "actual_retention_verified": true,
+          "backtracks": 1,
+          "accepted_fraction": 0.5,
+          "accepted_progress": 0.11035060067877123,
+          "actual_loss_change": [
+            -0.031247615814208984,
+            0.003895282745361328,
+            -0.034446001052856445,
+            0.005301475524902344,
+            0.004137873649597168,
+            -0.03104257583618164,
+            0.004869937896728516,
+            -0.015885591506958008,
+            0.005235910415649414,
+            -0.0265657901763916
+          ],
+          "accepted_step_norm": 0.004957761602996079
+        },
+        {
+          "event": 1,
+          "retained_participants": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "bn_recalibration_loss_change": [
+            0.0024971961975097656,
+            0.010719776153564453,
+            0.00046539306640625,
+            0.003236532211303711,
+            -0.006392955780029297,
+            0.0038084983825683594,
+            0.00021123886108398438,
+            -6.508827209472656e-05,
+            -0.0032019615173339844,
+            0.003164052963256836
+          ],
+          "status": "local_step_only",
+          "forgetting_verified": false,
+          "progress": 0.22132962687997512,
+          "min_progress": 0.1,
+          "proposal_norm": 0.03771810884678481,
+          "step_norm": 0.009429527211697661,
+          "rank": 13,
+          "iterations": 8,
+          "normalized_objective": 0.3099203731200352,
+          "normalized_risk_before": 0.15439073446576881,
+          "normalized_risk_after": 0.0015439073446577311,
+          "risk_ratio_budget": 0.1,
+          "retain_linear_change": [
+            -0.06171249925242972,
+            0.009999999999999905,
+            -0.06485216054714457,
+            0.010000000000000033,
+            0.010000000000000085,
+            -0.05706384615185895,
+            0.01000000000000002,
+            -0.027122903660050286,
+            0.010000000000000108,
+            -0.04536824338813974
+          ],
+          "max_normalized_violation": 3.8469227803261674e-14,
+          "kkt_stationarity": 2.735708000512984e-13,
+          "kkt_objective_gap_bound": 8.343736112967183e-18,
+          "solver_reported_success": true,
+          "active_constraints": 7,
+          "geometry": {
+            "rank": 2,
+            "eigenvalues": [
+              0.0022079351854797035,
+              0.3362143133148108
+            ],
+            "smoothing": 1.0,
+            "history_steps": 2,
+            "input_scale": 0.03209395130376141,
+            "trace": 0.33842224850029046,
+            "raw_min_eigenvalue": -0.33856779229068235,
+            "operator_norm": 0.3362143133148108
+          },
+          "row_space_rank": 15,
+          "row_space_max_residual": 4.59284633619262e-08,
+          "row_storage_dtype": "float32",
+          "gram_dtype": "float64",
+          "gram_rank_tolerance": 1e-12,
+          "actual_retention_verified": true,
+          "backtracks": 1,
+          "accepted_fraction": 0.5,
+          "accepted_progress": 0.11066481350129614,
+          "actual_loss_change": [
+            -0.030018329620361328,
+            0.005762457847595215,
+            -0.031209707260131836,
+            0.004339456558227539,
+            0.005281209945678711,
+            -0.0301666259765625,
+            0.004733085632324219,
+            -0.013341665267944336,
+            0.005612850189208984,
+            -0.02232670783996582
+          ],
+          "accepted_step_norm": 0.004714763605848838
+        }
+      ],
+      "starting_metrics": {
+        "accuracy": 0.140625,
+        "class_accuracy": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.0,
+          "3": 0.0,
+          "4": 0.0,
+          "5": 0.0,
+          "6": 0.0,
+          "7": 0.0,
+          "8": 1.0,
+          "9": 0.0
+        },
+        "clean_target_rate": 0.0,
+        "asr": 0.0,
+        "asr_samples": 64
+      },
+      "after_initial_bn_recalibration": {
+        "accuracy": 0.046875,
+        "class_accuracy": {
+          "0": 0.0,
+          "1": 0.75,
+          "2": 0.0,
+          "3": 0.0,
+          "4": 0.0,
+          "5": 0.0,
+          "6": 0.0,
+          "7": 0.0,
+          "8": 0.0,
+          "9": 0.0
+        },
+        "clean_target_rate": 0.0,
+        "asr": 0.0,
+        "asr_samples": 64
+      },
+      "candidate_metrics": {
+        "accuracy": 0.046875,
+        "class_accuracy": {
+          "0": 0.0,
+          "1": 0.75,
+          "2": 0.0,
+          "3": 0.0,
+          "4": 0.0,
+          "5": 0.0,
+          "6": 0.0,
+          "7": 0.0,
+          "8": 0.0,
+          "9": 0.0
+        },
+        "clean_target_rate": 0.0,
+        "asr": 0.0,
+        "asr_samples": 64
+      },
+      "checkpoint": {
+        "path": "C:\\Users\\sijoo\\Documents\\ChatGPT\\badFU\\review_BadFU_defend\\artifacts\\badfu\\pipeline_smoke_s42\\fu\\pipeline_smoke_s42_eval_fixed\\request_5_temporal.pt",
+        "sha256": "7a7447295a9e393fdde66b4d4007d663bea7f645cad6e22cec47d6cf49981b30"
+      }
+    }
+  },
+  "forgetting_verified": false,
+  "parameter_scope": "all_trainable_parameters",
+  "bn_policy": "recompute on fixed clean validation before each event in every arm, freeze during control/evaluation; log BN-only loss changes separately",
+  "source_hashes": {
+    "BadFU_src\\BadFU-main\\request_pipeline.py": "1077c44a17823e6cafc34f6ea3e4a12456c94064ff20edc1902c50eca23d6890",
+    "BadFU_src\\BadFU-main\\badfu_common.py": "24fb201cef04e5869b781d0c9715a4718ffc05e1b64c629d581141d292bd75be",
+    "FUBA\\large_geometry.py": "b595a0feef4339b6054c04732a50b4ccda14dcd581d6d78d4473c97e87e7b7ad",
+    "FUBA\\request_geometry.py": "efb21677e9019c251778208dfb72b52c59888e7bb5d0756f65b6a9009dbb162a"
+  }
+}

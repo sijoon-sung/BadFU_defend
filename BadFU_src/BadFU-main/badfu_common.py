@@ -31,7 +31,14 @@ PERT = os.path.join(HERE, "record/badnet_dataset/cv_train_dataset/pert")
 BDTR = os.path.join(HERE, "record/badnet_dataset/bd_train_dataset")
 
 
-def _resolve(path):
+def _resolve(path, record_root=None):
+    if record_root is not None:
+        portable = str(path).replace("\\", "/")
+        for marker in ("cv_train_dataset/", "bd_train_dataset/", "bd_test_dataset/"):
+            if marker in portable:
+                candidate = os.path.join(record_root, marker + portable.split(marker, 1)[1])
+                if os.path.isfile(candidate):
+                    return candidate
     if os.path.exists(path):
         return path
     base = os.path.basename(path)
@@ -56,17 +63,18 @@ class TensorDS(Dataset):
 class BackdoorDataset(Dataset):
     """pert_result.pt 의 data_dict. other_info[0] = 학습/평가 라벨. orig_label_idx 가 있으면 원래 라벨도 돌려준다."""
 
-    def __init__(self, data_dict, transform=TRANSFORM):
+    def __init__(self, data_dict, transform=TRANSFORM, record_root=None):
         self.d = data_dict
         self.keys = list(data_dict.keys())
         self.transform = transform
+        self.record_root = record_root
 
     def __len__(self):
         return len(self.keys)
 
     def __getitem__(self, i):
         info = self.d[self.keys[i]]
-        img = self.transform(Image.open(_resolve(info["path"])).convert("RGB"))
+        img = self.transform(Image.open(_resolve(info["path"], self.record_root)).convert("RGB"))
         return img, torch.tensor(info["other_info"][0])
 
     def original_labels(self, cifar_targets):
@@ -89,15 +97,18 @@ class ResNet18(nn.Module):
 class BadFUData:
     """ul 구성 6 클라 데이터와 평가 로더."""
 
-    def __init__(self, dominant_ratio=0.7, seed=42, batch_size=64):
+    def __init__(self, dominant_ratio=0.7, seed=42, batch_size=64,
+                 data_root=None, record_root=None, download=True):
         np.random.seed(seed)
-        d = torch.load(os.path.join(HERE, "record/badnet_dataset/pert_result.pt"), weights_only=False)
+        record_root = record_root or os.path.join(HERE, "record/badnet_dataset")
+        data_root = data_root or os.path.join(HERE, "data")
+        d = torch.load(os.path.join(record_root, "pert_result.pt"), map_location="cpu", weights_only=False)
         bd_train = d["bd_train"]["bd_data_container"]["data_dict"]
         cv = d["cv_pert"]["data_dict"]
         bd_test = d["bd_test"]["bd_data_container"]["data_dict"]
         remove = set(list(bd_train.keys()) + list(cv.keys()))
-        train = datasets.CIFAR10(root=os.path.join(HERE, "data"), train=True, download=True)
-        test = datasets.CIFAR10(root=os.path.join(HERE, "data"), train=False, download=True, transform=TRANSFORM)
+        train = datasets.CIFAR10(root=data_root, train=True, download=download)
+        test = datasets.CIFAR10(root=data_root, train=False, download=download, transform=TRANSFORM)
         kept = [i for i in range(len(train)) if i not in remove]
         x = torch.stack([TRANSFORM(Image.fromarray(train.data[i])) for i in kept])
         y = torch.tensor([train.targets[i] for i in kept])
@@ -116,13 +127,14 @@ class BadFUData:
             for i, cid in enumerate(others):
                 e = (i + 1) * ch if i < len(others) - 1 else len(rem)
                 per[cid].extend(rem[i * ch:e].tolist())
-        self.bd = BackdoorDataset(bd_train)
-        self.cv = BackdoorDataset(cv)
-        self.bd_test = BackdoorDataset(bd_test)
+        self.bd = BackdoorDataset(bd_train, record_root=record_root)
+        self.cv = BackdoorDataset(cv, record_root=record_root)
+        self.bd_test = BackdoorDataset(bd_test, record_root=record_root)
         clean_parts = [TensorDS(x[idx], y[idx]) for idx in per]
         self.client_sets = [ConcatDataset([clean_parts[0], self.bd])] + clean_parts[1:] + \
                            [ConcatDataset([clean_parts[0], self.cv])]
         self.counts = [len(s) for s in self.client_sets]
+        self.clean_indices = [[kept[i] for i in idx] for idx in per]
         self.batch_size = batch_size
         self.test_loader = DataLoader(test, batch_size=256, shuffle=False, num_workers=0)
         self.bd_test_orig = self.bd_test.original_labels(test.targets)

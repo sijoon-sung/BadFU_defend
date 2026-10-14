@@ -1,5 +1,67 @@
 # 실험 돌리기 — 2026-10-14
 
+## BadFU: 별도 궤적 보존과 개정 알고리즘 자동 비교
+
+저장소 **루트**, `codex/structural-latent-defense` 브랜치에서 실행한다. PyTorch·torchvision·NumPy·SciPy가 필요하며 MPI·timm은 필요 없다. 이 절은 CIFAR-10/ResNet-18 공개 코드의 **6클라이언트 분리형** 설정이다. 논문 본문의 같은 클라이언트 내부 표본 삭제와 구분한다.
+
+```bash
+git fetch origin refs/heads/codex/structural-latent-defense:refs/remotes/origin/codex/structural-latent-defense
+git switch codex/structural-latent-defense
+git pull --ff-only origin codex/structural-latent-defense
+python -m unittest discover -s FUBA/tests -q
+
+# 새 BadFU 학습 → 별도 저장 → 무방어/정상 손실 제어/장력 제어 자동 실행
+python BadFU_src/BadFU-main/request_pipeline.py run --run-dir artifacts/badfu/request_s42 --seed 42 --out FUBA/logs/badfu_request/request_s42.json
+```
+
+기존 `BadFU_src/BadFU-main/data`와 `record/badnet_dataset/pert_result.pt` 및 대응 이미지들을 읽는다. 다른 위치면 `--data-root <CIFAR 데이터 폴더> --record-root <badnet_dataset 폴더>`를 지정한다. CIFAR와 공격 자료를 몰래 새로 만들거나 clean 데이터로 치환하지 않는다. 원래 공격 데이터 생성은 아래 구 실행 절을 참고한다. ImageNet 사전학습 가중치는 torchvision 캐시를 재사용하며, 없으면 torchvision이 내려받는다.
+
+기본 FL은 40라운드·로컬 5epoch·batch64·SGD .01·dominant .7·seed42다. 각 클라이언트 배치 순서는 기록된 seed/round/client 규약으로 고정하므로 과거 스크립트와 비트 단위 동일한 학습은 아니다. 기본 FU는 매 기록 라운드에서 보존 클라이언트당 **2배치 재보정**이며, `--fu-batches 0 --fu-epochs 5`로 전체 로컬 5epoch 비교를 할 수 있다. 기본 요청 `5 1`은 각각 별도로 수행하는 위장자/정상 요청이고, 공격 역할은 제어기에 들어가지 않는다.
+
+GPU 한 대에서는 학습 완료 직후 FU 비교를 차례로 실행한다. 한 명령으로 둘 다 수행하며 결과가 서로 덮어써지지 않는다. 시드별 `request_s43`, `request_s44`처럼 폴더와 결과 이름을 바꾼다. 같은 설정의 완성된 학습 폴더는 FL을 재사용하고, 부분 폴더나 다른 설정은 자동 삭제하지 않고 중단한다. `--out`이 이미 있으면 새 이름이 필요하다.
+
+저장되는 자료:
+
+- `artifacts/badfu/request_s42/manifest.json`: 설정·데이터/코드 해시·가중치·라운드 목록·FL ACC/ASR.
+- `initial.pt`: 실제 학습 전 모델(파라미터와 BN 상태).
+- `data.pt`: **실제로 FL에 사용한 클라이언트별 clean/poison/camouflage 입력·라벨**, 검증/평가 입력, 분할 인덱스. 이후 FU는 이 자료를 그대로 읽는다.
+- `round_0000.pt` 등: 라운드 전 전역 모델·6개 로컬 모델·집계 후 전역 모델·참여자와 샘플 수.
+- `fu/<결과이름>/request_5_temporal.pt` 등: 해당 FU 비교가 완료된 경우의 모델. 제어 실패군에는 성공 모델을 만들지 않는다.
+- `FUBA/logs/badfu_request/*.json`: 비교군별 ASR/ACC/클래스 ACC·제약 검사·실패 사유·시간·정규화만의 효과.
+
+ResNet-18 전체 파라미터와 40라운드 로컬 상태 때문에 새 학습 궤적은 약 15GB에 데이터 묶음 용량이 추가된다. 큰 `.pt`는 gitignore 대상이며 PC에 보존한다. 결과 JSON만 GitHub에 올린다. 계산은 전체 파라미터의 행공간을 청크 단위로 계산하고 랜덤 sketch/top-k를 쓰지 않는다. 이력 창은 메모리 비용을 고려해 기본3이며 `--history-window 5` 등은 별도 설정으로 보고한다.
+
+### 기존 BadFU 궤적 재사용: 공격 FL 재학습 없음
+
+`round_0.pt` 안의 `gm`이 실제 초기 모델이므로 FUBA의 오래된 round_0 누락 문제와 다르다. 기존 15라운드 자료에는 다음처럼 **원래 seed·분할·부분집합 설정**을 맞춘다. 아래 경로는 DISLAB에서 실제 위치로 바꾼다.
+
+```bash
+python BadFU_src/BadFU-main/request_pipeline.py run --legacy-traj BadFU_src/BadFU-main/logs/traj_full --rounds 15 --seed 42 --run-dir artifacts/badfu/imported_full_s42 --step 14 --out FUBA/logs/badfu_request/imported_full_step14.json
+
+# 등록과 데이터 보존 후, 초기 상태부터 전체 FU 비교 (FL은 다시 학습하지 않음)
+python BadFU_src/BadFU-main/request_pipeline.py test --run-dir artifacts/badfu/imported_full_s42 --out FUBA/logs/badfu_request/imported_full_replay.json
+
+# 같은 저장 이력에서 알고리즘 구성요소 비교
+python BadFU_src/BadFU-main/request_pipeline.py test --run-dir artifacts/badfu/imported_full_s42 --step 14 --modes no_defense retention_only linear cumulative unsmoothed temporal --out FUBA/logs/badfu_request/imported_full_ablation.json
+```
+
+`--step 14`는 0부터 세는 마지막 실제 FU 보정 **한 단계** 검사다. 전체 망각 실험으로 집계하지 않는다. legacy import는 큰 원본 궤적을 복사하지 않고 경로·해시로 연결하며 원본을 변경하지 않는다. 따라서 원본 폴더를 지우지 않는다. 데이터는 명시한 원래 설정으로 재구성해 보존하고, 저장 집계가 샘플 수 가중 FedAvg와 맞는지 검사한다. 과거 데이터 자체의 해시가 없으므로 **옛 학습 데이터와의 완전한 동일성은 미인증**이라고 결과에 적힌다. 새 학습 경로는 FL/FU가 같은 `data.pt`를 쓴다.
+
+### BN 정책과 결과 해석
+
+모든 비교군은 매 FU 단계 시작 시 같은 정상 검증 입력으로 BN 통계를 다시 구하고, 그 단계의 파라미터 최적화·실제 손실 검사·평가 동안에는 고정한다. 따라서 제어기의 손실 기울기는 같은 고정 BN 상태에서 계산된다. 정규화 자체가 ASR/효용을 바꿀 수 있어 `starting_metrics`, `after_initial_bn_recalibration`, `bn_recalibration_loss_change`를 별도로 기록한다. 클래스 손실 예산은 **그 단계의 파라미터 갱신**에 적용되며, 단계 사이 BN 변경이나 전체 누적 손실의 보장은 아니다. 원 저자의 층별/격라운드 FU와 다른, 클라이언트별 전체 벡터 FedEraser + 명시적 BN 정책이다.
+
+`control_not_accepted`는 실패다. `failure.loss_trials`에 실제 손실 변화/진행량을 기록하며 실패 모델을 성공 ASR로 집계하지 않는다. `forgetting_verified=false`는 항상 유지한다. 트리거와 표적 라벨은 평가에만 쓰고, 보존 데이터에는 실제 poison을 남긴다. 데이터 생성·장기 FL·FU의 실행 시간은 환경 의존적이며 한 단계 검사를 먼저 한 뒤 전체를 실행한다.
+
+현재 로컬 검증: 113개 unittest 통과. 실제 CIFAR/ResNet의 축소2라운드 저장·자동 FU와 기존15라운드 궤적의 step14를 실행했다. 수정 후 `traj_full_step14_eval_fixed.json`에서 요청5 무방어 ASR91.02/ACC75.98%, temporal45.12/86.13%였고, 같은 보존제어는 불수락이었다. 정상요청1에서는 두 제어군 모두 불수락이었다. 해당 시작 모델 ASR21.88%→BN만 재구성36.72%→temporal45.12%이므로 완전 방어/망각 성공이나 이력의 확증 효과로 읽지 않는다. 앞선 eval 모드 복원 전 세 개발 로그는 성능 근거에서 제외한다. 상세 기록은 RESULTS_LOG R-047–R-050.
+
+```bash
+# 결과 업로드: 큰 data.pt/모델은 로컬에 남긴다.
+git add FUBA/logs/badfu_request
+git commit -m "Record BadFU request-control experiments"
+git push origin codex/structural-latent-defense
+```
+
 ## 개정안: 요청 조건부 상쇄 연산자와 제약 최적화
 
 명세·성질·현재 음성 결과: [TENSION_CONTROL §7](docs/paper/TENSION_CONTROL.md#7-개정-알고리즘-요청-조건부-상쇄-연산자와-제약-최적화).
