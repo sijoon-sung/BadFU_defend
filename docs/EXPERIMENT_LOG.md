@@ -1,6 +1,6 @@
 # 실험 기록 — 공격 궤적 (자동 생성)
 
-`FUBA/verify_trajectories.py` 가 `FUBA/trajectories.json` 과 저장 파일을 읽어 만든다. 갱신 2026-10-14 17:26 (DESKTOP-QUB35TD). 손으로 고치지 말 것.
+`FUBA/verify_trajectories.py` 가 `FUBA/trajectories.json` 과 저장 파일을 읽어 만든다. 갱신 2026-10-14 23:37 (DESKTOP-QUB35TD). 손으로 고치지 말 것.
 
 - 숫자는 `ACC / ASR` (%). 잠복 = 삭제 전 최종 모델 θ_T. 제거 = 그 클라이언트의 저장 기여를 1 차 근사로 뺀 모델 (θ_T − U_k, `release_map.load_fuba` 와 같은 U). 채점은 MNIST/CIFAR test[500:] 과 저장된 트리거.
 - BadFU 는 빼기가 모델을 무너뜨리므로 `붕괴` 로 적고, 괄호의 `단계식` 값(fl_detect_badfu.py 의 FedEraser 언러닝, 저자 코드) 으로 판정한다.
@@ -8,7 +8,7 @@
 
 ## 한눈에
 
-전체 57 개: ✔ 23, △ 6, ✘ 2, 미생성 26
+전체 57 개: ✔ 28, △ 6, ✘ 2, 미생성 21
 
 | 그룹 | 설명 | 개수 | ✔ / △ / ✘ / 미생성 | 예상 시간 (개당 → 전체) | 어디서 |
 |---|---|---|---|---|---|
@@ -20,8 +20,8 @@
 | tdef_reduced | 집계 방어 4 종, K=8 축소판 (싸지만 악성 다수라 참고용). run_paper.sh RQ2b 이름 그대로 | 12 | 6 / 0 / 1 / 5 | 7 분 → 남은 것 0.6 시간 | DISLAB |
 | badfu | BadFU (CIFAR-10, ResNet-18, K=6, 40 라운드 × 로컬 5 에폭): 시드 42, 43, 44 (각자 logs/traj_s{seed}) + 기존 15 라운드 traj_full | 4 | 0 / 0 / 0 / 4 | 150 분 → 남은 것 8.4 시간 | local |
 | local_smoke | 노트북 점검용 궤적 (bd_iid_s0 와 같은 설정, 이름만 다름). DISLAB 실험에는 안 쓴다 | 1 | 0 / 0 / 0 / 1 | 6 분 → 남은 것 0.1 시간 | local |
-| k20_paper_cifar | 큰 모델: CIFAR-10/resnet18, 논문 설정 flag, IID 3 시드 (owner 는 IID 결과 뒤에) | 3 | 2 / 0 / 0 / 1 | 300 분 → 남은 것 5.0 시간 | DISLAB |
-| clean_paper | 공격 없는 궤적 (오경보 검사 R-015): mnist/cifar × iid/owner, warm-up 1000 | 4 | 0 / 0 / 0 / 4 | 45 분 → 남은 것 11.5 시간 | DISLAB |
+| k20_paper_cifar | 큰 모델: CIFAR-10/resnet18, 논문 설정 flag, IID 3 시드 (owner 는 IID 결과 뒤에) | 3 | 3 / 0 / 0 / 0 | 300 분 → 남은 것 0.0 시간 | DISLAB |
+| clean_paper | 공격 없는 궤적 (오경보 검사 R-015): mnist/cifar × iid/owner, warm-up 1000 | 4 | 4 / 0 / 0 / 0 | 45 분 → 남은 것 0.0 시간 | DISLAB |
 
 ## 궤적별 결과
 
@@ -79,11 +79,11 @@
 | loc_fuba | fuba | iid | 8 | 522 | 0-3 / 4 / 5-7 | - | - | - | 8 (웜업 3, 참여 1.0) | local | － 미생성 | 2026-10-13 17:30 |  |
 | bd_iid_r100w5_k20paper_cifar_s0 | fuba | iid | 20 | 522 | 0-3 / 4 / 5-19 | 78.6 / 97.1 | 9.9 / 0.0 | 58.2 / 44.9 (5) | 100 (웜업 5, 참여 0.4) | DISLAB | ✔ | 2026-10-14 12:25 | 운반자 0 제거: 77.9 / 96.5 |
 | bd_iid_r100w5_k20paper_cifar_s1 | fuba | iid | 20 | 523 | 0-3 / 4 / 5-19 | 77.3 / 89.3 | 9.9 / 0.0 | 41.0 / 7.5 (5) | 100 (웜업 5, 참여 0.4) | DISLAB | ✔ | 2026-10-14 17:24 | 운반자 0 제거: 9.9 / 0.0 |
-| bd_iid_r100w5_k20paper_cifar_s2 | fuba | iid | 20 | 524 | 0-3 / 4 / 5-19 | - | - | - | 100 (웜업 5, 참여 0.4) | DISLAB | － 미생성 | 2026-10-13 17:30 |  |
-| clean_iid_r100_k20paper_s0 | fuba | iid | 20 | 522 | - / - / 0-19 | - | - | - | 100 (웜업 1000, 참여 0.4) | DISLAB | － 미생성 | 2026-10-13 17:30 |  |
-| clean_iid_r100_k20paper_cifar_s0 | fuba | iid | 20 | 522 | - / - / 0-19 | - | - | - | 100 (웜업 1000, 참여 0.4) | DISLAB | － 미생성 | 2026-10-13 17:30 |  |
-| clean_owner_r100_k20paper_s0 | fuba | owner | 20 | 522 | - / - / 0-19 (소유자 19) | - | - | - | 100 (웜업 1000, 참여 0.4) | DISLAB | － 미생성 | 2026-10-13 17:30 |  |
-| clean_owner_r100_k20paper_cifar_s0 | fuba | owner | 20 | 522 | - / - / 0-19 (소유자 19) | - | - | - | 100 (웜업 1000, 참여 0.4) | DISLAB | － 미생성 | 2026-10-13 17:30 |  |
+| bd_iid_r100w5_k20paper_cifar_s2 | fuba | iid | 20 | 524 | 0-3 / 4 / 5-19 | 79.3 / 96.5 | 9.9 / 0.0 | 47.8 / 43.9 (5) | 100 (웜업 5, 참여 0.4) | DISLAB | ✔ | 2026-10-14 23:04 | 운반자 0 제거: 78.8 / 96.5 |
+| clean_iid_r100_k20paper_s0 | fuba | iid | 20 | 522 | - / - / 0-19 | 98.8 / (ASR 없음) | - | 97.6 / (ASR 없음) (5) | 100 (웜업 1000, 참여 0.4) | DISLAB | ✔ | 2026-10-14 23:07 | 공격 없는 궤적 (clean): 생성기가 없어 ASR 은 채점하지 않음; 위장자·운반자 검사 없음 |
+| clean_iid_r100_k20paper_cifar_s0 | fuba | iid | 20 | 522 | - / - / 0-19 | 82.4 / (ASR 없음) | - | 49.9 / (ASR 없음) (5) | 100 (웜업 1000, 참여 0.4) | DISLAB | ✔ (임시 문턱) | 2026-10-14 23:19 | 임시 문턱 (provisional); 공격 없는 궤적 (clean): 생성기가 없어 ASR 은 채점하지 않음; 위장자·운반자 검사 없음 |
+| clean_owner_r100_k20paper_s0 | fuba | owner | 20 | 522 | - / - / 0-19 (소유자 19) | 98.6 / (ASR 없음) | - | 95.9 / (ASR 없음) (5) | 100 (웜업 1000, 참여 0.4) | DISLAB | ✔ | 2026-10-14 23:23 | 공격 없는 궤적 (clean): 생성기가 없어 ASR 은 채점하지 않음; 위장자·운반자 검사 없음 |
+| clean_owner_r100_k20paper_cifar_s0 | fuba | owner | 20 | 522 | - / - / 0-19 (소유자 19) | 79.5 / (ASR 없음) | - | 59.6 / (ASR 없음) (5) | 100 (웜업 1000, 참여 0.4) | DISLAB | ✔ (임시 문턱) | 2026-10-14 23:35 | 임시 문턱 (provisional); 공격 없는 궤적 (clean): 생성기가 없어 ASR 은 채점하지 않음; 위장자·운반자 검사 없음 |
 
 ## 실패 사유 (전체 문장)
 
@@ -126,7 +126,7 @@
 - BadFU (노트북): `cd BadFU_src/BadFU-main && bash make_badfu_trajectories.sh`
 - 만들고 나면 이 파일과 `FUBA/logs/trajectories/registry.json` 을 커밋한다.
 
-<details><summary>미생성 궤적의 정확한 명령 (26 개)</summary>
+<details><summary>미생성 궤적의 정확한 명령 (21 개)</summary>
 
 ```
 # [DISLAB] bd_iid_r100w5_k20paper_median_s1
@@ -171,15 +171,5 @@ python fl_detect_badfu.py --rounds 40 --local_epochs 5 --keep_traj --seed 44 --t
 python fl_detect_badfu.py --rounds 15 --local_epochs 5 --keep_traj --seed 42 --traj_dir logs/traj_full --out logs/badfu_detect.json
 # [local] loc_fuba
 NB_CLIENTS=8 ROUNDS=8 WARMUP=3 PARTICIPANT_RATE=1.0 EXTRA_ARGS="--split_seed 522" bash run_real_fuba.sh loc_fuba 522
-# [DISLAB] bd_iid_r100w5_k20paper_cifar_s2
-DATASET=cifar10 NB_CLIENTS=20 ROUNDS=100 WARMUP=5 PARTICIPANT_RATE=0.4 EXTRA_ARGS="--split_seed 524 --participant_rate 0.4" bash run_real_fuba.sh bd_iid_r100w5_k20paper_cifar_s2 524
-# [DISLAB] clean_iid_r100_k20paper_s0
-DATASET=mnist NB_CLIENTS=20 ROUNDS=100 WARMUP=1000 PARTICIPANT_RATE=0.4 EXTRA_ARGS="--split_seed 522 --participant_rate 0.4" bash run_real_fuba.sh clean_iid_r100_k20paper_s0 522
-# [DISLAB] clean_iid_r100_k20paper_cifar_s0
-DATASET=cifar10 NB_CLIENTS=20 ROUNDS=100 WARMUP=1000 PARTICIPANT_RATE=0.4 EXTRA_ARGS="--split_seed 522 --participant_rate 0.4" bash run_real_fuba.sh clean_iid_r100_k20paper_cifar_s0 522
-# [DISLAB] clean_owner_r100_k20paper_s0
-DATASET=mnist NB_CLIENTS=20 ROUNDS=100 WARMUP=1000 PARTICIPANT_RATE=0.4 EXTRA_ARGS="--split_seed 522 --participant_rate 0.4 --non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1" bash run_real_fuba.sh clean_owner_r100_k20paper_s0 522
-# [DISLAB] clean_owner_r100_k20paper_cifar_s0
-DATASET=cifar10 NB_CLIENTS=20 ROUNDS=100 WARMUP=1000 PARTICIPANT_RATE=0.4 EXTRA_ARGS="--split_seed 522 --participant_rate 0.4 --non_iid --non_iid_type class_owner --owner_class 3 --owner_frac 0.9 --owner_client -1" bash run_real_fuba.sh clean_owner_r100_k20paper_cifar_s0 522
 ```
 </details>
