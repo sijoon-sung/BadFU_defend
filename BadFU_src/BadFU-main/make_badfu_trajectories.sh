@@ -6,11 +6,11 @@
 #   bash make_badfu_trajectories.sh            # 없는 시드 전부 (기존 logs/traj_full 은 절대 건드리지 않는다)
 #   DRY=1 bash make_badfu_trajectories.sh      # 명령만
 #   ONLY=badfu_s43 bash make_badfu_trajectories.sh
-#   FORCE=1                                    # 있어도 다시 (traj_full 은 FORCE 라도 제외)
+#   FORCE=1 은 기존 궤적 삭제를 허용하지 않는다. 새 실험은 request_pipeline.py의 별도 run-dir을 쓴다.
 #
 # 데이터(record/badnet_dataset/pert_result.pt)가 없으면 저자 prepare_data.sh 의 두 명령(badnet.py → uba_inf_cover.py)을
 # docs/archive/fuba/LOCAL_SMOKE.md Part B 의 flag 로 먼저 돌린다 (prepare_data.sh 의 파괴적 rm/mv 는 생략, 약 12 분).
-# 이어 돌리기: fl_detect_badfu.py 는 시작할 때 traj_dir 의 *.pt 를 지우므로 부분 궤적은 처음부터 다시 만든다. 시드 하나 ≈ 2.5 시간(40 라운드), 디스크 ≈ 14 GB.
+# 부분 궤적은 보존하고 중단한다. 새 폴더에서 재실행해야 한다. 시드 하나 ≈ 2.5 시간(40 라운드), 디스크 ≈ 14 GB.
 # 로그: logs/traj_s{seed}/run.log (counts 줄을 검증기가 읽는다). 결과 json: logs/badfu_detect_s{seed}.json (단계식 언러닝 ASR).
 # =============================================================================
 set -euo pipefail
@@ -56,7 +56,8 @@ while IFS=$'\t' read -r name where traj rounds epochs seed detect counts <&3; do
   elif [ "$FORCE" != "1" ] && [ -f "$last" ] && [ "$n_round" -ge "$rounds" ]; then
     echo; echo "== $name: 있음 ($n_round/$rounds 라운드) — 생성 생략"; echo "   ($cmd)"; n_skip=$((n_skip + 1))
   else
-    echo; echo "== $name  (있음 $n_round/$rounds 라운드$([ "$n_round" -gt 0 ] && echo ' → 처음부터 다시 (fl_detect_badfu.py 가 시작할 때 *.pt 를 지움)'), 예상 ≈ 2.5 시간)"
+    [ "$n_round" -eq 0 ] || abort "[$name] 기존 궤적 $n_round 라운드를 보존합니다. request_pipeline.py에 새 --run-dir을 지정하세요."
+    echo; echo "== $name  (새 궤적, 예상 ≈ 2.5 시간)"
     echo "+ mkdir -p $traj && $cmd 2>&1 | tee $traj/run.log"
     if [ "$DRY" != "1" ]; then
       mkdir -p "$traj"

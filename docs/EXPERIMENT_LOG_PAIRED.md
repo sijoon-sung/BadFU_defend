@@ -14,4 +14,6 @@
 참여 가중·실제 선택 후보·실행 시간을 저장한다. 소스 사후 해시와 파생 소거 결과는 `summary.json`에 있다.
 원본 체크포인트가 Temp에 있으므로 장기 재현을 위해 별도 보존이 필요하며, 이 작업은 외부로 업로드하지 않았다.
 
+2026-10-14 BadFU 추가 등록: `artifacts/badfu/imported_traj_full/manifest.json`은 위 `badfu_traj_full_local15` 원본을 해시로 연결한다(FL 재학습·원본 변경 없음). 초기 `round_0.pt[gm]`을 `initial.pt`로 보존하고, seed42/dominant.7/전체 표본으로 재구성한 실제 clean/poison/camouflage 자료를 `data.pt`로 보존했다. 원래 데이터 해시가 없으므로 과거 분할과의 완전한 동일성은 미인증이며 가중 FedAvg 일치는 검사한다. 결과는 `FUBA/logs/badfu_request/traj_full_step14_eval_fixed.json`. 별도 `artifacts/badfu/pipeline_smoke_s42`는 실제 CIFAR 자료, 무사전학습 ResNet18, 클라이언트당32개·2라운드·각1배치의 저장/실행 검사다. 이 축소 자료는 공격 효과 근거가 아니다. 큰 archive/checkpoint는 로컬에만 보존한다.
+
 완료/실패 범위와 재실행 명령은 `paper/REVISION_REPORT.md`를 따른다.

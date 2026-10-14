@@ -41,15 +41,15 @@ ap.add_argument("--out", default="logs/badfu_detect.json")
 ap.add_argument("--max_per_client", type=int, default=0,
                 help="클라이언트별 학습 샘플 상한(0=전체). bd/cv 비율은 그대로 두고 무작위 부분집합을 쓴다")
 ap.add_argument("--test_n", type=int, default=0, help="평가용 clean/bd 테스트 샘플 상한(0=전체)")
-ap.add_argument("--keep_traj", action="store_true", help="끝나고 logs/traj/*.pt 를 지우지 않는다 (unlearn_from_traj.py 용)")
+ap.add_argument("--keep_traj", action="store_true", default=True, help="호환 옵션: 궤적은 이제 항상 보존한다")
 args = ap.parse_args()
 
 device = "cuda:0" if torch.cuda.is_available() else "cpu"
 seed = args.seed
 np.random.seed(seed); import random; random.seed(seed); torch.manual_seed(seed)
 os.makedirs("logs", exist_ok=True); os.makedirs(args.traj_dir, exist_ok=True)
-for f in glob.glob(os.path.join(args.traj_dir, "*.pt")):
-    os.remove(f)
+if glob.glob(os.path.join(args.traj_dir, "*.pt")) or os.path.exists(args.out):
+    raise FileExistsError("기존 궤적/결과를 덮어쓰지 않습니다. 새 --traj_dir 및 --out을 지정하세요.")
 
 n_classes = 10
 num_clients = 5
@@ -320,7 +320,5 @@ res = {"args": vars(args), "acc_track": acc_track, "asr_track": asr_track,
        "cos_0_5": pget(cos_h,0,5), "fc_0_5": pget(fc_h,0,5), "cancel_0_5": pget(can_h,0,5),
        "active": active, "seconds": time.time()-t0}
 with open(args.out, "w") as f: json.dump(res, f, indent=2)
-# 궤적 정리(디스크 회수). --keep_traj 면 남긴다.
-if not args.keep_traj:
-    for f in glob.glob(os.path.join(args.traj_dir, "*.pt")): os.remove(f)
+# 궤적은 FU 비교에 재사용하므로 항상 보존한다.
 print(f"\nsaved: {args.out}  ({res['seconds']:.1f}s)")
