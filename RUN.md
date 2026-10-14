@@ -1,5 +1,55 @@
 # 실험 돌리기 — 2026-10-14
 
+## 개정안: 요청 조건부 상쇄 연산자와 제약 최적화
+
+명세·성질·현재 음성 결과: [TENSION_CONTROL §7](docs/paper/TENSION_CONTROL.md#7-개정-알고리즘-요청-조건부-상쇄-연산자와-제약-최적화).
+새 선택기는 원시 FL 업데이트와 요청만으로 G를 만들며 top-k·트리거·공격자 정답을 사용하지 않는다.
+η=.1은 상쇄 노출 **노름** 예산, ε=.01은 클래스별 validation CE의 nats 예산, γ=.1은 제안 방향 진행량이다. ASR·정확도·망각 비율과 다르다.
+기본값은 개발 설정이며 확증 시험의 ASR을 보고 조정하지 않는다.
+
+### 1. 기존 궤적에서 바로 실행하는 동작·기준선 비교
+
+아래 실행은 실제 보정 한 단계다. 같은 상태에서 retention_only / linear / cumulative / unsmoothed / temporal / time_shuffled를 비교하며, 기존 기능 관측 제어도 함께 기록한다.
+정상 요청8은 이 예시의 공격 설정에 대한 대조이며 다른 실험에서는 그 실험의 정상 요청자를 지정한다.
+독립 normal-only 모델과 owner 분할에서도 반복해야 정상 오탐·효용 주장을 할 수 있다.
+
+    git fetch origin refs/heads/codex/structural-latent-defense:refs/remotes/origin/codex/structural-latent-defense
+    git switch codex/structural-latent-defense
+    git pull --ff-only origin codex/structural-latent-defense
+    python -m unittest discover -s FUBA/tests -q
+    NAME=loc_k20paper_s0
+    python FUBA/experiment_tension_control.py --name "$NAME" --round 99 --requesters 4 --eval-target 8 --geometry --geometry-strengths 0 --geometry-risk-ratio .1 --out "FUBA/logs/request_geometry/$NAME-req4-local.json"
+    python FUBA/experiment_tension_control.py --name "$NAME" --round 99 --requesters 8 --eval-target 8 --geometry --geometry-strengths 0 --geometry-risk-ratio .1 --out "FUBA/logs/request_geometry/$NAME-req8-local.json"
+
+기존 경로가 다르면 --checkpoints /path/to/checkpoints --data-root /path/to/data를 더한다. 원래 seed·분할 옵션은 아래 구 실행 명세와 같다. 출력은 덮어쓰지 않는다. 관측 창20·평활1·최소 진행.1·노름 비율.25를 고정하고, 독립 실험 전에 바꿀 예산을 미리 정한다. --eval-target은 평가 전용이다.
+
+출력의 control_not_accepted는 실패로 집계한다. 해당 군의 ASR을 누락한 채 성공군만 평균내지 않는다. KKT 잔차/목적 오차 상계는 QCQP의 수치 해에 대한 검사다. backtracks, accepted_progress, actual_loss_change는 실제 수용한 갱신에 대한 값이며, risk_after·step_norm 등 solver 값은 backtracking 전일 수 있다.
+
+현재 같은 모델·99단계 결과: 요청4의 temporal/보존 제어 ASR은 모두11.14%, 요청8에서는 모두11.79%; ACC는 모두99.02%. 상쇄 노출 제약은 충족했지만 추가 방어 이득은 미확인이다. 이전 λ=1/10 벌점 실험 및 solver 보완 전 실행도 로그에 보존했다. 두 요청은 독립 시드가 아니다.
+
+### 2. 전체 FU 기록을 실제로 재구성하는 실행
+
+실행기는 FUBA/experiment_request_replay.py이다. 다음 두 자료를 **실제로 확보한 경우** 실행한다.
+
+- 진짜 학습 전 global_net_model_NAME_round_0.pkl. 이번부터 train_main.py가 저장한다. 이전 궤적에 없으면 학습 후 checkpoint를 대신 넣지 않는다. 정상 궤적도 라운드별 local 기록을 저장하도록 수정했다.
+- retained.npz: images(float32, N×1×28×28), labels(정수 N), units(정수 N, 원래 client ID). 삭제 대상은 빠지고 모든 보존 참여자의 실제 데이터가 들어 있어야 한다. 남겨야 할 poisoned/backdoor 표본도 그대로 넣는다. 깨끗한 MNIST로 바꾼 자료는 방어 효과 실험에 사용할 수 없다. 전처리·표본 선택 출처를 실험 기록에 남긴다.
+
+아카이브 작성 형식은 아래와 같다. X_retained, y_retained, client_ids_retained는 해당 실험에서 실제로 보존하는 자료다. 이 변수에 들어갈 공격 데이터를 자동 추정하거나 교체하는 코드는 아니다.
+
+    np.savez_compressed("retained.npz",
+                        images=X_retained.astype(np.float32),
+                        labels=y_retained.astype(np.int64),
+                        units=client_ids_retained.astype(np.int64))
+
+    python FUBA/experiment_request_replay.py --name "$NAME" --rounds 100 --requesters 4 --retained-archive retained.npz --eval-target 8 --out "FUBA/logs/request_geometry/$NAME-full.json"
+
+기본6군은 무방어/보존제어/선형/누적/무평활/temporal이다. 각 군이 초기 상태부터 따로 진행하며 같은 retained data와 난수 규약으로 실제 SGD 보정을 재계산한다. 실패한 replay는 즉시 중단하고 candidate_metrics를 null로 기록한다. 초기 체크포인트는 --initial로 명시할 수 있지만 진짜 학습 전 상태라는 조건은 같다.
+
+이 실행기는 MNIST/LeNet, 동일 가중 FedAvg, client 전체 삭제, 고정된 retained archive 조건이다. FUBA의 FU 중 공격자 재최적화·재주입을 자동 재현하지 않는다. 원래 BadFU의 같은 client 내부 표본 삭제와 BN 모델에는 별도 어댑터가 필요하다. 시작 모델의 안전성·초기값 진위·아카이브 내용은 파일 해시만으로 증명되지 않는다.
+forgetting_verified는 항상 false이며, 삭제 전 기록으로 만든 제어의 잔존 의존성을 별도 검증해야 한다.
+
+**전달할 결과:** 위 JSON, 데이터·요청·분할·시드·예산 명세. 다음 판정은 모든 군의 전체 FU 완료율과 ASR–ACC–최악 클래스 ACC–망각 비교다. 같은 방어 목적의 보존 데이터 재학습도 별도 기준선으로 필요하다. 현재 로컬에는 원래100라운드 궤적의 진짜 round_0 및 대응 retained archive가 없어 전체 공격 replay는 실행하지 않았다. 2라운드 PyTorch 합성 자료 통합검사로 실행 경로를 검증했고, 이를 백도어 실험으로 집계하지 않는다.
+
 ## 최신: 실제 FU 보정 단계와 관측 상한 검사
 
 [알고리즘 명세](docs/paper/TENSION_CONTROL.md), [방어 6편 + FedEraser의 다섯 항목 검토](docs/paper_reviews/05_defenses_novelty.md). `tension_control.py`와 `federaser_clientwise.py`에 실제 제어·개별 클라이언트 보정 후 집계를 구현했다. 아래의 예전 ‘제어 미구현’ 설명은 이 추가로 갱신한다. 기존 평균 후 층별 보정 파일은 과거 결과 재현용으로 보존한다.

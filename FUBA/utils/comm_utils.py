@@ -189,7 +189,7 @@ def state_dict_to_cpu(state_dict):
             cpu_state_dict[k] = v
     return cpu_state_dict
 
-def save_models(global_model_dict, local_model_dicts, backdoor_model, r, name):
+def save_models(global_model_dict, local_model_dicts, backdoor_model, r, name, metadata=None):
     """Save global, local, and backdoor model states to disk."""
     os.makedirs("checkpoints", exist_ok=True)
 
@@ -206,6 +206,10 @@ def save_models(global_model_dict, local_model_dicts, backdoor_model, r, name):
     if backdoor_model is not None:
         with open(f"checkpoints/backdoor_net_model_{name}_round_{r}.pkl", "wb") as f:
             pickle.dump(state_dict_to_cpu(backdoor_model.state_dict()), f)
+    if metadata is not None:
+        import json
+        with open(f"checkpoints/history_{name}_round_{r}.json", "w", encoding="utf-8") as f:
+            json.dump(metadata, f, ensure_ascii=False, allow_nan=False)
 
 
 def split_non_iid_concept(trainset, trainset_split, shift_ratio=0.4, seed=123):
