@@ -1,15 +1,13 @@
-# 브랜치 (2026-10-12 정리: 셋만)
+# 브랜치 안내 — 2026-10-15
+
+코드와 실험 이력을 삭제하거나 강제 덮어쓰기하지 않고 각 브랜치의 소개를 같은 연구 설명으로 정리했다.
 
 | 브랜치 | 용도 |
 |---|---|
-| `main` | 원래 기준점 (초기 탐색). 손대지 않음 |
-| **`dev`** | **작업 브랜치.** 방법·문서·제안 기법 결과. 구조는 루트 `README.md` |
-| `exp/baselines` | 기존 방법(비교군)만 자세히 돌린 결과. `FUBA/run_baselines.sh`, `docs/BASELINES.md` |
+| main | 공개 소개, 초기 코드 이력 |
+| dev | 궤적 생성 및 업로드 기록 |
+| codex/structural-latent-defense | 현재 알고리즘·실행 안내·연구 문서 정본 |
+| exp/baselines | 이전 baseline 실험 이력 |
+| exp/hedge-pilot | 이전 상쇄 가설 탐색 이력 |
 
-옛 브랜치 7 개는 지웠고 내용은 **태그**로 남아 있다 (`git tag -l`, 되살리기 `git push origin <태그>:refs/heads/<이름>`):
-`archive-2026-10-11-exp-robust-fu`, `results-2026-10-11-interim`, `archive-2026-10-09-request-aware-purification`, `archive-2026-10-07-defense-pipeline`, `archive-2026-10-07-evaluation`, `archive-2026-10-07-weighted-removal`.
-
-## 실행
-- 전부: `cd FUBA && FORCE=1 RQ="1 3" bash run_paper.sh` (자세히는 `RUN.md`)
-- 비교군만: `cd FUBA && bash run_baselines.sh`
-- 로컬(GPU PC) BadFU 이어서: `FUBA\resume_local.bat`
+과거 README는 docs/archive에 보존한다. 과거 코드가 최신 알고리즘으로 바뀌었다는 뜻은 아니다. 실행 중인 작업은 완료 후 갱신하고 사용한 커밋을 기록한다.
