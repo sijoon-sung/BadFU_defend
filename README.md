@@ -1,6 +1,6 @@
 # BadFU_defend
 
-이 브랜치(`main`)는 공개 연구 소개와 초기 실험 코드을 보존합니다. 현재 알고리즘과 정식 실행 안내는 [연구 브랜치](https://github.com/sijoon-sung/BadFU_defend/tree/codex/structural-latent-defense)에 있습니다. 문서 링크는 같은 연구 정본을 가리킵니다.
+이 브랜치(`main`)는 공개 연구 소개와 초기 실험 코드를 보존합니다. 현재 알고리즘과 정식 실행 안내는 [연구 브랜치](https://github.com/sijoon-sung/BadFU_defend/tree/codex/structural-latent-defense)에 있습니다. 문서 링크는 같은 연구 정본을 가리킵니다.
 
 FL에서 잠복하고 FU에서 활성화되는 백도어를 연구하는 실험 저장소입니다. **저장된 업데이트 이력과 삭제 요청을 함께 관측하면, 정상 non-IID 요청과 공격 활성화 위험을 단순 삭제 영향보다 더 잘 구분할 수 있는가**를 검증하고 있습니다.
 
