@@ -1,0 +1,6 @@
+{
+  "source": "FUBA/logs/trajectories/registry.json",
+  "sha256": "f5573a144293b0fe6115407dcc3ad00de7e0cdffaee6faf506be0b1cdbdf09d9",
+  "upstream_result_commit": "90d2f33",
+  "interpretation": "Descriptive development diagnostics, not detector or FU defense results."
+}
