@@ -1,5 +1,37 @@
 # 실험 돌리기 — 2026-10-14
 
+## 현재 우선순위: 탐지 판정을 먼저 확립 (2026-10-14)
+
+**이미 실행 중인 실험은 계속 진행한다. 실행 도중 작업 폴더의 코드를 갱신하거나 설정·문턱을 바꾸지 않는다.** 이번 변경은 별도 결과 판독기와 문서뿐이며, 등록된 학습·수집·점수·FU 실행기는 변경하지 않았다. 결과가 나온 뒤 독립된 분석 checkout 또는 작업 종료 후 갱신한 checkout에서 판독한다.
+
+탐지 입력은 **FU 전까지 관측한 클라이언트 업데이트 이력 + 삭제 요청**이다. 탐지 결과에 실제 FU 결과나 정답 트리거·공격 역할을 넣지 않는다. 목표는 FL→FU 잠복 공격의 활성화 위험이 있는 요청을 구분하는 것이며, 우선 기존 점수가 공격 요청과 정상 non-IID를 분리하는지 검증한다. 수학적 정의·성공/중단 기준은 [설계 §8](docs/paper/TENSION_CONTROL.md#8-탐지-우선-평가-2026-10-14)을 따른다.
+
+| 현재 실행 결과 | 이번 단계에서 말할 수 있는 것 |
+|---|---|
+| FUBA `experiment_tension.py`의 `manifest.json` + `scores.json` | 정상 보정 후 공격 요청 탐지율, 정상 에피소드 오탐률, 마지막 시점 탐지 여부. 아래 판독기로 읽는다. |
+| BadFU `request_pipeline.py`의 FL 저장 및 FU 비교 | 공격 활성화·제어 동작의 자료. **제어 불수락/성공 또는 ASR 감소를 탐지 경보로 변환하지 않는다.** 이 출력은 아래 판독기의 입력 형식이 아니다. |
+
+FUBA 실험이 **완료된 뒤**, 저장소 루트에서 실행한다. NumPy·SciPy만 필요하고 GPU·재학습·FU 호출은 없다. 서버의 `manifest.json`, `scores.json`만 같은 폴더로 복사해도 읽을 수 있다.
+
+```bash
+python FUBA/report_detection.py --experiment FUBA/logs/tension_v3/pilot
+# 이미 confirm 묶음을 실행했다면 해당 경로 사용
+# python FUBA/report_detection.py --experiment FUBA/logs/tension_v3/confirm
+```
+
+출력 `detection_report.json`은 기존 파일을 덮어쓰지 않는다. 재분석은 `--out <새 파일.json>`을 지정한다. 이 판독기는 기존 주 비교 `logprob/mean_before/window:0`, `selective_v3` 대 `linear_release`, α=.05를 유지한다. 새로운 탐지기나 자동 최적 설정 선택기가 아니다.
+
+- `clean_episode_fpr`: 정상 독립 궤적에서 등록된 어느 요청·검사 시점이라도 경보가 난 비율과 정확 이항 95% 신뢰구간.
+- `attack_splits.attack_test.requested_attack_detection_rate`: 새 공격 궤적의 **평가 대상 요청**에 경보가 난 비율. `attack_development`는 별도이며 확인 결과에 합치지 않는다.
+- `final_requested_attack_detection_rate`: 마지막 등록 시점에서 그 요청을 탐지했는가. 앞선 시점의 일시 경보와 분리한다.
+- `unrelated_only_alarm_rate`: 다른 요청만 경보가 나고 공격 요청은 놓친 비율. 공격 탐지 성공으로 세지 않는다.
+- `first_request_alarm_inspection`: 등록된 가상 요청 검사의 첫 경보 시점이며 실제 요청 시각이나 탐지 지연은 아니다.
+- `activation_validation`: 현재 점수 파일에는 대응되는 실제 FU의 활성화 정답이 없으므로 미검증이다. ASR로 검증된 위험 요청 탐지율을 만들어내지 않는다.
+
+pilot의 조건별 보정 3개로는5% 문턱을 만들 수 없어 경보·탐지율·FPR가 `null`이다. confirm의 보정19개는 유한 문턱을 만들 최소 수일 뿐이다. 정상 시험10회 중 오탐0회라도 이항95% 상한은 약30.85%이며, FPR≤5%를 실증한 것이 아니다. 두 방법의 경보를 OR로 합치거나 시험 성능이 좋은 방법을 사후 선택하면 기존 보정의 보장을 그대로 사용할 수 없다.
+
+지금 추가 학습을 시작할 필요는 없다. 먼저 실행 중인 결과의 분리를 확인한다. BadFU까지 탐지 주장을 넓히려면 같은 관측 규약으로 수집한 공격 없는 정상/비IID 궤적과 독립 공격 궤적의 사전 점수가 필요하다. 기존 ASR 비교만으로 그 자료를 대체하지 않는다.
+
 ## BadFU: 별도 궤적 보존과 개정 알고리즘 자동 비교
 
 저장소 **루트**, `codex/structural-latent-defense` 브랜치에서 실행한다. PyTorch·torchvision·NumPy·SciPy가 필요하며 MPI·timm은 필요 없다. 이 절은 CIFAR-10/ResNet-18 공개 코드의 **6클라이언트 분리형** 설정이다. 논문 본문의 같은 클라이언트 내부 표본 삭제와 구분한다.
