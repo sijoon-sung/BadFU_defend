@@ -1,3 +1,5 @@
+> **초기 구현 보관 자료 — 재현·방어 성능의 근거로 인용하지 않음.** 아래 과장된 해석은 [출처 감사](../docs/EVIDENCE_AUDIT.md)에서 정정했다. 원본을 보존하기 위해 본문은 남긴다.
+
 # BadFU Defend: Adversarial Federated Unlearning Defense Framework
 
 [![arXiv](https://img.shields.io/badge/arXiv-2508.15541-b31b1b.svg)](https://arxiv.org/abs/2508.15541)
