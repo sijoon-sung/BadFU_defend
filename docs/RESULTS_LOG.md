@@ -14,6 +14,7 @@
 | 번호 | 자료 | 실행 / 파일 | 결과와 범위 | 상태 |
 |---|---|---|---|---|
 | R-051 | 합성 점수·정상 보정 fixture, 실제 명령행 입출력 | `python -m unittest discover -s FUBA/tests -p test_report_detection.py -v`; `FUBA/report_detection.py` | 새 검사7개 통과. 잘못된 요청의 경보를 정답 탐지에서 제외, 개발/시험 분리, 일시/마지막 경보 분리, 보정 부족=null, 정확 이항 구간, 파일/차원/요청 가족 일치, JSON만으로 실행 및 덮어쓰기 거부. 새 학습·FU·성능 결과 아님 | 확정 (평가 동작) |
+| R-052 | 기존 점수 정의·합성 대조 입력 | `test_report_detection.py` 9개, `test_benchmark_tension.py` 8개 검사 통과 | `--include-controls`로 주 baseline/구성요소 대조/이전 수식을 구분. 보조 분석 추가 전후 주 비교 불변, 누락 자료의 임의 보충 거부, 단일 기록 삭제의 removed_negative=linear_release 및 공동 삭제의 차이를 검사. 실제 탐지 성능 결과 아님 | 확정 (baseline 정합성) |
 
 사용자는 실험이 실행 중이라고 알렸다. 여기서 외부 작업의 진행률이나 결과를 확인한 것은 아니며 특정 실험 번호의 완료 상태를 바꾸지 않는다. 기존 점수/학습/수집/제어와 등록 manifest 해시는 변경하지 않고 별도 판독기를 추가했다. 탐지 가설과 실제 FU 활성화 정답의 구분은 `docs/paper/TENSION_CONTROL.md` §8, 실행은 `RUN.md` 첫 절에 있다.
 

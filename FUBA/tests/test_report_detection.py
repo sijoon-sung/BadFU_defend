@@ -10,7 +10,7 @@ import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from benchmark_tension import request_family
-from report_detection import CONFIG, METHODS, build_report, rate
+from report_detection import CONFIG, METHODS, CONTROL_METHODS, build_report, rate
 
 
 def fixture(ncal=19):
@@ -44,6 +44,30 @@ def fixture(ncal=19):
 
 
 class DetectionReportTests(unittest.TestCase):
+    def test_secondary_controls_preserve_primary_and_mark_request_blind_score(self):
+        manifest, scores = fixture()
+        for score in scores:
+            analyses = score["analyses"][CONFIG]
+            for name in CONTROL_METHODS:
+                analyses[name] = copy.deepcopy(analyses["linear_release"])
+            for snap in analyses["tension_only"]["snapshots"]:
+                value = max(r["score"] for r in snap["ranking"])
+                for row in snap["ranking"]:
+                    row["score"] = value
+        primary = build_report(manifest, scores)
+        extended = build_report(manifest, scores, include_controls=True)
+        self.assertEqual(primary["groups"], extended["groups"][:2])
+        self.assertEqual(primary["primary"], extended["primary"])
+        by_name = {g["method"]: g for g in extended["groups"]}
+        self.assertEqual(set(by_name), set(METHODS + CONTROL_METHODS))
+        self.assertFalse(by_name["tension_only"]["comparison"]["request_specific"])
+        self.assertEqual(by_name["cross_v2"]["comparison"]["role"], "historical_revision")
+
+    def test_requested_controls_are_not_silently_fabricated_if_missing(self):
+        manifest, scores = fixture()
+        with self.assertRaises(KeyError):
+            build_report(manifest, scores, include_controls=True)
+
     def test_wrong_request_and_development_success_do_not_inflate_held_out_detection(self):
         manifest, scores = fixture()
         report = build_report(manifest, scores)
