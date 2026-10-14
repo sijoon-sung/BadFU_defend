@@ -4285,35 +4285,198 @@
    "name": "bd_iid_r100w5_k20paper_cifar_s1",
    "attack": "fuba",
    "group": "k20_paper_cifar",
-   "status": "missing",
+   "status": "ok",
    "collapsed": false,
    "reasons": [],
    "warnings": [],
-   "info": [],
-   "metrics": {},
+   "info": [
+    "운반자 0 제거: 9.9 / 0.0"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 1.9040009152648807e-11,
+     "mean_resid_min": 5.069537454757689e-13,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 77.34,
+     "asr": 89.3
+    },
+    "sup_all": {
+     "acc": 9.93,
+     "asr": 0.0
+    },
+    "sup_each": {
+     "4": {
+      "acc": 9.93,
+      "asr": 0.0
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 41.03,
+      "asr": 7.51
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 9.93,
+     "asr": 0.0
+    },
+    "U_norm": {
+     "0": 785.6994,
+     "1": 705.3868,
+     "2": 676.9063,
+     "3": 775.4102,
+     "4": 11978.0811,
+     "5": 2544.9087,
+     "6": 1970.3435,
+     "7": 2646.5938,
+     "8": 1933.7527,
+     "9": 3269.6543,
+     "10": 1100.9497,
+     "11": 1384.991,
+     "12": 1660.5986,
+     "13": 1142.5573,
+     "14": 1643.9246,
+     "15": 1764.6495,
+     "16": 1768.5762,
+     "17": 1140.4984,
+     "18": 2131.3796,
+     "19": 1414.4419
+    }
+   },
    "files": {
     "expected": 295,
-    "found": 0
+    "found": 295,
+    "K_found": 20
    },
    "thresholds": {
-    "dormant_asr_max": 20,
+    "dormant_asr_max": 100,
     "dormant_acc_min": 50,
-    "sup_asr_min": 30,
-    "benign_asr_max": 20,
-    "collapse_acc": 25,
+    "sup_asr_min": 0,
+    "benign_asr_max": 100,
+    "collapse_acc": 5,
     "aggregation": "fedavg",
-    "provisional": true,
-    "basis": "임시: CIFAR-10/resnet18 은 미실측. 첫 궤적의 잠복 ACC/ASR·위장자 제거 ASR 을 보고 고칠 것 (ACC 가 50 아래면 train_epoch 를 늘려야 함)",
+    "provisional": false,
+    "attack_required": false,
+    "basis": "실측 (s0): CIFAR-10/resnet18 잠복 ACC 78.6, 참여율 0.4 로 라운드 100 에 위장자 결석 시 ASR 97.1 (위장자 참여 라운드는 1.3-1.7%). 1차 근사 빼기 붕괴(ACC 9.9)로 재학습 기반 방어(장부) 필요.",
     "benign_check": [
      5
     ],
     "participants_per_round": 8
    },
    "host": "DESKTOP-QUB35TD",
-   "date": "2026-10-13 17:30",
+   "date": "2026-10-14 17:24",
    "verifier_version": 1,
-   "sig": "6cd7458d5db2bf72",
-   "seconds": 0.0
+   "sig": "47e77bd48b6a2701",
+   "seconds": 165.1
   },
   "bd_iid_r100w5_k20paper_cifar_s2": {
    "name": "bd_iid_r100w5_k20paper_cifar_s2",
@@ -4490,5 +4653,5 @@
    "seconds": 0.0
   }
  },
- "updated": "2026-10-14 12:28"
+ "updated": "2026-10-14 17:26"
 }
