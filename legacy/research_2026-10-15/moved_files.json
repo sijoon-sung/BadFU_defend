@@ -1,0 +1,295 @@
+{
+  "source_commit": "4c4c38f19d969fa776f75064a112543d8ce2657d",
+  "files": [
+    {
+      "from": "FUBA/aggregate_adaptive.py",
+      "to": "legacy/research_2026-10-15/FUBA/aggregate_adaptive.py",
+      "sha256": "95d0040c4a2aff1771cc7e9c0442bfe5646e5f447e23b7a905b486a80abeec1c"
+    },
+    {
+      "from": "FUBA/aggregate_baselines.py",
+      "to": "legacy/research_2026-10-15/FUBA/aggregate_baselines.py",
+      "sha256": "9745fec4e1483389a2225bb9b03a24166e5a4552f735967945bb11dd4c1b0819"
+    },
+    {
+      "from": "FUBA/aggregate_benign_departure.py",
+      "to": "legacy/research_2026-10-15/FUBA/aggregate_benign_departure.py",
+      "sha256": "bba226c5ee306946bb251b58d867bb4fa25f8d95cece049f12a4602cc6b892a4"
+    },
+    {
+      "from": "FUBA/aggregate_cancel.py",
+      "to": "legacy/research_2026-10-15/FUBA/aggregate_cancel.py",
+      "sha256": "d6dca3692a1178f3d20f912b361c438e36abd571273ee49cd4a2f69f90f0c0f6"
+    },
+    {
+      "from": "FUBA/aggregate_detect_bench.py",
+      "to": "legacy/research_2026-10-15/FUBA/aggregate_detect_bench.py",
+      "sha256": "32988c16d717925075341b49ea3623a918f72356ba07fbee92a5a7c5d8253023"
+    },
+    {
+      "from": "FUBA/aggregate_dose_fu.py",
+      "to": "legacy/research_2026-10-15/FUBA/aggregate_dose_fu.py",
+      "sha256": "70941e42b2b73bac84a051df09dd50cb8b9b14d548345a472acc999e5c4d8dca"
+    },
+    {
+      "from": "FUBA/aggregate_effects.py",
+      "to": "legacy/research_2026-10-15/FUBA/aggregate_effects.py",
+      "sha256": "ddcb6dd0ad5815a04d5095573858d74d2a4dd7158246714b683b717ed7d8ffd2"
+    },
+    {
+      "from": "FUBA/aggregate_latent_risk.py",
+      "to": "legacy/research_2026-10-15/FUBA/aggregate_latent_risk.py",
+      "sha256": "95ff5efdd908a9bde9a994efffb40d9bd25e3d7f2e0599d83afa3b711453751b"
+    },
+    {
+      "from": "FUBA/aggregate_pair_roles.py",
+      "to": "legacy/research_2026-10-15/FUBA/aggregate_pair_roles.py",
+      "sha256": "77865f5b0428dcc552563cf957e7d0c979d5a5c6f8184965cfd705d195cd1bdf"
+    },
+    {
+      "from": "FUBA/aggregate_release_map.py",
+      "to": "legacy/research_2026-10-15/FUBA/aggregate_release_map.py",
+      "sha256": "4d53bad3bea51d3d57549dcd6efc654166e6c59d1fe18353bfbe9f26a12589f9"
+    },
+    {
+      "from": "FUBA/aggregate_robust_fu.py",
+      "to": "legacy/research_2026-10-15/FUBA/aggregate_robust_fu.py",
+      "sha256": "1923cd585f250c15441e121a04054cf1e7fe4bd273a4001197cc09368ca11050"
+    },
+    {
+      "from": "FUBA/aggregate_unified.py",
+      "to": "legacy/research_2026-10-15/FUBA/aggregate_unified.py",
+      "sha256": "e38e192583cf20e44b57643a51fcb6eb48fa661541a930ab3b197c31da621328"
+    },
+    {
+      "from": "FUBA/analysis_equilibrium.py",
+      "to": "legacy/research_2026-10-15/FUBA/analysis_equilibrium.py",
+      "sha256": "aee6c0c3613de1f6f7b0f2d62f6c5ec5d170a796a177eaf9d89006efa5628dd0"
+    },
+    {
+      "from": "FUBA/analysis_hedge.py",
+      "to": "legacy/research_2026-10-15/FUBA/analysis_hedge.py",
+      "sha256": "7069eb324294bf942536775925187a000bec58d6052e100abeae72d72c47f26b"
+    },
+    {
+      "from": "FUBA/analysis_tradeoff.py",
+      "to": "legacy/research_2026-10-15/FUBA/analysis_tradeoff.py",
+      "sha256": "de997c8eab01985da099667cb5499cdae8c469f5d6f25d425d833553d6b4aff5"
+    },
+    {
+      "from": "FUBA/analysis_update_stats.py",
+      "to": "legacy/research_2026-10-15/FUBA/analysis_update_stats.py",
+      "sha256": "02e978bc61dad7731f84eefb2d0840eea1bd7f986e8600087307bdbcba378b69"
+    },
+    {
+      "from": "FUBA/antidote.py",
+      "to": "legacy/research_2026-10-15/FUBA/antidote.py",
+      "sha256": "02cc23b2faf5f2adf2f49ae5a9161580b8d27f02db6ab6a16462577293f0da79"
+    },
+    {
+      "from": "FUBA/attack_sim.py",
+      "to": "legacy/research_2026-10-15/FUBA/attack_sim.py",
+      "sha256": "40dd38f1dc86b88a5b2524624ea5ad1d9a6453d505f108e80794ab7985f0c1f6"
+    },
+    {
+      "from": "FUBA/baseline_gate.py",
+      "to": "legacy/research_2026-10-15/FUBA/baseline_gate.py",
+      "sha256": "5a5e9d5e8641d6a108217b0bb9e05362b8ab664b1af591e319e778e3b9c9db0e"
+    },
+    {
+      "from": "FUBA/baseline_masa.py",
+      "to": "legacy/research_2026-10-15/FUBA/baseline_masa.py",
+      "sha256": "d41bf305fc8ee8d210273a5eebfd2e404462390d9bf451e4c60a0e3165e67940"
+    },
+    {
+      "from": "FUBA/baseline_subid.py",
+      "to": "legacy/research_2026-10-15/FUBA/baseline_subid.py",
+      "sha256": "1ce0d50ee38a61a21941eae64a5c70edff2250ffd7d0155ace01deab22662ced"
+    },
+    {
+      "from": "FUBA/bench_release_map.py",
+      "to": "legacy/research_2026-10-15/FUBA/bench_release_map.py",
+      "sha256": "5d98c8bdc63d2df8b24700a9c706aadf95e9a6a1241afa4987b325725234aaac"
+    },
+    {
+      "from": "FUBA/cancel_fu.py",
+      "to": "legacy/research_2026-10-15/FUBA/cancel_fu.py",
+      "sha256": "99cd98da04ac2614870482a0a413e5da5a88d54fe90884104ea17edf078f6e24"
+    },
+    {
+      "from": "FUBA/detect_bench.py",
+      "to": "legacy/research_2026-10-15/FUBA/detect_bench.py",
+      "sha256": "40fdcc350c36475af57125184e9a0bf32509e387a16a6bac71b1b16ad8491bf1"
+    },
+    {
+      "from": "FUBA/dose_fu.py",
+      "to": "legacy/research_2026-10-15/FUBA/dose_fu.py",
+      "sha256": "a79942e0f9a4603908668ad3c231c4febd53c6ab819d0b60758344584369bba0"
+    },
+    {
+      "from": "FUBA/effects.py",
+      "to": "legacy/research_2026-10-15/FUBA/effects.py",
+      "sha256": "2e1b337dc577537eed220df5cfef4c82865fdafa6ac4e02bba1db0c60307189d"
+    },
+    {
+      "from": "FUBA/evaluate_paired.py",
+      "to": "legacy/research_2026-10-15/FUBA/evaluate_paired.py",
+      "sha256": "42502efa1cac6d3b7319592b09cbd9d25ab2d5020e786fa5eabf1d5b7baba3a4"
+    },
+    {
+      "from": "FUBA/existing_guard_components.py",
+      "to": "legacy/research_2026-10-15/FUBA/existing_guard_components.py",
+      "sha256": "babe5f01f5f93f2628f37322a1197cb529b618e2d6b4801100c314f3703e8a8c"
+    },
+    {
+      "from": "FUBA/experiment_paired.py",
+      "to": "legacy/research_2026-10-15/FUBA/experiment_paired.py",
+      "sha256": "eb3a4fe65aa3ff679865287493eb0ab41e9e85ae15ba1520448b8843ee042f51"
+    },
+    {
+      "from": "FUBA/experiment_response.py",
+      "to": "legacy/research_2026-10-15/FUBA/experiment_response.py",
+      "sha256": "7d6700a721dc82f107c05b8c7008d721bb6d605489fbbac24432f779155682e5"
+    },
+    {
+      "from": "FUBA/latent_risk.py",
+      "to": "legacy/research_2026-10-15/FUBA/latent_risk.py",
+      "sha256": "c061d1ff295c38f31b786ff7b1ad9cf8806df0fe55c91b987d463066e278cf8b"
+    },
+    {
+      "from": "FUBA/ledger_defense.py",
+      "to": "legacy/research_2026-10-15/FUBA/ledger_defense.py",
+      "sha256": "418165f38d5f84d8b7ed418f86b5d3a48c9b6b4cf9c7aa20ca14bc9f7a350e13"
+    },
+    {
+      "from": "FUBA/ledger_rules.py",
+      "to": "legacy/research_2026-10-15/FUBA/ledger_rules.py",
+      "sha256": "6e7a2541441e5868b05c0aea75b889b62cb61d57b7ed65bd3c4f198c65006df6"
+    },
+    {
+      "from": "FUBA/paired_audit.py",
+      "to": "legacy/research_2026-10-15/FUBA/paired_audit.py",
+      "sha256": "8d8384f884a8b9eab764c2a7daaecb7f7990b8d194686a8403aa9899d67d6d51"
+    },
+    {
+      "from": "FUBA/pair_roles.py",
+      "to": "legacy/research_2026-10-15/FUBA/pair_roles.py",
+      "sha256": "1dbff1f8355a19db281528cf778dfe68f3995ca4bb116805f4f88e0b8dcbb6c7"
+    },
+    {
+      "from": "FUBA/paper_tables.py",
+      "to": "legacy/research_2026-10-15/FUBA/paper_tables.py",
+      "sha256": "8074d213a4fde01ac0fd6a3462e1be4803a2d8201abe1b6902c12dfbb039fef2"
+    },
+    {
+      "from": "FUBA/response_audit.py",
+      "to": "legacy/research_2026-10-15/FUBA/response_audit.py",
+      "sha256": "20aa6b539606dc362e59a30f06ea2788b4782f987ba7a7c346d3e4b8106a219e"
+    },
+    {
+      "from": "FUBA/run_structural_guard.py",
+      "to": "legacy/research_2026-10-15/FUBA/run_structural_guard.py",
+      "sha256": "2f0040a4d9d81a9bcf33bd6a297e0d7727bb0d33dd4db21ad240eac7e1963178"
+    },
+    {
+      "from": "FUBA/schedule_fu.py",
+      "to": "legacy/research_2026-10-15/FUBA/schedule_fu.py",
+      "sha256": "30c94f8e2bbecc9cfac41fcd259328cbad364d2f4b49066f9a10661c99b934c6"
+    },
+    {
+      "from": "FUBA/structural_guard.py",
+      "to": "legacy/research_2026-10-15/FUBA/structural_guard.py",
+      "sha256": "e5f6fd686e576ef2117195e3f3463eacee3a53eb63096510be8aa6c197c4e655"
+    },
+    {
+      "from": "FUBA/summarize_paired.py",
+      "to": "legacy/research_2026-10-15/FUBA/summarize_paired.py",
+      "sha256": "cf769ff33dc2b36510d188b9a1e5e3667e88fc3b0f556419dcba7f82bc1ecc38"
+    },
+    {
+      "from": "FUBA/summarize_response.py",
+      "to": "legacy/research_2026-10-15/FUBA/summarize_response.py",
+      "sha256": "c90ba025cbdd70e7ffac2ee873f6eeaf370f6568d19039240c2b301bf8c9fbf1"
+    },
+    {
+      "from": "FUBA/trace_solver.py",
+      "to": "legacy/research_2026-10-15/FUBA/trace_solver.py",
+      "sha256": "4a68b410f6c219a0ed490f97a3a414a62aca49e10c5bba3f81534fc70992c426"
+    },
+    {
+      "from": "FUBA/traj_indicators.py",
+      "to": "legacy/research_2026-10-15/FUBA/traj_indicators.py",
+      "sha256": "133bbc4db2acac064ec537fcc1855a427002024595a38e7f98fe0f5fc6ab5e9c"
+    },
+    {
+      "from": "FUBA/unified_fu.py",
+      "to": "legacy/research_2026-10-15/FUBA/unified_fu.py",
+      "sha256": "ce6994b2f7b13938d76aa27b0632a6b1093cd61e210651af661c02f5ce6a5063"
+    },
+    {
+      "from": "FUBA/run_a02.sh",
+      "to": "legacy/research_2026-10-15/FUBA/run_a02.sh",
+      "sha256": "d955bfafee318ec9047c4a3120015bc9fa0b5d503b25f764acd4de040f2bb624"
+    },
+    {
+      "from": "FUBA/run_all.sh",
+      "to": "legacy/research_2026-10-15/FUBA/run_all.sh",
+      "sha256": "e52017dc5c742b9fa4cf758d9a02d407df91eb5f36e4067bde7ac3b3621e31e3"
+    },
+    {
+      "from": "FUBA/run_detect_bench.sh",
+      "to": "legacy/research_2026-10-15/FUBA/run_detect_bench.sh",
+      "sha256": "9ed54db2c6026a222e2ec66fc882ea02f152c52a4a82ae91709c8d8174f2a989"
+    },
+    {
+      "from": "FUBA/run_ledger.sh",
+      "to": "legacy/research_2026-10-15/FUBA/run_ledger.sh",
+      "sha256": "f34c3e5f605a25eee454e6b1e6ffd317c777573cc778828a1eeaddfa42533fe5"
+    },
+    {
+      "from": "FUBA/run_paper.sh",
+      "to": "legacy/research_2026-10-15/FUBA/run_paper.sh",
+      "sha256": "36d1b447b7c6f72d58abccc696c95309c645b56fa61c92cafcfc227c7a72e1fd"
+    },
+    {
+      "from": "FUBA/run_r010_excl.sh",
+      "to": "legacy/research_2026-10-15/FUBA/run_r010_excl.sh",
+      "sha256": "49a0fb45b660d6730a209438ed3df1d9d98b2370521745b9c70215634dde565a"
+    },
+    {
+      "from": "FUBA/resume_local.bat",
+      "to": "legacy/research_2026-10-15/FUBA/resume_local.bat",
+      "sha256": "250d58a1609307e9207ecea5c8367c502d9316b756ebeeab737e287ca7d14f74"
+    },
+    {
+      "from": "FUBA/local_resume.bat",
+      "to": "legacy/research_2026-10-15/FUBA/local_resume.bat",
+      "sha256": "dd9b1313d029c8d48a5491b5942861b34193a98ffe536a162fa453c5ff99e68d"
+    },
+    {
+      "from": "FUBA/tests/test_paired_audit.py",
+      "to": "legacy/research_2026-10-15/FUBA/tests/test_paired_audit.py",
+      "sha256": "39a6b6f0526ab86726f75673b1da73ad01f68db8c2d8019c925f549bde976575"
+    },
+    {
+      "from": "FUBA/tests/test_response_audit.py",
+      "to": "legacy/research_2026-10-15/FUBA/tests/test_response_audit.py",
+      "sha256": "2e23705b489964fffc38690a9af932ac56b8c5c61761e5a8322ad086cf287e1f"
+    },
+    {
+      "from": "FUBA/tests/test_structural_guard.py",
+      "to": "legacy/research_2026-10-15/FUBA/tests/test_structural_guard.py",
+      "sha256": "d18d3d484a6602b53a802854882f5ac198e5a01a9fe84e4e278d3cb653da3d8d"
+    },
+    {
+      "from": "local_resume.bat",
+      "to": "legacy/research_2026-10-15/local_resume.bat",
+      "sha256": "a9ee1d2f163c5bb31c461f54d3aeba91045c9f58b7d7011293ef2b4ce84dc692"
+    },
+    {
+      "from": "watch_gpu_and_resume.ps1",
+      "to": "legacy/research_2026-10-15/watch_gpu_and_resume.ps1",
+      "sha256": "7dcc9f396050a19e7b0fe74ce1ac52202fc8b6ff6db69497bde8d1dd91482963"
+    }
+  ]
+}
