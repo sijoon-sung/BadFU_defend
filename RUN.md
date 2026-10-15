@@ -87,6 +87,36 @@ BadFU 기존 궤적의 경로는 `artifacts/badfu/<run>/manifest.json`에 있습
 
 ## 저장된 BadFU FU 모델과 탐지 결과 연결
 
+### 입력 조건과 정상 기준 방향 실험
+
+저장된 FL 궤적만 읽습니다. 같은 정상 입력 80개에 대해 원본·정답 트리거(진단 전용)·밝기·좌우 반전·네 모서리의 고정 무작위 4×4 패턴을 비교합니다. 정답 트리거는 기존 공격 입력 512개와 정확히 일치하는지 확인합니다. 알려진 표적이나 트리거는 blind 패턴 생성 및 기준선 적합에 사용하지 않습니다.
+
+```bash
+python FUBA/experiment_hrac_views.py run --manifest artifacts/badfu/imported_traj_full/manifest.json --record-root /path/to/record/badnet_dataset --data-root /path/to/cifar10 --out FUBA/logs/hrac/my_badfu_views --rounds 15
+```
+
+`--data-root`는 `cifar-10-batches-py`의 상위 디렉터리입니다. `--record-root`에는 이 실행의 `pert_result.pt`와 공격 이미지가 있어야 합니다. 기존 출력 디렉터리는 덮어쓰지 않습니다. `protocol.json`은 모델 응답을 측정하기 전에 저장합니다. 다른 궤적에 적용할 때도 데이터·분할·트리거 출처가 맞아야 합니다.
+
+실제 양의 업데이트 효과와 Jacobian-vector product를 별도로 기록합니다. 정상 기준 방향은 관측 입력과 겹치지 않는 깨끗한 이미지 80개(클래스당 8개)의 손실 그래디언트 10개입니다. 기준선 계수는 깨끗한 관측 입력 절반에서 맞추고 다른 절반의 모든 조건에서 평가한 뒤 교차합니다. 이는 정상 한 단계 학습의 부분공간 근사이며, 독립적인 정상 궤적 보정을 대체하지 않습니다. 클라이언트 역할·FU 후 ASR·oracle 반응으로 기준선을 적합하지 않습니다.
+
+분석은 원시 효과/입력 쌍 차이 × 유한 업데이트/JVP/정상 기준 보정 × log-probability/centered logit을 모두 남깁니다. 사후에 좋은 설정만 골라 확증 성능으로 제시하지 않습니다. 로컬 정상 MNIST 기록은 CIFAR-10/ResNet-18 보정군으로 사용하지 않습니다. 독립적인 동일 조건 정상 실행이 확보되기 전에는 FPR·TPR을 보고하지 않습니다.
+
+다른 입력 80개와 새 패턴 3개에서 후속 확인을 실행합니다. 각 패턴은 네 모서리를 모두 검사합니다. 초기 실험을 본 뒤 정한 후속 실험이며, 같은 학습 궤적을 쓰므로 독립 공격 재현으로 세지 않습니다. 초기 관측 입력·정상 기준 이미지와의 ID 중복을 검사합니다.
+
+```bash
+python FUBA/validate_hrac_views.py --manifest artifacts/badfu/imported_traj_full/manifest.json --record-root /path/to/record/badnet_dataset --data-root /path/to/cifar10 --out FUBA/logs/hrac/my_badfu_views_holdout
+python FUBA/plot_hrac_views.py --initial FUBA/logs/hrac/my_badfu_views/analysis.json --heldout FUBA/logs/hrac/my_badfu_views_holdout/analysis.json --out /path/to/new_probe_comparison
+python FUBA/compare_hrac_views.py --initial FUBA/logs/hrac/my_badfu_views --heldout FUBA/logs/hrac/my_badfu_views_holdout --out FUBA/logs/hrac/my_views_score_ablation.json
+```
+
+완료 자료: [초기 프로토콜](FUBA/logs/hrac/views_badfu_v1/protocol.json) · [초기 결과](FUBA/logs/hrac/views_badfu_v1/analysis.json) · [후속 프로토콜](FUBA/logs/hrac/views_holdout_v1/protocol.json) · [후속 결과](FUBA/logs/hrac/views_holdout_v1/analysis.json) · [그래프](docs/figures/hrac_probe_comparison.png). 초기 수집 118.3초, 후속 수집 32.3초(RTX 4060 Laptop GPU). 같은 centered-logit 좌표에서 깨끗한 입력과 패턴 원시 반응은 요청자 5를 6위로 뒀고, 패턴 유무 차이는 1위·표적 0으로 뒀습니다. 후속 세 패턴도 각각 1위였습니다. 한 궤적의 결과이며, 네 위치 중 실제 트리거 영역을 덮는 패턴이 포함되어 있습니다.
+
+명령의 `manifest`는 원본 체크포인트·데이터의 로컬 경로와 해시를 참조합니다. 다른 PC에서는 기존 파일을 덮어쓰지 않고 복사본 manifest의 경로만 해당 PC에 맞춥니다. 저장소에 포함한 기능 응답 캐시와 분석 JSON은 원본 모델 없이 읽을 수 있습니다.
+
+[같은 관측의 기준선 비교](FUBA/logs/hrac/views_score_ablation_v1.json)에서는 단순 누적 음의 기여와 마지막 한 라운드도 요청자 5를 1위로 뒀습니다. 따라서 새 관측의 개선을 HRAC 점수 자체의 우월성이나 긴 이력의 필요성으로 바꾸어 주장하지 않습니다. 비교기는 모델을 실행하지 않고 저장된 응답 캐시만 읽습니다.
+
+### 저장 FU 결과의 사후 재평가
+
 다음 명령은 기존 탐지 캐시와 FU 결과의 manifest를 연결하고 모델 해시 및 ASR·정확도를 다시 확인합니다. 학습과 FU를 새로 실행하지 않습니다. manifest가 참조하는 로컬 궤적, 데이터 및 FU 체크포인트가 필요합니다.
 
 ```bash
@@ -103,7 +133,7 @@ python FUBA/diagnose_hrac_badfu.py --out FUBA/logs/hrac/my_badfu_retrospective.j
 python -m unittest discover -s FUBA/tests -q
 ```
 
-기존 테스트 76개와 HRAC 검증 19개를 포함해 95개가 통과했습니다. 과거 알고리즘에 딸린 테스트 3개 파일은 코드와 함께 보관했습니다. 테스트 통과를 탐지 성능으로 세지 않습니다.
+기존 테스트 76개, HRAC 검증 19개, 관측·정상 기준 적합 검증 3개를 포함해 98개가 통과했습니다. 과거 알고리즘에 딸린 테스트 3개 파일은 코드와 함께 보관했습니다. 테스트 통과를 탐지 성능으로 세지 않습니다.
 
 완료된 `manifest.json`과 `scores.json`이 있을 때만 다음 판독기를 사용합니다.
 
