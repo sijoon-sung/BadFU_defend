@@ -8,6 +8,7 @@
 | 현재 탐지 비교 | `tension_audit.py`, `benchmark_tension.py`, `replay_tension.py`, `experiment_tension.py`, `report_detection.py` |
 | 이력–요청 기여 일관성(HRAC) | `hrac.py`, `experiment_hrac.py` — 제약 최적화, 기존 궤적 재사용, 정상 실행 보정 |
 | BadFU 관측 비교 | `experiment_hrac_views.py` — 깨끗한 입력·진단 트리거·고정 무작위 패턴과 정상 기준 방향 비교 |
+| 라벨 없는 BadFU 관측 | `experiment_hrac_unlabeled.py` — 이미지 폴더/픽셀 전용 입력, 무작위 선별, 단순 기준선, 라운드별 저장·재시작 |
 | 관측 비교 후속 확인·그래프 | `validate_hrac_views.py`, `plot_hrac_views.py` — 분리한 이미지·새 패턴, 전체 클라이언트 점수 그림 |
 | 같은 관측의 점수 기준선 | `compare_hrac_views.py` — HRAC·단순 음의 기여·절댓값·마지막 라운드를 같은 캐시에서 비교 |
 | 기존 FU 결과 연결 | `diagnose_hrac_badfu.py` — 저장 모델과 이력 캐시의 출처 및 ASR 재평가 |

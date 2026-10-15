@@ -1,0 +1,543 @@
+{
+  "schema": 1,
+  "method": "label-free paired positive-update responses",
+  "code_sha256": "4714f4fc618d374372c2c75118818e538c8d9a5f958a7c505786576f6c03285f",
+  "dependencies": {
+    "BadFU_src\\BadFU-main\\request_pipeline.py": "1077c44a17823e6cafc34f6ea3e4a12456c94064ff20edc1902c50eca23d6890",
+    "BadFU_src\\BadFU-main\\badfu_common.py": "24fb201cef04e5869b781d0c9715a4718ffc05e1b64c629d581141d292bd75be",
+    "FUBA\\hrac.py": "7300992a31c0485bfed9671617bf9ded3c8ef89fcfc86388e4abb1b83ee68d91",
+    "FUBA\\tension_audit.py": "dde21b4adfa54ceeb4ac96c5fcd534a4a982a8e340608d37acf2b74315728cf3"
+  },
+  "manifest_sha256": "b79ad5097601b53449bf7ee0ec62c45b14d159c3646971bd2de1a9b38814ec49",
+  "pool_sha256": "42a0cbb7fb30b970bcf6b5633f9f4b9404ccf167f74134017282dfc7d9f34e02",
+  "probe_ids": [
+    [
+      "cifar10:test:5137",
+      "cifar10:test:1051",
+      "cifar10:test:6922",
+      "cifar10:test:5802",
+      "cifar10:test:3937",
+      "cifar10:test:2064",
+      "cifar10:test:5332",
+      "cifar10:test:521",
+      "cifar10:test:5716",
+      "cifar10:test:2796",
+      "cifar10:test:2573",
+      "cifar10:test:2095",
+      "cifar10:test:9858",
+      "cifar10:test:1152",
+      "cifar10:test:7877",
+      "cifar10:test:6841",
+      "cifar10:test:2062",
+      "cifar10:test:9266",
+      "cifar10:test:6599",
+      "cifar10:test:6422",
+      "cifar10:test:865",
+      "cifar10:test:1870",
+      "cifar10:test:3552",
+      "cifar10:test:9935",
+      "cifar10:test:3646",
+      "cifar10:test:7346",
+      "cifar10:test:9027",
+      "cifar10:test:7887",
+      "cifar10:test:4469",
+      "cifar10:test:4680",
+      "cifar10:test:4092",
+      "cifar10:test:3011",
+      "cifar10:test:3982",
+      "cifar10:test:3796",
+      "cifar10:test:4711",
+      "cifar10:test:3324",
+      "cifar10:test:983",
+      "cifar10:test:430",
+      "cifar10:test:5418",
+      "cifar10:test:1828",
+      "cifar10:test:5328",
+      "cifar10:test:2219",
+      "cifar10:test:5304",
+      "cifar10:test:3443",
+      "cifar10:test:7390",
+      "cifar10:test:9522",
+      "cifar10:test:3964",
+      "cifar10:test:2159",
+      "cifar10:test:3068",
+      "cifar10:test:9419",
+      "cifar10:test:9335",
+      "cifar10:test:4540",
+      "cifar10:test:9206",
+      "cifar10:test:825",
+      "cifar10:test:7355",
+      "cifar10:test:1674",
+      "cifar10:test:8725",
+      "cifar10:test:6064",
+      "cifar10:test:5549",
+      "cifar10:test:3081",
+      "cifar10:test:5011",
+      "cifar10:test:4993",
+      "cifar10:test:2122",
+      "cifar10:test:8656",
+      "cifar10:test:4228",
+      "cifar10:test:2686",
+      "cifar10:test:3015",
+      "cifar10:test:622",
+      "cifar10:test:936",
+      "cifar10:test:1398",
+      "cifar10:test:7258",
+      "cifar10:test:3882",
+      "cifar10:test:6185",
+      "cifar10:test:3773",
+      "cifar10:test:6304",
+      "cifar10:test:4150",
+      "cifar10:test:5619",
+      "cifar10:test:3762",
+      "cifar10:test:8933",
+      "cifar10:test:1633"
+    ],
+    [
+      "cifar10:test:6899",
+      "cifar10:test:5202",
+      "cifar10:test:4910",
+      "cifar10:test:3854",
+      "cifar10:test:5869",
+      "cifar10:test:4796",
+      "cifar10:test:8926",
+      "cifar10:test:2462",
+      "cifar10:test:4584",
+      "cifar10:test:4037",
+      "cifar10:test:6934",
+      "cifar10:test:3879",
+      "cifar10:test:8534",
+      "cifar10:test:4646",
+      "cifar10:test:1713",
+      "cifar10:test:7160",
+      "cifar10:test:9884",
+      "cifar10:test:5545",
+      "cifar10:test:7675",
+      "cifar10:test:2220",
+      "cifar10:test:8051",
+      "cifar10:test:8779",
+      "cifar10:test:4940",
+      "cifar10:test:9385",
+      "cifar10:test:2890",
+      "cifar10:test:9116",
+      "cifar10:test:5250",
+      "cifar10:test:8507",
+      "cifar10:test:2709",
+      "cifar10:test:5931",
+      "cifar10:test:7321",
+      "cifar10:test:6666",
+      "cifar10:test:7448",
+      "cifar10:test:829",
+      "cifar10:test:3838",
+      "cifar10:test:9211",
+      "cifar10:test:7459",
+      "cifar10:test:5423",
+      "cifar10:test:8485",
+      "cifar10:test:2167",
+      "cifar10:test:9898",
+      "cifar10:test:7056",
+      "cifar10:test:4674",
+      "cifar10:test:8662",
+      "cifar10:test:6407",
+      "cifar10:test:8055",
+      "cifar10:test:8187",
+      "cifar10:test:6255",
+      "cifar10:test:7351",
+      "cifar10:test:1835",
+      "cifar10:test:629",
+      "cifar10:test:7104",
+      "cifar10:test:8574",
+      "cifar10:test:9771",
+      "cifar10:test:698",
+      "cifar10:test:565",
+      "cifar10:test:4018",
+      "cifar10:test:4405",
+      "cifar10:test:5042",
+      "cifar10:test:7790",
+      "cifar10:test:9178",
+      "cifar10:test:3653",
+      "cifar10:test:1536",
+      "cifar10:test:7290",
+      "cifar10:test:1318",
+      "cifar10:test:9979",
+      "cifar10:test:4136",
+      "cifar10:test:424",
+      "cifar10:test:9023",
+      "cifar10:test:4076",
+      "cifar10:test:6136",
+      "cifar10:test:1118",
+      "cifar10:test:872",
+      "cifar10:test:6819",
+      "cifar10:test:5808",
+      "cifar10:test:7550",
+      "cifar10:test:7009",
+      "cifar10:test:5227",
+      "cifar10:test:6408",
+      "cifar10:test:3731"
+    ],
+    [
+      "cifar10:test:560",
+      "cifar10:test:4594",
+      "cifar10:test:316",
+      "cifar10:test:5911",
+      "cifar10:test:8637",
+      "cifar10:test:2950",
+      "cifar10:test:5147",
+      "cifar10:test:2997",
+      "cifar10:test:3618",
+      "cifar10:test:3046",
+      "cifar10:test:5168",
+      "cifar10:test:2190",
+      "cifar10:test:5908",
+      "cifar10:test:1279",
+      "cifar10:test:1815",
+      "cifar10:test:8022",
+      "cifar10:test:9356",
+      "cifar10:test:1923",
+      "cifar10:test:615",
+      "cifar10:test:6104",
+      "cifar10:test:2349",
+      "cifar10:test:7797",
+      "cifar10:test:4886",
+      "cifar10:test:1486",
+      "cifar10:test:8645",
+      "cifar10:test:612",
+      "cifar10:test:488",
+      "cifar10:test:5292",
+      "cifar10:test:311",
+      "cifar10:test:9046",
+      "cifar10:test:743",
+      "cifar10:test:7541",
+      "cifar10:test:356",
+      "cifar10:test:5572",
+      "cifar10:test:9066",
+      "cifar10:test:2383",
+      "cifar10:test:3489",
+      "cifar10:test:5797",
+      "cifar10:test:4835",
+      "cifar10:test:2555",
+      "cifar10:test:6301",
+      "cifar10:test:2334",
+      "cifar10:test:1482",
+      "cifar10:test:352",
+      "cifar10:test:4687",
+      "cifar10:test:8794",
+      "cifar10:test:7283",
+      "cifar10:test:2370",
+      "cifar10:test:3465",
+      "cifar10:test:8723",
+      "cifar10:test:4103",
+      "cifar10:test:8641",
+      "cifar10:test:9540",
+      "cifar10:test:2441",
+      "cifar10:test:5764",
+      "cifar10:test:3889",
+      "cifar10:test:6737",
+      "cifar10:test:3792",
+      "cifar10:test:8917",
+      "cifar10:test:7054",
+      "cifar10:test:8191",
+      "cifar10:test:2120",
+      "cifar10:test:7660",
+      "cifar10:test:6981",
+      "cifar10:test:5766",
+      "cifar10:test:5798",
+      "cifar10:test:6973",
+      "cifar10:test:7682",
+      "cifar10:test:1092",
+      "cifar10:test:3188",
+      "cifar10:test:2321",
+      "cifar10:test:7260",
+      "cifar10:test:6604",
+      "cifar10:test:3737",
+      "cifar10:test:1760",
+      "cifar10:test:4374",
+      "cifar10:test:8148",
+      "cifar10:test:3958",
+      "cifar10:test:773",
+      "cifar10:test:6796"
+    ]
+  ],
+  "probe_seeds": [
+    20261019,
+    20261020,
+    20261021
+  ],
+  "probe_size": 80,
+  "pattern_seeds": [
+    20261019,
+    20261020,
+    20261021
+  ],
+  "patch_size": 4,
+  "views": [
+    "clean",
+    "pattern_20261019_tl",
+    "pattern_20261019_tr",
+    "pattern_20261019_bl",
+    "pattern_20261019_br",
+    "pattern_20261020_tl",
+    "pattern_20261020_tr",
+    "pattern_20261020_bl",
+    "pattern_20261020_br",
+    "pattern_20261021_tl",
+    "pattern_20261021_tr",
+    "pattern_20261021_bl",
+    "pattern_20261021_br"
+  ],
+  "families": {
+    "pattern_20261019": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "pattern_20261020": [
+      5,
+      6,
+      7,
+      8
+    ],
+    "pattern_20261021": [
+      9,
+      10,
+      11,
+      12
+    ],
+    "all_patterns": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ]
+  },
+  "source_rounds": [
+    {
+      "event": 0,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_0.pt",
+        "sha256": "80a5c619ea1bff7ad1058aa25911a4c5190044c580c714438c30f7c6e27ab549"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_0.pt",
+        "sha256": "a82814c09f43bcfc34ce0e32d881eac81ab911943ebcee35b9cb3b8ae769ba4f"
+      }
+    },
+    {
+      "event": 1,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_1.pt",
+        "sha256": "0b3bd07c0f220f0c08270100ec6a6ee4456d891ca86034b40475a2fa3caba1de"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_1.pt",
+        "sha256": "ed499727d0d9993f1cb7c6419cdadeaa7520a95ddc5441d3b07ac5ccf1e8039d"
+      }
+    },
+    {
+      "event": 2,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_2.pt",
+        "sha256": "8c36dd1959bc8f8492333fe42bb23474df9a8c72eb229d71fd299519af9d2e35"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_2.pt",
+        "sha256": "e39ce1f01eb62cefb15b67179d1761b7be7a9a46a2e6eb41eb43a12488c5793a"
+      }
+    },
+    {
+      "event": 3,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_3.pt",
+        "sha256": "f950d70f8d25648b7d3f7fce47708f53b63a6bd24bb61d01d54abb523498889e"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_3.pt",
+        "sha256": "8724a9a58aa741b924c96b4a92dba4f398e7aeaa31a39e4c542f78885534e7ac"
+      }
+    },
+    {
+      "event": 4,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_4.pt",
+        "sha256": "4c62576e1e394d5f31460515985d738fbb601a95022d7b2d42d898fffdc51cd9"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_4.pt",
+        "sha256": "0f626ede3089face49c1e7c02ad5791932a0442865bb9f2df284a7d07caeaeac"
+      }
+    },
+    {
+      "event": 5,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_5.pt",
+        "sha256": "b04c511db7e56d9ab285f762812aa9fb3a230ba19598abc3908bdd7cf36b5b52"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_5.pt",
+        "sha256": "f171ec4567643aa519bf953643ac3e0ad5006681f6e3d5d805c933e4c63d28c9"
+      }
+    },
+    {
+      "event": 6,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_6.pt",
+        "sha256": "de295e56cf542aadb462df7c908899d84d60c8e951f7f2127d1855e6fe0fdbe8"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_6.pt",
+        "sha256": "c0a5c49f8543834ad243e08e5312b844070487ebd95f75ffc2f143d55a0534b3"
+      }
+    },
+    {
+      "event": 7,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_7.pt",
+        "sha256": "826e9c17af14ee0ee45ec077d7985d6347c2d8e5d7aca8169c4642d8f78e4051"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_7.pt",
+        "sha256": "c7364177ad55013e5ed131d836a9768ba9d74df01726498bfad7747523c329a6"
+      }
+    },
+    {
+      "event": 8,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_8.pt",
+        "sha256": "5ec8b2a0d9fc9690f4cd2d01e83039b3c8b0985844163d5b7affbb4bc1488276"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_8.pt",
+        "sha256": "c2d986d3f704ff3b9d2dbfd433ba9960d19a01eb42a46f3d1c63215dfbf53061"
+      }
+    },
+    {
+      "event": 9,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_9.pt",
+        "sha256": "4c72952faeaffd2dd4d3710e28520f326b36578b2f0793a794a4526f3f10e1fb"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_9.pt",
+        "sha256": "6780e5e89405c2b9811c339def5ff9c0a3ac7071ee58017f3064fdf889288959"
+      }
+    },
+    {
+      "event": 10,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_10.pt",
+        "sha256": "b702a68a5091fcc19e44f26a8182e7ef24f111b6ea144879676ebe00f2850ab6"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_10.pt",
+        "sha256": "088e9c365bf10b002bc8b67637bf1c542580ae4867f5ea0bb9ab630708f7d70a"
+      }
+    },
+    {
+      "event": 11,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_11.pt",
+        "sha256": "e7f0a24175ac3d090b19cef681bcce3bffa27a6822441d932df2425cebf7d932"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_11.pt",
+        "sha256": "433e0787cc86cb5ba3e01c7f59a9939f566a1e1649c70fe038e937bcbb0d706f"
+      }
+    },
+    {
+      "event": 12,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_12.pt",
+        "sha256": "c681fdc0949ea9926b6d39cbe576c138fddfca5bfddd63f76b767d2b1abe63b6"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_12.pt",
+        "sha256": "5f0ad43f4af931a49258af3660ee61e5b7901793fc78ababeb3377fd7cc172a8"
+      }
+    },
+    {
+      "event": 13,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_13.pt",
+        "sha256": "e92875a2c7e74415d6bce1b6ae6f953015e7c1d2e6ed0fd3374ca43638c57b55"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_13.pt",
+        "sha256": "7bb8762d5020c004acfbcaa5ffd6b25e5ec3d4f795355b2c6abb0c3262a98e4e"
+      }
+    },
+    {
+      "event": 14,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_14.pt",
+        "sha256": "6e713e3bd776681539fa91a73ccc6a94919c346e329b307c101bb3da80e3de2d"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_14.pt",
+        "sha256": "1c690abd03f7a4c41b64bbff6caffc37c00fff62273ef4489306fe7f4f575757"
+      }
+    }
+  ],
+  "counts": [
+    10545.0,
+    9647.0,
+    9641.0,
+    9649.0,
+    9668.0,
+    10545.0
+  ],
+  "windows": [
+    0,
+    10,
+    20
+  ],
+  "prefixes": [
+    5,
+    10,
+    15,
+    20,
+    40,
+    100
+  ],
+  "mean": [
+    0.4914,
+    0.4822,
+    0.4465
+  ],
+  "std": [
+    0.2023,
+    0.1994,
+    0.201
+  ],
+  "batch_size": 64,
+  "device": "cuda:0",
+  "threads": 4,
+  "torch": "2.4.1+cu118",
+  "hardware": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "numerics": "float32, TF32 off, cuDNN benchmark off, recorded BN buffers frozen",
+  "selection": "uniform without replacement; disjoint sets; no label balancing or prediction filtering",
+  "labels_used": false,
+  "oracle_used": false,
+  "client_dataset_loaded": false,
+  "target_class_used": false,
+  "primary": "all_patterns / paired / hrac_windows, maximum across all output classes",
+  "independent_training_runs": 1,
+  "assumptions": [
+    "public RGB probe images",
+    "known model preprocessing",
+    "individual client model states and aggregation weights",
+    "full-client deletion units"
+  ],
+  "limits": [
+    "Same trajectory across probe/pattern seeds; no calibrated FPR or TPR.",
+    "No guarantee for other domains or trigger geometries."
+  ]
+}
