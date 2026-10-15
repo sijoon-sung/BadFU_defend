@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-15",
+  "scope": "read-only file integrity and recorded aggregation; no training, FU or ASR rerun",
+  "badfu_local": {
+    "run": "imported_traj_full",
+    "source_rounds": 15,
+    "clients": 6,
+    "files_hashed": 32,
+    "all_hashes_match": true,
+    "aggregation_passed_rounds": 15,
+    "data_matching": "reconstructed from explicit legacy seed/split/subset settings; original data hash unavailable",
+    "initial_present": true
+  },
+  "fuba_local": {
+    "run": "loc_k20paper_s0",
+    "files_expected": 295,
+    "files_found": 295,
+    "reference_hashes_checked": 42,
+    "all_reference_hashes_match": true,
+    "clients": 20,
+    "participants_per_round": 8,
+    "aggregation_passed_rounds": 100,
+    "max_relative_error": 7.745504682077353e-09,
+    "initial_round0_present": false
+  },
+  "dislab": "Only committed registry reviewed; raw files not accessed in this check."
+}

@@ -1,13 +1,14 @@
-# 브랜치 안내 — 2026-10-15
+# 브랜치
 
-코드와 실험 이력을 삭제하거나 강제 덮어쓰기하지 않고 각 브랜치의 소개를 같은 연구 설명으로 정리했다.
+**현재 작업 기준은 `codex/structural-latent-defense` 하나입니다.**
 
 | 브랜치 | 용도 |
 |---|---|
-| main | 공개 소개, 초기 코드 이력 |
-| dev | 궤적 생성 및 업로드 기록 |
-| codex/structural-latent-defense | 현재 알고리즘·실행 안내·연구 문서 정본 |
-| exp/baselines | 이전 baseline 실험 이력 |
-| exp/hedge-pilot | 이전 상쇄 가설 탐색 이력 |
+| `codex/structural-latent-defense` | 정리된 코드·현재 실행 안내 |
+| `dev` | 기존 궤적 생성·서버 업로드 이력 |
+| `main` | 공개 소개와 초기 코드 이력 |
+| `exp/baselines`, `exp/hedge-pilot` | 과거 비교 실험 보관 |
 
-과거 README는 docs/archive에 보존한다. 과거 코드가 최신 알고리즘으로 바뀌었다는 뜻은 아니다. 실행 중인 작업은 완료 후 갱신하고 사용한 커밋을 기록한다.
+과거 브랜치를 최신 구현으로 취급하지 않습니다. 기존 커밋·태그는 보존합니다. 닫힌 PR #1의 BadFU 결과는 [보관 태그](https://github.com/sijoon-sung/BadFU_defend/tree/archive-2026-10-09-request-aware-purification/results_observe)에 있습니다.
+
+실행 중인 작업 폴더는 완료 후 갱신합니다. [현재 안내](README.md) · [궤적 상태](docs/TRAJECTORIES.md).
