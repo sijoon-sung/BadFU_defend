@@ -79,7 +79,7 @@ def pgd(config: Config):
     # Prepare test loader
     testloader = torch.utils.data.DataLoader(
         config.testset, batch_size=config.batch_size,
-        shuffle=False, num_workers=0
+        shuffle=False, num_workers=12
     )
 
     # Reset communication rounds and set pretrained model

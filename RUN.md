@@ -1,82 +1,85 @@
-# 라벨 없는 BadFU 실험 실행 안내
+# BadFU / FUBA 새 실행 안내
 
-현재 작업 브랜치: `codex/structural-latent-defense`.
+저장소 루트에서 `python reproduction/run.py`를 사용합니다. 기존 학습용 `.sh` 실행기는 제거했습니다. 공식 소스를 커밋으로 고정해 다시 받았고, 실행할 때 복사본에 저장·호환성 패치를 적용합니다. **기존 로그·체크포인트는 그대로 보존합니다.**
 
-**이 문서의 실행기는 `FUBA/experiment_hrac_unlabeled.py` 하나입니다.** 저장소 루트에서 아래 순서대로 실행합니다. 기존 BadFU CIFAR-10/ResNet-18 궤적을 읽으며, FL 학습과 FU를 새로 실행하지 않습니다.
+## 1. 환경과 경로
 
-## 라벨 없이 공개 이미지로 검사 — 현재 실행 경로
-
-필요한 것은 공개 이미지, 기존 궤적의 `manifest.json`, 클라이언트별 모델 체크포인트입니다. 이미지 정답 라벨·공격 표적·정답 트리거·클라이언트 원본 이미지·`data.pt`·`pert_result.pt`는 요구하지 않습니다. 전처리와 모델 구조는 BadFU CIFAR-10/ResNet-18 기준입니다. FUBA의 다른 모델에 그대로 적용하지 않습니다.
-
-기존 Python 환경의 PyTorch, torchvision, NumPy, SciPy, Pillow를 사용합니다. 아래 `/path/to/...`는 실행 PC의 실제 경로로 바꿉니다.
-
-### 1. 이미지 준비 — 아래 두 방법 중 하나만 실행
-
-현재 CIFAR-10 실험 재현용입니다. `--cifar-root`는 `cifar-10-batches-py`의 상위 폴더입니다. 기존 관측에 사용한 240개 이미지를 제외하고 픽셀과 식별자만 내보냅니다. 데이터는 자동 다운로드하지 않습니다.
+Python 3.11, PyTorch 2.4.1+cu118, torchvision 0.19.1+cu118에서 확인했습니다. 기존 GPU 환경이 있으면 그대로 사용합니다. 새 환경이라면 해당 조합의 PyTorch/torchvision을 먼저 설치하고 다음을 실행합니다.
 
 ```bash
-python FUBA/experiment_hrac_unlabeled.py prepare --cifar-root /path/to/cifar10 --exclude-ids FUBA/logs/hrac/unlabeled_excluded_ids_v1.json --out artifacts/probes/unlabeled_pool.npz
+python -m pip install -r reproduction/requirements.txt
+python reproduction/run.py check
 ```
 
-별도의 공개 이미지 폴더를 쓰려면 위 명령 대신 아래를 실행합니다. 클래스 폴더나 라벨 파일은 필요하지 않습니다. RGB·32×32로 변환합니다. 다른 도메인의 이미지에서 탐지 성능은 아직 검증하지 않았습니다.
+Windows에서는 위 requirements가 Intel MPI도 설치합니다. Linux는 시스템 MPI와 `mpi4py`가 필요합니다. FUBA IBA는 **최소 5개 MPI 프로세스**(서버 1 + 작업자 3 + 평가자 1)가 필요합니다. 4개는 협업 학습 중 멈출 수 있어 실행 전에 거부합니다.
 
-```bash
-python FUBA/experiment_hrac_unlabeled.py prepare --image-dir /path/to/public_images --out artifacts/probes/unlabeled_pool.npz
+아래는 PowerShell 예시입니다. 실제 데이터가 있는 경로로 두 줄만 바꿉니다.
+
+```powershell
+$DataRoot = 'D:\datasets'
+$RecordRoot = 'D:\BadFU\record\badnet_dataset'
 ```
 
-이미 준비한 pool이 있으면 1단계를 건너뜁니다. 출력 pool을 덮어쓰지 않습니다.
+- `$DataRoot`: `cifar-10-batches-py/` 또는 `MNIST/`의 상위 폴더. FUBA MNIST 실행은 MNIST, 나머지 아래 실행은 CIFAR-10이 필요합니다. 처음 받을 때만 명령에 `--download`를 추가합니다. MPI 실행 전에 데이터를 한 프로세스로 받아 두는 것을 권장합니다.
+- `$RecordRoot`: BadFU 저자 방식으로 만든 `pert_result.pt`와 이 파일이 참조하는 `bd_train_dataset/`, `bd_test_dataset/`, cover 이미지 등이 함께 있는 폴더. **체크포인트나 탐지 로그로 대체할 수 없습니다.** 기존 생성 자료를 재사용하며, 시작할 때 모든 참조 이미지의 존재와 해시를 기록합니다. 이 작업에서는 cover 데이터를 새로 생성하지 않았습니다.
+- BadFU의 원본 ImageNet 사전학습 ResNet-18 가중치가 캐시에 없으면 torchvision이 첫 실행에서 받습니다.
 
-### 2. 두 라운드로 경로와 속도 확인
+## 2. 먼저 짧게 확인
 
-```bash
-python FUBA/experiment_hrac_unlabeled.py run --manifest /path/to/manifest.json --checkpoint-root /path/to/checkpoints --pool artifacts/probes/unlabeled_pool.npz --out FUBA/logs/hrac/unlabeled_run --stop-after 2
+```powershell
+python reproduction/run.py badfu --data-root "$DataRoot" --record-root "$RecordRoot" --out artifacts/badfu_smoke --smoke
+python reproduction/run.py fuba --data-root "$DataRoot" --dataset mnist --clients 6 --out artifacts/fuba_mnist_smoke --smoke
+python reproduction/run.py fuba --data-root "$DataRoot" --dataset cifar10 --clients 6 --non-iid --alpha 0.5 --out artifacts/fuba_cifar_smoke --smoke
 ```
 
-`--checkpoint-root`에는 manifest의 `history`와 `after` 파일이 있는 폴더를 지정합니다. 파일명을 유지하며 SHA-256을 검사합니다. manifest에 적힌 절대 경로가 이미 맞으면 이 옵션을 생략할 수 있습니다. 이 로컬 실험에서 사용한 manifest는 `artifacts/badfu/imported_traj_full/manifest.json`입니다. 다른 PC에는 해당 실행의 manifest와 실제 체크포인트가 필요합니다.
+`--smoke`는 2라운드, 작은 실제 데이터 부분집합을 사용합니다. BadFU는 로컬 1에폭·클라이언트당 32개, FUBA는 클라이언트당 64개·warmup 1·전원 참여입니다. FUBA의 공격 내부 반복 수는 그대로입니다. **이 결과의 ASR은 공격 재현이나 탐지 성능의 근거로 사용하지 않습니다.** CPU는 BadFU `--device cpu`, FUBA `--gpus 0`을 지정합니다.
 
-### 3. 나머지 라운드 이어서 실행
+## 3. 본 학습
 
-```bash
-python FUBA/experiment_hrac_unlabeled.py run --manifest /path/to/manifest.json --checkpoint-root /path/to/checkpoints --pool artifacts/probes/unlabeled_pool.npz --out FUBA/logs/hrac/unlabeled_run --resume
+```powershell
+python reproduction/run.py badfu --data-root "$DataRoot" --record-root "$RecordRoot" --out artifacts/badfu_author_s42 --rounds 40 --seed 42
+python reproduction/run.py fuba --data-root "$DataRoot" --dataset mnist --out artifacts/fuba_mnist_s42 --rounds 100 --seed 42
+python reproduction/run.py fuba --data-root "$DataRoot" --dataset cifar10 --non-iid --alpha 0.5 --out artifacts/fuba_cifar_s42 --rounds 100 --seed 42
 ```
 
-2단계와 같은 경로·설정으로 실행합니다. 기본값은 무작위 이미지 80개 × 서로 겹치지 않는 3묶음, 패턴 3개 × 네 모서리입니다. 모든 출력 클래스를 검사하며, **저장된 모든 라운드**를 사용합니다. 없는 라운드를 추가 학습하지 않습니다.
+BadFU는 원본의 `clean5 → bd5 → cover5 → full6 → FU remove5 → FU remove1` 순서를 유지합니다. `--rounds 40`은 **각 FL 단계가 40라운드**라는 뜻입니다. 공격 단계 하나만 실행했던 기존 실행보다 오래 걸립니다. FU의 원본 인덱싱 때문에 짝수 라운드만 허용합니다. 40라운드 전체 궤적은 약 **64 GB**, 여유 공간은 70 GB 이상을 권장합니다.
 
-중단되면 같은 명령으로 다시 시작합니다. 완료한 라운드는 해시 검사 후 재사용합니다. pool·코드·기기·배치 크기·시드 등 설정을 바꾸려면 새로운 `--out`을 지정합니다. GPU 메모리가 부족할 때는 새 출력 폴더에서 `--batch-size 32` 또는 `16`으로 시작합니다.
+FUBA는 기본 20클라이언트·참여율 0.4·warmup 5입니다. `--non-iid --alpha 0.5`는 명시적으로 선택한 Dirichlet 설정이며 논문 기본 조건이라는 주장이 아닙니다. 100라운드 정상 대조군은 새 출력 폴더에서 `--warm-up 100`을 추가합니다. 이 경우에도 개인별 모델을 저장합니다. 작은 alpha에서 클라이언트 표본 수가 원본 배치 크기 64보다 작으면 실행을 중단합니다.
 
-### 4. 결과 확인
+FUBA CIFAR-10 기본 설정의 전체 궤적은 모델 상태만 약 **45 GB + 생성기 상태**입니다. 원본 `unlearn.py`용 pickle도 필요한 경우 `--legacy-export`를 추가하지만, 미참여 클라이언트의 복제 상태까지 내보내므로 디스크 사용량이 크게 늘어납니다. 기본값은 중복 pickle을 만들지 않습니다.
 
-`FUBA/logs/hrac/unlabeled_run/analysis.json`에 모든 클라이언트·출력의 점수와 순위가 저장됩니다. HRAC와 단순 누적 음의 기여·절댓값·마지막 라운드를 비교하고, 존재하는 5/10/15/20/40/100 및 마지막 라운드 시점을 기록합니다.
+본 학습 시간은 이 코드로 아직 측정하지 않았습니다. BadFU 40R 전체 순서와 FUBA 100R은 장시간 실험으로 별도 실행해야 합니다. **이번에 실행한 것은 축소 검증입니다.** 저장 중 중단된 결과는 보존하되 완료로 처리하지 않습니다. 학습 재개 기능은 없으며 새 실험은 새 `--out`을 사용합니다. 기존 폴더를 덮어쓰거나 누락된 궤적을 자동 재학습하지 않습니다.
 
-완료된 응답 캐시를 다시 분석할 때는 아래 명령만 실행합니다. 모델 체크포인트와 이미지 pool이 필요하지 않습니다.
+## 4. 결과와 궤적 검사
 
-```bash
-python FUBA/experiment_hrac_unlabeled.py analyze --out FUBA/logs/hrac/unlabeled_run
+```powershell
+python reproduction/run.py verify artifacts/badfu_author_s42/full6
+python reproduction/run.py verify artifacts/fuba_mnist_s42/fl
 ```
 
-`protocol.json`은 고정한 입력·설정, `progress.json`은 라운드별 시간·해시, `rounds/`는 측정한 응답입니다. 독립 정상 실행으로 임계값을 보정하지 않았으므로 FPR·TPR은 `null`입니다.
+각 실행에는 다음이 남습니다.
 
-## 긴 궤적과 더 많은 이미지로 검사
+| 파일 | 내용 |
+|---|---|
+| `protocol.json` | 원본 커밋, 설정, 환경, 실행 명령, 실행 시간, 완료/실패 상태 |
+| `runtime.patch`, `runtime/`, `reproduction/` | 실제 실행한 원본 복사본·패치·어댑터 사본 |
+| `console.log`, `metrics*.json` | 원본 평가 로그와 평가 방식이 명시된 수치 |
+| `split*.json`, BadFU `record_inputs.json` | 실제 데이터 분할과 입력 기록 |
+| `<phase>/initial.pt` | 해당 단계의 진짜 시작 모델 |
+| `<phase>/round_XXXX.pt` | 학습 전 `gm`, 참여자별 `cms`, 집계 후 `gm_after`, 참여 ID·가중치, FUBA 생성기 |
+| `<phase>/manifest.json`, `verification.json` | 파일 SHA-256, 연속성·유한값·형상·FL 집계 재계산 검사 |
 
-기본 검사가 끝난 뒤 사용할 확장 설정입니다. 먼저 두 라운드만 실행합니다.
+BadFU는 여섯 단계, FUBA는 `fl` 단계가 저장됩니다. **파일 구조 검증 통과와 백도어 활성화 재현은 다른 판정입니다.** BadFU ASR은 원본의 bd_test 전체 분모를 유지합니다. FUBA 원본 평가는 마지막 개별 생성기를 train 모드에서 사용하므로, 저장된 평균 생성기를 eval 모드로 평가한 수치와 섞지 않습니다. 생성기가 없는 공격 라운드의 원본 임의 초기화 평가도 명시합니다.
 
-```bash
-python FUBA/experiment_hrac_unlabeled.py run --manifest /path/to/long_manifest.json --checkpoint-root /path/to/long_checkpoints --pool artifacts/probes/unlabeled_pool.npz --out FUBA/logs/hrac/unlabeled_long --probe-size 256 --probe-seeds 20261022 20261023 20261024 20261025 20261026 --pattern-seeds 20261022 20261023 20261024 20261025 20261026 --stop-after 2
+FUBA의 FU 모듈은 공식 버전으로 복원했지만 이번 지원·검증 범위는 FL 공격 학습과 전체 궤적 저장입니다. 원본 FedEraser에는 `global_epoch=2`, 삭제자 4 고정, IID 재분할이 있어 **100R Non-IID 궤적의 일반 FU 검증기로 바로 사용하지 않습니다.** [원본과 어댑터의 차이 및 검증 범위](docs/FRESH_UPSTREAM.md)를 참고하세요.
+
+## 5. 저장된 BadFU 궤적으로 현재 탐지 실험 연결
+
+새 `full6/manifest.json`을 기존 라벨 없는 관측기에 바로 전달할 수 있습니다. 이 단계는 재학습이나 FU를 실행하지 않습니다.
+
+```powershell
+python FUBA/experiment_hrac_unlabeled.py prepare --cifar-root "$DataRoot" --exclude-ids FUBA/logs/hrac/unlabeled_excluded_ids_v1.json --out artifacts/probes/new_pool.npz
+python FUBA/experiment_hrac_unlabeled.py run --manifest artifacts/badfu_author_s42/full6/manifest.json --pool artifacts/probes/new_pool.npz --out artifacts/badfu_s42_probes
 ```
 
-이어 돌릴 때는 **위 명령의 모든 설정을 유지한 채** `--stop-after 2`만 `--resume`으로 바꿉니다. 독립 정상·공격 학습 실행들이 있으면 같은 pool과 검사 설정으로 각각 새 출력 폴더에 실행합니다. 이미지·패턴 반복은 독립 학습 실행으로 세지 않습니다.
-
-| 6클라이언트 / RTX 4060 Laptop GPU | 수집 시간 | 상태 |
-|---|---:|---|
-| 15라운드, 이미지 80개 × 3묶음, 패턴 3개 | **79.9초** | 실측 |
-| 100라운드, 같은 기본 관측 설정 | 약 9분 | 단순 비례 추정, 미실행 |
-| 15라운드, 이미지 256개 × 5묶음, 패턴 5개 | 약 12분 | 단순 비례 추정, 미실행 |
-| 100라운드, 이미지 256개 × 5묶음, 패턴 5개 | 약 1시간 17분 | 단순 비례 추정, 미실행 |
-
-시간은 이미지 export·프로세스 초기화·새 FL 학습 비용을 제외합니다. 실행 중 라운드별 시간과 남은 시간 추정치를 출력합니다. 긴 작업의 실제 시간은 먼저 두 라운드로 확인합니다.
-
-## 확인된 결과
-
-기존 15라운드 궤적에서 라벨 없이 고른 이미지 세 묶음 모두 요청자 5·출력 0이 1위였습니다. 단순 누적 음의 기여와 마지막 라운드도 1위였습니다. 같은 학습 궤적 하나의 결과이며 정상 Non-IID 오탐률·타 도메인·다른 트리거는 미검증입니다. 코드 테스트 105개와 중간 저장·재시작을 확인했습니다.
-
-[프로토콜](FUBA/logs/hrac/unlabeled_badfu_v1/protocol.json) · [전체 결과](FUBA/logs/hrac/unlabeled_badfu_v1/analysis.json) · [수식과 한계](docs/RESEARCH_SUMMARY.md)
+기존 pool이 있으면 첫 줄을 생략합니다. 이 관측기는 BadFU ResNet-18 전용으로, FUBA·FU 단계 manifest를 받으면 거부합니다. [이미지 준비·중간 저장·분석 안내](docs/UNLABELED_PROBES.md) · [실제 축소 검증 기록](reproduction/validation/summary.json).

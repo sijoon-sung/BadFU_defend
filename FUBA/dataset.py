@@ -5,15 +5,11 @@ from PIL import Image
 from typing import Union, Callable, Optional
 from pathlib import Path
 import scipy.io
-try:
-    import nvidia.dali.fn as fn
-    import nvidia.dali.types as types
-    from nvidia.dali.pipeline import Pipeline
-    from nvidia.dali.plugin.pytorch import DALIGenericIterator
-    from nvidia.dali.plugin.base_iterator import LastBatchPolicy
-except Exception:
-    fn=types=DALIGenericIterator=LastBatchPolicy=None
-    Pipeline=object  # DALI 없음: ImageNet 경로만 영향
+import nvidia.dali.fn as fn
+import nvidia.dali.types as types
+from nvidia.dali.pipeline import Pipeline
+from nvidia.dali.plugin.pytorch import DALIGenericIterator
+from nvidia.dali.plugin.base_iterator import LastBatchPolicy
 from typing import Any, Callable, Optional, Tuple, Union
 import torchvision
 

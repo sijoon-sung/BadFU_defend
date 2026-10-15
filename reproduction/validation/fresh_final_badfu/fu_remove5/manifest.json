@@ -1,0 +1,47 @@
+{
+  "schema": "full-trajectory-v1",
+  "status": "complete",
+  "expected_rounds": 1,
+  "metadata": {
+    "attack": "badfu",
+    "phase": "fu_remove5",
+    "smoke": true,
+    "aggregation": "author_federaser",
+    "counts": [
+      32,
+      32,
+      32,
+      32,
+      32
+    ],
+    "client_ids": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "asr_definition": "author: predicted target 0 / all bd_test records",
+    "upstream_commit": "0a2117feab58faf5b7e2a1e5e1759112087d6049"
+  },
+  "initial": {
+    "path": "initial.pt",
+    "sha256": "849decdc2b23be95087a5894a61152bfd03c194ce82d3c53b987579b0abd5f35",
+    "bytes": 44771512
+  },
+  "rounds": [
+    {
+      "path": "round_0001.pt",
+      "sha256": "e1c966dd80b6004a48049a4ab863dcc89195a24fb5453cc65a576aeb788d6279",
+      "bytes": 313403682,
+      "round": 1,
+      "client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    }
+  ]
+}

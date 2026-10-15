@@ -24,7 +24,6 @@ class Config:
         # Attack-related settings
         self.attack_method = args.attackMethod
         self.target_label = args.target_label
-        self.seed = getattr(args, 'seed', 522)
         self.nb_attack = args.nb_attack
         self.nb_defence = args.nb_defence
         self.forgot_client = args.forgot_client_idx
@@ -48,12 +47,6 @@ class Config:
         self.shift_ration = args.shift_ratio
         self.alpha = args.alpha
         self.sigma = args.sigma
-        self.owner_client = getattr(args, 'owner_client', -1)
-        self.owner_class = getattr(args, 'owner_class', 3)
-        self.owner_frac = getattr(args, 'owner_frac', 0.9)
-        self.split_seed = getattr(args, 'split_seed', 1223)                  # 비-IID 분할 seed (기본값 = 기존 궤적과 호환)
-        self.fu_attacker_mode = getattr(args, 'fu_attacker_mode', 'attack')  # 재학습형 FU 중 공격자 행동 (retrain.py 참조)
-        self.iba_reopt = getattr(args, 'iba_reopt', True)                    # KD-FU 뒤 IBA 생성기 재최적화 여부
         self.param_ratios = None
 
         # Hardware settings
@@ -136,7 +129,7 @@ class Config:
         # Default control flags
         self.grad_simulate_train = True   # Whether to simulate gradient-based training
         self.simulate_train = True        # Whether to simulate client local training
-        self.clients_ratial = getattr(args, 'clients_ratial', 1)   # Ratio multiplier for number of clients (--clients_ratial; 2 -> two defenders 4, 8)
+        self.clients_ratial = 1           # Ratio multiplier for number of clients
         self.step_size = 0.1              # Step size for adversarial scaling
         self.num_clients *= self.clients_ratial
 

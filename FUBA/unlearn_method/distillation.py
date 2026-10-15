@@ -78,7 +78,7 @@ def distillation_unlearn(trainset, global_dicts, clients_dicts, idx, config: Con
     cou = -1  # Use last global checkpoint
     testloader = torch.utils.data.DataLoader(
         config.testset, batch_size=config.batch_size,
-        shuffle=False, num_workers=0
+        shuffle=False, num_workers=12
     )
 
     # Create new global model dictionary by removing influence of selected client
@@ -86,14 +86,12 @@ def distillation_unlearn(trainset, global_dicts, clients_dicts, idx, config: Con
     for k in D.keys():
         local_updates = [unlearn_dicts[idx][k].float() for unlearn_dicts in clients_dicts]
         global_updates = [global_dict[k].float() for global_dict in global_dicts[:cou]]
-        # 원본은 클라이언트 수를 20 으로 박아 두었다(FUBA 기본 n=20). 라운드당 집계된 로컬 수로 나눈다.
-        n_agg = sum(1 for d in clients_dicts[0] if d is not None)
-        avg_update = torch.stack(local_updates, 0).sum(0) / n_agg - torch.stack(global_updates, 0).sum(0) / n_agg
+        avg_update = torch.stack(local_updates, 0).sum(0) / 20 - torch.stack(global_updates, 0).sum(0) / 20
         D[k] = D[k] - avg_update
 
     trainloader = torch.utils.data.DataLoader(
         trainset, batch_size=config.batch_size,
-        shuffle=True, num_workers=0
+        shuffle=True, num_workers=4
     )
 
     # Initialize student model with modified global weights
@@ -184,8 +182,7 @@ def distillation_unlearn(trainset, global_dicts, clients_dicts, idx, config: Con
                         backdoor_func=add_backdoor_all)}%
           ========================""")
         
-        # 생성기 재최적화는 언러닝 뒤 공격자가 트리거를 다시 맞추는 것(더 강한 공격자). 평가용으로는 config.iba_reopt=False.
-        if config.attack_method == "iba" and getattr(config, "iba_reopt", True):
+        if config.attack_method == "iba":
             train_pattern(trainloader, config.backdoor_model, net, config)
             
         print(f"""========================

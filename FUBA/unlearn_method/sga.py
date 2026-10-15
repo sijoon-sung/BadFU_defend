@@ -127,7 +127,7 @@ def sga(config:Config):
             trainloaders.append(subset)
         else:
             trainloaders.append(torch.utils.data.DataLoader(subset, batch_size=config.batch_size,
-                                                            shuffle=True, num_workers=0))
+                                                            shuffle=True, num_workers=12))
 
     # Compute Fisher information for forgotten client
     fisher_matrix = fisher_information(unlearn_net, trainloaders[config.forgot_client], config)
@@ -139,7 +139,7 @@ def sga(config:Config):
 
     # Test loader for evaluation
     testloader = torch.utils.data.DataLoader(config.testset, batch_size=config.batch_size,
-                                             shuffle=False, num_workers=0)
+                                             shuffle=False, num_workers=12)
 
     # Evaluate before unlearning
     print("Before unlearn")

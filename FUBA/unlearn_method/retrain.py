@@ -1,7 +1,7 @@
 import torch
 import copy
 from utils.comm_utils import attack
-from utils.comm_utils import l2_distance, attack, test,get_backdoored_dataset ,get_clean_dataset, save_models, split_non_iid_dirichlet,find_max_idx_within_limit,federated_averaging_net,geometric_median,compute_parameter_ratio_difference,adjust_updates_based_on_ratio,dict_to_cpu,dict_to_device,lognormal_split,split_non_iid_concept,make_client_split,make_client_loaders
+from utils.comm_utils import l2_distance, attack, test,get_backdoored_dataset ,get_clean_dataset, save_models, split_non_iid_dirichlet,find_max_idx_within_limit,federated_averaging_net,geometric_median,compute_parameter_ratio_difference,adjust_updates_based_on_ratio,dict_to_cpu,dict_to_device,lognormal_split,split_non_iid_concept
 from config import Config
 import random
 import torch.nn as nn
@@ -9,10 +9,7 @@ import torch.optim as optim
 from model import UNet,MNISTAutoencoder
 from dataset import MyImagenet
 from torch.utils.data import Subset
-try:
-    from potential_defence import federated_averaging_enforce_training, federated_averaging_topk
-except ImportError:                      # potential_defence.py 는 legacy/ 로 옮겨짐 (--Enforce/--Topk 전용, 여기선 안 쓰임). import 가 깨지면 재학습 전체가 못 뜬다
-    federated_averaging_enforce_training = federated_averaging_topk = None
+from potential_defence import federated_averaging_enforce_training, federated_averaging_topk
 from utils.dba_attack_utils import add_backdoor_1,add_backdoor_2,add_backdoor_3,add_backdoor_4,add_backdoor_all
 
 DEFENDER_MODEL_BASE = 0
@@ -335,11 +332,30 @@ def retrain(config: Config):
         from utils.comm_utils import attack
 
     # Split dataset among clients
-    # 학습 때와 같은 분할 (원본은 IID random_split 을 다시 해서 non-IID 궤적과 어긋났다)
-    trainloaders = make_client_loaders(make_client_split(config.trainset, config), config)
+    trainloaders = []
+    subset_length = len(config.trainset) // config.num_clients
+    remainder = len(config.trainset) % config.num_clients
+    lengths = [subset_length + 1] * remainder + [subset_length] * (config.num_clients - remainder)
+
+    torch.manual_seed(522)
+    trainset_split = torch.utils.data.random_split(config.trainset, lengths)
+
+    for subset in trainset_split:
+        if config.dataset == "imagenet":
+            trainloaders.append(subset)
+        else:
+            trainloaders.append(
+                torch.utils.data.DataLoader(
+                    subset,
+                    batch_size=config.batch_size,
+                    shuffle=True,
+                    num_workers=0,
+                    drop_last=True,
+                )
+            )
 
     # Test loader
-    testloader = torch.utils.data.DataLoader(config.testset, batch_size=32, shuffle=True, num_workers=0)
+    testloader = torch.utils.data.DataLoader(config.testset, batch_size=32, shuffle=True, num_workers=12)
 
     # Initialize global model
     if config.pretrained_model is not None:
@@ -358,9 +374,6 @@ def retrain(config: Config):
         selected_clients = random.sample(range(config.num_clients), int(config.num_clients * config.participant_rate))
         if config.unlearn_target in selected_clients:
             selected_clients.remove(config.unlearn_target)
-        for ex in getattr(config, "exclude_clients", []) or []:     # 운반자 제외 재학습 (TRACE 가 찾은 짝): 재참여시키지 않는다
-            if ex in selected_clients:
-                selected_clients.remove(ex)
 
         selected_clients.sort(reverse=False)
         print(selected_clients, flush=True)
@@ -386,19 +399,14 @@ def retrain(config: Config):
             None if i not in backdoor_clients else global_backdoor_model_dict
             for i in range(config.num_clients)
         ]
-        for ex in getattr(config, "exclude_clients", []) or []:     # 제외된 운반자는 생성기도 참여하지 않는다 (cpu 복사본이 섞여 집계가 깨지는 것 방지)
-            backdoor_model_dicts[ex] = None
 
         # Train selected clients
         for idx, client_idx in enumerate(selected_clients):
             local_net = config.creat_cls_net().to(config.device)
             local_net.load_state_dict(global_model_dict)
 
-            # fu_attacker_mode: 'attack' = FUBA 원본(재학습 중 공격자·defender 가 그대로 행동, 논문 각주 4 의 γ=1),
-            #                   'benign' = 남은 전원이 정직하게 학습 (요청자 "제거" 효과만 남김)
-            fu_mode = getattr(config, "fu_attacker_mode", "attack")
-            backdoor = fu_mode == "attack" and client_idx in backdoor_clients and r >= 1
-            defender = fu_mode == "attack" and client_idx in [config.forgot_client * (i + 1) for i in range(config.clients_ratial)]
+            backdoor = client_idx in backdoor_clients and r >= 1
+            defender = client_idx in [config.forgot_client * (i + 1) for i in range(config.clients_ratial)]
 
             if config.dataset == "mnist":
                 backdoor_model = MNISTAutoencoder().to(config.device)
@@ -430,10 +438,6 @@ def retrain(config: Config):
             )
             backdoor_model_dicts[idx] = backdoor_model.state_dict()
 
-        # 집계 전에 장치를 맞춘다 (제외 클라가 있으면 cpu 복사본과 cuda 학습본이 섞여 cat 이 깨진다)
-        _dev = config.device
-        local_model_dicts = [None if d is None else {kk: vv.to(_dev) for kk, vv in d.items()} for d in local_model_dicts]
-        backdoor_model_dicts = [None if d is None else {kk: vv.to(_dev) for kk, vv in d.items()} for d in backdoor_model_dicts]
         # Aggregate global models
         if global_backdoor_model_dict is None:
             global_backdoor_model_dict = global_backdoor_model_dict_copy

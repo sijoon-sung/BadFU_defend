@@ -136,6 +136,15 @@ def resolve_rounds(manifest, manifest_path, root, limit):
     if manifest.get('status') != 'complete':
         raise ValueError('complete saved trajectory required')
     records = manifest['rounds']
+    if manifest.get('schema') == 'full-trajectory-v1':
+        meta = manifest['metadata']
+        if meta.get('attack') != 'badfu' or meta.get('aggregation') != 'badfu_sample_weighted':
+            raise ValueError('this probe runner requires BadFU ResNet18 FL, not FUBA or FU states')
+        ids = list(range(len(meta['counts'])))
+        if len(records) != manifest['expected_rounds'] or any(r['client_ids'] != ids for r in records):
+            raise ValueError('complete, ordered full-client BadFU trajectory required')
+        records = [dict(event=r['round']-1, history={'path': r['path'], 'sha256': r['sha256']})
+                   for r in records]
     if not records or limit < 0 or limit > len(records):
         raise ValueError('round limit must be 0 (all) or within the saved trajectory')
     result = []
@@ -197,7 +206,7 @@ def collect(a, model_factory=None):
     flat_inputs = xs.flatten(0, 1)
     manifest = json.loads(a.manifest.read_text(encoding='utf-8'))
     records = resolve_rounds(manifest, a.manifest, a.checkpoint_root, a.rounds)
-    counts = np.asarray(manifest['counts'], dtype=float)
+    counts = np.asarray(manifest.get('counts', manifest.get('metadata', {}).get('counts')), dtype=float)
     if counts.ndim != 1 or len(counts) < 2 or not np.isfinite(counts).all() or np.any(counts <= 0):
         raise ValueError('positive per-client aggregation counts required')
     dependencies = {str(p.relative_to(ROOT)): sha(p) for p in

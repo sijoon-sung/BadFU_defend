@@ -1,0 +1,9 @@
+{
+  "round": 1,
+  "clean_acc_pct": 9.375,
+  "asr_pct": null,
+  "author_generator_client": null,
+  "generator_source": "warmup_no_asr",
+  "generator_mode": "train",
+  "target_excluded": true
+}
