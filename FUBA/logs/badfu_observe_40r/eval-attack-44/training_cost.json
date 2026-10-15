@@ -1,0 +1,10 @@
+{
+  "local_training_seconds": 4468.255651799729,
+  "record_seconds": 1.459764700382948,
+  "observation_seconds": 6.728125200839713,
+  "observation_feature_tensor_bytes": 8119680,
+  "evaluation_seconds": 57.75083709997125,
+  "save_seconds": 0.06273270002566278,
+  "wall_seconds": 4534.498144800076,
+  "history_bytes": 102806717
+}

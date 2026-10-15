@@ -1,0 +1,45 @@
+{
+  "config": {
+    "window": 16,
+    "min_observations": 3,
+    "magnitude_cap": 4.0,
+    "round_threshold": 0.1,
+    "request_threshold": 1.054104208946228,
+    "pair_threshold": 0.6327464580535889,
+    "high_threshold": 1.054104208946228,
+    "max_clients": 8,
+    "max_classes": 2,
+    "max_rank": 8,
+    "energy": 0.9,
+    "eps": 1e-08
+  },
+  "protocol_signature": "ce30e636a2311e2951e2549078b1f9ed38b7d528b4eb741d6f496d8b1c1a3a6d",
+  "sources": [
+    {
+      "trajectory_id": "7d1cd2921de052f776b5d4dbae9ccaf02502d97c4f838ecdd888019898409fe8",
+      "seed": 142
+    },
+    {
+      "trajectory_id": "def180d3de8c83540c29cfae2aa6dfb6870235fa4d98ea9f683e4f0177ced338",
+      "seed": 143
+    }
+  ],
+  "request_quantile": 0.99,
+  "normal_request_scores": [
+    0.9929625988006592,
+    0.7141971588134766,
+    0.6983069181442261,
+    0.7141971588134766,
+    0.9929625988006592,
+    0.9927727580070496,
+    1.054104208946228,
+    0.7730590105056763,
+    0.773059070110321,
+    0.6730713844299316,
+    1.054104208946228,
+    1.0361921787261963
+  ],
+  "independent_trajectories": 2,
+  "warning": "Quantile fit is not an out-of-sample FPR guarantee; requests within a trajectory are correlated",
+  "fit_seconds": 0.21066380012780428
+}

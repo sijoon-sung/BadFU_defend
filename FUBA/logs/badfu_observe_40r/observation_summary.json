@@ -1,0 +1,257 @@
+{
+  "mode": "shadow_only",
+  "controls_purification": false,
+  "groups": [
+    {
+      "candidate": "clean_residual_pair",
+      "benign": false,
+      "independent_seeds": 3,
+      "alarms": 1,
+      "alarm_fraction": 0.3333333333333333,
+      "score_mean": 0.926162580649058
+    },
+    {
+      "candidate": "clean_residual_pair",
+      "benign": true,
+      "independent_seeds": 3,
+      "alarms": 2,
+      "alarm_fraction": 0.6666666666666666,
+      "score_mean": 0.9420933524767557
+    },
+    {
+      "candidate": "margin_bn_pair",
+      "benign": false,
+      "independent_seeds": 3,
+      "alarms": 0,
+      "alarm_fraction": 0,
+      "score_mean": 0.29806576172510785
+    },
+    {
+      "candidate": "margin_bn_pair",
+      "benign": true,
+      "independent_seeds": 3,
+      "alarms": 0,
+      "alarm_fraction": 0,
+      "score_mean": 0.30231770873069763
+    },
+    {
+      "candidate": "margin_magnitude",
+      "benign": false,
+      "independent_seeds": 3,
+      "alarms": 3,
+      "alarm_fraction": 1,
+      "score_mean": 4.976161638895671
+    },
+    {
+      "candidate": "margin_magnitude",
+      "benign": true,
+      "independent_seeds": 3,
+      "alarms": 3,
+      "alarm_fraction": 1,
+      "score_mean": 4.823057810465495
+    },
+    {
+      "candidate": "margin_pair",
+      "benign": false,
+      "independent_seeds": 3,
+      "alarms": 0,
+      "alarm_fraction": 0,
+      "score_mean": 0.2681199610233307
+    },
+    {
+      "candidate": "margin_pair",
+      "benign": true,
+      "independent_seeds": 3,
+      "alarms": 1,
+      "alarm_fraction": 0.3333333333333333,
+      "score_mean": 0.35453368226687115
+    },
+    {
+      "candidate": "raw_pair",
+      "benign": false,
+      "independent_seeds": 3,
+      "alarms": 2,
+      "alarm_fraction": 0.6666666666666666,
+      "score_mean": 1.0420505205790203
+    },
+    {
+      "candidate": "raw_pair",
+      "benign": true,
+      "independent_seeds": 3,
+      "alarms": 2,
+      "alarm_fraction": 0.6666666666666666,
+      "score_mean": 1.0736365516980488
+    },
+    {
+      "candidate": "representation_bn_pair",
+      "benign": false,
+      "independent_seeds": 3,
+      "alarms": 1,
+      "alarm_fraction": 0.3333333333333333,
+      "score_mean": 0.013853352516889572
+    },
+    {
+      "candidate": "representation_bn_pair",
+      "benign": true,
+      "independent_seeds": 3,
+      "alarms": 1,
+      "alarm_fraction": 0.3333333333333333,
+      "score_mean": 0.0017820748810966809
+    },
+    {
+      "candidate": "representation_magnitude",
+      "benign": false,
+      "independent_seeds": 3,
+      "alarms": 1,
+      "alarm_fraction": 0.3333333333333333,
+      "score_mean": 0.01685149595141411
+    },
+    {
+      "candidate": "representation_magnitude",
+      "benign": true,
+      "independent_seeds": 3,
+      "alarms": 1,
+      "alarm_fraction": 0.3333333333333333,
+      "score_mean": 0.01629165777315696
+    },
+    {
+      "candidate": "representation_pair",
+      "benign": false,
+      "independent_seeds": 3,
+      "alarms": 2,
+      "alarm_fraction": 0.6666666666666666,
+      "score_mean": 0.10397432247797649
+    },
+    {
+      "candidate": "representation_pair",
+      "benign": true,
+      "independent_seeds": 3,
+      "alarms": 2,
+      "alarm_fraction": 0.6666666666666666,
+      "score_mean": 0.0942110816637675
+    }
+  ],
+  "paired": [
+    {
+      "candidate": "clean_residual_pair",
+      "seed": 42,
+      "attack_minus_benign_score": -0.02488642930984497
+    },
+    {
+      "candidate": "clean_residual_pair",
+      "seed": 43,
+      "attack_minus_benign_score": -0.06022900342941284
+    },
+    {
+      "candidate": "clean_residual_pair",
+      "seed": 44,
+      "attack_minus_benign_score": 0.03732311725616455
+    },
+    {
+      "candidate": "margin_bn_pair",
+      "seed": 42,
+      "attack_minus_benign_score": -0.0019446909427642822
+    },
+    {
+      "candidate": "margin_bn_pair",
+      "seed": 43,
+      "attack_minus_benign_score": 0.01877504587173462
+    },
+    {
+      "candidate": "margin_bn_pair",
+      "seed": 44,
+      "attack_minus_benign_score": -0.029586195945739746
+    },
+    {
+      "candidate": "margin_magnitude",
+      "seed": 42,
+      "attack_minus_benign_score": 0.24795866012573242
+    },
+    {
+      "candidate": "margin_magnitude",
+      "seed": 43,
+      "attack_minus_benign_score": 0.1676774024963379
+    },
+    {
+      "candidate": "margin_magnitude",
+      "seed": 44,
+      "attack_minus_benign_score": 0.04367542266845703
+    },
+    {
+      "candidate": "margin_pair",
+      "seed": 42,
+      "attack_minus_benign_score": -0.09109857678413391
+    },
+    {
+      "candidate": "margin_pair",
+      "seed": 43,
+      "attack_minus_benign_score": -0.12453070282936096
+    },
+    {
+      "candidate": "margin_pair",
+      "seed": 44,
+      "attack_minus_benign_score": -0.043611884117126465
+    },
+    {
+      "candidate": "raw_pair",
+      "seed": 42,
+      "attack_minus_benign_score": -0.04049283266067505
+    },
+    {
+      "candidate": "raw_pair",
+      "seed": 43,
+      "attack_minus_benign_score": -0.04106783866882324
+    },
+    {
+      "candidate": "raw_pair",
+      "seed": 44,
+      "attack_minus_benign_score": -0.01319742202758789
+    },
+    {
+      "candidate": "representation_bn_pair",
+      "seed": 42,
+      "attack_minus_benign_score": 0.041560057550668716
+    },
+    {
+      "candidate": "representation_bn_pair",
+      "seed": 43,
+      "attack_minus_benign_score": 0.0
+    },
+    {
+      "candidate": "representation_bn_pair",
+      "seed": 44,
+      "attack_minus_benign_score": -0.005346224643290043
+    },
+    {
+      "candidate": "representation_magnitude",
+      "seed": 42,
+      "attack_minus_benign_score": 0.0009201588109135628
+    },
+    {
+      "candidate": "representation_magnitude",
+      "seed": 43,
+      "attack_minus_benign_score": 0.0008693672716617584
+    },
+    {
+      "candidate": "representation_magnitude",
+      "seed": 44,
+      "attack_minus_benign_score": -0.00011001154780387878
+    },
+    {
+      "candidate": "representation_pair",
+      "seed": 42,
+      "attack_minus_benign_score": 0.0848575234413147
+    },
+    {
+      "candidate": "representation_pair",
+      "seed": 43,
+      "attack_minus_benign_score": -0.040816664695739746
+    },
+    {
+      "candidate": "representation_pair",
+      "seed": 44,
+      "attack_minus_benign_score": -0.014751136302947998
+    }
+  ],
+  "note": "Actual requester only in aggregate statistics. Other observed q are input ablations on the same history, not additional deletion experiments. Separate candidate alarms are not an OR detector. FU traces are uncalibrated; no FU detection rate or latency is claimed."
+}
