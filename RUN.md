@@ -85,6 +85,16 @@ python FUBA/verify_trajectories.py --only k20_paper k20_paper_cifar clean_paper 
 
 BadFU 기존 궤적의 경로는 `artifacts/badfu/<run>/manifest.json`에 있습니다. `request_pipeline.load_tensor`는 SHA-256을, `load_event`는 클라이언트 수·집계 비중·저장 FedAvg를 검사합니다. 이번 직접 검사는 [JSON](FUBA/logs/trajectories/file_check_2026-10-15.json)에 기록했습니다. 오래된 임시 폴더 경로를 가진 manifest는 원본 파일과 함께 보존합니다.
 
+## 저장된 BadFU FU 모델과 탐지 결과 연결
+
+다음 명령은 기존 탐지 캐시와 FU 결과의 manifest를 연결하고 모델 해시 및 ASR·정확도를 다시 확인합니다. 학습과 FU를 새로 실행하지 않습니다. manifest가 참조하는 로컬 궤적, 데이터 및 FU 체크포인트가 필요합니다.
+
+```bash
+python FUBA/diagnose_hrac_badfu.py --out FUBA/logs/hrac/my_badfu_retrospective.json
+```
+
+[완료 결과](FUBA/logs/hrac/badfu_retrospective_v1.json): 요청자 5는 탐지 순위 5위였고, 기존 FU 한 단계의 ASR 21.88%→91.02%가 재현됐습니다. 정상 client 1 제거도 74.02%였습니다. 전체 FedEraser 결과나 완전 삭제 증거가 아닙니다. 최종 FL 모델의 ASR 24.02%와 한 단계의 시작 모델 21.88%를 구분합니다. 다음 전체 FU 실험은 요청자 5·정상 1/2·삭제 없는 처리를 같은 시작 모델과 설정으로 비교해야 합니다.
+
 ## 코드 정리 확인
 
 저장소 루트에서 실행합니다.
