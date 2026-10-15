@@ -14,6 +14,7 @@ FUBA의 추가 검증기는 저장된 **평균 트리거 생성기·eval 모드*
 | 로컬 FUBA `loc_k20paper_s0` | 실제 파일과 집계를 재확인, 아래 검사 기록 참고 | **이력 분석에 사용 가능.** 진짜 학습 전 `round_0`은 없음. 처음부터의 FU replay용으로는 불완전 |
 | 로컬 BadFU `imported_traj_full`, 15R, seed42 | 실제 15라운드·전후 모델, 데이터·초기 모델 확인 | **공개 코드의 6클라이언트 구성에 따른 이력 분석에 사용 가능.** 저장 실행기는 UL 루프를 분리한 15R 실행이므로 전체 원본 실행과 같다고 단정하지 않음. 과거 학습 데이터 해시는 없어 재구성 데이터의 원본 동일성은 미확인 |
 | 보관 PR #1의 BadFU 40R 공격 3개 | DISLAB 업로드 JSON/CSV 로그 확인 (`badfu_observe_v1`, 122개 JSON/CSV 로그 저장소 보관). 전체 학습 가중치(.pt)는 DISLAB 로컬에 보관 | **별도 방어 실험 실행기의 결과.** 삭제 전 ASR 69.77/65.29/81.61% 일치 확인. 언러닝(arm: none) 후 ASR 100.00% 폭발 확인. 상세 로그는 [badfu_observe_40r](../FUBA/logs/badfu_observe_40r/README.md)에 보관 |
+| 신규 공식 BadFU 40R 전 궤적 (`badfu_author_s42`, seed 42) | 6개 전 단계(`clean5`, `bd5`, `cover5`, `full6`, `fu_remove5`, `fu_remove1`) 총 205개 체크포인트(59.46 GB), `run.py verify` 전체 무결성 검증 통과 | **완전한 공식 파이프라인 재현 궤적.** `full6` 40R 종료 ASR 81.21%, 타깃 언러닝(`fu_remove5`) 시 ASR 99.54% 폭발 확인, 대조군(`fu_remove1`) 시 ASR 12.06% 억제 유지. 무라벨 프로브 탐지 통과 |
 | 같은 보관 실험의 BadFU 정상 3개 | DISLAB 업로드 JSON/CSV 로그 확인 (`eval-benign-42, 43, 44`). 학습 및 언러닝 지표 완전 일치 | **정상 훈련 및 언러닝 기준선 확인.** 삭제 전 ASR 1.76–2.01%, 언러닝 후 ASR 1.44–1.83%. 기존 투영 방어 시 오탐률 66.7% 확인 |
 
 DISLAB 행은 업로드된 JSON/CSV와 검사 기록을 대조한 결과다. 이 세션에서 DISLAB 디스크의 .pt 파일을 직접 읽은 것은 아니다. 40라운드 공격 및 정상의 122개 상세 JSON/CSV 로그는 [FUBA/logs/badfu_observe_40r/](../FUBA/logs/badfu_observe_40r/README.md)에 보관되어 있다. 로컬 직접 검사 결과는 [파일 검사 JSON](../FUBA/logs/trajectories/file_check_2026-10-15.json)에 둔다.
