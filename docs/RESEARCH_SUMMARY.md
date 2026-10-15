@@ -153,6 +153,26 @@ FU 결과 비교에서는 같은 시작 모델에서 요청자 5·정상 요청�
 
 원본: [초기 프로토콜](../FUBA/logs/hrac/views_badfu_v1/protocol.json) · [전체 관측 비교](../FUBA/logs/hrac/views_badfu_v1/analysis.json) · [후속 프로토콜](../FUBA/logs/hrac/views_holdout_v1/protocol.json) · [후속 결과](../FUBA/logs/hrac/views_holdout_v1/analysis.json) · [동일 관측의 점수 기준선](../FUBA/logs/hrac/views_score_ablation_v1.json) · [float32 점검](../FUBA/logs/hrac/views_badfu_v1/numerical_check.json) · [float64 점검](../FUBA/logs/hrac/views_badfu_v1/derivative_float64_check.json). 모델 응답 캐시도 같은 디렉터리에 저장했다.
 
+### 정답 라벨 없는 공개 이미지 관측 — 2026-10-15
+
+관측 가정을 완화한 별도 실행기 [experiment_hrac_unlabeled.py](../FUBA/experiment_hrac_unlabeled.py)를 추가했다. 클라이언트 데이터 archive, 정답 트리거 파일, 표적 클래스, 검사용 이미지 라벨을 입력받지 않는다. 입력 pool은 `images`와 `ids`만 허용한다. 일반 이미지 폴더도 지원하며, CIFAR exporter는 원본 파일의 라벨을 선택·기준선 계산에 사용하지 않고 픽셀만 저장한다. 모델 전처리와 공개 이미지 자체, 개별 클라이언트 업데이트·집계 비중은 여전히 필요하다.
+
+이전 관측 및 정상 기준선에 사용한 240개 이미지를 ID로 제외했다. 남은 CIFAR-10 test 이미지 9,760개에서 클래스별 균형화나 모델 예측 필터 없이 80개씩 세 묶음을 무작위 추출했다. 세 묶음은 서로 겹치지 않는다. 이미지 seed와 패턴 seed는 각각 20261019/20/21이며, 패턴마다 네 모서리를 모두 검사한다. 첫 수집 전에 프로토콜을 저장했다. 이 실행기는 정상 클래스 그래디언트 보정을 하지 않으며, 알려진 요청자 5·표적 0은 아래 결과의 사후 해석에만 사용했다.
+
+| 무작위 이미지 묶음 | 최종 HRAC 순위 / 출력 | 요청자 5 점수 | 다음 클라이언트 점수 |
+|---|---|---:|---:|
+| seed 20261019, 80개 | 1위 / 0 | 6.142 | 2.220 |
+| seed 20261020, 80개 | 1위 / 0 | 6.329 | 2.654 |
+| seed 20261021, 80개 | 1위 / 0 | 6.455 | 2.597 |
+
+주 분석은 모든 패턴·위치·출력에 대한 최대값이다. 5/10라운드 주 분석에서도 세 묶음 모두 요청자 5·출력 0이 1위였다. 최종 시점의 각 패턴별 결과도 동일했다. **같은 관측의 단순 누적 음의 기여 및 마지막 한 라운드도 최종 순위 1위**여서 긴 이력·HRAC 점수의 추가 이득을 주장하지 않는다. 이전 실험과 수치 설정도 완전히 같지는 않다: 이번에는 TF32를 끄고 배치 64로 실행했으므로 점수 크기의 변화를 라벨 제거만의 효과로 해석하지 않는다.
+
+동일한 BadFU 15라운드 학습 궤적을 재사용했고, RTX 4060 Laptop GPU에서 관측 수집 79.9초가 걸렸다. FL 학습·FU·그래디언트 계산은 모두 0회다. 두 라운드에서 중단한 뒤 `--resume`으로 이어서 완료했다. 전체 테스트 105개 통과: 라벨 필드 거부, CIFAR 라벨 미참조, 분류되지 않은 이미지 폴더, 중복 없는 표본 선택, BN 고정·집계 비중, archive 없는 측정, 재시작 및 캐시 손상을 검사했다.
+
+라벨 없는 같은 벤치마크 이미지에서 결과가 유지되었다는 증거다. 공개 데이터의 도메인 차이, 신뢰성, 정상 Non-IID 오탐률은 아직 검증하지 않았다. 이미지 seed 3개 × 패턴 seed 3개는 독립 공격 학습 9회가 아니다. 현재 모델 어댑터는 BadFU CIFAR-10/ResNet-18이며, FUBA에 대한 라벨 없는 관측 전이는 별도 구현·실험이 필요하다.
+
+[프로토콜](../FUBA/logs/hrac/unlabeled_badfu_v1/protocol.json) · [전체 결과](../FUBA/logs/hrac/unlabeled_badfu_v1/analysis.json) · [라운드별 시간·캐시 해시](../FUBA/logs/hrac/unlabeled_badfu_v1/progress.json) · [실행·긴 검사 안내](../RUN.md#라벨-없이-공개-이미지로-검사--현재-실행-경로).
+
 ## 4. Limitations & Critical Discussion
 
 - **관측 한계:** 깨끗한 입력에서 보이지 않는 백도어 기능은 이 표현으로 놓칠 수 있다. 깨끗한 입력/정상 변형의 관측 범위를 넓히는 실험은 가능하지만, 정답 트리거를 탐지 입력으로 쓰면 다른 가정이다.

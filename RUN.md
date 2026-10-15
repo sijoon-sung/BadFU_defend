@@ -85,7 +85,79 @@ python FUBA/verify_trajectories.py --only k20_paper k20_paper_cifar clean_paper 
 
 BadFU 기존 궤적의 경로는 `artifacts/badfu/<run>/manifest.json`에 있습니다. `request_pipeline.load_tensor`는 SHA-256을, `load_event`는 클라이언트 수·집계 비중·저장 FedAvg를 검사합니다. 이번 직접 검사는 [JSON](FUBA/logs/trajectories/file_check_2026-10-15.json)에 기록했습니다. 오래된 임시 폴더 경로를 가진 manifest는 원본 파일과 함께 보존합니다.
 
-## 저장된 BadFU FU 모델과 탐지 결과 연결
+## 라벨 없이 공개 이미지로 검사 — 현재 실행 경로
+
+`FUBA/experiment_hrac_unlabeled.py`는 **BadFU의 CIFAR-10/ResNet-18 저장 궤적**을 읽습니다. 공개 이미지의 정답 라벨·클래스별 선별·예측 라벨 필터·공격 표적·정답 트리거·클라이언트 데이터 파일을 사용하지 않습니다. 정상 클래스 그래디언트 보정도 제외했습니다. 실제 이미지, 모델 전처리 정보, 클라이언트별 모델 기록과 집계 가중치는 여전히 필요합니다. 임의 도메인의 이미지에서도 성능이 유지된다는 뜻은 아닙니다. FUBA의 다른 모델/전처리에 이 실행기를 그대로 적용하지 않습니다.
+
+### 1. 라벨 없는 이미지 파일 준비
+
+클래스별 하위 폴더가 없는 일반 이미지 폴더를 사용할 수 있습니다. 파일명·폴더명은 식별자로만 기록하며 클래스로 해석하지 않습니다. RGB로 변환하고 32×32로 축소합니다.
+
+```bash
+python FUBA/experiment_hrac_unlabeled.py prepare --image-dir /path/to/public_images --out artifacts/probes/public_unlabeled.npz
+```
+
+현재 CIFAR-10 실험을 재현하려면 다음 명령을 사용합니다. `--cifar-root`는 `cifar-10-batches-py`의 상위 폴더입니다. 데이터는 자동 다운로드하지 않습니다. 원본 CIFAR 파일에는 라벨도 들어 있지만, exporter는 픽셀만 꺼내고 라벨로 선별하지 않습니다. 결과 NPZ에는 `images`와 `ids` 두 필드만 존재하며, 실행기는 라벨 등 다른 필드가 있는 입력을 거부합니다.
+
+```bash
+python FUBA/experiment_hrac_unlabeled.py prepare --cifar-root /path/to/cifar10 --exclude-ids FUBA/logs/hrac/unlabeled_excluded_ids_v1.json --out artifacts/probes/cifar10_unlabeled_v1.npz
+```
+
+제외 목록은 이전 관측·기준선 실험에 사용한 공개 이미지 240개의 ID입니다. 남은 9,760개 중 라벨을 보지 않고 선택합니다. 다른 공개 이미지 폴더에는 CIFAR 전용 제외 목록을 적용하지 않습니다. 일반 폴더에 대한 별도 제외 목록은 상대 경로 문자열의 JSON 배열로 전달할 수 있습니다.
+
+### 2. 짧은 실행과 중간 재시작
+
+```bash
+python FUBA/experiment_hrac_unlabeled.py run --manifest artifacts/badfu/imported_traj_full/manifest.json --pool artifacts/probes/cifar10_unlabeled_v1.npz --out FUBA/logs/hrac/my_unlabeled --stop-after 2
+python FUBA/experiment_hrac_unlabeled.py run --manifest artifacts/badfu/imported_traj_full/manifest.json --pool artifacts/probes/cifar10_unlabeled_v1.npz --out FUBA/logs/hrac/my_unlabeled --resume
+```
+
+첫 명령은 두 라운드의 측정·저장 후 멈춰 속도를 확인합니다. 두 번째 명령은 이미 끝난 라운드를 해시 검사하고 나머지를 이어서 측정합니다. `--stop-after`를 생략하면 처음부터 끝까지 실행합니다. `--rounds 0`이 기본값이며 **저장되어 있는 모든 라운드**를 읽습니다. 없는 라운드를 새로 학습하지 않습니다.
+
+기본 설정은 서로 겹치지 않는 무작위 이미지 80개 × 3묶음, 패턴 3개 × 네 모서리입니다. 모든 출력 클래스를 검사합니다. 주 분석은 전체 패턴·위치의 최대값이며, 개별 패턴 결과도 전부 남깁니다. HRAC, 전체 이력 한 창, 단순 누적 음의 기여, 절댓값, 마지막 라운드 기준선을 같은 관측에서 비교합니다. 5/10/15/20/40/100 및 마지막 기록 시점 중 실제로 존재하는 시점의 결과를 저장합니다.
+
+다른 PC에서 manifest의 경로가 맞지 않으면 두 명령 모두에 `--checkpoint-root /path/to/traj_full`을 추가합니다. `history`/`after` 파일을 해당 폴더의 같은 파일명으로 찾으며, 기존 SHA-256 검사는 유지합니다. `data.pt`와 `pert_result.pt`는 필요하지 않습니다. 이 옵션은 다른 데이터/모델의 궤적으로 교체하는 옵션이 아닙니다.
+
+중단 후에는 동일한 pool·코드·시드·배치 크기·기기·경로 설정으로 `--resume`합니다. 다른 설정은 새 출력 폴더를 사용합니다. `protocol.json`은 모델 반응 측정 전에 저장되고, 라운드별 파일은 원자적으로 교체한 뒤 해시를 기록합니다. 캐시가 변조되었거나 설정이 달라지면 이어서 실행하지 않습니다.
+
+완료 후 모델·이미지 없이 저장된 응답만 다시 분석할 수도 있습니다.
+
+```bash
+python FUBA/experiment_hrac_unlabeled.py analyze --out FUBA/logs/hrac/my_unlabeled
+```
+
+### 3. 더 큰 검사와 소요 시간
+
+긴 궤적이 있으면 다음 설정으로 이미지·패턴 변동과 학습 길이를 함께 검사할 수 있습니다. 아래는 **추가 권장 실행이며, 완료 결과가 아닙니다**. 이미지 반복과 패턴 반복을 독립 학습 시드로 세지 않습니다.
+
+```bash
+python FUBA/experiment_hrac_unlabeled.py run --manifest /path/to/long_run/manifest.json --checkpoint-root /path/to/long_run/checkpoints --pool artifacts/probes/cifar10_unlabeled_v1.npz --out FUBA/logs/hrac/unlabeled_long --probe-size 256 --probe-seeds 20261022 20261023 20261024 20261025 20261026 --pattern-seeds 20261022 20261023 20261024 20261025 20261026 --rounds 0 --stop-after 2
+```
+
+속도를 확인한 뒤 같은 명령에서 `--stop-after 2`를 빼고 `--resume`을 붙입니다. GPU 메모리가 부족하면 **새 출력 폴더**에서 `--batch-size 32` 또는 `16`으로 시작합니다. CPU 실행은 `--device cpu`이며 시간이 더 걸릴 수 있습니다.
+
+대략적인 모델 평가량은 `라운드 수 × (클라이언트 수+1) × 이미지 묶음 수 × 묶음당 이미지 수 × (1+4×패턴 수)`에 비례합니다. 실행 중 각 라운드의 시간과 남은 시간 추정치를 출력합니다. 독립 정상/공격 학습 실행이 이미 있다면 같은 pool과 검사 설정으로 각각 새 출력 폴더에 적용합니다. 새 FL 학습 생성이나 전체 FU 실행은 이 명령에 포함되지 않습니다.
+
+| 6클라이언트 / RTX 4060 Laptop GPU | 수집 시간 | 근거 |
+|---|---:|---|
+| 15라운드, 80개 × 3묶음, 패턴 3개 | **79.9초** | 이번 실제 측정. 이미지 export·프로세스 초기화 시간 제외 |
+| 100라운드, 같은 기본 관측 설정 | 약 9분 | 모델 평가량으로 단순 비례 추정, 미실행 |
+| 15라운드, 256개 × 5묶음, 패턴 5개 | 약 12분 | 단순 비례 추정, 미실행 |
+| 100라운드, 256개 × 5묶음, 패턴 5개 | 약 1시간 17분 | 단순 비례 추정, 미실행 |
+
+입출력 비용·GPU·배치 크기에 따라 달라지므로 긴 실행은 먼저 두 라운드로 시간을 확인합니다. 위 시간은 저장 궤적 관측만의 비용이며 새로운 정상/공격 FL 학습 비용은 포함하지 않습니다.
+
+### 4. 이번 완료 결과
+
+[프로토콜](FUBA/logs/hrac/unlabeled_badfu_v1/protocol.json) · [모든 점수와 순위](FUBA/logs/hrac/unlabeled_badfu_v1/analysis.json) · [라운드별 시간·해시](FUBA/logs/hrac/unlabeled_badfu_v1/progress.json).
+
+공개 이미지 9,760개에서 서로 겹치지 않는 80개씩 세 묶음을 라벨 없이 추출했습니다. 새 무작위 패턴 세 개의 네 위치를 모두 검사했습니다. 15라운드 주 분석에서 요청자 5·출력 0이 세 묶음 모두 1위였고 점수는 6.142 / 6.329 / 6.455였습니다. 개별 패턴별 비교와 5/10라운드 주 분석에서도 요청자 5가 1위였습니다. 단순 누적 음의 기여 및 마지막 라운드 기준선도 최종 시점에서 1위였습니다. 중간 저장·재시작을 실제 실행에서 확인했고 전체 테스트 105개가 통과했습니다.
+
+이 결과는 기존 BadFU 학습 궤적 하나에서 **클래스별 균형 선별·라벨·oracle 의존을 제거한 추가 관측 검증**입니다. 세 묶음이나 아홉 이미지–패턴 조합을 독립 공격 실행으로 세지 않습니다. 타 도메인 공개 이미지·정상 Non-IID 오탐률·다른 트리거에 대한 일반화는 아직 미검증입니다.
+
+순위만으로 공격 경보를 확정하지 않습니다. 독립 정상 실행의 임계값 보정·평가가 없으므로 `analysis.json`의 `fpr`와 `tpr`는 `null`입니다. 이번 경로에서는 대내 요청 검사도 수행하지 않습니다.
+
+## 이전 입력 조건 실험과 저장 FU 결과 연결
 
 ### 입력 조건과 정상 기준 방향 실험
 
@@ -133,7 +205,7 @@ python FUBA/diagnose_hrac_badfu.py --out FUBA/logs/hrac/my_badfu_retrospective.j
 python -m unittest discover -s FUBA/tests -q
 ```
 
-기존 테스트 76개, HRAC 검증 19개, 관측·정상 기준 적합 검증 3개를 포함해 98개가 통과했습니다. 과거 알고리즘에 딸린 테스트 3개 파일은 코드와 함께 보관했습니다. 테스트 통과를 탐지 성능으로 세지 않습니다.
+기존 테스트 76개, HRAC 검증 19개, 관측·정상 기준 적합 검증 3개, 라벨 없는 실행기 검증 7개를 포함해 105개가 통과했습니다. 과거 알고리즘에 딸린 테스트 3개 파일은 코드와 함께 보관했습니다. 테스트 통과를 탐지 성능으로 세지 않습니다.
 
 완료된 `manifest.json`과 `scores.json`이 있을 때만 다음 판독기를 사용합니다.
 
