@@ -1,6 +1,6 @@
 # 현재 실행 안내
 
-먼저 [궤적 상태](docs/TRAJECTORIES.md)를 봅니다. 새 학습이나 알고리즘 추가보다 저장 파일 확인이 우선입니다. 실행 중인 작업은 그대로 완료하고, 완료 후 이 정리 버전을 받습니다.
+먼저 [궤적 상태](docs/TRAJECTORIES.md)를 봅니다. 직접 검사한 로컬 파일은 무결성·집계 검사를 통과했습니다. 다음 확인은 기존 체크포인트의 평가 조건 대조이며, 전체 재학습을 요구하지 않습니다. 실행 중인 작업은 그대로 완료하고, 완료 후 이 정리 버전을 받습니다.
 
 ## 남긴 실행 경로
 
@@ -21,7 +21,7 @@ FUBA 검증기는 재학습하지 않습니다. 파일 수·참여·집계를 �
 python FUBA/verify_trajectories.py --only k20_paper k20_paper_cifar clean_paper --force --no_doc
 ```
 
-검증기의 기존 `ok`에는 완화된 공격 조건이 포함될 수 있습니다. 잠복 조건 판정은 [궤적 상태](docs/TRAJECTORIES.md)를 따릅니다. 파일이 없는 PC의 `missing`을 서버 파일 소실로 해석하지 않습니다.
+검증기의 기존 `ok`에는 완화된 공격 조건이 포함될 수 있습니다. 또한 이 검증기의 ASR은 평균 생성기·eval 모드에서 측정하며, 학습 로그의 개별 생성기·train 모드 평가와 다릅니다. 위 명령을 반복하는 것만으로 평가 차이가 해소되지는 않습니다. ASR을 곧바로 궤적 생성 오류나 원본 공격 재현 여부로 해석하지 않습니다. [평가 차이의 근거](docs/EVIDENCE_AUDIT.md#궤적-판정-정정-2026-10-15)를 참고합니다. 파일이 없는 PC의 `missing`을 서버 파일 소실로 해석하지 않습니다.
 
 BadFU 기존 궤적의 경로는 `artifacts/badfu/<run>/manifest.json`에 있습니다. `request_pipeline.load_tensor`는 SHA-256을, `load_event`는 클라이언트 수·집계 비중·저장 FedAvg를 검사합니다. 이번 직접 검사는 [JSON](FUBA/logs/trajectories/file_check_2026-10-15.json)에 기록했습니다. 오래된 임시 폴더 경로를 가진 manifest는 원본 파일과 함께 보존합니다.
 
