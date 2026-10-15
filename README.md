@@ -20,4 +20,4 @@ FUBA MNIST 6개·CIFAR 공격 3개·정상 4개는 기존 이력 분석 자료�
 
 현재 작업 브랜치는 `codex/structural-latent-defense` 하나입니다. [나머지 브랜치의 용도](BRANCHES.md)를 구분합니다. 진행 중인 실험은 종료 후 코드를 갱신합니다.
 
-이전 결과는 없어진 것이 아닙니다. [과거 탐지 결과 정정](docs/EVIDENCE_AUDIT.md)과 [보관 코드](legacy/research_2026-10-15/README.md)에서 찾을 수 있습니다. 새 설계 후보는 [짧은 연구 메모](docs/RESEARCH_SUMMARY.md)에만 남겼으며 아직 구현하지 않았습니다.
+이전 결과는 [과거 탐지 결과 정정](docs/EVIDENCE_AUDIT.md)과 [보관 코드](legacy/research_2026-10-15/README.md)에서 찾을 수 있습니다. **이력–요청 기여 일관성(HRAC)**의 제약 최적화·정상 실행 보정을 구현했습니다. [수식과 검증 결과](docs/RESEARCH_SUMMARY.md)에 실제 궤적과 합성 검증을 구분했습니다. FUBA 개발 결과는 기존 점수와 같고, BadFU 15라운드의 공격자 식별은 아직 해결하지 못했습니다.
