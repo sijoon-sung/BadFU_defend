@@ -2,6 +2,51 @@
 
 저장소 루트에서 `python reproduction/run.py`를 사용합니다. 기존 학습용 `.sh` 실행기는 제거했습니다. 공식 소스를 커밋으로 고정해 다시 받았고, 실행할 때 복사본에 저장·호환성 패치를 적용합니다. **기존 로그·체크포인트는 그대로 보존합니다.**
 
+## 학습을 마쳤으면: 탐지 알고리즘 검증
+
+**완료된 `badfu_author_s42`가 있는 컴퓨터에서, 학습에 사용한 Python 환경과 저장소 루트에서 실행합니다. 재학습과 FU 실행은 없습니다.** 먼저 현재 작업을 보존한 상태에서 이 브랜치의 최신 코드를 받습니다.
+
+```bash
+git pull --ff-only origin codex/structural-latent-defense
+python reproduction/validate_detection.py --run-dir artifacts/badfu_author_s42
+```
+
+실험 폴더가 다른 위치이면 `--run-dir`만 실제 경로로 바꿉니다. 공개 이미지 경로는 학습의 `protocol.json`에서 자동으로 읽습니다. 데이터를 옮겼다면 `--cifar-root /실제/데이터/상위폴더`를 추가합니다. 해당 폴더 아래에 `cifar-10-batches-py`가 있어야 합니다. 이미 준비한 무라벨 이미지 풀을 쓰려면 대신 `--pool /실제/pool.npz`를 지정합니다. 이미지 클래스 라벨, BadFU 원본 공격 이미지, `pert_result.pt`는 탐지에 필요하지 않습니다.
+
+이 명령은 다음을 순서대로 수행합니다.
+
+1. 6개 단계의 실제 체크포인트를 모두 읽어 해시·연속성·유한값·FL 집계를 검사합니다. 40R이면 초기 모델을 포함해 **206개**가 예상됩니다. FU 단계는 저장 연속성을 검사하며 FU 알고리즘을 재실행하지 않습니다.
+2. `full6`, `clean5`, `cover5`의 모든 FL 라운드에서 기존 무라벨 관측을 수집합니다. 서로 겹치지 않는 80장 × 3세트, 고정 패턴 3개 × 4모서리, 창 길이 전체/10/20을 사용합니다. 점수 공식이나 설정을 결과에 맞춰 조정하지 않습니다.
+3. **HRAC, 전체 이력만 쓰는 HRAC, 음의 기여량, 절대 기여량, 마지막 라운드 음의 기여량**을 같은 관측에서 비교합니다. 깨끗한 이미지와 패턴-원본 차이도 비교합니다. 클라이언트·타깃 정답은 점수 계산 후 순위 평가에만 씁니다.
+4. 매 라운드 순위와 당시 저장된 ASR을 연결합니다. 동점은 순위 범위로 남기고, 최초 단독 1위 시점과 마지막 순위를 각각 기록합니다. 정상 단계의 점수도 함께 남깁니다.
+5. 전체 가중치 없이 다시 점수를 계산할 수 있는 작은 결과 묶음을 만듭니다.
+
+완료 후 **이 파일 하나를 공유하면 됩니다.**
+
+```text
+artifacts/badfu_author_s42/detection_validation_v1/badfu_detection_evidence.zip
+```
+
+압축 안의 `report.txt`는 요약, `summary.json`은 마지막 순위·최초 단독 1위·기존 FU 전후 ASR, `comparison.csv`는 라운드별 비교입니다. 관측 평균(`response_means.npz`), 원래 평가 로그·manifest·입력 해시도 포함합니다. 모델 가중치와 이미지 픽셀은 포함하지 않습니다. 약 60 GB 체크포인트를 업로드할 필요가 없습니다. 원본별 관측은 실행 컴퓨터에 별도로 남습니다.
+
+중단되면 **같은 명령**을 다시 실행합니다. 체크포인트는 다시 검사하고 이미 완료된 관측은 해시 확인 후 재사용합니다. 코드·입력·설정이 바뀌었으면 새 `--out artifacts/badfu_detection_v2`를 지정해야 합니다. 메모리 부족이면 새 출력 폴더와 `--batch-size 16`, GPU가 없으면 `--device cpu`를 사용합니다. 누락된 모델은 자동 재학습하지 않고 오류로 알려줍니다.
+
+로컬 RTX 4060 Laptop에서 실제 2R 축소 궤적의 6단계 검사와 3단계 관측·내보내기에 약 1분이 걸렸습니다. 테스트 118개, 기존 분석기와 점수 배열 180개 일치, 작은 묶음만 사용한 재계산도 확인했습니다. [검증기 자체의 점검 기록](reproduction/validation/detection_runner_smoke.json). **40R은 15–30분을 예상하지만 실측 전 추정**이며 디스크와 GPU에 따라 늘어납니다. CPU는 훨씬 오래 걸릴 수 있습니다. 라운드마다 관측 시간과 예상 잔여 시간이 출력됩니다.
+
+판독 시 주의할 범위:
+
+- 순위 1위는 삭제 후보의 상대적 위치입니다. 독립적인 정상 실행으로 임계값을 보정하지 않았으므로 **탐지 판정·FPR·TPR은 산출하지 않습니다.** 이미지 3세트는 독립 학습 3회가 아닙니다.
+- `clean5`는 5클라이언트, `full6`는 6클라이언트이므로 정상 단계 비교는 진단용입니다. 강한 Non-IID에서 정상·공모를 구분했다는 결론은 아직 낼 수 없습니다. `cover5`는 정상 대조군이 아닙니다.
+- `fu_remove5`의 출발 학습은 `full6`, `fu_remove1`은 `cover5`입니다. 두 FU 결과를 같은 모델의 공격/정상 삭제 대조 실험으로 해석하지 않습니다.
+- 저장된 ASR을 비교하며 공격 이미지로 ASR을 다시 평가하지는 않습니다. 최종 ASR이 이미 높으면 잠복 상태의 사전 탐지 증거가 되지 않습니다. 최초 1위도 사후 시점 비교이며 순차 오탐 보장이 있는 경보가 아닙니다.
+- 현재 검증 대상은 BadFU의 기존 **HRAC inter 채널**입니다. 별도로 관측한 삭제 요청이 필요한 intra 채널과 FUBA는 이 명령에서 검증하지 않습니다.
+
+다른 컴퓨터에서 압축을 푼 뒤 같은 버전의 코드로 아래를 실행하면, 가중치나 이미지 없이 결과표를 재계산할 수 있습니다.
+
+```bash
+python reproduction/validate_detection.py --replay /압축푼/경로/evidence
+```
+
 ## 1. 환경과 경로
 
 Python 3.11, PyTorch 2.4.1+cu118, torchvision 0.19.1+cu118에서 확인했습니다. 기존 GPU 환경이 있으면 그대로 사용합니다. 새 환경이라면 해당 조합의 PyTorch/torchvision을 먼저 설치하고 다음을 실행합니다.
@@ -73,13 +118,6 @@ BadFU는 여섯 단계, FUBA는 `fl` 단계가 저장됩니다. **파일 구조 
 
 FUBA의 FU 모듈은 공식 버전으로 복원했지만 이번 지원·검증 범위는 FL 공격 학습과 전체 궤적 저장입니다. 원본 FedEraser에는 `global_epoch=2`, 삭제자 4 고정, IID 재분할이 있어 **100R Non-IID 궤적의 일반 FU 검증기로 바로 사용하지 않습니다.** [원본과 어댑터의 차이 및 검증 범위](docs/FRESH_UPSTREAM.md)를 참고하세요.
 
-## 5. 저장된 BadFU 궤적으로 현재 탐지 실험 연결
+## 5. 세부 관측 설정과 기존 기록
 
-새 `full6/manifest.json`을 기존 라벨 없는 관측기에 바로 전달할 수 있습니다. 이 단계는 재학습이나 FU를 실행하지 않습니다.
-
-```powershell
-python FUBA/experiment_hrac_unlabeled.py prepare --cifar-root "$DataRoot" --exclude-ids FUBA/logs/hrac/unlabeled_excluded_ids_v1.json --out artifacts/probes/new_pool.npz
-python FUBA/experiment_hrac_unlabeled.py run --manifest artifacts/badfu_author_s42/full6/manifest.json --pool artifacts/probes/new_pool.npz --out artifacts/badfu_s42_probes
-```
-
-기존 pool이 있으면 첫 줄을 생략합니다. 이 관측기는 BadFU ResNet-18 전용으로, FUBA·FU 단계 manifest를 받으면 거부합니다. [이미지 준비·중간 저장·분석 안내](docs/UNLABELED_PROBES.md) · [실제 축소 검증 기록](reproduction/validation/summary.json).
+완료된 BadFU의 검증은 문서 맨 위의 통합 명령을 사용합니다. 관측기 자체의 세부 설정은 [이미지 준비·중간 저장·분석 안내](docs/UNLABELED_PROBES.md), 학습 실행기 축소 검증은 [검증 기록](reproduction/validation/summary.json)을 참고합니다.
