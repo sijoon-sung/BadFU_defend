@@ -1,0 +1,9 @@
+{
+  "round": 2,
+  "clean_acc_pct": 9.375,
+  "asr_pct": 0.0,
+  "author_generator_client": 4,
+  "generator_source": "last_individual",
+  "generator_mode": "train",
+  "target_excluded": true
+}

@@ -189,7 +189,7 @@ def state_dict_to_cpu(state_dict):
             cpu_state_dict[k] = v
     return cpu_state_dict
 
-def save_models(global_model_dict, local_model_dicts, backdoor_model, r, name, metadata=None):
+def save_models(global_model_dict, local_model_dicts, backdoor_model, r, name):
     """Save global, local, and backdoor model states to disk."""
     os.makedirs("checkpoints", exist_ok=True)
 
@@ -206,10 +206,6 @@ def save_models(global_model_dict, local_model_dicts, backdoor_model, r, name, m
     if backdoor_model is not None:
         with open(f"checkpoints/backdoor_net_model_{name}_round_{r}.pkl", "wb") as f:
             pickle.dump(state_dict_to_cpu(backdoor_model.state_dict()), f)
-    if metadata is not None:
-        import json
-        with open(f"checkpoints/history_{name}_round_{r}.json", "w", encoding="utf-8") as f:
-            json.dump(metadata, f, ensure_ascii=False, allow_nan=False)
 
 
 def split_non_iid_concept(trainset, trainset_split, shift_ratio=0.4, seed=123):
@@ -269,16 +265,13 @@ def split_non_iid_dirichlet(dataset, DATASET, num_clients=5, alpha=0.5,
         num_classes = 10
         y = dataset.targets
 
-    # 고정 시드: MPI 랭크마다 따로 이 함수를 부르므로, 시드가 없으면 랭크끼리 분할이 달라진다 (원본은 seed 인자를 안 썼음).
-    rng = np.random.RandomState(seed)
-    y = np.asarray(y)
     for attempt in range(max_retries):
         class_indices = [np.where(y == i)[0] for i in range(num_classes)]
         client_indices = [[] for _ in range(num_clients)]
 
         for cls_id, idxs in enumerate(class_indices):
-            rng.shuffle(idxs)
-            proportions = rng.dirichlet(np.repeat(alpha, num_clients))
+            np.random.shuffle(idxs)
+            proportions = np.random.dirichlet(np.repeat(alpha, num_clients))
             proportions = (np.cumsum(proportions) * len(idxs)).astype(int)[:-1]
             split = np.split(idxs, proportions)
             for i, idx in enumerate(split):
@@ -289,67 +282,6 @@ def split_non_iid_dirichlet(dataset, DATASET, num_clients=5, alpha=0.5,
 
     subsets = [torch.utils.data.Subset(dataset, client_indices[i]) for i in range(num_clients)]
     return subsets
-
-
-def split_class_owner(dataset, num_clients, owner, owner_class, owner_frac=0.9, seed=1223):
-    """오탐 시험용: 정상 클라 owner 가 owner_class 의 owner_frac 을 혼자 갖고, 나머지는 고르게(IID) 나눈다.
-
-    owner_class 의 남은 (1-owner_frac) 과 다른 클래스 전부는 모든 클라(owner 포함)에 고르게 나눈다.
-    """
-    rng = np.random.RandomState(seed)
-    y = np.asarray(dataset.targets)
-    owner = owner % num_clients
-    client_indices = [[] for _ in range(num_clients)]
-    for c in range(int(y.max()) + 1):
-        idxs = np.where(y == c)[0]
-        rng.shuffle(idxs)
-        if c == owner_class:
-            k = int(round(owner_frac * len(idxs)))
-            client_indices[owner].extend(idxs[:k])
-            idxs = idxs[k:]
-        for i, part in enumerate(np.array_split(idxs, num_clients)):
-            client_indices[i].extend(part)
-    return [torch.utils.data.Subset(dataset, client_indices[i]) for i in range(num_clients)]
-
-
-def make_client_split(trainset, config):
-    """학습(train_main)과 언러닝(retrain/fedEraser/...)이 같은 클라이언트 분할을 쓰게 한다.
-
-    원본 FUBA 는 언러닝 쪽에서 항상 IID random_split(seed 522) 을 다시 해서 non-IID 궤적과 분할이 어긋났다.
-    IID: torch seed = config.seed (학습과 동일). non-IID: config.split_seed (기본 1223 = 기존 궤적과 호환).
-    """
-    n = config.num_clients
-    subset_length = len(trainset) // n
-    remainder = len(trainset) % n
-    lengths = [subset_length + 1] * remainder + [subset_length] * (n - remainder)
-    torch.manual_seed(getattr(config, 'seed', 522))
-    if not getattr(config, 'non_iid', False):
-        return random_split(trainset, lengths)
-    sseed = getattr(config, 'split_seed', 1223)
-    t = config.non_iid_type
-    if t == 'Dirichlet':
-        return split_non_iid_dirichlet(trainset, config.dataset, n, alpha=config.alpha, seed=sseed)
-    if t == 'lognormal':
-        return lognormal_split(trainset, n, sigma=config.sigma)
-    if t == 'concept_shift':
-        split = split_non_iid_dirichlet(trainset, config.dataset, n, alpha=config.alpha, seed=sseed)
-        split_non_iid_concept(trainset, split, shift_ratio=config.shift_ration, seed=123)
-        return split
-    if t == 'class_owner':
-        return split_class_owner(trainset, n, config.owner_client, config.owner_class, config.owner_frac, seed=sseed)
-    raise ValueError(f"unknown non_iid_type: {t}")
-
-
-def make_client_loaders(trainset_split, config):
-    """학습과 같은 DataLoader 설정(drop_last=True). imagenet 은 Subset 그대로 넘긴다."""
-    loaders = []
-    for subset in trainset_split:
-        if config.dataset == 'imagenet':
-            loaders.append(subset)
-        else:
-            loaders.append(torch.utils.data.DataLoader(subset, batch_size=config.batch_size,
-                                                       shuffle=True, num_workers=0, drop_last=True))
-    return loaders
 
 
 def find_max_idx_within_limit(lst, limit):

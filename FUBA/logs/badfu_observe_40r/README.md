@@ -1,5 +1,7 @@
 # BadFU 40-Round Attack & Benign Observation Benchmark Logs
 
+이 결과는 보관된 `request_purify` 방어 실험 실행기의 결과다. 2026-10-15에 새로 받은 공식 소스 실행 결과와 구분한다. GitHub에는 JSON/CSV가 있고 전체 체크포인트는 포함되지 않는다. 삭제 전 ASR이 이미 65.29–81.61%여서 이 수치만으로 낮은 ASR의 잠복 공격을 재현했다고 주장하지 않는다.
+
 DISLAB 로컬 환경(`C:\Users\DISLAB\.gemini\antigravity\scratch\BadFU_defend\artifacts\badfu_observe_v1\`)에서 수행된 **BadFU 40라운드 공격 및 정상 연합학습(FL) 궤적과 연합 언러닝(FU) 관측 벤치마크**의 상세 로그 데이터입니다.
 
 > [!NOTE]
@@ -29,9 +31,9 @@ DISLAB 로컬 환경(`C:\Users\DISLAB\.gemini\antigravity\scratch\BadFU_defend\a
 
 | 실험 구분 | 시드 (Seed) | 최종 Clean ACC (%) | 최종 Backdoor ASR (%) | Clean Loss | 비고 |
 |---|---|---|---|---|---|
-| **Attack (BadFU)** | Seed 42 | **83.43%** | **69.77%** | 0.7555 | 잠복 백도어 형성 (삭제 전) |
-| **Attack (BadFU)** | Seed 43 | **84.72%** | **65.29%** | 0.7163 | 잠복 백도어 형성 (삭제 전) |
-| **Attack (BadFU)** | Seed 44 | **87.07%** | **81.61%** | 0.6384 | 잠복 백도어 형성 (삭제 전) |
+| **Attack (BadFU)** | Seed 42 | **83.43%** | **69.77%** | 0.7555 | 삭제 전부터 높은 ASR |
+| **Attack (BadFU)** | Seed 43 | **84.72%** | **65.29%** | 0.7159 | 삭제 전부터 높은 ASR |
+| **Attack (BadFU)** | Seed 44 | **87.07%** | **81.61%** | 0.5947 | 삭제 전부터 높은 ASR |
 | **Benign (정상)** | Seed 42 | **83.86%** | **1.99%** | 0.7277 | 정상 훈련 기준선 |
 | **Benign (정상)** | Seed 43 | **84.89%** | **2.01%** | 0.6974 | 정상 훈련 기준선 |
 | **Benign (정상)** | Seed 44 | **87.00%** | **1.76%** | 0.6128 | 정상 훈련 기준선 |
@@ -48,7 +50,7 @@ DISLAB 로컬 환경(`C:\Users\DISLAB\.gemini\antigravity\scratch\BadFU_defend\a
   - Seed 42: Clean ACC 85.40% / **ASR 100.00%**
   - Seed 43: Clean ACC 86.08% / **ASR 100.00%**
   - Seed 44: Clean ACC 87.96% / **ASR 100.00%**
-  - 💥 **관찰 결과**: 언러닝이 진행됨에 따라 잠복해 있던 백도어 트리거가 완전히 폭발하여 3개 시드 모두에서 ASR이 **100.00%**에 도달함 (BadFU 공격 효과 완전 재현).
+  - 삭제 후 세 시드 모두 ASR 100.00%가 관측됐다. 이 실험에서 ASR이 더 높아진 결과이며 공식 원본 전체 실행의 재현을 입증하지는 않는다.
 - **정상 궤적 (`eval-benign-*`)**:
   - Seed 42: Clean ACC 85.18% / ASR 1.44%
   - Seed 43: Clean ACC 86.28% / ASR 1.83%
@@ -60,7 +62,7 @@ DISLAB 로컬 환경(`C:\Users\DISLAB\.gemini\antigravity\scratch\BadFU_defend\a
 - **무력화 실패**: 경보가 울린 공격 시드 43, 44에서도 ASR이 **100.00%**로 유지되어 기존 투영 기반 방어가 실패함.
 
 ### 3.3. 오라클 방어 (`arm: oracle`)
-- 이상적인 상태를 가정한 오라클 진단(`arm: oracle`) 하에서도 ASR이 100.00%로 유지되어, 단순 투영 가드가 아닌 **구조적 잠재공간 방어(Structural Latent Defense)**가 필수적임을 실증함.
+- 오라클 진단(`arm: oracle`)에서도 ASR 100.00%가 유지됐다. 이 설정의 투영 방어가 효과를 보이지 않았다는 결과이며, 특정 대안 방어가 필수적이라는 결론까지 뒷받침하지는 않는다.
 
 ---
 

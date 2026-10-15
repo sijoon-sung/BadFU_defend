@@ -8,7 +8,7 @@ from mpi4py import MPI
 import timm
 from dataset import MyImagenet, MNIST, CIFAR10
 from model import Net, UNet, MNISTAutoencoder
-from utils.comm_utils import l2_distance, attack, test,get_backdoored_dataset ,get_clean_dataset, save_models, split_non_iid_dirichlet,find_max_idx_within_limit,federated_averaging_net,geometric_median,compute_parameter_ratio_difference,adjust_updates_based_on_ratio,dict_to_cpu,dict_to_device,lognormal_split,split_non_iid_concept,split_class_owner,make_client_split
+from utils.comm_utils import l2_distance, attack, test,get_backdoored_dataset ,get_clean_dataset, save_models, split_non_iid_dirichlet,find_max_idx_within_limit,federated_averaging_net,geometric_median,compute_parameter_ratio_difference,adjust_updates_based_on_ratio,dict_to_cpu,dict_to_device,lognormal_split,split_non_iid_concept
 from defence.simple_defence_method import federated_averaging_median,federated_averaging_multi_krum
 from sql import get_db_connection, init_database_connection, add_benign_client_log, add_attacker_client_log_defender_before, add_attacker_client_log_final, add_attacker_client_log_gamma, add_attacker_client_log_grad_simulate_train, add_attacker_client_log_simulate_train, add_global_log, add_l2_log_defender
 from config import Config
@@ -20,10 +20,6 @@ import pickle
 comm = MPI.COMM_WORLD
 
 def main(config: Config):
-    # 통계용 전역 seed (IBA 초기화·클라 선택·분할 모두 제어). seed 별로 독립 실행이 됨.
-    import numpy as _np
-    random.seed(config.seed); _np.random.seed(config.seed)
-    torch.manual_seed(config.seed); torch.cuda.manual_seed_all(config.seed)
     # Import local training method depending on attack type
     if config.attack_method == "iba":
         from train_method_iba import local_train
@@ -60,7 +56,7 @@ def main(config: Config):
         with open(config.pretrained_model,"rb") as f:
             model.load_state_dict(pickle.load(f))
         testloader = torch.utils.data.DataLoader(testset, batch_size=config.test_batch_size,
-                                             shuffle=True, num_workers=0)
+                                             shuffle=True, num_workers=12)
         if config.dataset == 'mnist':
             backdoor_model = MNISTAutoencoder().to(config.device)
         elif config.dataset == 'cifar10':
@@ -82,8 +78,19 @@ def main(config: Config):
     # Split dataset among clients
     trainloaders = []
     if config.rank != 0:
-        # 분할은 언러닝(retrain/fedEraser)과 같은 함수를 써야 궤적과 FU 의 클라이언트 데이터가 일치한다.
-        trainset_split = make_client_split(trainset, config)
+        subset_length = len(trainset) // config.num_clients
+        remainder = len(trainset) % config.num_clients
+        lengths = [subset_length + 1] * remainder + [subset_length] * (config.num_clients - remainder)
+        torch.manual_seed(522)
+        if not config.non_iid:
+            trainset_split = torch.utils.data.random_split(trainset, lengths)
+        elif config.non_iid_type == 'Dirichlet':
+            trainset_split = split_non_iid_dirichlet(trainset, config.dataset, config.num_clients, alpha=config.alpha)
+        elif config.non_iid_type == 'lognormal':
+            trainset_split = lognormal_split(trainset, config.num_clients, sigma=config.sigma)
+        elif config.non_iid_type == 'concept_shift':
+            trainset_split = split_non_iid_dirichlet(trainset, config.dataset, config.num_clients, alpha=config.alpha)
+            split_non_iid_concept(trainset, trainset_split, shift_ratio=config.shift_ration, seed=123)
         # Create loaders for each subset
         for subset in trainset_split:
             if config.dataset == 'imagenet':
@@ -94,14 +101,10 @@ def main(config: Config):
 
     # Test loader
     testloader = torch.utils.data.DataLoader(testset, batch_size=config.test_batch_size,
-                                             shuffle=True, num_workers=0)
+                                             shuffle=True, num_workers=12)
 
     # Initialize global model
     global_model_dict = config.creat_cls_net().state_dict()
-    if config.rank == 0 and config.save_results:
-        # A genuine pre-FL checkpoint is required for complete FU replay.
-        save_models(global_model_dict, None, None, 0, config.name,
-                    {"schema": 1, "kind": "pre_training", "seed": config.seed})
     print("start")
 
     # Define backdoor clients
@@ -287,8 +290,10 @@ def main(config: Config):
         # Server logging and saving
         if config.rank == 0:
             global_model_dict_current = copy.deepcopy(global_model_dict)
-            # Clean control trajectories also need per-client records for FU.
-            local_model_dicts_current = [copy.deepcopy(local_model_dicts[i]) if local_model_dicts[i] is not None else copy.deepcopy(global_model_dict) for i in range(len(local_model_dicts))]
+            if config.warm_up == config.communication_rounds:
+                local_model_dicts_current = None
+            else:
+                local_model_dicts_current = [copy.deepcopy(local_model_dicts[i]) if local_model_dicts[i] is not None else copy.deepcopy(global_model_dict) for i in range(len(local_model_dicts))]
             print(f'Round {r+1} completed', flush=True)
 
             # Store backdoor model state for saving
@@ -309,7 +314,6 @@ def main(config: Config):
                     save_thread.join()
                 save_thread = threading.Thread(
                     target=save_models,
-                    args=(global_model_dict_current, local_model_dicts_current, backdoor_model, r + 1, config.name,
-                          {"schema": 1, "selected_clients": list(selected_clients), "seed": config.seed})
+                    args=(global_model_dict_current, local_model_dicts_current, backdoor_model, r + 1, config.name)
                 )
                 save_thread.start()

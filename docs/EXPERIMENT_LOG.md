@@ -1,5 +1,7 @@
 # 실험 기록 — 공격 궤적 (자동 생성)
 
+> 과거 실행 기록이다. 아래 셸 명령은 현재 실행 지침이 아니며, 일부 실행기는 공식 소스 복원 과정에서 제거했다. 새 학습은 [RUN.md](../RUN.md)를 따른다.
+
 `FUBA/verify_trajectories.py` 가 `FUBA/trajectories.json` 과 저장 파일을 읽어 만든다. 갱신 2026-10-14 23:37 (DESKTOP-QUB35TD). 손으로 고치지 말 것.
 
 - 숫자는 `ACC / ASR` (%). 잠복 = 삭제 전 최종 모델 θ_T. 제거 = 그 클라이언트의 저장 기여를 1 차 근사로 뺀 모델 (θ_T − U_k, `release_map.load_fuba` 와 같은 U). 채점은 MNIST/CIFAR test[500:] 과 저장된 트리거.

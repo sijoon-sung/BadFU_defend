@@ -1,21 +1,102 @@
-# 현재 코드
+# FUBA: Backdoor Federated Learning via Federated Unlearning
 
-| 용도 | 파일 |
-|---|---|
-| 원 공격 학습 | `main.py`, `train_main.py`, `train_method_*.py`, `config.py`, `dataset.py` |
-| 궤적 생성·검증 | `make_trajectories.sh`, `run_real_fuba.sh`, `trajectories.json`, `verify_trajectories.py` |
-| 저장 이력 수집 | `collect_tension.py`, 공용 로더 `release_map.py` |
-| 현재 탐지 비교 | `tension_audit.py`, `benchmark_tension.py`, `replay_tension.py`, `experiment_tension.py`, `report_detection.py` |
-| 이력–요청 기여 일관성(HRAC) | `hrac.py`, `experiment_hrac.py` — 제약 최적화, 기존 궤적 재사용, 정상 실행 보정 |
-| BadFU 관측 비교 | `experiment_hrac_views.py` — 깨끗한 입력·진단 트리거·고정 무작위 패턴과 정상 기준 방향 비교 |
-| 라벨 없는 BadFU 관측 | `experiment_hrac_unlabeled.py` — 이미지 폴더/픽셀 전용 입력, 무작위 선별, 단순 기준선, 라운드별 저장·재시작 |
-| 관측 비교 후속 확인·그래프 | `validate_hrac_views.py`, `plot_hrac_views.py` — 분리한 이미지·새 패턴, 전체 클라이언트 점수 그림 |
-| 같은 관측의 점수 기준선 | `compare_hrac_views.py` — HRAC·단순 음의 기여·절댓값·마지막 라운드를 같은 캐시에서 비교 |
-| 기존 FU 결과 연결 | `diagnose_hrac_badfu.py` — 저장 모델과 이력 캐시의 출처 및 ASR 재평가 |
-| 기존 FU 실행 지원 | `tension_control.py`, `request_geometry.py`, `large_geometry.py`, `experiment_tension_control.py`, `experiment_request_replay.py` |
-| 기존 의존 코드 | `benign_departure.py`, `robust_fu.py`, 모델·학습·언러닝 하위 폴더 |
-| 원시 결과 | `logs/` — 기존 경로 유지 |
+## Abstract
 
-실행은 [RUN](../RUN.md), 궤적의 사용 범위는 [궤적 상태](../docs/TRAJECTORIES.md)를 따른다. HRAC는 기존 v3와 `linear_release`를 비교 기준으로 유지한다. [알고리즘과 결과](../docs/RESEARCH_SUMMARY.md)에 관측 조건·수식·남은 실패를 기록했다. 기존 파일명은 실행 호환성을 위해 유지한다.
+Federated unlearning (FU) methods enable participants in federated learning (FL) to exercise the “right to be forgotten (RTBF)” by removing their contributions from a collaboratively trained model. While existing studies on FU primarily focus on accelerating the unlearning process and improving the utility of the unlearned model, they often overlook the integrity and validity of unlearning requests themselves. This gap creates a vulnerability, as malicious attackers could exploit RTBF to launch adversarial attacks on the unlearned model. In this study, we propose a novel federated unlearning backdoor attack framework (FUBA), which leverages malicious unlearning requests to backdoor the unlearned model after FU. FUBA models this attack as an adversarial game between two types of adversarial clients: the Adv-attacker and the Adv-defender. Specifically, during the FL process, the Adv-attacker continuously injects backdoor triggers into the global model, while the Adv-defender acts to mitigate these injections. Then, in the FU phase, the Adv-defender activates the backdoor by submitting an unlearning request to remove its contribution. To enhance the effectiveness and stability of FUBA, the Adv-attacker incorporates an innovative gradient reweighting mechanism and an adaptive model update scaling algorithm for durable and stable trigger embedding. Meanwhile, the Adv-defender employs an advanced two-stage defense vector generation strategy and a model consistency loss to maintain behavioral consistency during training, ensuring reliable backdoor activation after unlearning. Extensive experimental results demonstrate that FUBA effectively and reliably backdoors the unlearned model after FU, regardless of the FU method applied. Furthermore, FUBA’s unique design ensures a high level of stealth, rendering existing backdoor defenses inadequate.
 
-이전 실험 코드는 [보관 폴더](../legacy/research_2026-10-15/README.md)로 옮겼다. 기존 `FUBA/legacy/` 역시 과거 코드다.
+## Requirements
+
+* Python 3.11
+* PyTorch
+* MPI4py
+* torchvision
+* mpi
+* nvidia cuda dali
+
+## Setup
+
+1. Download the repository:
+
+2. Install dependencies:
+   - 2.1 install pytorch that suits your computer
+   - 2.2 install mpich
+      sudo apt-get install mpich
+      MPICC=/usr/bin/mpicc pip3 install --no-binary=mpi4py mpi4py
+   - 2.3 Install nvidia cuda dali
+      Follow instructions in https://docs.nvidia.com/deeplearning/dali/user-guide/docs/installation.html
+   - 2.4 install other non-python dependency
+      sudo apt update
+      sudo apt install libpq-dev
+   - 2.5 Install Other dependency
+   ```bash
+   pip3 install -r requirements.txt
+   ```
+
+## Usage
+
+1. Train with MPI-based FL:  
+
+   Sample command: Conduct FUBA on MNIST dataset with IBA as the backdoor trigger
+   ```bash
+   mpiexec -n 5 python3 main.py --dataset=mnist --name=test1 --no_global_test --no_detail_test --attackMethod=iba --n_gpu=1 --save
+   ```
+   **--dataset**
+   Specifies the dataset to be used for training. Options: mnist, cifar10, imagenet. MANDATORY
+
+   **--name**
+   Assigns a custom name to this training run (e.g., test1). This name is used to organize output directories and saved files. MANDATORY
+
+   **--attackMethod**
+   Specifies the attack method to be used for training. Options: iba, dba. MANDATORY
+
+   **--save**
+   If included, this flag enables saving of model checkpoints and training results (e.g., .pkl files).
+
+   **--n_gpu**
+   Specifies the number of GPUs to use during training.
+
+
+2. Execute federated unlearning backdoor attack:  
+
+   Sample command: Conduct unlearning with Retrain from Scratch baseline
+   ```bash
+   python3 unlearn.py --name=test1 --dataset=mnist --method=retrain --attackMethod=iba --n_gpu=1
+   ```
+   **--dataset**
+   Specifies the dataset to be used for training and unlearning. Must match the dataset used in iba_mpi.py. Options: mnist, cifar10, imagenet. MANDATORY
+
+   **--name**
+   Specifies the training name. Should be the same as the one used when running main.py. MANDATORY
+
+   **--method**
+   Specifies the unlearning method to be applied. Options: retrain, fedEraser, distillation， etc.  MANDATORY
+
+   **--attackMethod**
+   Specifies the attack method to be used for training. Options: iba, dba. MANDATORY
+
+3. Test pretrained/trained model:  
+
+   Sample command: Evaluate the performance after Retrain from Scratch baseline
+   ```bash
+   python3 main.py --attackMethod=iba --dataset=mnist  --n_gpu=1 --test_only --pretrained_model=checkpoints/global_net_model_retrain_test1_round_99.pkl
+   ```
+   Sample command: Validate the attack performance of FUBA on MNIST dataset with SGA-based FU method
+   ```bash
+   python3 main.py --attackMethod=iba --dataset=mnist  --n_gpu=1 --test_only --pretrained_model=saved_models/global_sga_iba_mnist.pkl
+   ```
+   **--dataset**
+   Specifies the dataset to be used for training and unlearning. Must match the dataset used in main.py. Options: mnist, cifar10, imagenet. MANDATORY
+
+   **--pretrained_model**
+   Specifies the model path for testing.
+
+   **--attackMethod**
+   Specifies the attack method to be used for training. Options: iba, dba. MANDATORY
+
+4. Train with MPI-based FL with defence method:
+   
+   Sample Command: Running FUBA with IBA as the Backdoor Trigger with flame defence
+   ```bash
+   mpiexec -n 5 python3 main.py --dataset=mnist --name=test1 --no_global_test --no_detail_test --attackMethod=iba --n_gpu=1 --save --flame
+   ```
+   Add independent flag to execute certain defence method. E.g., --flame --multi_krum --median --AlignIns , etc. Only one defence method can be applied.
