@@ -1,0 +1,432 @@
+{
+  "date": "2026-10-16",
+  "source_commit": "30bf063302a58f13b0e3d5d603815f951e51ee37",
+  "archive_sha256": "cf7fb77d25525183628ce7fed36e32bdb8164b5764bfc6b08ac64a2c16a6043f",
+  "archive_bytes": 4966948,
+  "provenance": {
+    "compact_replay_exact": {
+      "fuba_cifar10_s42": true,
+      "fuba_cifar10_smoke_s42": true
+    },
+    "code": {
+      "newline_only_reconstructions": {
+        "FUBA/hrac.py": "CRLF",
+        "FUBA/tension_audit.py": "CRLF"
+      },
+      "all_recorded_code_hashes_matched": true,
+      "reconstruction_scope": "Separate local copy; LF-to-CRLF only for the two named files. Source archive and repository code unchanged."
+    },
+    "full_weights_locally_rechecked": false,
+    "uploaded_integrity": {
+      "path": "C:\\Users\\DISLAB\\Documents\\antigravity\\dazzling-lovelace\\artifacts\\fuba_cifar10_s42\\fl",
+      "rounds": 100,
+      "status": "verified",
+      "aggregation_checked": true,
+      "checkpoint_files": 101,
+      "manifest_sha256": "ab954bdeaa9bafa2359c5b633d9a5cb762b0533e5f081a96ab62d1423ef28203"
+    }
+  },
+  "experiment": {
+    "dataset": "cifar10",
+    "rounds": 100,
+    "clients": 20,
+    "seed": 42,
+    "non_iid": true,
+    "alpha": 0.5,
+    "participation_rate": 0.4,
+    "hardware": "NVIDIA GeForce RTX 3080",
+    "training_seconds": 18469.563000000082,
+    "observation_seconds": 469.82105240179226,
+    "checkpoint_files": 101,
+    "checkpoint_bytes": 53553988936,
+    "independent_training_runs": 1,
+    "probe_groups": 3,
+    "participation_counts": [
+      40,
+      36,
+      41,
+      49,
+      35,
+      33,
+      44,
+      41,
+      41,
+      39,
+      42,
+      33,
+      38,
+      45,
+      47,
+      30,
+      44,
+      44,
+      41,
+      37
+    ]
+  },
+  "final_metrics": {
+    "round": 100,
+    "clean_acc_pct": 73.61999999999999,
+    "asr_pct": 98.17777777777778,
+    "author_generator_client": 4,
+    "generator_source": "last_individual",
+    "generator_mode": "train",
+    "target_excluded": true
+  },
+  "metrics_at_first_hrac_rank_one": {
+    "round": 16,
+    "clean_acc_pct": 49.55,
+    "asr_pct": 50.94444444444444,
+    "author_generator_client": 4,
+    "generator_source": "last_individual",
+    "generator_mode": "train",
+    "target_excluded": true
+  },
+  "invalid_for_trained_trigger_asr_rounds": [
+    14,
+    24,
+    44,
+    71,
+    72,
+    83,
+    92,
+    97,
+    99
+  ],
+  "first_asr_thresholds": {
+    "10": {
+      "round": 7,
+      "clean_acc_pct": 37.3,
+      "asr_pct": 28.788888888888888,
+      "author_generator_client": 3,
+      "generator_source": "last_individual",
+      "generator_mode": "train",
+      "target_excluded": true
+    },
+    "50": {
+      "round": 11,
+      "clean_acc_pct": 42.86,
+      "asr_pct": 55.72222222222222,
+      "author_generator_client": 1,
+      "generator_source": "last_individual",
+      "generator_mode": "train",
+      "target_excluded": true
+    },
+    "90": {
+      "round": 26,
+      "clean_acc_pct": 61.919999999999995,
+      "asr_pct": 93.58888888888889,
+      "author_generator_client": 1,
+      "generator_source": "last_individual",
+      "generator_mode": "train",
+      "target_excluded": true
+    }
+  },
+  "baseline_comparisons": [
+    {
+      "contrast": "paired_patterns",
+      "method": "hrac_windows",
+      "final_client_ranks": [
+        1,
+        1,
+        1
+      ],
+      "final_target_ranks": [
+        9,
+        10,
+        9
+      ],
+      "first_client_rank_one_all_probe_groups": 16,
+      "first_joint_rank_one_all_probe_groups": null,
+      "client_rank_one_post_warmup_counts": [
+        43,
+        61,
+        41
+      ],
+      "joint_rank_one_post_warmup_counts": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "contrast": "paired_patterns",
+      "method": "hrac_full_history",
+      "final_client_ranks": [
+        1,
+        1,
+        1
+      ],
+      "final_target_ranks": [
+        10,
+        10,
+        9
+      ],
+      "first_client_rank_one_all_probe_groups": 23,
+      "first_joint_rank_one_all_probe_groups": null,
+      "client_rank_one_post_warmup_counts": [
+        37,
+        51,
+        36
+      ],
+      "joint_rank_one_post_warmup_counts": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "contrast": "paired_patterns",
+      "method": "signed_release",
+      "final_client_ranks": [
+        1,
+        1,
+        1
+      ],
+      "final_target_ranks": [
+        9,
+        10,
+        9
+      ],
+      "first_client_rank_one_all_probe_groups": 16,
+      "first_joint_rank_one_all_probe_groups": null,
+      "client_rank_one_post_warmup_counts": [
+        79,
+        85,
+        78
+      ],
+      "joint_rank_one_post_warmup_counts": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "contrast": "paired_patterns",
+      "method": "absolute_effect",
+      "final_client_ranks": [
+        1,
+        1,
+        1
+      ],
+      "final_target_ranks": [
+        1,
+        1,
+        1
+      ],
+      "first_client_rank_one_all_probe_groups": 15,
+      "first_joint_rank_one_all_probe_groups": 45,
+      "client_rank_one_post_warmup_counts": [
+        84,
+        89,
+        84
+      ],
+      "joint_rank_one_post_warmup_counts": [
+        53,
+        61,
+        49
+      ]
+    },
+    {
+      "contrast": "paired_patterns",
+      "method": "last_round_release",
+      "final_client_ranks": [
+        1,
+        1,
+        1
+      ],
+      "final_target_ranks": [
+        7,
+        7,
+        6
+      ],
+      "first_client_rank_one_all_probe_groups": 8,
+      "first_joint_rank_one_all_probe_groups": null,
+      "client_rank_one_post_warmup_counts": [
+        29,
+        29,
+        28
+      ],
+      "joint_rank_one_post_warmup_counts": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "contrast": "raw_clean",
+      "method": "hrac_windows",
+      "final_client_ranks": [
+        8,
+        8,
+        8
+      ],
+      "final_target_ranks": [
+        3,
+        3,
+        3
+      ],
+      "first_client_rank_one_all_probe_groups": null,
+      "first_joint_rank_one_all_probe_groups": null,
+      "client_rank_one_post_warmup_counts": [
+        0,
+        0,
+        0
+      ],
+      "joint_rank_one_post_warmup_counts": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "contrast": "raw_clean",
+      "method": "hrac_full_history",
+      "final_client_ranks": [
+        8,
+        8,
+        8
+      ],
+      "final_target_ranks": [
+        3,
+        3,
+        3
+      ],
+      "first_client_rank_one_all_probe_groups": null,
+      "first_joint_rank_one_all_probe_groups": null,
+      "client_rank_one_post_warmup_counts": [
+        0,
+        0,
+        0
+      ],
+      "joint_rank_one_post_warmup_counts": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "contrast": "raw_clean",
+      "method": "signed_release",
+      "final_client_ranks": [
+        9,
+        9,
+        10
+      ],
+      "final_target_ranks": [
+        4,
+        3,
+        3
+      ],
+      "first_client_rank_one_all_probe_groups": null,
+      "first_joint_rank_one_all_probe_groups": null,
+      "client_rank_one_post_warmup_counts": [
+        0,
+        0,
+        0
+      ],
+      "joint_rank_one_post_warmup_counts": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "contrast": "raw_clean",
+      "method": "absolute_effect",
+      "final_client_ranks": [
+        8,
+        8,
+        8
+      ],
+      "final_target_ranks": [
+        7,
+        6,
+        6
+      ],
+      "first_client_rank_one_all_probe_groups": null,
+      "first_joint_rank_one_all_probe_groups": null,
+      "client_rank_one_post_warmup_counts": [
+        0,
+        0,
+        0
+      ],
+      "joint_rank_one_post_warmup_counts": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "contrast": "raw_clean",
+      "method": "last_round_release",
+      "final_client_ranks": [
+        1,
+        1,
+        1
+      ],
+      "final_target_ranks": [
+        6,
+        5,
+        5
+      ],
+      "first_client_rank_one_all_probe_groups": 8,
+      "first_joint_rank_one_all_probe_groups": 36,
+      "client_rank_one_post_warmup_counts": [
+        9,
+        8,
+        6
+      ],
+      "joint_rank_one_post_warmup_counts": [
+        3,
+        3,
+        2
+      ]
+    }
+  ],
+  "signed_target_diagnostic": [
+    {
+      "probe_seed": 20261019,
+      "target_positive_window_view_count": 32,
+      "window_view_count": 36,
+      "target_min": -0.0816776990890503,
+      "target_max": 2.2047548025846484,
+      "largest_absolute_target_signed_value": 2.2047548025846484,
+      "window": 0,
+      "view": 3
+    },
+    {
+      "probe_seed": 20261020,
+      "target_positive_window_view_count": 36,
+      "window_view_count": 36,
+      "target_min": 0.026994657516479482,
+      "target_max": 2.5116866596043113,
+      "largest_absolute_target_signed_value": 2.5116866596043113,
+      "window": 0,
+      "view": 3
+    },
+    {
+      "probe_seed": 20261021,
+      "target_positive_window_view_count": 30,
+      "window_view_count": 36,
+      "target_min": -0.1388015389442442,
+      "target_max": 2.1274845298379663,
+      "largest_absolute_target_signed_value": 2.1274845298379663,
+      "window": 0,
+      "view": 3
+    }
+  ],
+  "intra_observed": false,
+  "calibrated_alarm": null,
+  "fpr": null,
+  "tpr": null,
+  "limitations": [
+    "Ranks are post-hoc localization measures, not calibrated alarms.",
+    "Three input groups share one training run; they are not three independent attack runs.",
+    "The ASR series comes from FL and uses the last available individual generator in train mode; it is not a fixed-trigger curve or FU outcome.",
+    "Random-generator rounds are omitted from the trained-trigger ASR series.",
+    "Positive target response refers to a fixed-patch minus clean, centered-logit finite-update surrogate, not the true attack trigger or a causal FU effect.",
+    "The absolute baseline beats HRAC for target localization here; no new score was fitted to this result.",
+    "No fresh full-weight audit or image response collection was possible from the compact ZIP alone."
+  ]
+}
