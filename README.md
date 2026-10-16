@@ -7,6 +7,8 @@ FL에서 숨겨진 백도어가 FU의 삭제 요청으로 활성화되는 과정
 - [궤적 상태](docs/TRAJECTORIES.md): 어떤 파일을 사용할 수 있는가.
 - [실행 안내](RUN.md): 현재 코드와 확인 명령.
 
+**FUBA 본 실험 업로드 확인(2026-10-16):** CIFAR-10·Dirichlet alpha 0.5·100R·seed 42의 결과 ZIP에서 점수를 재계산해 원본 요약과 일치했습니다. HRAC는 최종 삭제 대상 client 4를 세 입력 묶음 모두 1위로 뒀지만, 단순 기준선도 같았습니다. 표적 8은 HRAC에서 9/10/9위, 기여 절댓값에서는 모두 1위여서 현재 점수의 추가 이득은 입증되지 않았습니다. 최종 FL ASR은 98.18%, 정확도는 73.62%이며 FU 후 수치가 아닙니다. [비교·부호 진단·한계](docs/RESEARCH_SUMMARY.md#fuba-cifar-10-100r-업로드-검토--2026-10-16) · [그래프](docs/figures/fuba_cifar10_s42_review.png).
+
 **FUBA 학습부터 검증까지:** `python reproduction/run_fuba_experiment.py --dataset cifar10 --download`로 원본 학습 → 전체 궤적 검사 → HRAC·기준선 비교 → 작은 결과 ZIP 내보내기를 순서대로 실행합니다. 먼저 `--smoke`를 붙여 2라운드 연결 검사를 할 수 있습니다. 완료된 동일 조건 학습은 재사용하며, 결과는 Git에 추가할 수 있는 `reproduction/validation/exports/`에 복사됩니다. 독립 요청 자료가 없는 intra 채널과 정상 실행으로 보정하지 않은 탐지 판정은 미측정으로 표시합니다. [조건·예상 저장량·업로드 방법](RUN.md).
 
 **공식 소스 복원(2026-10-15):** BadFU와 FUBA를 저자 저장소에서 다시 받아 커밋·파일 해시로 고정했습니다. 학습은 `python reproduction/run.py`로 통일했고, 이전 학습용 셸 스크립트는 제거했습니다. 원본 복사본에 기록용 어댑터를 적용하며, 실제 실행 코드·패치·전체 모델 궤적을 함께 보관합니다. BadFU의 네 FL·두 FU 단계, FUBA MNIST/CIFAR-10 MPI 학습의 축소 검증을 통과했습니다. 본 실험의 공격 성공이나 탐지 정확도 재현을 뜻하지는 않습니다. [변경과 한계](docs/FRESH_UPSTREAM.md).
