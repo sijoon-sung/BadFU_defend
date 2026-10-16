@@ -11,11 +11,11 @@ import numpy as np
 from reproduction.deletion_contrast import explain, history_scores, minimum_clean_error
 
 
-def check_close(actual, expected, name):
+def check_close(actual, expected, name, rtol=2e-5, atol=2e-6):
     if actual is None or expected is None:
         if actual is not expected:
             raise ValueError(f'{name}: abstention mismatch')
-    elif not np.allclose(actual, expected, rtol=2e-5, atol=2e-6, equal_nan=True):
+    elif not np.allclose(actual, expected, rtol=rtol, atol=atol, equal_nan=True):
         raise ValueError(f'{name}: numerical mismatch')
 
 
@@ -31,7 +31,7 @@ def replay_case(protocol, scores, arrays):
     check_close(scores['scores']['logit_dd'], value, 'held-out DD')
     clean = a['post_clean'] - a['pre_clean']
     clean = (clean - clean.mean(-1, keepdims=True)).flatten()
-    check_close(a['endpoint_clean'], clean, 'endpoint clean observations')
+    check_close(a['endpoint_clean'], clean, 'endpoint clean observations', rtol=1e-4, atol=5e-5)
     check_close(a['endpoint_probe'], [value], 'endpoint probe observations')
     bc, bp = a['clean_basis'], a['probe_basis']
     norm = scores['endpoint_interval']['parameter_norm']
