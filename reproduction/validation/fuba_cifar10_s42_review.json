@@ -428,5 +428,24 @@
     "Positive target response refers to a fixed-patch minus clean, centered-logit finite-update surrogate, not the true attack trigger or a causal FU effect.",
     "The absolute baseline beats HRAC for target localization here; no new score was fitted to this result.",
     "No fresh full-weight audit or image response collection was possible from the compact ZIP alone."
-  ]
+  ],
+  "asr_interpretation_revision": {
+    "date": "2026-10-16",
+    "measured_clean_target_rate_available": false,
+    "assumption": "Balanced CIFAR-10 full test: 90% have non-target true labels; clean and triggered evaluation use this same dataset.",
+    "formula": "C <= min(1,(1-clean_accuracy)/0.9); newly_targeted >= max(0,ASR-(1-clean_accuracy)/0.9)",
+    "rows": [
+      {
+        "round": 16,
+        "clean_target_upper_bound_pct": 56.05555555555556,
+        "newly_targeted_lower_bound_pct": 0
+      },
+      {
+        "round": 100,
+        "clean_target_upper_bound_pct": 29.31111111111112,
+        "newly_targeted_lower_bound_pct": 68.86666666666666
+      }
+    ],
+    "interpretation": "The unadjusted 16R ASR does not establish prior backdoor activation. At 100R existing clean class bias alone cannot explain all ASR; induced susceptibility still needs a matched benign model control."
+  }
 }
