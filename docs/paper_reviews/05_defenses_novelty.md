@@ -1,6 +1,8 @@
-# FL→FU 방어 설계를 위한 논문 7편 검토
+# FL→FU 방어 설계를 위한 논문 9편 검토
 
 2026-10-14. 아래 수치는 **각 원논문이 보고한 해당 조건의 결과**이며 우리의 재현 결과가 아니다. 서로 다른 표의 수치를 묶어 우열을 매기지 않는다. 차이는 상대 개선율이 아닌 퍼센트포인트(pp)로 계산했다. 하드웨어를 확인하지 못한 경우 추정하지 않았다. 각 항목의 ‘우리 해석’은 저자의 주장과 구분한다.
+
+2026-10-16 추가: H의 FLShield, I의 FLTrust와 기존 MASA·BackdoorIndicator·FedREDefense 원문을 대조해 **Non-IID 혼동을 줄이기 위해 무엇을 추가로 관측하는가**를 정리했다. 현재 우리 조건과 구체적인 원인 분리는 [연구 설명](../RESEARCH_SUMMARY.md#논문을-설명하는-현재-문장--2026-10-16)과 [Non-IID 진단 계획](../RESEARCH_SUMMARY.md#non-iid가-탐지를-방해하는-경로와-다음-원인-분리)에 반영했다.
 
 ## 먼저 비교할 논리
 
@@ -190,6 +192,54 @@ Table 3, MNIST/CNN, FL backdoor→FU BadUnlearn, FedAvg: FedRecover TER/ASR=.04/
 ### 5. Takeaway & Next Actions (내 연구/프로젝트와의 접점)
 
 새 벡터 코어는 클라이언트별 보정 후 집계를 구현한다. 기존 `federaser_faithful.py`의 평균 후 층별 보정과 구분한다. 이 코어 위에 우리 제어를 붙이고, 같은 방어 목적의 보존 데이터 재학습과 비교한다. 함께 읽기: F, [실행 가능한 설계](../paper/TENSION_CONTROL.md).
+
+## H. FLShield — 클래스별 검증으로 데이터 구성의 혼동 감소
+
+원문: [공개 v1, §§IV-C, V-B/C, VI-B2, VI-D2](https://arxiv.org/html/2308.05832v1). [IEEE S&P 2024 저자 코드](https://github.com/ehsanul9511/FLShield). 아래 수치는 읽은 공개 v1 기준이다.
+
+### 1. Problem Statement (해결하려는 핵심 문제)
+
+Non-IID에서는 정상 검증 결과도 달라 악성 업데이트·거짓 보고와 혼동된다.
+
+### 2. Key Idea & Formulation (핵심 방법론 및 수식/원리)
+
+클라이언트가 대표 모델의 **정답 클래스별 손실 감소(LIPC)**를 보고한다. 서버는 거짓 보고를 걸러 업데이트를 선택한다. 신규성은 검증 대상과 보고의 신뢰 문제를 대표 모델·클래스별 변화로 함께 다루는 데 있다.
+
+### 3. Evaluation & Results (주요 실험 결과)
+
+CIFAR-10/TLFA, Table III(b): 클래스별 정확도 변화 대신 LIPC를 쓰면 source-class recall은 25.34→88.66%, 악성 대표 모델 수용률은 26→0%. one-class-expert·Dirichlet도 평가한다. 하드웨어는 이번에 확인하지 않았다.
+
+### 4. Limitations & Critical Discussion (한계점 및 의문점)
+
+악성 비율 50% 미만, 라벨 있는 검증 자료, 추가 통신·평가를 요구한다. 클래스당 10~30장을 사용하며 결측은 보간한다. 우리 해석: 잠복 백도어에 대한 보편 보장은 없다.
+
+### 5. Takeaway & Next Actions (내 연구/프로젝트와의 접점)
+
+클래스별 검사를 선행 기법으로 두고, 우리 H–U 관계의 추가 가치를 소거한다. 함께 읽기: A의 MASA, 아래 I.
+
+## I. FLTrust — 작은 정상 자료로 신뢰 기준 추가
+
+원문: [NDSS 2021 공식 논문 페이지](https://www.ndss-symposium.org/ndss-paper/fltrust-byzantine-robust-federated-learning-via-trust-bootstrapping/), [PDF](https://www.ndss-symposium.org/wp-content/uploads/ndss2021_6C-2_24434_paper.pdf).
+
+### 1. Problem Statement (해결하려는 핵심 문제)
+
+클라이언트 모두가 악성일 수 있는 관점에서는 업데이트끼리 비교하는 것만으로 신뢰 기준이 생기지 않는다.
+
+### 2. Key Idea & Formulation (핵심 방법론 및 수식/원리)
+
+서버가 작은 깨끗한 root dataset으로 기준 업데이트를 계산한다. 클라이언트 업데이트와의 코사인 유사도를 음수에서 절단해 신뢰 점수를 주고, 노름을 기준 업데이트에 맞춰 가중 집계한다. 신규성의 논리는 추가 신뢰 자료 → 방향 기준 → 크기 제한의 연결이다.
+
+### 3. Evaluation & Results (주요 실험 결과)
+
+공식 초록은 6개 데이터셋에서 평가하고, root 자료 100개 미만·적응 공격자 40~60% 조건에서 무공격 FedAvg와 비슷한 정확도를 보고한다. 이는 원논문의 조건별 주장이고 우리 실험의 보장이나 일반적인 필요 표본 수가 아니다. 이번 요약에서는 세부 정확도와 하드웨어를 새로 전사하지 않았다.
+
+### 4. Limitations & Critical Discussion (한계점 및 의문점)
+
+신뢰할 수 있고 과제를 대표하는 라벨 자료와 서버 학습이 필요하다. root가 오염되거나 특정 클래스에 치우치면 신뢰 기준도 흔들린다. 하나의 기준 방향과 다른 정상 희귀 클래스 기여를 자동으로 공격으로 해석할 수 없다.
+
+### 5. Takeaway & Next Actions (내 연구/프로젝트와의 접점)
+
+공개 정상 자료 가정은 이미 방어 연구에서 사용하는 선택이다. 우리도 이미 공개 이미지를 사용하므로 ‘자료 추가’ 자체를 신규성으로 삼지 않는다. 라벨을 추가할 경우 검사 이미지별 정답을 아는 것과 클라이언트 원자료를 보는 것을 구분한다. 함께 읽기: H, C의 FedREDefense.
 
 ## 우리 논문의 주장에 반영할 결정
 
