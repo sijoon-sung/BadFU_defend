@@ -1,51 +1,39 @@
-# 현재 실행할 실험: 이력의 시계열 분석 검증
+# 시계열 파일럿 완료 — BadFU 원본 관측 추가
 
-**2026-10-16: 기존 공격/정상 seed 42의 시계열 분석은 로컬에서 완료했습니다. 지금 필요한 것은 새로운 정상 seed 43·44에서의 검증입니다.** 아래 명령만 실행하면 됩니다. 기존 공격 100R 학습, ASR 원인 진단은 다시 실행하지 않습니다. 이전 `.sh`는 호출하지 않습니다.
+**2026-10-16: 정상 seed 43·44, FUBA 비교, BadFU 40R 분석이 올라왔습니다. 정상 학습을 다시 돌릴 필요가 없습니다.** FUBA의 20개 점수 경로를 원본 관측에서 재계산했고 일치했습니다. 현재 시계열 방법의 단순 변화량 대비 추가 이득은 확인되지 않았습니다. [검토 결과와 그래프](docs/RESEARCH_SUMMARY.md#시계열-파일럿-업로드-검토--2026-10-16).
+
+## 지금 필요한 것: BadFU의 작은 원본 관측 ZIP만 내보내기
+
+BadFU의 시계열 결과는 이미 받았습니다. 그 결과가 참조하는 원본 관측 ZIP만 DISLAB 경로에 남아 있어, 이를 함께 올려야 전체 점수를 재계산할 수 있습니다. **재학습·추론·관측 수집·FU 없이 파일 복사와 해시 검사만 합니다.** 기존 학습 환경과 저장소 루트에서:
 
 ```bash
 git pull --ff-only origin codex/structural-latent-defense
-python reproduction/run_temporal_validation.py
-```
-
-학습했던 Python 환경과 저장소 루트에서 실행합니다. 데이터가 `FUBA/data` 밖에 있으면 `--data-root /실제/데이터/상위폴더`를 추가합니다. 데이터가 없을 때에만 `--download`를 추가합니다. 실행 예정 명령만 보려면 `--dry-run`, 기존 업로드 자료만 다시 분석하려면 `--cached-only`입니다.
-
-### 이번 명령이 하는 일
-
-1. 기존 정상 seed 42로 **정상 이력의 변화 예측 모형**을 맞춥니다. 원래 모델을 학습하는 것이 아니라 작은 관측 배열에 회귀 모형을 맞춥니다.
-2. 새 정상 seed 43·44를 기존 원본 FUBA 실행기로 각각 학습·검사·관측합니다. CIFAR-10, 20 clients, 참여율 0.4, 100R, Dirichlet alpha 0.5, `warm-up=100`으로 공격 분기를 비활성화합니다. 이미 검증된 같은 조건의 export가 있으면 재사용합니다.
-3. **값 / 기존 창별 HRAC / 양의 변화량 / 정상 예측 잔차 / 변화 구간 GLR**를 같은 관측으로 비교합니다. 모형을 맞추지 않은 정상 두 실행에서 점수가 얼마나 커지는지 확인합니다. 기존 공격 seed 42는 탐색 비교로 계속 표시합니다.
-4. 작은 관측 ZIP, 수식 모형, 매 라운드 결과, 그래프를 `reproduction/validation/exports/` 아래에 저장합니다. 클래스 라벨·공격 생성기·ASR을 점수 계산에 사용하지 않으며 FU를 실행하지 않습니다.
-
-**시간·디스크:** 업로드된 정상 seed 42의 학습은 RTX 3080에서 약 17.1분이었습니다. 두 새 실행의 학습에 관측·전체 가중치 검사 시간이 더해지므로 **1–2시간 정도 여유**를 두세요. 이는 새 두 실행의 실측 시간이 아닙니다. 궤적 보존을 위해 새 실행당 50GiB, 여유분 5GiB를 잡아 두 실행 모두 새로 만들 때 **105GiB의 여유 공간**을 검사합니다. 기존 파일을 자동으로 지우지 않습니다. 중단된 학습의 재개는 원본 실행기가 지원하지 않으며, 이 경우 기존 폴더를 보존하고 오류 내용을 공유해 주세요.
-
-완료되면 다음을 올리면 됩니다. 모델 가중치·이미지는 업로드하지 않습니다.
-
-```bash
+python reproduction/export_badfu_evidence.py --evidence artifacts/badfu_author_s42/detection_validation_v1/badfu_detection_evidence.zip
 git add reproduction/validation/exports
-git commit -m "Add held-out normal temporal-history validation"
+git commit -m "Export BadFU source observations for temporal replay"
 git push origin HEAD:codex/structural-latent-defense
 ```
 
-**이번 두 정상 실행은 방법의 일반화 점검입니다.** 정상 두 개로 5% 오탐률이 검증되었다고 보고하지 않습니다. 별도의 정상 보정 실행이 없는 이번 결과의 경보는 `null`입니다. 이후 5% 수준의 실행 단위 순위 보정을 하려면 최소 19개의 독립 정상 보정 실행과 별도 평가 실행이 필요합니다. 이 큰 실험은 자동으로 시작하지 않습니다. [수식·현재 결과·진행 기준](docs/RESEARCH_SUMMARY.md#이력의-시계열-분석-v1--2026-10-16).
+실제 ZIP 위치가 다르면 `--evidence` 뒤 경로만 바꿉니다. 출력은 `reproduction/validation/exports/badfu_author_s42/<해시>/`의 ZIP과 영수증입니다. 가중치·이미지는 복사하지 않으며 정상 실행 2개나 공격 학습을 다시 만들지 않습니다. 보통 파일 크기에 따른 짧은 검사만 필요합니다.
 
-### BadFU의 기존 긴 이력도 분석할 때
-
-기존 검증 ZIP이 있는 컴퓨터에서 다음을 실행합니다. 재학습·FU는 없습니다.
+## 완료된 FUBA 파일럿을 재현할 때만
 
 ```bash
-python reproduction/validate_temporal_history.py --badfu-evidence artifacts/badfu_author_s42/detection_validation_v1/badfu_detection_evidence.zip
+python reproduction/run_temporal_validation.py
 ```
 
-실제 ZIP 위치가 다르면 해당 경로만 바꿉니다. `clean5`로 모형을 맞추고 `full6`를 분석합니다. **5명과 6명이며 같은 원본 실행의 단계이므로, 이 비교를 정상 보정이나 독립 FPR 검증으로 세지 않습니다.** 로컬에 있는 BadFU 자료는 2R 연결 검사뿐이라 읽기·좌표 호환만 확인했으며, 4R 미만에는 시계열 모형을 억지로 맞추지 않도록 막았습니다. 실제 긴 BadFU 분석 결과는 원격 실행 후 확인합니다.
+최신 저장소에는 정상 43·44의 검증된 export가 있으므로 이를 재사용하고 저장 관측을 분석합니다. export가 없는 별도 환경에서 이 명령을 실행하면 정상 학습 2개를 생성할 수 있습니다. 그 경우 이전 안내대로 약 1–2시간의 여유와 최대 105GiB의 여유 공간이 필요합니다. 계획만 보려면 `--dry-run`을 사용합니다.
 
-### 코드 점검과 사용자 지정 보정
+직접 점검 명령:
 
 ```bash
-python -m unittest reproduction.test_temporal_history -v
-python reproduction/validate_temporal_history.py --plan /경로/temporal_plan.json
+python -m unittest reproduction.test_temporal_history reproduction.test_temporal_export -v
+python reproduction/audit_temporal_uploads.py --analysis reproduction/validation/exports/temporal_history/c939c4f11272c550 --analysis reproduction/validation/exports/temporal_history/aeb01d3b125f892e --out artifacts/temporal_upload_review.json
 ```
 
-계획 JSON은 `schema: 1`, `alpha: 0.05`, `fit: [정상 evidence ZIP 경로]`, `calibration: [별도 정상 ZIP 경로들]`, `test: [{"name": "실험명", "evidence": "ZIP 경로"}]`를 받습니다. 경로는 저장소 루트 기준이며 압축을 푼 `evidence` 폴더도 허용합니다. `report_client`는 선택적인 사후 순위 보고용 정수이며 점수 계산에는 쓰지 않습니다. 정상 보정·평가 간 시드 중복, 보정/평가의 라운드 수·클라이언트 수·Non-IID 설정 불일치, 입력 좌표 불일치, 해시 변조는 거부합니다.
+검산 출력이 이미 있으면 새 `--out` 경로를 지정합니다. BadFU 원본 ZIP이 아직 없으면 그 부분은 `source_replay: false`와 누락 경로로 명시합니다. 내보낸 ZIP이 추가되면 원격 절대 경로 대신 동일한 inventory 해시의 자료를 찾아 재계산합니다. 정상 19회의 큰 보정 실험은 아직 시작하지 않습니다.
+
+사용자 지정 실행 분리는 `python reproduction/validate_temporal_history.py --plan /경로/temporal_plan.json`을 사용합니다. 계획은 `schema: 1`, `alpha: 0.05`, `fit: [정상 ZIP 경로]`, `calibration: [별도 정상 ZIP 경로들]`, `test: [{"name": "실험명", "evidence": "ZIP 경로"}]` 형식입니다. 상대 경로는 저장소 루트 기준입니다. 보정·평가의 기간/조건과 시드 중복을 검사합니다.
 
 ---
 
