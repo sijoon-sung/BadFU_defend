@@ -1,6 +1,6 @@
 # 논문 리뷰와 원문 찾기
 
-기존 정리는 사라지지 않았다. 공격 리뷰 4개와 방어/FU 리뷰 9개를 아래에서 바로 찾을 수 있다. 각 상세 리뷰는 요청한 **Problem Statement → Key Idea & Formulation → Evaluation & Results → Limitations & Critical Discussion → Takeaway & Next Actions** 다섯 항목을 따른다. 원문 링크·표 번호는 각 파일에 있으며 저자 결과와 우리 해석을 구분한다. FLShield·FLTrust는 2026-10-16에 추가했다.
+기존 정리는 사라지지 않았다. 공격 리뷰 4개와 방어/FU 리뷰 12개를 아래에서 바로 찾을 수 있다. 각 상세 리뷰는 요청한 **Problem Statement → Key Idea & Formulation → Evaluation & Results → Limitations & Critical Discussion → Takeaway & Next Actions** 다섯 항목을 따른다. 원문 링크·표 번호는 각 파일에 있으며 저자 결과와 우리 해석을 구분한다. FLShield·FLTrust 및 Non-IID 언러닝 관련 J–L은 2026-10-16에 추가했다.
 
 | 논문 | 다섯 항목 리뷰 |
 |---|---|
@@ -17,8 +17,11 @@
 | FedEraser | [12_FedEraser.md](12_FedEraser.md) |
 | FLShield | [통합본 H](05_defenses_novelty.md#h-flshield--클래스별-검증으로-데이터-구성의-혼동-감소) |
 | FLTrust | [통합본 I](05_defenses_novelty.md#i-fltrust--작은-정상-자료로-신뢰-기준-추가) |
+| FU Stability and Fairness | [통합본 J](05_defenses_novelty.md#j-federated-unlearning-a-perspective-of-stability-and-fairness) |
+| FedOSD | [통합본 K](05_defenses_novelty.md#k-fedosd--federated-unlearning-with-gradient-descent-and-conflict-mitigation) |
+| FUCRT | [통합본 L](05_defenses_novelty.md#l-fucrt--forgetting-through-transforming) |
 
-[방어/FU 9편 통합본](05_defenses_novelty.md)은 정보 조건·시계열 선행·가정 완화 비교를 포함한다. [공격 비교표](00_comparison.md)는 역사적 탐색 메모로 읽고 현재 범위는 [연구 요약](../RESEARCH_SUMMARY.md)을 따른다. FoolsGold·FLDetector·FedOSD·GEM은 통합본에서 연결한 선행이며 같은 깊이의 상세 리뷰 완료로 세지 않는다. SubID 원문은 이번 재정리에서 재열람하지 못했으므로 기존 노트의 수치를 외부 인용하기 전 DOI 원문과 재대조한다.
+[방어/FU 12편 통합본](05_defenses_novelty.md)은 정보 조건·시계열 선행·가정 완화 비교를 포함한다. [공격 비교표](00_comparison.md)는 역사적 탐색 메모로 읽고 현재 범위는 [연구 요약](../RESEARCH_SUMMARY.md)을 따른다. FoolsGold·FLDetector·GEM은 통합본에서 연결한 선행이며 같은 깊이의 상세 리뷰 완료로 세지 않는다. SubID 원문은 이번 재정리에서 재열람하지 못했으므로 기존 노트의 수치를 외부 인용하기 전 DOI 원문과 재대조한다.
 
 ## 주요 방어 논문에서 가져올 논리 전개
 

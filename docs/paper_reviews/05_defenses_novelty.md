@@ -1,4 +1,4 @@
-# FL→FU 방어 설계를 위한 논문 9편 검토
+# FL→FU 방어 설계를 위한 논문 12편 검토
 
 2026-10-14. 아래 수치는 **각 원논문이 보고한 해당 조건의 결과**이며 우리의 재현 결과가 아니다. 서로 다른 표의 수치를 묶어 우열을 매기지 않는다. 차이는 상대 개선율이 아닌 퍼센트포인트(pp)로 계산했다. 하드웨어를 확인하지 못한 경우 추정하지 않았다. 각 항목의 ‘우리 해석’은 저자의 주장과 구분한다.
 
@@ -243,6 +243,8 @@ CIFAR-10/TLFA, Table III(b): 클래스별 정확도 변화 대신 LIPC를 쓰면
 
 ## 우리 논문의 주장에 반영할 결정
 
+현재 주장의 기준은 [정상 설명 집합과 삭제 경계 개정](../RESEARCH_SUMMARY.md#현재-연구-주장과-알고리즘-개정--2026-10-16)이다. 아래 제어 관련 문단은 이전 확장 구상이며, 현재 1차 목표는 정상 이질성을 고려한 요청 위험의 관측·검증이다.
+
 **제약 최적화 개정의 직접 선행:** [FedOSD, AAAI 2025](https://arxiv.org/abs/2412.20200)는 FU의 gradient 충돌과 후속 학습의 재기억을 다루며, 다른 클라이언트와 충돌하지 않는 삭제 방향 및 후속 복구를 설계한다. [GEM](https://papers.neurips.cc/paper/2017/file/f87522788a2be2d171666752f97ddebb-Paper.pdf) 역시 손실 gradient 제약과 가까운 갱신의 최적화를 사용한다. 그러므로 새 §7의 기여 후보는 최적화·직교화 자체가 아니라 **요청 경계로 정의한 역사적 상쇄 연산자가 추가로 유용한가**다. 이 추가 확인은 방법·정보의 비교이며 두 논문의 정량 재현을 완료했다는 뜻이 아니다.
 
 - **남길 문제:** FL에서 공동 학습된 주입·억제 중 FU가 억제를 제거하여 활성화하는 백도어.
@@ -276,3 +278,75 @@ CIFAR-10/TLFA, Table III(b): 클래스별 정확도 변화 대신 LIPC를 쓰면
 **완화 3 — 표본 삭제를 포함하려면 삭제 단위 정보 접근을 명시한다.** 이것은 위 두 완화보다 큰 변경이다. 사전 batch/shard 기록 또는 검증 가능한 요청 자료의 국소 gradient가 후보다. 원래 [BadFU 검토](01_BadFU.md)의 단일 client 내부 상쇄는 client 합계의 시계열만으로 항상 분리되지 않는다. 요청자가 임의로 제출한 설명·gradient를 신뢰하는 것은 해결책이 아니다. 서버가 요청 자료를 볼 수 있다고 정하면 그 접근 권한과 원자료·유도 상태 처리까지 threat model에 추가해야 한다.
 
 핵심 논리의 차이: **FoolsGold는 반복되는 유사성, FLDetector는 예측과의 불일치, UnlearnGuard는 FL 이력을 기준으로 한 FU 보정을 이용한다. 우리 가설은 실제 요청이 과거의 상쇄 관계를 선택적으로 끊는다는 정보에 있다.** 이 차이가 성능·효용·삭제 이행의 이득을 만들 때만 기여로 주장한다.
+
+## J. Federated Unlearning: a Perspective of Stability and Fairness
+
+원문: [2024 공개 논문](https://arxiv.org/html/2402.01276v1), §§4–6, Appendix G. 이번 검토에서 학회 채택 여부를 확정하지 않았다.
+
+### 1. Problem Statement (해결하려는 핵심 문제)
+
+이질적인 사용자를 삭제하면 전체 성능과 각 잔류 사용자의 효용 변화가 다르다. 삭제 효과만으로 FU를 평가하는 한계를 지적한다.
+
+### 2. Key Idea & Formulation (핵심 방법론 및 수식/원리)
+
+검증·안정성·공정성을 별도 목적/제약으로 정식화한다. 잔류 사용자별 손실 변화 제한과 안정성 벌점을 도입한다. 논리 전개는 ‘삭제 후 부작용 관측 → 평가 개념 분리 → 조건부 trade-off 분석 → 제약 최적화’다.
+
+### 3. Evaluation & Results (주요 실험 결과)
+
+Appendix G Table 2의 그룹 간 이질성 실험에서 label-distribution 설정 0.1/0.4/0.7의 재학습 안정성 손실은 8.24/3.45/0.26, 안정성 벌점 적용 후 7.69/2.05/0.23이다. **원래 전체 분포 기준 지표**다. MNIST 및 CIFAR-10/ResNet18 실험을 포함한다. 하드웨어는 이번 검토에서 확인하지 않았다.
+
+### 4. Limitations & Critical Discussion (한계점 및 의문점)
+
+우리 해석: 원래 전체 목적은 삭제 사용자도 포함하므로 이 손실을 잔류 사용자 피해와 동일시하면 안 된다. 최적 목적값에 대한 검증 지표만으로 분포적/인증 언러닝을 증명하지 않는다. 논문의 제한된 가정 아래 분석을 임의 심층망 보장으로 확대하지 않는다.
+
+### 5. Takeaway & Next Actions (내 연구/프로젝트와의 접점)
+
+정상 삭제 변화·FU 근사 손상·백도어 초과 위험을 분리한다. 정상 요청 뒤 성능 변화 자체를 공격 라벨로 삼지 않는다. 함께 읽기: K 및 [현재 설계](../RESEARCH_SUMMARY.md).
+
+## K. FedOSD — Federated Unlearning with Gradient Descent and Conflict Mitigation
+
+원문: [AAAI 2025](https://ojs.aaai.org/index.php/AAAI/article/view/34181), [수식·Table 1 공개 원문](https://arxiv.org/html/2412.20200v1).
+
+### 1. Problem Statement (해결하려는 핵심 문제)
+
+삭제 gradient가 잔류 사용자의 학습과 충돌하여 효용을 훼손하고, 후속 성능 복구가 삭제한 영향을 다시 살릴 수 있다.
+
+### 2. Key Idea & Formulation (핵심 방법론 및 수식/원리)
+
+unlearning cross-entropy, 잔류 gradient와 직교하는 삭제 방향, 재기억을 억제하는 복구 투영을 결합한다. 논리 전개는 ‘서로 다른 실패 원인 → 각 원인에 대응하는 연산 → 소거 검증’이다. 직교화 자체를 우리 신규성으로 주장하지 않는다.
+
+### 3. Evaluation & Results (주요 실험 결과)
+
+CIFAR-10/CNN, Pat-20(클라이언트당 20% 클래스), Table 1의 언러닝 직후 잔류 평균 정확도는 FUPGA 20.2%, FedOSD 54.9%다. 둘의 검사 ASR은 0%다. 이 ASR은 삭제 대상에 심은 검사 백도어의 잔존 여부이며 FL→FU 잠복 활성화 실험이 아니다. MNIST/FMNIST/CIFAR-100도 평가한다. 하드웨어는 이번 검토에서 확인하지 않았다.
+
+### 4. Limitations & Critical Discussion (한계점 및 의문점)
+
+우리 해석: 잔류 사용자 gradient를 보호하는 목적이 잔류 독성 기여의 제거까지 보장하지 않는다. 직교성은 국소 1차 조건이며 전역 무손실/망각 보장과 다르다. 여러 사용자 gradient 수집과 투영 비용이 있다.
+
+### 5. Takeaway & Next Actions (내 연구/프로젝트와의 접점)
+
+잔류 기여 전체 대신 신뢰 가능한 정상 기능 기준을 정의한다. 이후 정화 실험에서 동일한 망각·효용 조건으로 비교할 기준선이다. 함께 읽기: J, L.
+
+## L. FUCRT — Forgetting Through Transforming
+
+원문: [ICCV 2025 공개 PDF](https://openaccess.thecvf.com/content/ICCV2025/papers/Guo_Forgetting_Through_Transforming_Enabling_Federated_Unlearning_via_Class-Aware_Representation_Transformation_ICCV_2025_paper.pdf), [초기 상세 공개판](https://arxiv.org/html/2410.06848v1). 버전 간 수치를 혼합하지 않는다.
+
+### 1. Problem Statement (해결하려는 핵심 문제)
+
+클래스 삭제를 위한 파라미터 수정이 잔류 클래스 표현까지 훼손한다. Non-IID에서 클라이언트별 표현 차이가 이를 어렵게 만든다.
+
+### 2. Key Idea & Formulation (핵심 방법론 및 수식/원리)
+
+삭제 클래스 표현을 잔류의 유사 클래스로 변환하고 클래스별 변환을 정렬한다. 논리 전개는 ‘재학습 모델의 표현 관측 → 표현 변환 설계 → 클래스/사용자 간 정렬’이다.
+
+### 3. Evaluation & Results (주요 실험 결과)
+
+최종판 초록은 IID/Non-IID 효용 보존 평균 2.96%/3.78% 개선을 보고한다. 이는 저자 표기의 상대/절대 해석을 여기서 재산정한 값이 아니다. CIFAR-10/100, FMNIST, EuroSAT를 평가한다. 초기판은 20명 전원 참여, 기본 Dirichlet 0.5와 0.1 등의 이질성 비교를 명시한다. 조건별 결과 인용 시 해당 버전 표를 재확인한다. 하드웨어는 이번 검토에서 확인하지 않았다.
+
+### 4. Limitations & Critical Discussion (한계점 및 의문점)
+
+클래스 전체 삭제가 중심이다. 공개 초기판도 극심한 이질성에서 성능 하락을 인정한다. prototype 교환과 추가 변환 학습이 필요하다. 0% 삭제 클래스 정확도를 완전한 정보 삭제 인증과 동일시하지 않는다.
+
+### 5. Takeaway & Next Actions (내 연구/프로젝트와의 접점)
+
+평균 출력 대신 정답 클래스별 기능을 관측한다. 동일 클래스 안의 위장 샘플만 삭제하는 BadFU에는 직접 이식할 수 없다. 함께 읽기: J, K 및 H의 FLShield.
