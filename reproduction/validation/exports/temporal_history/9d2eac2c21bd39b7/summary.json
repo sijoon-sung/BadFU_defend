@@ -1,11 +1,11 @@
 {
   "status": "complete",
-  "signature": "e2c8ede54eb55162eb63aa4b8dbaa22d71c75bad989f0df242ae23d3b8aa2102",
+  "signature": "9d2eac2c21bd39b75a445f3989a2df9b027672fe0ab211660f25d6bad5c9b744",
   "version": "hrac-temporal-v1",
   "primary": "temporal_glr",
   "code_sha256": {
     "temporal_history.py": "c11c4f083cb62726f03e303df67406ad5d08810e56903469c1ef1e6c1c04837c",
-    "validate_temporal_history.py": "f11a930ad55a49c2602b8a4e8e89c643285f1cb2a6d263b2e3b276e9dcfdbd27"
+    "validate_temporal_history.py": "e9c3d1c27cf5e04b1b31631672e1e797c128a8643d9da7abb9216fa8cd1ddd7d"
   },
   "alpha": 0.05,
   "fit_runs": 1,
@@ -562,5 +562,5 @@
     "Attack-correlated steady effects predictable from their own past can evade innovations.",
     "No actual FU, purification, forgetting or ASR recovery is verified here."
   ],
-  "elapsed_seconds": 2.924989799999821
+  "elapsed_seconds": 2.7867094000002908
 }

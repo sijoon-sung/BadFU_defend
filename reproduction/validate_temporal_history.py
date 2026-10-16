@@ -17,7 +17,8 @@ from reproduction import temporal_history as th
 
 
 def write_json(path, value):
-    path.write_text(json.dumps(value, indent=2, ensure_ascii=False, allow_nan=False)+"\n", encoding="utf-8")
+    # Git uses LF on every host. Hash the same bytes on Windows and Linux.
+    path.write_bytes((json.dumps(value, indent=2, ensure_ascii=False, allow_nan=False)+"\n").encode("utf-8"))
 
 
 def exported(run_name):

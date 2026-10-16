@@ -387,9 +387,9 @@ FUBA CIFAR-10 seed 42의 공격·정상 ZIP 해시를 검사하고 GPU·모델 �
 
 각 행의 단위가 다르므로 행 사이 숫자 크기를 성능으로 비교하지 않는다. 정상 열은 **모형 적합에 쓴 자료의 값**이어서 분리 정도를 낙관할 수 있다. GLR의 client 4 순위는 16R 1위, 26R 6위, 100R 1위였다. 최대 GLR의 구간은 95R 하나여서 현재 최대값은 한 번의 큰 잔차가 설명한다. 이를 지속성의 추가 이득이나 조기 탐지 개선으로 보고하지 않는다. 시간 순서를 뒤집고 참여 마스크도 함께 뒤집으면 최종 누적 HRAC는 같고 최대 GLR은 601.8740으로 달라졌다. 이는 순서에 민감함을 확인하는 제거 실험이며, 뒤집힌 이력이 정상 귀무분포라는 뜻은 아니다.
 
-20개 검사에서 GLR의 직접 구간 열거 일치, 지속적 평균 이동의 누적, 미래 접미부 변경 시 이전 점수 불변, 클라이언트 순열 일관성, 0/미참여 처리, 원래 HRAC 값 보존, 입력 해시 변조 거부, 정상 순위의 정확한 유한 경우 열거, 실행 중복·조건 불일치 거부, 기존 ZIP 재실행을 확인했다. 로컬 BadFU 2R 자료는 로딩·좌표 호환을 확인하고 너무 짧은 적합을 거부했다. BadFU 긴 이력의 성능 검증은 원격 결과가 필요하다.
+21개 검사에서 GLR의 직접 구간 열거 일치, 지속적 평균 이동의 누적, 미래 접미부 변경 시 이전 점수 불변, 클라이언트 순열 일관성, 0/미참여 처리, 원래 HRAC 값 보존, 입력 해시 변조 거부, 정상 순위의 정확한 유한 경우 열거, 실행 중복·조건 불일치 거부, 기존 ZIP 재실행을 확인했다. 로컬 BadFU 2R 자료는 로딩·좌표 호환을 확인하고 너무 짧은 적합을 거부했다. BadFU 긴 이력의 성능 검증은 원격 결과가 필요하다.
 
-현재 결과: [summary.json](../reproduction/validation/exports/temporal_history/e2c8ede54eb55162/summary.json) · [그래프](../reproduction/validation/exports/temporal_history/e2c8ede54eb55162/temporal_history.png) · [검사 코드](../reproduction/test_temporal_history.py). 새 검사 20개와 기존 실행기 검사 7개, 총 27개가 통과했다.
+현재 결과: [summary.json](../reproduction/validation/exports/temporal_history/9d2eac2c21bd39b7/summary.json) · [그래프](../reproduction/validation/exports/temporal_history/9d2eac2c21bd39b7/temporal_history.png) · [검사 코드](../reproduction/test_temporal_history.py). 새 검사 21개와 기존 실행기 검사 7개, 총 28개가 통과했다.
 
 **다음 실험은 정상 seed 43·44를 새로 학습하고 v1을 변경 없이 적용하는 것**이다. 여기서 정상 점수도 크게 튀면 현재 적합 모형의 일반화 문제부터 수정한다. 분리가 유지되어도 2회로 FPR을 주장하지 않고, 그때 별도 보정·새 공격 반복을 설계한다. 긴 검증은 시간과 수백 GiB 이상의 저장 공간을 추가로 요구하므로 파일럿 결과 확인 뒤 진행한다. 현재 방법의 논문 기여 후보는 삭제 경계의 과거 관계에 조건부로 정상 변화와 다른 변화를 식별하는 데 있다. GLR·회귀·순위 보정의 단순 결합만으로 노벨티가 확정되었다고 주장하지 않는다.
 
