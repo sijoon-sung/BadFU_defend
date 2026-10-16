@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "archive": "fuba_hrac_evidence_689ea02f6f55.zip",
+  "sha256": "45f1b2cf7e8c5ba1802bfcb631d75ddb358d6b9c441d65b5fc29dd77bace10f2",
+  "training_settings": {
+    "attack": "fuba",
+    "dataset": "cifar10",
+    "rounds": 100,
+    "seed": 42,
+    "smoke": false,
+    "clients": 20,
+    "warm_up": 100,
+    "participant_rate": 0.4,
+    "non_iid": true,
+    "alpha": 0.5
+  },
+  "runner_sha256": "1cbabf969e4e4603b05cd4f6d21e29b133b25ae1e39ab53fc7510f92a29e9d49",
+  "smoke_only": false,
+  "detection_efficacy_verified": false,
+  "both_channels_observed": false,
+  "alarm": null
+}
