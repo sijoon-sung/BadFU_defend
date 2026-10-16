@@ -1,10 +1,10 @@
-# 시계열 파일럿 완료 — BadFU 원본 관측 추가
+# 시계열 파일럿과 양쪽 원본 검산 완료
 
-**2026-10-16: 정상 seed 43·44, FUBA 비교, BadFU 40R 분석이 올라왔습니다. 정상 학습을 다시 돌릴 필요가 없습니다.** FUBA의 20개 점수 경로를 원본 관측에서 재계산했고 일치했습니다. 현재 시계열 방법의 단순 변화량 대비 추가 이득은 확인되지 않았습니다. [검토 결과와 그래프](docs/RESEARCH_SUMMARY.md#시계열-파일럿-업로드-검토--2026-10-16).
+**2026-10-16: FUBA 20개 및 BadFU 40R의 10개 점수 경로를 모두 원본 관측에서 재계산해 일치를 확인했습니다. 이번 검산을 위한 추가 실행·업로드는 없습니다.** 현재 시계열 방법의 단순 변화량 대비 추가 이득은 확인되지 않았습니다. 아래 명령은 재현·추후 내보내기 참고용이며 다시 실행할 필요가 없습니다. [검토 결과와 그래프](docs/RESEARCH_SUMMARY.md#시계열-파일럿-업로드-검토--2026-10-16) · [검산 완료 기록](reproduction/validation/temporal_pilot_complete_review_20261016.json).
 
-## 지금 필요한 것: BadFU의 작은 원본 관측 ZIP만 내보내기
+## 완료한 BadFU 원본 내보내기 — 재현 방법
 
-BadFU의 시계열 결과는 이미 받았습니다. 그 결과가 참조하는 원본 관측 ZIP만 DISLAB 경로에 남아 있어, 이를 함께 올려야 전체 점수를 재계산할 수 있습니다. **재학습·추론·관측 수집·FU 없이 파일 복사와 해시 검사만 합니다.** 기존 학습 환경과 저장소 루트에서:
+BadFU의 원본 관측 ZIP도 업로드됐고 전체 점수 재계산을 마쳤습니다. 다음은 추후 다른 실행의 관측을 내보낼 때 쓰는 명령입니다. **재학습·추론·관측 수집·FU 없이 파일 복사와 해시 검사만 합니다.** 기존 학습 환경과 저장소 루트에서:
 
 ```bash
 git pull --ff-only origin codex/structural-latent-defense
@@ -31,7 +31,7 @@ python -m unittest reproduction.test_temporal_history reproduction.test_temporal
 python reproduction/audit_temporal_uploads.py --analysis reproduction/validation/exports/temporal_history/c939c4f11272c550 --analysis reproduction/validation/exports/temporal_history/aeb01d3b125f892e --out artifacts/temporal_upload_review.json
 ```
 
-검산 출력이 이미 있으면 새 `--out` 경로를 지정합니다. BadFU 원본 ZIP이 아직 없으면 그 부분은 `source_replay: false`와 누락 경로로 명시합니다. 내보낸 ZIP이 추가되면 원격 절대 경로 대신 동일한 inventory 해시의 자료를 찾아 재계산합니다. 정상 19회의 큰 보정 실험은 아직 시작하지 않습니다.
+검산 출력이 이미 있으면 새 `--out` 경로를 지정합니다. 현재 최신 저장소는 양쪽 모두 `source_replay: true`입니다. 원격 절대 경로 대신 동일한 inventory 해시의 내보낸 ZIP을 찾아 재계산합니다. 다른 실행의 원본 ZIP이 없으면 `source_replay: false`와 누락 경로로 명시합니다. 정상 19회의 큰 보정 실험은 시작하지 않습니다.
 
 사용자 지정 실행 분리는 `python reproduction/validate_temporal_history.py --plan /경로/temporal_plan.json`을 사용합니다. 계획은 `schema: 1`, `alpha: 0.05`, `fit: [정상 ZIP 경로]`, `calibration: [별도 정상 ZIP 경로들]`, `test: [{"name": "실험명", "evidence": "ZIP 경로"}]` 형식입니다. 상대 경로는 저장소 루트 기준입니다. 보정·평가의 기간/조건과 시드 중복을 검사합니다.
 
