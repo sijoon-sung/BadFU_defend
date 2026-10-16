@@ -1,4 +1,17 @@
-# 시계열 파일럿과 양쪽 원본 검산 완료
+# 삭제 단위 구분과 외부 관계 분석 완료
+
+**최신 작업:** 저장된 관측만으로 요청자/잔류 기여의 시계열을 분해했습니다. FUBA 클라이언트 삭제와 BadFU 원논문의 내부 샘플 삭제를 구분하며, 이번 결과는 **클라이언트 단위 inter**에 한정합니다. BadFU `full6`의 client 5는 정상 자료+위장을 담은 별도 클라이언트입니다. 내부 원자와 독립 요청 효과가 없는 intra는 미관측으로 남겼습니다. [삭제 단위·결과·그래프](docs/RESEARCH_SUMMARY.md#삭제-단위와-관계-시계열-재검토--2026-10-16).
+
+분석은 여기서 완료했으므로 다시 돌리거나 학습할 필요가 없습니다. 재현할 때만 저장소 루트에서:
+
+```bash
+python reproduction/analyze_history_relations.py
+python -m unittest reproduction.test_history_relations -v
+```
+
+NumPy와 matplotlib으로 실행하며 모델·이미지·GPU·FU 호출은 없습니다. 검증된 원본 ZIP 6개 관측과 기존 HRAC 수식을 재사용합니다. 출력은 `reproduction/validation/exports/history_relations/<해시>/`의 전체 수치, 후보별 CSV, 시계열과 그래프 3개입니다. 내부 삭제 실험을 실행한 것처럼 표시하지 않습니다. **새 내부 관측 수집이나 재학습 명령은 이번 실행에 포함하지 않았습니다.**
+
+## 이전 시계열 파일럿 검산
 
 **2026-10-16: FUBA 20개 및 BadFU 40R의 10개 점수 경로를 모두 원본 관측에서 재계산해 일치를 확인했습니다. 이번 검산을 위한 추가 실행·업로드는 없습니다.** 현재 시계열 방법의 단순 변화량 대비 추가 이득은 확인되지 않았습니다. 아래 명령은 재현·추후 내보내기 참고용이며 다시 실행할 필요가 없습니다. [검토 결과와 그래프](docs/RESEARCH_SUMMARY.md#시계열-파일럿-업로드-검토--2026-10-16) · [검산 완료 기록](reproduction/validation/temporal_pilot_complete_review_20261016.json).
 
