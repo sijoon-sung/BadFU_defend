@@ -7,6 +7,8 @@ FL에서 숨겨진 백도어가 FU의 삭제 요청으로 활성화되는 과정
 - [궤적 상태](docs/TRAJECTORIES.md): 어떤 파일을 사용할 수 있는가.
 - [실행 안내](RUN.md): 현재 코드와 확인 명령.
 
+**ASR 원인 진단 확인(2026-10-16):** 업로드된 1,000장·전체 10,000장 결과의 개별 예측에서 모든 지표를 다시 계산해 일치했습니다. 전체 테스트에서 16R의 깨끗한 표적 오분류율은 **1.44%**, 현재 개별 생성기 `train` 적용 후 ASR은 **51.23%**입니다. 기존 표적 편향만으로 높은 ASR을 설명할 수 없으며, 생성기 `eval`·평균 생성기에서도 효과가 남습니다. 정상 학습 대조와 실제 FU 후 결과는 아직 없습니다. [수치와 해석](docs/RESEARCH_SUMMARY.md#asr-실측-검토--2026-10-16) · [그래프](docs/figures/fuba_cifar10_s42_asr_diagnosis.png).
+
 **FUBA 본 실험 업로드 확인(2026-10-16):** CIFAR-10·Dirichlet alpha 0.5·100R·seed 42의 결과 ZIP에서 점수를 재계산해 원본 요약과 일치했습니다. HRAC는 최종 삭제 대상 client 4를 세 입력 묶음 모두 1위로 뒀지만, 단순 기준선도 같았습니다. 표적 8은 HRAC에서 9/10/9위, 기여 절댓값에서는 모두 1위여서 현재 점수의 추가 이득은 입증되지 않았습니다. 최종 FL ASR은 98.18%, 정확도는 73.62%이며 FU 후 수치가 아닙니다. [비교·부호 진단·한계](docs/RESEARCH_SUMMARY.md#fuba-cifar-10-100r-업로드-검토--2026-10-16) · [그래프](docs/figures/fuba_cifar10_s42_review.png).
 
 **FUBA 학습부터 검증까지:** `python reproduction/run_fuba_experiment.py --dataset cifar10 --download`로 원본 학습 → 전체 궤적 검사 → HRAC·기준선 비교 → 작은 결과 ZIP 내보내기를 순서대로 실행합니다. 먼저 `--smoke`를 붙여 2라운드 연결 검사를 할 수 있습니다. 완료된 동일 조건 학습은 재사용하며, 결과는 Git에 추가할 수 있는 `reproduction/validation/exports/`에 복사됩니다. 독립 요청 자료가 없는 intra 채널과 정상 실행으로 보정하지 않은 탐지 판정은 미측정으로 표시합니다. [조건·예상 저장량·업로드 방법](RUN.md).

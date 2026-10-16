@@ -446,6 +446,14 @@
         "newly_targeted_lower_bound_pct": 68.86666666666666
       }
     ],
-    "interpretation": "The unadjusted 16R ASR does not establish prior backdoor activation. At 100R existing clean class bias alone cannot explain all ASR; induced susceptibility still needs a matched benign model control."
+    "interpretation": "The unadjusted 16R ASR does not establish prior backdoor activation. At 100R existing clean class bias alone cannot explain all ASR; induced susceptibility still needs a matched benign model control.",
+    "scope": "Pre-diagnosis bounds from stored aggregate metrics; subsequent paired measurements are linked below."
+  },
+  "asr_paired_measurement_followup": {
+    "source_commit": "6be45c6",
+    "date": "2026-10-16",
+    "review": "reproduction/validation/fuba_cifar10_s42_asr_review.json",
+    "measured_clean_target_rate_available": true,
+    "interpretation": "Full-test paired predictions rule out existing target misclassification alone as the explanation for the high 16R ASR. A benign-trained model and actual FU outcome are still absent."
   }
 }
