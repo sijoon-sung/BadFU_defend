@@ -1,6 +1,6 @@
 # 논문 리뷰와 원문 찾기
 
-기존 정리는 사라지지 않았다. 공격 리뷰 4개와 방어/FU 리뷰 7개를 아래에서 바로 찾을 수 있다. 각 상세 리뷰는 요청한 **Problem Statement → Key Idea & Formulation → Evaluation & Results → Limitations & Critical Discussion → Takeaway & Next Actions** 다섯 항목을 따른다. 원문 링크·표 번호는 각 파일에 있으며 저자 결과와 우리 해석을 구분한다.
+기존 정리는 사라지지 않았다. 공격 리뷰 4개와 방어/FU 리뷰 9개를 아래에서 바로 찾을 수 있다. 각 상세 리뷰는 요청한 **Problem Statement → Key Idea & Formulation → Evaluation & Results → Limitations & Critical Discussion → Takeaway & Next Actions** 다섯 항목을 따른다. 원문 링크·표 번호는 각 파일에 있으며 저자 결과와 우리 해석을 구분한다. FLShield·FLTrust는 2026-10-16에 추가했다.
 
 | 논문 | 다섯 항목 리뷰 |
 |---|---|
@@ -15,8 +15,10 @@
 | FLAME | [10_FLAME.md](10_FLAME.md) |
 | UnlearnGuard | [11_UnlearnGuard.md](11_UnlearnGuard.md) |
 | FedEraser | [12_FedEraser.md](12_FedEraser.md) |
+| FLShield | [통합본 H](05_defenses_novelty.md#h-flshield--클래스별-검증으로-데이터-구성의-혼동-감소) |
+| FLTrust | [통합본 I](05_defenses_novelty.md#i-fltrust--작은-정상-자료로-신뢰-기준-추가) |
 
-[기존 방어 7편 통합본](05_defenses_novelty.md)은 정보 조건·시계열 선행·가정 완화 비교를 포함한다. [공격 비교표](00_comparison.md)는 역사적 탐색 메모로 읽고 현재 범위는 [연구 요약](../RESEARCH_SUMMARY.md)을 따른다. FoolsGold·FLDetector·FedOSD·GEM은 통합본에서 연결한 선행이며 위 11편과 같은 깊이의 상세 리뷰 완료로 세지 않는다. SubID 원문은 이번 재정리에서 재열람하지 못했으므로 기존 노트의 수치를 외부 인용하기 전 DOI 원문과 재대조한다.
+[방어/FU 9편 통합본](05_defenses_novelty.md)은 정보 조건·시계열 선행·가정 완화 비교를 포함한다. [공격 비교표](00_comparison.md)는 역사적 탐색 메모로 읽고 현재 범위는 [연구 요약](../RESEARCH_SUMMARY.md)을 따른다. FoolsGold·FLDetector·FedOSD·GEM은 통합본에서 연결한 선행이며 같은 깊이의 상세 리뷰 완료로 세지 않는다. SubID 원문은 이번 재정리에서 재열람하지 못했으므로 기존 노트의 수치를 외부 인용하기 전 DOI 원문과 재대조한다.
 
 ## 주요 방어 논문에서 가져올 논리 전개
 
@@ -29,5 +31,7 @@
 | FLAME | 필터링과 잡음의 개별 한계 → 단계 결합으로 필요 잡음 감소 | 복잡한 조합이 같은 효용에서 추가 이득을 주는지 소거 |
 | UnlearnGuard | FU의 공격면 → FL 이력 기반 예측·검사 → 조건부 분석 | ‘시계열을 사용한다’보다 구체적인 요청 정보의 추가 가치 |
 | FedEraser | 전체 재학습 비용 → 저장 업데이트와 새 보정 → 비용/근사 비교 | 모든 minibatch gradient 가정 제거, 실제 비용과 망각 별도 측정 |
+| FLShield | Non-IID 검증 결과의 차이 → 클래스별 손실 변화·대표 모델 → 보고 검증 | 이미지 전체 평균으로 지워진 클래스별 차이가 있는지 진단 |
+| FLTrust | 신뢰 기준 부재 → 작은 정상 자료 → 기준 방향·크기 제한 | 이미 사용하는 공개 자료 가정을 명시하고 대표성 한계 보고 |
 
 우리 기여 후보는 **실제 요청이 역사적 상쇄 관계를 선택적으로 끊는다는 정보의 추가 가치**다. 이를 정상 오탐률이 같은 선형 baseline과 비교해서 보여야 한다. 논리적으로 가능한 설계와 실험으로 확인한 기여를 구분한다.
