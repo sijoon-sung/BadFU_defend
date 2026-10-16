@@ -2,6 +2,57 @@
 
 저장소 루트에서 `python reproduction/run.py`를 사용합니다. 기존 학습용 `.sh` 실행기는 제거했습니다. 공식 소스를 커밋으로 고정해 다시 받았고, 실행할 때 복사본에 저장·호환성 패치를 적용합니다. **기존 로그·체크포인트는 그대로 보존합니다.**
 
+## HRAC의 검증 기준: 같은 요청에 두 채널 적용
+
+공격 이름에 따라 검사법을 나누지 않습니다. **BadFU와 FUBA 모두 동일한 `hrac_request_gate.py`에서 이력 H와 삭제 요청 U를 함께 평가합니다.**
+
+- **Inter:** 요청한 삭제가 다른 참여자의 기여와 이루던 선택적 상쇄를 해제하는지 검사합니다.
+- **Intra:** 독립적으로 관측한 요청 기여를 요청자 자신의 과거 원자 기여로 설명할 수 있는지 검사합니다. 정상 부분 삭제를 전체 클라이언트 기여와 비례한다고 가정하지 않습니다. 소유권·원자별 삭제 가능 범위·삭제량 제약을 둔 최소 잔차를 사용합니다.
+- 두 채널은 서로 대체하지 않습니다. 내부적으로 설명 가능한 요청도 inter 위험이 클 수 있습니다. 반대로 intra 불일치만으로 악성 의도를 증명하지 않습니다. 정상 보정 실행이 없으면 종합 경보는 `null`입니다.
+
+이전 BadFU 검증 ZIP만 있어도 같은 게이트에 연결할 수 있습니다. 압축을 푼 `evidence` 폴더를 지정합니다. 모델 가중치·재학습·FU는 필요하지 않습니다.
+
+```bash
+python reproduction/validate_hrac_requests.py --evidence /압축푼/경로/evidence --out artifacts/hrac_badfu_requests_v1
+```
+
+FUBA에서 내보낸 `evidence`에도 **같은 명령**을 사용합니다. 독립 요청 자료가 없는 기본 실행은 각 클라이언트 전체 삭제 요청을 사전 검토하며 inter를 계산합니다. **intra는 `unobserved_independent_request_effect`로 남고 HRAC 전체 검증 완료로 보고하지 않습니다.** 이전 파일에 없던 정보를 복사·분할해서 만들어 넣지 않습니다.
+
+### 저장된 FUBA 궤적에서 관측 및 요청 검사
+
+```bash
+python reproduction/validate_fuba_detection.py --run-dir artifacts/fuba_mnist_s42
+python reproduction/validate_fuba_detection.py --run-dir artifacts/fuba_cifar_s42
+```
+
+완료한 실험에 해당하는 줄만 실행합니다. 이 명령은 새 실행기가 저장한 `full-trajectory-v1` 궤적을 읽습니다. 예전 압축 이력이나 pickle을 새 전체 궤적으로 잘못 해석하지 않습니다. 데이터 경로를 옮겼으면 `--data-root /실제/데이터/상위폴더`, 이미 준비한 무라벨 풀은 `--pool /실제/pool.npz`를 사용합니다.
+
+MNIST/CNN과 CIFAR-10/ResNet의 **원본 전처리(ToTensor만 적용)**를 사용하고, 실제 참여자 ID와 라운드별 균등 집계 가중치를 반영합니다. 미참여자는 그 라운드 집계에 기여하지 않은 것으로 기록하며, 한 번도 참여하지 않은 클라이언트는 순위에서 제외합니다. 관측은 고정 입력 80장×3세트와 패턴 3개×4모서리를 사용합니다. FUBA의 트리거 생성기와 클래스 라벨은 탐지 입력에 쓰지 않습니다. 따라서 입력별로 달라지는 FUBA 트리거를 이 고정 패턴이 충분히 관측하는지는 실험 대상입니다.
+
+`<run-dir>/hrac_validation_v1/fuba_hrac_evidence_<식별값>.zip`에 두 채널 상태, HRAC·기준선 순위, 참여 횟수, 원래 ASR 로그와 재계산용 관측 평균이 들어갑니다. 워밍업의 ASR 없음과 임의 생성기를 사용한 ASR을 실제 공격 ASR로 해석하지 않습니다. 같은 명령으로 관측을 재개할 수 있으며, 코드·관측 설정 변경 시 새 `--out`을 사용합니다.
+
+### Intra를 실제로 측정하려면 필요한 자료
+
+관측 실행이 생성하는 `request_coordinates.json`의 `observation_id`를 기준으로 독립 요청 자료를 묶습니다. `--requests /경로/requests.json`을 위 두 검사기에 추가합니다. 같은 요청 자료의 결과를 기존 정상/공격 점수로 바꿔 적지 않습니다.
+
+요청 JSON의 최상위 필드는 `schema: 1`, `origin`, `observation_id`, `requests`입니다. 각 요청은 다음 정보를 가집니다.
+
+| 필드 | 의미 |
+|---|---|
+| `id`, `round`, `removal` | 요청 ID, 해당 요청까지의 라운드, 클라이언트별 삭제 비율 |
+| `intra.atoms` | `[원자 수, 360]` 형태의 과거 기여. 좌표는 반복 3×변환 12×출력 10 순서. 원자 기여에는 집계 가중치가 반영되어야 함 |
+| `intra.observed` | 같은 좌표계에서 **독립적으로 관측한** 삭제 요청 기여 360차원. 부호는 제거할 대상의 양의 학습 기여이며, 실제 FU가 적용하는 음의 모델 변위와 혼동하지 않음 |
+| `intra.atom_owners`, `intra.atom_masses` | 각 원자의 소유 클라이언트와 양의 표본 수/질량 |
+| `intra.lower`, `intra.upper` | 요청 메타데이터에서 정한 원자별 삭제 계수 범위. 다른 소유자의 상한은 0 |
+| `intra.constraint_matrix`, `intra.constraint_value` | 선택 항목. 정확한 ID·클래스별 삭제량 등 추가 등식 제약 |
+| `intra.provenance` | `independent_observation: true`, 정확한 `observation_id`, `request_round`, 서로 다른 `history_source`·`request_source`, `constraints_source: "request_metadata"`, `complete_within_requested_owners: true` |
+
+검사기는 소유자별 `sum(atom_mass × 삭제계수) = 요청 삭제비율 × 해당 소유자의 전체 atom_mass`를 추가로 강제합니다. 전체 탈퇴라면 자신의 원자를 임의로 남겨 잔차를 줄일 수 없습니다. 메타데이터 선언 자체는 독립 관측의 암호학적 증명이 아니므로 원본 관측 경로를 함께 보존해야 합니다.
+
+**현재 기록한 클라이언트 전체 체크포인트만으로는 내부 샘플별 원자와 독립 요청 관측이 자동으로 생기지 않습니다.** 이 자료가 없는 실행은 inter까지만 실제 측정한 것으로 표시합니다. 저장 코드가 잘못됐다는 뜻은 아닙니다. 세부 수식과 필요한 후속 실험은 [연구 정리](docs/RESEARCH_SUMMARY.md)를 따릅니다.
+
+참고: 지금 저장소의 [FUBA](https://github.com/stcebra/FUBA)는 Adv-attacker/Adv-defender 공모 방식입니다. [FedUBA](https://www.chenwang.net.cn/publications/FedUBA-TDSC26.pdf)는 별도 연구입니다. `FUBA=intra 전용`으로 대응시키지 않습니다.
+
 ## 학습을 마쳤으면: 탐지 알고리즘 검증
 
 **완료된 `badfu_author_s42`가 있는 컴퓨터에서, 학습에 사용한 Python 환경과 저장소 루트에서 실행합니다. 재학습과 FU 실행은 없습니다.** 먼저 현재 작업을 보존한 상태에서 이 브랜치의 최신 코드를 받습니다.
@@ -28,6 +79,8 @@ artifacts/badfu_author_s42/detection_validation_v1/badfu_detection_evidence.zip
 ```
 
 압축 안의 `report.txt`는 요약, `summary.json`은 마지막 순위·최초 단독 1위·기존 FU 전후 ASR, `comparison.csv`는 라운드별 비교입니다. 관측 평균(`response_means.npz`), 원래 평가 로그·manifest·입력 해시도 포함합니다. 모델 가중치와 이미지 픽셀은 포함하지 않습니다. 약 60 GB 체크포인트를 업로드할 필요가 없습니다. 원본별 관측은 실행 컴퓨터에 별도로 남습니다.
+
+**GitHub에 결과를 올릴 때:** `artifacts/`는 Git 제외 대상이므로 `git add .`만으로 ZIP이 포함되지 않을 수 있습니다. 생성된 ZIP 하나를 `reproduction/validation/` 아래로 복사해 커밋하거나, 정확한 ZIP 파일 하나에만 `git add -f -- 파일경로`를 사용합니다. 체크포인트 폴더 전체를 추가할 필요는 없습니다. `git status`에서 ZIP이 포함됐는지 확인한 뒤 푸시합니다.
 
 중단되면 **같은 명령**을 다시 실행합니다. 체크포인트는 다시 검사하고 이미 완료된 관측은 해시 확인 후 재사용합니다. 코드·입력·설정이 바뀌었으면 새 `--out artifacts/badfu_detection_v2`를 지정해야 합니다. 메모리 부족이면 새 출력 폴더와 `--batch-size 16`, GPU가 없으면 `--device cpu`를 사용합니다. 누락된 모델은 자동 재학습하지 않고 오류로 알려줍니다.
 
