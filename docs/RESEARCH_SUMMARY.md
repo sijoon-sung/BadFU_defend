@@ -347,7 +347,7 @@ FU로 인한 증가를 별도로 평가하려면 같은 고정 변형으로 `(A_
 
 마지막 열은 결과를 모두 본 뒤의 **관측 범위 초과 시점**이다. 실시간 임계값·탐지 지연·보정된 FPR로 보고하지 않는다. 각 방법의 단위도 다르다. 새 정상 GLR 최대값은 적합 정상의 127.36보다 크므로 적합 실행의 범위만을 정상 한계로 사용할 수 없다. 이번 4개 FUBA 실행 모두 `max(GLR) = max(양의 표준화 잔차)^2 / 2`였다. 즉 최대점의 분리 비율이 커진 것은 한 번의 큰 잔차를 제곱한 효과이며, 구간 누적의 추가 정보가 최대점에 기여한 증거는 아니다. 단순 변화량도 68R에 같은 사후 범위를 넘었으므로 현재 v1이 더 이르게 구분한다는 주장은 지지되지 않는다.
 
-**BadFU 40R:** 제공된 결과 배열·요약 10개 방법 행의 해시 및 최대값·순위를 확인했다. 다만 `badfu_detection_evidence.zip`은 DISLAB 절대 경로로만 기록돼 GitHub에 없으므로 원본 관측에서의 전체 재계산은 아직 못 했다. 새 내보내기 명령으로 그 작은 ZIP만 추가하면 된다. 기존 학습·관측을 다시 수행할 이유는 없다.
+**BadFU 40R 원본 검산 완료:** 후속 업로드 `cb381e7`에서 `badfu_detection_evidence.zip`을 받아 해시·관측 좌표·정상 적합 모형을 확인하고, clean5/full6의 5개 방법씩 전체 10개 점수 경로를 원본 관측에서 재계산했다. 최대 절대 오차는 4.55e-13이며 구간 시작점·좌표도 일치했다. 두 단계 모두 40R이고 smoke 실행이 아니다. 앞서 원본이 없어 남겼던 검산 제한은 해소됐다. 이는 저장 관측의 재계산이며, 원격 가중치에서 새 추론이나 FU를 실행한 것은 아니다. 추가 학습·관측·업로드는 필요 없다.
 
 | BadFU 최종 라운드 | client 0 | client 5 | 순위 해석 |
 |---|---:|---:|---|
@@ -357,9 +357,9 @@ FU로 인한 증가를 별도로 평가하려면 같은 고정 변형으로 `(A_
 
 원본 구성에서 client 0은 poison, client 5는 clean-0 복제와 cover를 가진 역할이다. 따라서 GLR의 client 0 1위를 정상 클라이언트 오탐으로 부르면 잘못이다. 그러나 사전에 정한 **삭제 요청자 5의 특정**에서는 값/변화량보다 좋아졌다고 할 수도 없다. GLR은 2–40R의 39개 점검 중 요청자를 12회 1위, 27회 2위로 뒀고 값/변화량은 39회 모두 1위였다. 최종 GLR의 최대 구간은 client 0의 16–40R, 출력 좌표 1이며 요청자 5는 6–40R, 출력 0이었다. 이 사후 관측을 새 공모 탐지 성능으로 바꿔 보고하지 않는다. `clean5`와 `full6`는 클라이언트 수가 다르고 같은 실행에 속하므로 독립 정상 보정도 아니다.
 
-**판정:** 기록 오류 때문에 결과가 무효인 상황이 아니다. 이력에는 구분 가능한 변화가 있으나, 현재 정규화·구간 누적이 단순 변화량보다 낫다는 증거는 없다. 알고리즘을 이번 결과에 맞춰 바꾸지 않고 v1을 그대로 보존한다. 곧바로 정상 19회를 추가하기보다 먼저 BadFU 원본 관측을 검산하고, 다음 버전에서 같은 정규화 아래의 단일 시점/구간 누적 비교와 요청자 특정/공모자 특정 목표를 분리해야 한다. 이후 바뀐 방법의 성능 평가는 새 실행으로 해야 한다. 이번 업로드에는 FU·정화 모델의 복구 결과가 추가된 것은 아니다.
+**판정:** 기록 오류 때문에 결과가 무효인 상황이 아니다. 이력에는 구분 가능한 변화가 있으나, 현재 정규화·구간 누적이 단순 변화량보다 낫다는 증거는 없다. 알고리즘을 이번 결과에 맞춰 바꾸지 않고 v1을 그대로 보존한다. 양쪽 원본 검산을 마쳤으며 다음 설계 검토에서는 같은 정규화 아래의 단일 시점/구간 누적 비교와 요청자 특정/공모자 특정 목표를 분리해야 한다. 이후 바뀐 방법의 성능 평가는 새 실행으로 해야 한다. 이번 추가 원본의 검산으로 FU·정화 방법의 복구 성과까지 검증한 것은 아니다.
 
-[검산 기록](../reproduction/validation/temporal_pilot_review_20261016.json) · [FUBA 원본 요약](../reproduction/validation/exports/temporal_history/c939c4f11272c550/summary.json) · [BadFU 원본 요약](../reproduction/validation/exports/temporal_history/aeb01d3b125f892e/summary.json) · [FUBA 그래프](../reproduction/validation/exports/temporal_history/c939c4f11272c550/temporal_history.png).
+[양쪽 원본 검산 완료 기록](../reproduction/validation/temporal_pilot_complete_review_20261016.json) · [원본 추가 전 검토 기록](../reproduction/validation/temporal_pilot_review_20261016.json) · [FUBA 원본 요약](../reproduction/validation/exports/temporal_history/c939c4f11272c550/summary.json) · [BadFU 원본 요약](../reproduction/validation/exports/temporal_history/aeb01d3b125f892e/summary.json) · [FUBA 그래프](../reproduction/validation/exports/temporal_history/c939c4f11272c550/temporal_history.png).
 
 ### 이력의 시계열 분석 v1 — 2026-10-16
 
