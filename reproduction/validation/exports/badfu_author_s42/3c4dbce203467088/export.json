@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "archive": "badfu_detection_evidence.zip",
+  "sha256": "3c4dbce20346708870f8d67843f029d77cbcafbb7938f36988ca3892f85ad052",
+  "inventory_sha256": "b39e79f8bf3ecaa5d5666e9ed164a4014eec1454d8c9cb6bedc38ca0176d07d2",
+  "training_group": "badfu:cifar10:42",
+  "rounds": 40,
+  "smoke": false,
+  "training_calls": 0,
+  "model_unlearning_calls": 0,
+  "observation_calls": 0
+}
