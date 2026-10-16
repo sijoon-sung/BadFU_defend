@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-16",
+  "purpose": "End-to-end execution checks, not detection efficacy",
+  "status": "pipeline_smoke_verified",
+  "targeted_tests_passed": 29,
+  "new_pipeline_tests": 7,
+  "cifar10": {
+    "run": "fuba_pipeline_cifar_gpu_smoke_s42",
+    "rounds": 2,
+    "fresh_training": true,
+    "training_seconds": 55.84400000000005,
+    "total_seconds": 95.5619999999999,
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "full_trajectory_verified": true,
+    "compact_zip_replay_identical": true,
+    "archive": "reproduction/validation/exports/fuba_pipeline_cifar_gpu_smoke_s42/b4253786535921da/fuba_hrac_evidence_85d29bad2496.zip",
+    "archive_bytes": 53270,
+    "archive_sha256": "b4253786535921daebad6626461fff0ca118cbee201322e5b359149ff8399ed3"
+  },
+  "mnist": {
+    "run": "fresh_final_fuba",
+    "rounds": 2,
+    "completed_training_reused": true,
+    "validation_and_export_completed": true,
+    "total_seconds": 9.922000000000025
+  },
+  "cpu_smoke": {
+    "completed": false,
+    "note": "Deliberately interrupted the slow CPU run and completed a fresh GPU run instead; incomplete training was not exported."
+  },
+  "actual_intra_observed": false,
+  "calibrated_alarm": null,
+  "performance_evidence": false,
+  "code_sha256": {
+    "reproduction/run_fuba_experiment.py": "1cbabf969e4e4603b05cd4f6d21e29b133b25ae1e39ab53fc7510f92a29e9d49",
+    "reproduction/test_fuba_experiment.py": "76bde1f3ecd049460bfde1a4d75e2946afeb70ee4e94e5dd15528550e233c76b",
+    "reproduction/validate_fuba_detection.py": "db2c66e80ebe39a80211e9957c3132ac3c86a4ffbd7f3876cf60481bf4effe9f",
+    "reproduction/hrac_request_gate.py": "a0fb256404581c2d0767044bb59d27f1f4082b798599de236aba787cc36fe869"
+  }
+}

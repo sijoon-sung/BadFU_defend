@@ -1,6 +1,82 @@
-# BadFU / FUBA 새 실행 안내
+# FUBA 학습 → 궤적 검사 → HRAC 검증
 
-저장소 루트에서 `python reproduction/run.py`를 사용합니다. 기존 학습용 `.sh` 실행기는 제거했습니다. 공식 소스를 커밋으로 고정해 다시 받았고, 실행할 때 복사본에 저장·호환성 패치를 적용합니다. **기존 로그·체크포인트는 그대로 보존합니다.**
+**저장소 루트에서 아래 명령을 실행하면 학습이 끝난 뒤 검증과 결과 내보내기까지 자동으로 이어집니다.** 기존 `.sh`는 사용하지 않습니다. BadFU 및 각 단계의 개별 명령은 아래에 남겨 두었습니다.
+
+## 바로 실행하기
+
+학습용 Python 환경에서 최신 브랜치를 받고 의존성을 설치합니다. Python 3.11, 호환되는 PyTorch/torchvision 및 MPI가 필요합니다. 기존 학습 환경이면 그대로 사용하면 됩니다.
+
+```bash
+git pull --ff-only origin codex/structural-latent-defense
+python -m pip install -r reproduction/requirements.txt
+```
+
+먼저 **CIFAR-10/ResNet 2라운드 연결 검사**를 합니다. `--download`는 없는 데이터만 받습니다. 기본 데이터 폴더는 `FUBA/data`입니다. 기존 데이터가 다른 곳에 있으면 아래 명령에 `--data-root /실제/데이터/상위폴더`를 추가합니다.
+
+```bash
+python reproduction/run_fuba_experiment.py --dataset cifar10 --smoke --download
+```
+
+이 명령이 완료되면 **100라운드 본 실험**을 실행합니다.
+
+```bash
+python reproduction/run_fuba_experiment.py --dataset cifar10 --download
+```
+
+MNIST/CNN을 실행하려면 다음 명령을 사용합니다. 두 데이터셋은 별도 실험이며, 필요한 것부터 실행하면 됩니다.
+
+```bash
+python reproduction/run_fuba_experiment.py --dataset mnist --download
+```
+
+통합 실행기 기본 조건은 **20클라이언트·참여율 0.4·100라운드·warmup 5·seed 42·Non-IID Dirichlet alpha 0.5**입니다. 연구에서 선택한 조건이며 논문 기본값이라는 주장은 아닙니다. `--smoke`는 6클라이언트·전원 참여·2라운드·warmup 1·클라이언트당 실제 표본 64개로 바뀝니다. **축소 실행의 ASR과 순위는 성능 증거로 사용하지 않습니다.** IID는 `--iid`, 다른 분할은 `--alpha 0.1`, 다른 반복은 `--seed 43`으로 지정하고, 같은 이름의 기존 실행과 설정이 다르면 새 `--run-dir`을 지정합니다.
+
+정상 Non-IID 비교군도 필요하면 같은 설정에서 공격 시작 시점을 학습 종료 뒤로 옮겨 별도로 실행합니다. **학습 한 번이 추가**되며, 이 한 번만으로 FPR을 보정하지는 않습니다.
+
+```bash
+python reproduction/run_fuba_experiment.py --dataset cifar10 --warm-up 100 --run-dir artifacts/fuba_cifar10_benign_s42 --download
+```
+
+## 자동으로 하는 일과 결과
+
+1. 커밋으로 고정한 **원본 FUBA MPI 학습**을 실행하고 라운드별 실제 참여 모델·집계 모델·생성기를 저장합니다.
+2. 모든 궤적 파일의 해시·연속성·유한값·집계를 검사한 뒤, 무라벨 입력으로 **HRAC와 기준선 4종**의 라운드별 점수·클라이언트/출력 순위를 계산합니다. 원래 학습 ASR·정확도와 연결합니다.
+3. 요청을 동일한 **inter/intra 게이트**에 넣습니다. 별도 요청 관측이 없는 기본 실행은 inter를 측정하고 **intra는 미관측, 최종 탐지 판정은 `null`**로 표시합니다. 아래의 독립 요청 형식이 준비되면 `--requests requests.json`을 추가할 수 있습니다.
+4. 검증이 성공한 경우에만 작은 ZIP과 요약을 **Git 제외 대상이 아닌 폴더**로 복사합니다. 체크포인트·데이터 이미지를 업로드할 필요가 없습니다.
+
+```text
+artifacts/fuba_cifar10_s42/                 학습·전체 궤적·관측 캐시
+  experiment_status.json                  단계별 완료/실패, 재사용 여부, 실행 시간
+  hrac_validation_v1/                      요청 좌표·HRAC 결과·기준선 비교표
+reproduction/validation/exports/
+  fuba_cifar10_s42/<결과 해시>/
+    fuba_hrac_evidence_<요청 식별값>.zip    가중치 없이 다시 분석할 수 있는 결과
+    summary.json                          순위·두 채널 관측 상태·판정 한계
+    report.txt                            읽기 쉬운 결과 요약
+    export.json                           ZIP 체크섬·실험 조건
+```
+
+실행이 끝나면 표시된 결과 폴더를 아래처럼 올리면 됩니다. `artifacts/`만 올리려다 Git 제외 규칙 때문에 결과가 빠지는 문제를 피합니다. 결과 업로드는 자동으로 실행하지 않습니다.
+
+```bash
+git add reproduction/validation/exports
+git commit -m "Add FUBA HRAC experiment evidence"
+git push origin HEAD:codex/structural-latent-defense
+```
+
+**완료된 학습은 같은 명령을 재실행해도 다시 학습하지 않습니다.** 저장된 실험 조건이 일치하는지 먼저 검사하고, 검증기는 궤적을 다시 검사한 뒤 완료된 관측을 재사용합니다. 이전에 학습한 `artifacts/fuba_cifar_s42`를 사용하려면 `--run-dir artifacts/fuba_cifar_s42`를 추가하고 저장된 조건에 맞춥니다. 학습 도중 중단된 폴더는 덮어쓰지 않습니다. 학습 재개 기능은 없으므로 새 `--run-dir`이 필요합니다. 검증 실패 시 기존 ZIP을 이번 성공 결과로 내보내지 않습니다.
+
+검증 코드나 배치 크기·장치가 바뀌면 새 `--validation-out artifacts/fuba_validation_v2`를 지정합니다. 메모리가 부족하면 관측용 `--batch-size 16`을 사용할 수 있습니다. GPU가 없으면 학습용 `--gpus 0`과 관측용 `--device cpu`를 함께 지정합니다.
+
+**100라운드는 장시간 실험입니다.** 본 학습 시간은 아직 실측하지 않았습니다. CIFAR-10 기본 설정은 모델 궤적만 약 **45 GB + 생성기 상태**가 필요합니다. 관측은 라운드별 시간과 예상 잔여 시간을 표시합니다. 실제 FU 실행·FU 후 ASR 재평가와 독립 정상 실행을 통한 임계값 보정은 이 통합 명령에 포함되지 않습니다.
+
+실행기 확인(2026-10-16): 관련 테스트 **29개 통과**, RTX 4060 Laptop에서 새 CIFAR-10 2라운드의 학습·검증·내보내기 전체 **95.6초**, 약 53 KB ZIP만으로 결과 재계산 일치를 확인했습니다. 기존 MNIST 2라운드의 재학습 없는 재사용도 확인했습니다. 긴 CPU 점검은 중단 후 GPU로 검증했으므로 CPU 전체 경로 통과로 보고하지 않습니다. [점검 기록](reproduction/validation/fuba_experiment_smoke.json). 이 시간은 축소 실행의 실측이며 100라운드 소요 시간이나 탐지 성능 추정치가 아닙니다.
+
+---
+
+## 개별 실행과 HRAC 해석
+
+개별 단계는 `python reproduction/run.py`로 실행할 수 있습니다. 공식 소스를 커밋으로 고정해 다시 받았고, 실행할 때 복사본에 저장·호환성 패치를 적용합니다. 기존 로그·체크포인트는 보존합니다.
 
 ## HRAC의 검증 기준: 같은 요청에 두 채널 적용
 
