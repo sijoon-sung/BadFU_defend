@@ -10,7 +10,7 @@ from types import SimpleNamespace
 import numpy as np
 
 from reproduction import temporal_history as th
-from reproduction.validate_temporal_history import default_plan, execute, ROOT
+from reproduction.validate_temporal_history import default_plan, execute, write_json, ROOT
 from reproduction.run_temporal_validation import command
 
 
@@ -154,6 +154,14 @@ class TemporalTests(unittest.TestCase):
             self.assertIsNone(summary["evaluation"][-1]["methods"]["temporal_glr"]["calibration"]["alarm"])
             self.assertTrue(summary["evaluation"][-1]["order_ablation"]["final_level_same"])
             self.assertEqual(execute(plan, out, make_plot=False), out)
+
+    def test_json_hash_bytes_survive_git_line_normalization(self):
+        with tempfile.TemporaryDirectory(dir=ROOT / "artifacts", prefix="temporal_test_") as tmp:
+            p = Path(tmp)/"record.json"
+            write_json(p, {"record": [1, 2, 3]})
+            raw = p.read_bytes()
+            self.assertNotIn(b"\r\n", raw)
+            self.assertEqual(th.digest(raw), th.digest(raw.replace(b"\r\n", b"\n")))
 
     def test_evidence_hash_tamper_rejected(self):
         original = ROOT / default_plan()["fit"][0]
