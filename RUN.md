@@ -1,8 +1,57 @@
-# FUBA 학습 → 궤적 검사 → HRAC 검증
+# 현재 실행할 실험: 이력의 시계열 분석 검증
 
-**저장소 루트에서 아래 명령을 실행하면 학습이 끝난 뒤 검증과 결과 내보내기까지 자동으로 이어집니다.** 기존 `.sh`는 사용하지 않습니다. BadFU 및 각 단계의 개별 명령은 아래에 남겨 두었습니다.
+**2026-10-16: 기존 공격/정상 seed 42의 시계열 분석은 로컬에서 완료했습니다. 지금 필요한 것은 새로운 정상 seed 43·44에서의 검증입니다.** 아래 명령만 실행하면 됩니다. 기존 공격 100R 학습, ASR 원인 진단은 다시 실행하지 않습니다. 이전 `.sh`는 호출하지 않습니다.
 
-## 100R 학습 완료 후 지금 할 검사: ASR의 원인 분리
+```bash
+git pull --ff-only origin codex/structural-latent-defense
+python reproduction/run_temporal_validation.py
+```
+
+학습했던 Python 환경과 저장소 루트에서 실행합니다. 데이터가 `FUBA/data` 밖에 있으면 `--data-root /실제/데이터/상위폴더`를 추가합니다. 데이터가 없을 때에만 `--download`를 추가합니다. 실행 예정 명령만 보려면 `--dry-run`, 기존 업로드 자료만 다시 분석하려면 `--cached-only`입니다.
+
+### 이번 명령이 하는 일
+
+1. 기존 정상 seed 42로 **정상 이력의 변화 예측 모형**을 맞춥니다. 원래 모델을 학습하는 것이 아니라 작은 관측 배열에 회귀 모형을 맞춥니다.
+2. 새 정상 seed 43·44를 기존 원본 FUBA 실행기로 각각 학습·검사·관측합니다. CIFAR-10, 20 clients, 참여율 0.4, 100R, Dirichlet alpha 0.5, `warm-up=100`으로 공격 분기를 비활성화합니다. 이미 검증된 같은 조건의 export가 있으면 재사용합니다.
+3. **값 / 기존 창별 HRAC / 양의 변화량 / 정상 예측 잔차 / 변화 구간 GLR**를 같은 관측으로 비교합니다. 모형을 맞추지 않은 정상 두 실행에서 점수가 얼마나 커지는지 확인합니다. 기존 공격 seed 42는 탐색 비교로 계속 표시합니다.
+4. 작은 관측 ZIP, 수식 모형, 매 라운드 결과, 그래프를 `reproduction/validation/exports/` 아래에 저장합니다. 클래스 라벨·공격 생성기·ASR을 점수 계산에 사용하지 않으며 FU를 실행하지 않습니다.
+
+**시간·디스크:** 업로드된 정상 seed 42의 학습은 RTX 3080에서 약 17.1분이었습니다. 두 새 실행의 학습에 관측·전체 가중치 검사 시간이 더해지므로 **1–2시간 정도 여유**를 두세요. 이는 새 두 실행의 실측 시간이 아닙니다. 궤적 보존을 위해 새 실행당 50GiB, 여유분 5GiB를 잡아 두 실행 모두 새로 만들 때 **105GiB의 여유 공간**을 검사합니다. 기존 파일을 자동으로 지우지 않습니다. 중단된 학습의 재개는 원본 실행기가 지원하지 않으며, 이 경우 기존 폴더를 보존하고 오류 내용을 공유해 주세요.
+
+완료되면 다음을 올리면 됩니다. 모델 가중치·이미지는 업로드하지 않습니다.
+
+```bash
+git add reproduction/validation/exports
+git commit -m "Add held-out normal temporal-history validation"
+git push origin HEAD:codex/structural-latent-defense
+```
+
+**이번 두 정상 실행은 방법의 일반화 점검입니다.** 정상 두 개로 5% 오탐률이 검증되었다고 보고하지 않습니다. 별도의 정상 보정 실행이 없는 이번 결과의 경보는 `null`입니다. 이후 5% 수준의 실행 단위 순위 보정을 하려면 최소 19개의 독립 정상 보정 실행과 별도 평가 실행이 필요합니다. 이 큰 실험은 자동으로 시작하지 않습니다. [수식·현재 결과·진행 기준](docs/RESEARCH_SUMMARY.md#이력의-시계열-분석-v1--2026-10-16).
+
+### BadFU의 기존 긴 이력도 분석할 때
+
+기존 검증 ZIP이 있는 컴퓨터에서 다음을 실행합니다. 재학습·FU는 없습니다.
+
+```bash
+python reproduction/validate_temporal_history.py --badfu-evidence artifacts/badfu_author_s42/detection_validation_v1/badfu_detection_evidence.zip
+```
+
+실제 ZIP 위치가 다르면 해당 경로만 바꿉니다. `clean5`로 모형을 맞추고 `full6`를 분석합니다. **5명과 6명이며 같은 원본 실행의 단계이므로, 이 비교를 정상 보정이나 독립 FPR 검증으로 세지 않습니다.** 로컬에 있는 BadFU 자료는 2R 연결 검사뿐이라 읽기·좌표 호환만 확인했으며, 4R 미만에는 시계열 모형을 억지로 맞추지 않도록 막았습니다. 실제 긴 BadFU 분석 결과는 원격 실행 후 확인합니다.
+
+### 코드 점검과 사용자 지정 보정
+
+```bash
+python -m unittest reproduction.test_temporal_history -v
+python reproduction/validate_temporal_history.py --plan /경로/temporal_plan.json
+```
+
+계획 JSON은 `schema: 1`, `alpha: 0.05`, `fit: [정상 evidence ZIP 경로]`, `calibration: [별도 정상 ZIP 경로들]`, `test: [{"name": "실험명", "evidence": "ZIP 경로"}]`를 받습니다. 경로는 저장소 루트 기준이며 압축을 푼 `evidence` 폴더도 허용합니다. `report_client`는 선택적인 사후 순위 보고용 정수이며 점수 계산에는 쓰지 않습니다. 정상 보정·평가 간 시드 중복, 보정/평가의 라운드 수·클라이언트 수·Non-IID 설정 불일치, 입력 좌표 불일치, 해시 변조는 거부합니다.
+
+---
+
+아래는 **이미 완료한 검사와 기존 학습의 재현 방법**입니다. 위 시계열 실험을 위해 다시 실행할 필요는 없습니다.
+
+## 완료한 검사: ASR의 원인 분리
 
 **2026-10-16 완료·검토됨:** `asr_diagnostic_v1`(1,000장)과 `asr_diagnostic_full`(10,000장)이 모두 업로드됐고, 개별 예측에서 78개 지표 묶음을 재계산해 일치했습니다. **이 두 검사를 다시 실행할 필요는 없습니다.** 16R은 깨끗한 표적 오분류 1.44%, 변형 후 51.23%로 기존 표적 편향만의 설명이 배제됐습니다. [전체 결과·남은 질문](docs/RESEARCH_SUMMARY.md#asr-실측-검토--2026-10-16).
 
@@ -28,11 +77,11 @@ python reproduction/diagnose_fuba_asr.py --run-dir artifacts/fuba_cifar10_s42
 python reproduction/diagnose_fuba_asr.py --run-dir artifacts/fuba_cifar10_s42 --samples 10000 --out reproduction/validation/exports/fuba_cifar10_s42/asr_diagnostic_full
 ```
 
-**남은 대조:** 같은 분할·조건의 정상 100R 학습도 이미 있다면 `--benign-run artifacts/fuba_cifar10_benign_s42`와 새 `--out`을 추가합니다. **공격 모델과 정상 모델에 동일한 이미지·동일한 변형을 적용**하며, 저장된 데이터 분할이 다르면 비교를 거부합니다. 이번 두 업로드에는 정상 모델이 없습니다. 기존 표적 편향은 분리했지만, 일반적인 변형 취약성과 악성 학습의 인과 효과를 구분하는 대조는 남아 있습니다. 정상 100R을 새로 만들 때는 아래 정상 비교군 명령으로 별도 장시간 학습이 필요합니다. 기존 공격 학습의 약 5시간은 참고치이며 정상 실행 시간의 보장은 아닙니다.
+**정상 대조도 완료:** `fuba_cifar10_benign_s42`와 공격 모델에 동일한 변형을 적용한 1,000장·10,000장 결과까지 업로드·검산했습니다. 다시 실행할 필요는 없습니다. 재현할 때만 `--benign-run artifacts/fuba_cifar10_benign_s42`와 새 `--out`을 사용합니다. 실제 FU·정화 결과는 아직 없으며, [정상 기준 대비 복구 평가](docs/RESEARCH_SUMMARY.md#정상-대조와-복구-평가-기준--2026-10-16)를 따릅니다.
 
 완료된 작은 진단 폴더는 아래 기존 업로드 명령으로 올리면 됩니다.
 
-## 바로 실행하기
+## 기존 학습을 새로 재현하는 경우에만
 
 학습용 Python 환경에서 최신 브랜치를 받고 의존성을 설치합니다. Python 3.11, 호환되는 PyTorch/torchvision 및 MPI가 필요합니다. 기존 학습 환경이면 그대로 사용하면 됩니다.
 
