@@ -1,0 +1,64 @@
+{
+  "date": "2026-10-17",
+  "scope": "pipeline and mathematical contract verification only",
+  "tests": {
+    "command": "python -m unittest reproduction.test_purification_compare reproduction.test_purification_math -v",
+    "passed": 14
+  },
+  "source_sha256": {
+    "purification_compare.py": "10098155db8b9e16aaba1ae04e0dae2e47ddb66f87287b17b93409ed88fc872b",
+    "purification_math.py": "67885d636a3cbf1f10af316fc5386b7f6df1ad9abae89282311d805f26d9455d",
+    "run_purification.py": "e794f2b87097d34947b122b69d1443dda6a72d6f767954c3a6c19eec79a602be",
+    "test_purification_compare.py": "99b94348bb95b88272821034e79020bd502f0075a9d3f73d9f3f2d88c5266ff5",
+    "test_purification_math.py": "f0806b305eea1afd00609e84f0a52c8b93d7bb93279cb53816ae8645dc548880"
+  },
+  "smoke": {
+    "command": "python -m reproduction.run_purification --run artifacts/fresh_final_badfu --out artifacts/purification_smoke_20261017_v4 --smoke --math-ablation",
+    "fl_rounds": 2,
+    "fu_rounds": 1,
+    "images_per_class_per_split": 2,
+    "export": "reproduction/validation/exports/purification/8486f13168df7dad",
+    "input_and_output_hashes_verified": true,
+    "completed_resume_and_export_verified": true,
+    "fitting_seconds": {
+      "clean_ft": 1.5559824000001754,
+      "post_only": 4.197089100000085,
+      "differential": 7.925046600000314,
+      "differential_cvar": 7.33154710000008,
+      "differential_cvar_constrained": 0.3900266999999076
+    },
+    "constrained_selection": {
+      "selected_epoch": 0,
+      "fallback_to_post": true,
+      "certificate": "empirical class CE on observed public splits only"
+    },
+    "clean_accuracy": {
+      "pre": 0.10000000149011612,
+      "post": 0.05000000074505806,
+      "bd5": 0.15000000596046448,
+      "clean_ft": 0.10000000149011612,
+      "post_only": 0.10000000149011612,
+      "differential": 0.10000000149011612,
+      "differential_cvar": 0.10000000149011612,
+      "differential_cvar_constrained": 0.05000000074505806
+    },
+    "asr": {
+      "pre": 0.0555555559694767,
+      "post": 0.0,
+      "bd5": 0.0,
+      "clean_ft": 0.0,
+      "post_only": 0.0,
+      "differential": 0.0,
+      "differential_cvar": 0.0,
+      "differential_cvar_constrained": 0.0
+    }
+  },
+  "limitations": [
+    "Undertrained models: not defense efficacy evidence",
+    "No full BadFU performance run locally",
+    "No actual FUBA FU pair tested",
+    "No formal deletion guarantee",
+    "No official SAU baseline yet",
+    "Fixed-probe evaluation, not fresh post-repair adversarial search"
+  ]
+}
