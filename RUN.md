@@ -1,4 +1,14 @@
-# 현재 실행: 로짓 이중 차분 + 정상 설명 집합을 쓰는 이력 방법
+# 두 방법의 업로드 검토 완료 — 재현 안내
+
+**2026-10-17: `845803e`에 업로드한 11건 모두 검산 완료. 아래 본 실험을 다시 실행할 필요는 없습니다.** 실제 BadFU FU에서 삭제 후 탐색 패치 반응 증가가 확인됐습니다. 반면 누적 차감 근사에서는 정상 모델 정확도까지 무너졌고, 정상 설명 집합은 비영 기여를 모두 설명하지 못했습니다. FUBA의 기존 coverage 29.5~32.5%는 알려진 0 기여를 포함한 값입니다. [결과·원인·그래프](docs/DELETION_COMPARISON.md).
+
+이번 검토를 위해 새 학습·FU·모델 추론을 실행하지 않았습니다. 원본 관측만으로 점수/구간/순위표와 보류 원인을 검산했습니다. 검토를 재현할 때만 아래를 사용합니다(새 `--out` 경로 필요).
+
+~~~bash
+python -m reproduction.audit_deletion_upload reproduction/validation/exports/deletion_comparison/07ad0aefbb22ddc8/deletion_comparison.zip --out artifacts/deletion_upload_review
+~~~
+
+**아래는 이미 완료한 실험의 재현 방법입니다.** 후속 실제 정상 FU/FUBA FU 검사는 아직 이 명령에 추가하지 않았습니다.
 
 **2026-10-17. 한 실행에 두 알고리즘과 BadFU·FUBA·정상 삭제 비교가 모두 포함된다.**
 저장된 전체 궤적을 사용한다. **FL 재학습·FU 실행·다운로드는 하지 않는다.**
