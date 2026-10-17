@@ -1,8 +1,8 @@
 # 요청 유도 공통 프로브: 독립 실험 브랜치
 
-**2026-10-17 상태:** 로짓 이중 차분과 정상 설명 집합의 완료 비교는 [DELETION_COMPARISON.md](DELETION_COMPARISON.md)에 있다. [현재 RUN.md](../RUN.md)는 새 삭제 후 정화 실험용이다. 아래는 이전 무라벨·비선형 마진 실행 기록이다.
+**2026-10-17 상태:** 로짓 이중 차분과 정상 설명 집합의 완료 비교는 [DELETION_COMPARISON.md](DELETION_COMPARISON.md)에 있다. [현재 RUN.md](../../RUN.md)는 새 삭제 후 정화 실험용이다. 아래는 이전 무라벨·비선형 마진 실행 기록이다.
 
-**현재 위치:** 이 문서는 무라벨·누적 차감 대리 모델을 이용하는 v1 실험의 실행 기록이다. 이후 정상 설명 집합을 실제 관측에 연결했지만 설명 집합이 비어 점수를 내지 못했다. 아래 실행기는 [현재의 삭제 후 교정 설계](RESEARCH_SUMMARY.md#현재-연구-범위와-다음-실험--2026-10-17)를 구현하거나 검증한 도구가 아니다. 이전 LP/경계 수학 커널은 `reproduction/history_boundary.py`에 보존한다.
+**현재 위치:** 이 문서는 무라벨·누적 차감 대리 모델을 이용하는 v1 실험의 실행 기록이다. 이후 정상 설명 집합을 실제 관측에 연결했지만 설명 집합이 비어 점수를 내지 못했다. 아래 실행기는 [현재의 삭제 후 교정 설계](../current/RESEARCH_SUMMARY.md#현재-연구-범위와-다음-실험--2026-10-17)를 구현하거나 검증한 도구가 아니다. 이전 LP/경계 수학 커널은 `reproduction/history_boundary.py`에 보존한다.
 
 브랜치: `codex/request-guided-probe`
 
@@ -139,6 +139,6 @@ python reproduction/run_request_probe.py --run artifacts/fuba_cifar10_s42 --pool
 자동 검사 10개가 통과했다. 합성 예제의 CPU/GPU 실행과, 기존 2라운드 FUBA
 MNIST(CPU)·CIFAR-10(GPU) 체크포인트를 사용한 다섯 비교군의 연결 검사를 완료했다.
 최종 코드의 세 실행 결과와 코드/출력 해시를
-[`request_probe_validation_20261016.json`](../reproduction/validation/request_probe_validation_20261016.json)에 기록했다.
+[`request_probe_validation_20261016.json`](../../reproduction/validation/request_probe_validation_20261016.json)에 기록했다.
 실제 FU 모델은 이 실행들에 제공되지 않았다. 합성 예제에서 request_guided와
 post_only의 결과가 같으므로 이 기록은 요청 유도 방식의 추가 이득을 입증하지 않는다.

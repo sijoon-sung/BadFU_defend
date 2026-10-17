@@ -3,7 +3,7 @@
 2026-10-17. **현재 구현은 가설을 비교하는 실험기다. 방어 성능과 신규성은 미입증이다.**
 BadFU 저장 모델 자동 연결·4×4 패치 탐색·다섯 정화 방법·실제 트리거 평가를 지원한다.
 로컬 2라운드 모델의 연결 검사를 완료했으며, 본 성능은 DISLAB의 완료 모델로 확인한다.
-실행은 [RUN.md](../RUN.md), 이전 관측은 [DELETION_COMPARISON.md](DELETION_COMPARISON.md).
+실행은 [RUN.md](../../RUN.md), 이전 관측은 [DELETION_COMPARISON.md](../experiments/DELETION_COMPARISON.md).
 
 ## 1. Problem Statement
 
@@ -191,7 +191,7 @@ post-FU 효용 제약 아래 교정한다. 도구 조합을 넘으려면 삭제 
 ### 일반 실행기의 입력과 재현
 
 `python -m reproduction.purification_compare --config <JSON> --out <새 폴더>`.
-[예제](../reproduction/purification_example.json)의 경로는 JSON 위치 기준이며 실제 파일로 교체한다.
+[예제](../../reproduction/purification_example.json)의 경로는 JSON 위치 기준이며 실제 파일로 교체한다.
 모델은 `badfu_cifar10`, `fuba_cifar10`, `fuba_mnist`, `module:function`을 지원한다.
 체크포인트 내부 키가 `gm_after`이면 명시한다. state_dict는 strict하게 읽는다.
 공개 NPZ는 `images: uint8[N,H,W,C]`, `labels: int[N]`, `ids: unique string[N]`이다.

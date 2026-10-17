@@ -2,7 +2,7 @@
 
 2026-10-17. **이전에 올린 이중 차분·정상 설명 집합 11건은 검토 완료했다. 다시 돌리지 않는다.**
 이번에는 기존 BadFU `full6 → fu_remove5` 모델을 재사용해 정화를 비교한다.
-FL 학습·FU 실행·다운로드는 하지 않는다. [수학·비교군·한계](docs/PURIFICATION_COMPARE.md).
+FL 학습·FU 실행·다운로드는 하지 않는다. [수학·비교군·한계](docs/current/PURIFICATION_COMPARE.md).
 
 ## 1. DISLAB에서 실행
 
@@ -97,7 +97,7 @@ ASR이 낮아도 정상 정확도가 무너지거나 post 자체의 ASR이 낮�
 ## 4. FUBA와 코드 검사
 
 현재 자동 명령은 BadFU용이다. **FUBA의 실제 동일 요청 전후 모델과 생성기 평가 자료가 있을 때만**
-[일반 실행기 입력](docs/PURIFICATION_COMPARE.md#일반-실행기의-입력과-재현)으로 연결한다.
+[일반 실행기 입력](docs/current/PURIFICATION_COMPARE.md#일반-실행기의-입력과-재현)으로 연결한다.
 FUBA 실제 FU·정화도 이미 검증됐다는 뜻은 아니다.
 
 ```bash
@@ -105,4 +105,4 @@ python -m unittest reproduction.test_purification_compare reproduction.test_puri
 ```
 
 14개 테스트와 2라운드 BadFU 저장 모델 전체 연결을 확인했다. 이전 관측은
-[결과 검토](docs/DELETION_COMPARISON.md), 원본 학습은 [공식 코드 실행 문서](docs/FRESH_UPSTREAM.md)에 있다.
+[결과 검토](docs/experiments/DELETION_COMPARISON.md), 원본 학습은 [공식 코드 실행 문서](docs/operations/FRESH_UPSTREAM.md)에 있다.
