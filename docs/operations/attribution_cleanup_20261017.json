@@ -1,0 +1,803 @@
+{
+  "date": "2026-10-17",
+  "scope": "AI attribution metadata only; archive tags unchanged",
+  "commits_verified_tree_identical": 197,
+  "ai_coauthor_trailers_removed": 109,
+  "automated_identity_fields_normalized": 4,
+  "pre_rewrite_heads": {
+    "main": "62bda9586c72badaea02947fcb7d3a8468916823",
+    "codex/detection": "61b767a970ff30eb6469caf14a939f4b295baeb8",
+    "codex/purification": "c13563d08bed39d3862583decb1f6e6dec8d339a"
+  },
+  "rewritten_heads_before_audit_commit": {
+    "main": "477b6cf9762dd390056ade94862aa1f35a4e60c4",
+    "codex/detection": "36d4dd98946056adca30c2532251b65d39291931",
+    "codex/purification": "66f04c11789ac0a275c4254b9efff46a60174226"
+  },
+  "changed_metadata": [
+    {
+      "old": "a280475798f90bb9f00dd412262d04e21dba2698",
+      "new": "8336cf8f827b3f1c7e7f680ba8fdd5fe8d07a03f",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "10ffdf6b37db284ea77c145ade23fabf22aad0fd",
+      "new": "6d5cd08fe072675dd649a81189528e312eeacab9",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "9294ff3cb70bb451b9104a3cc258766d4c56c222",
+      "new": "0077e5faf389911bb1e20b73b27c1753adfe8b75",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "20291147942508546063d027088edb4b5b0c28fd",
+      "new": "7ddc171fa587aa462313de6b553dfc0a4e0ca713",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "e5813648401dc3154b6b834452c14df19871ce67",
+      "new": "7db945a35b79dc1870264eb4b49623dd7aec5086",
+      "fields": [
+        "author",
+        "committer"
+      ]
+    },
+    {
+      "old": "d24a3f72cb31a01d1902939a1c960d3824b808f3",
+      "new": "cbd6d6fbff8cb5b4119f8c69df007c31da37987f",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "ec328ccd6a0098feb86a85cd08d8ba25d6cbc3d8",
+      "new": "83175b32fa807fb86f57ab2dd5351d6cfd5b1f91",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "37e2835ea67ec49552f407aa66dc9b4fe12bf07d",
+      "new": "1e1ced0969f5d21bd1d901b47fb300af5be3ed54",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "e6080c66e8a6862fc0cdf678e55a27a85f8b14ac",
+      "new": "32cf2bff9c0df5b8e2a79c6e925fc126b217f0e9",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "fe30e2407480b04864408060ac9c7a41455f317c",
+      "new": "ddd279c370a3f7b0e5bdc97346cde1d8a0d65923",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "0d2a701f6a722cbbf5b21c62888b9ba355abfedd",
+      "new": "82c9dcfa01cb72250c59c852c112ef0da0092000",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "99d35efd61633c79f3f9025b27a805618e7971c7",
+      "new": "1a08783de34c442e72efec3704345143d4408eb2",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "caa8115fcb136b5d7e2306d3cb00d02e3ee3bfd2",
+      "new": "6500b72f6232472e41bae92a4c36392547ff2b73",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "1753fd5bab31490f9eea01598e7af1e516fff66d",
+      "new": "08cafce11caea918390ddb9d7994eaa21cdc41de",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "2edfe5379a7fe35b6afa223195f9c0f58e745a56",
+      "new": "9fbc50ae80ccac16d627d0df56fd99052170ce40",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "c4aa99b05156a224dbc3d7809a47cc41087ae993",
+      "new": "c23707760e280d30ebe660dc349400a1acc69671",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "2a82f993aeb9a2bfe6c239f6b4f602700229c65e",
+      "new": "746f86488d1e25a8aa4540955edb96ec3bc02c6d",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "ee0ca905f9b946a76f147ca6d7ce799ae0912aa2",
+      "new": "a1f0355c76aaa59e3fd5b421bcbaf17adcfa8992",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "fbf1513a37b3d3bcf8fc95b9728fab75e9537061",
+      "new": "7df330cb50cc2aa8118f84fcc2e1b36cd7ddf87e",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "771e33a21c867b1e8a12951643544d58c15ac34c",
+      "new": "b45d0bc764b2f167a3efb2af64be2eaf6415db89",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "b046080801fdda76047a7c6929ea44c5073f6046",
+      "new": "0db6bb869bc058308419c140702ec9b7a5f3acbb",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "8e6211f2a3aa536efb8b4537e2cab732ffeddf16",
+      "new": "746c85003323a55a8766c7fac2478aae3192bd86",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "6056b88d7badf66afe184e1e1130706e2526fb80",
+      "new": "4aedaa3b540e6c2476093066fef5a64297635c74",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "17037cb3d8dac324eded82b676f1e443201de22b",
+      "new": "1fb959cd70eccee42f9ea7b625dea2b2818020ae",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "df625d021562765879ac7e16cecfc6d611e351c2",
+      "new": "a475acf55d5ff6c392367eecc99e3da27ffaa911",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "6af759e924ca9044708f58d50e336cdcf0fb5fa9",
+      "new": "69d37f0e78a07dfbfa268b309f9f089ff87be628",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "0edb35c7c082248a45e339290277f2dbc262df52",
+      "new": "e91eb3e653781741d3b0b9544394308d2ca71a8c",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "8d1ab56f4ed9bf3c323167ef50ce7880e640a3a1",
+      "new": "02e22b01ce2bf6bdacbaf015c182294a3d7234fb",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "45f8d5383fc2b1aff17741b736197857bb754ad6",
+      "new": "20d6d2e41e79f40085842f8f9e3d62e266ae2c61",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "770a457bf67a8133a911324fe5a09a34b05d1ad4",
+      "new": "7d58df349e4aca8d9014db621b6bdb1f627d8d18",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "d8b6810e1d880414804ad59cff92ac2ff52b65ff",
+      "new": "9e1f5ae58e1fa5401fd2564d4ccbfaef41c77717",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "21c4cb6f33755f3907489c89524545ced1d92453",
+      "new": "46cf7b490aa41a2a0facce5ad7e8019e52a0a62d",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "a71b913b3c32272392e2e7445c9494ee09c63b85",
+      "new": "20542d9e3e1f187dc3e303730a2e560243520c81",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "99ea54830084754c4477021b90bbed1625eb828c",
+      "new": "3d661660a4d7b2e0ab35e7fd0cb18cb9a3b0ab0c",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "5e2db2f79b795fd0cf00325f416cb84b6172afa7",
+      "new": "342aa2ed9060163a6ac698a516a0c0f124b31e4c",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "08262f979e42d62d630ced9b5c0483cb8d334a1e",
+      "new": "da279c205280d79729954c08abd176cbd98f6f45",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "946a49425a1a1d15fa1dc5a5635da6000319357e",
+      "new": "7b3939a790aa2cb2c24c7f8ac1e9f632d3e1fc33",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "49e187b15d948e8a17c44520314f3c7791686dfa",
+      "new": "7d4cabdfbce5a77b5579244cfbe0b7b3e0a51594",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "3ac68b360f8a9bd0e74cc47870dae385eca8bd8c",
+      "new": "faf0d311dcb9f45a5b536d6622aeae113f9ac756",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "bf56877d85eeff6e7170d338cb8525d14724886c",
+      "new": "581a015508871a119c188efe844b98554948f1e8",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "6a9ab9e3ed401cfbb84edb50c0de50d8a5c35158",
+      "new": "08f5846546dd77e6820f0137162576fc0a19a3ed",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "e12f33e5bda75a6be9bc8ed44a5d61650dcde8f5",
+      "new": "abf31b7a92c73aafac587c11c848674ac98f6b91",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "71fe795d8adb23deb59250822657b7a8af7cbf67",
+      "new": "50b9615c6d9b43a93bcfee094c12fee6976e9705",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "00b151951c08ece02aa848f04610ed4480c95e8b",
+      "new": "9700f2fcf8ac36946c093fc0aa4e3dad311a0fac",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "4631a2a3b4b9874f2a2ac25d6390edca4c64953f",
+      "new": "a056f3fa2ce08a74015cf9c96e4879d48990b443",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "aab3b0ca5debd321af9de9a7b549782efbd552d8",
+      "new": "e75cb3685ac217205f11a20db6aeaa09b433f832",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "f15720ebf94cf492f1329088ada151a8fda53207",
+      "new": "7c66139bef1ffda35eb9554e92c1466978f2a900",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "c2046ba494a5f1e11cc4bf52098740ffab19f83a",
+      "new": "3c5df784bf5432b06185c37911ccd884be47c7e1",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "dc13b00578c10076c79c5fc26049533cfe92551a",
+      "new": "6b0d8806da6c2309b4e8dac2883e59a54d77c17d",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "a66a124aa112504781289791d6f9a7926120791a",
+      "new": "01c91e7e493548c98e9738b505e5927505ddca37",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "459eaceb32c26ad932c123a399372c08af5c665b",
+      "new": "9ffb8f6a63003be55e8b24db4d486bb8a97e6d98",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "a6bb7f88e361db2591c2c650cd3563cce754af6b",
+      "new": "d35beab51b694c8ef7cf0cc22970c8d54e0c532f",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "319c011ebf77b0fe19aaabcde20b7970dee21030",
+      "new": "5117033eaa37b69476e95eb4456838c20802a808",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "ebcdc61963192e129def42ed71369af76e073049",
+      "new": "84d4ab099c916087d3f285bfd86832d44ba9feab",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "6dda27e42146720799099529402ee8d5b8f9a257",
+      "new": "374b0a6f2ab6e3d26c2cd4937dbfa094f60f69d9",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "698cf56f842a583ac5edf9ce6788563202554964",
+      "new": "ce2315b58982f190c2fb97326e2f5e7b3a835d6e",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "1f891ec8b4e613d60cec31c1e9f63368c3cf20b9",
+      "new": "838da79f5a5f055230f587c290d8c7a434d5bc93",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "15b94e55d4de80965283e5087066ad81f3b7f90c",
+      "new": "b54c9a8f4edd9286728bc1f11b97a787577c0617",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "731fb3be76e6a2ccfbc968e202c059682376f0e3",
+      "new": "464e7d3739f8a9caeaf237fa640f6b7e16e80a61",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "992026355c2be11b83050ed93b0eda1f28a67efc",
+      "new": "c47e69579c540d3d64ef1a91381051111ebcee80",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "c57186836d0db0329e5d04bc05e8d485372989cb",
+      "new": "9ac6f4a593fd384d975281e5d3aebaf998a7f3c4",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "fca904b72046049b1a0d8be82bfc3461dc630acc",
+      "new": "8803106a672d5896800bca9369a41c56d8bdafba",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "ee7cb152b7757af816ccce98178314b1fb58ab9a",
+      "new": "98589360d743a1222c9dcee703e75846bc0d16b9",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "62264f4c3398c0e314a4f13ff50d0d8493ffd0c0",
+      "new": "c1e5ebade422674a1dcfa36e48124c8b2b3e5ea1",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "d74150ceb0dc5284f635f4f9d59ac8fc4560cb76",
+      "new": "130c63bc5aa0303d60300235d74b9f124a94c8ce",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "781742d8ad07aeb4e513048b85a01e940e58667c",
+      "new": "68680935f40cdb5e4392f0d4e4ea924fd1a471a2",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "1066d412dbe33cdc61f15d08bf6802e9aa1d2519",
+      "new": "827150eb988c0e1f86847305dbe25ff4005f54aa",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "b5359b00aa870551cea6969afd72f210d4d0c217",
+      "new": "0f54e86cd1145aa03cfabcdfad82890646bf812d",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "8e674cf603c0d5c43ce5d6cbd9993fb124cdd845",
+      "new": "9a6897a1d671c8ab9081df94948f6f99a30cfc6e",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "389a5e6dd5f0a89a4a5cf864c5488800b36e0d57",
+      "new": "96f600b85cdb67acf8d3d64b621b1db019fcab75",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "93416d5ef74454808bd288c9b42eb60f344d62b6",
+      "new": "9640ce821c5bb7840dc508f107fea967e48b055a",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "26d24d0b675dcbd942dd4cc5b2857d98eee339a1",
+      "new": "0aa2d1d3f1188d37c21e99a50c62b113783cd3df",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "90e2fb9ecbbfc51c4b439e2f24fae1745a53c448",
+      "new": "b59fcc72f8c1948d1751180f3253f13a3bd828a0",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "353d2ed54bc4cae31cb4686f791ff4dd352aa3ec",
+      "new": "730cb94f44b26a7201b54b8171bb81bb38d2482e",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "9b5e9d9714142efd0d895da0dc20613afd3ea675",
+      "new": "e9f416e731b2eebc5cbae4dd2ed325fead0f432b",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "5181a3c87b74175458ee7a0c702cdc475e1a1967",
+      "new": "f9d685de9293eaf99d74863654ea105ea5ea7a28",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "1f072b067e6a11fac79d9187ed6ecb2c5efc9353",
+      "new": "fc6927dceee2960d982bfdfa7534335f6c3b1193",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "3ad25046385446b930214f449b86af39da409616",
+      "new": "e5cdc147bf32cc66504020e86366d6d2510b4a33",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "ee3ba2011fbc58ac9a0858c09245295d15b0fb5a",
+      "new": "582be51f08e0a62a77c2ac9ed86f45318c3c1555",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "375b2125aadccf470aabc6e679586ec9660d4aa3",
+      "new": "89b23677221df411eb22c2b0f549d7fd50371819",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "7cfb93f4a6f650012cec57342d6a9cd18ea0c8a1",
+      "new": "ec5efbf5612c3b6bc8472a1f2ad75cf6fcca2e49",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "9811c1ffc02357c14a1ba65988895eb105d51701",
+      "new": "8f85c557e2a226fbec32ffdf151c9ce7e9b5ea8b",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "a3816dd046109a2b533e4a9b369d0ac499da02d1",
+      "new": "3b9d461a461e90dfaeece23cf23c79b666b2f141",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "c1ad4a8ec19ebf3cbe5208295562d56c0a2ffb14",
+      "new": "eb1ded709482ecdd76eb76f9611f5362694f7880",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "e95683ee65b01e43f3c2e55271c3d6d597638838",
+      "new": "5b3249cbba36fae48f0fd96512e88514303a6bb5",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "2c45862bf520ef94bea62eccdd7ded44353a15c4",
+      "new": "771ffd57bfb451c76282480d6e728a9a435ce35c",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "af2e6c6252623c6a31089e8f957a9b02bc1e8313",
+      "new": "567085065984110a32fd1c3effdf2c34cd336a74",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "78ee52adc88fd2e274e96996fb1b8d1776f7bc55",
+      "new": "1ef1039b156e6e264b3c405718837ffd8c775112",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "8301f66dec2444a31f03c3273263fa353aadc67d",
+      "new": "41b750de2305613e07c1714cfd4647f0a5490ee6",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "885c972143a29025a58f27ae3425ce17614653bc",
+      "new": "db84894528fa3cf8b7b045c05e1f96e442444854",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "090ff43108f232b92b74b96dce908f179778d542",
+      "new": "1db2d88423180ac11c3a205cb8df27472417a004",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "d81c31f8e135a14118a2bca866605fe78c84ceb8",
+      "new": "711e8849ba76e243168eef4ebfc81f859b418802",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "2df21468b7356f339c2bdcd915d12a120bef3bb1",
+      "new": "e34e836f1f38271843293497260d9902951f20a0",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "3578073d6bf8143d38d8a05fc92272cdd2f605ea",
+      "new": "a1f27ffe73c769a5986780a1d1919dc0e291cdef",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "2235a7143e8b97cad3146b567ea584dc6a2694ea",
+      "new": "7ecae05fcd6287db63e539f1576f314af2351195",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "8cbe1f147bf17a8a8ab2a727ee4e161c0fb4ae2a",
+      "new": "8c977c474720cebe792a8beb3538a7512a98d029",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "1253cac053f86e110596379baa36f3851d631e7b",
+      "new": "dc7c2483783dadb7d0f655ba8304f3e604dd6d4a",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "99a633efa90cd39cb78e77b992927c468df486f2",
+      "new": "50ddbde6f1b6739ddfecbf54a2fa22a5fdc5b8a6",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "a089285daabc15d5c8a9095c5a7e82b94ffd97cc",
+      "new": "922aaf3bda7c7b91c06214855da06ff7e338bfed",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "e611108b2b2f2f64037778b2adf21e1c1a1fd1ee",
+      "new": "aad8fc872f5a691266a7f315182f64eb063fd819",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "a7f21afffc4d22eea83a923620e345b536037c15",
+      "new": "938ef78cd702ee7ea1eced3e827a43c02c6e9931",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "1d38a0c8f3500676918beed1d3ea91ab62fdcfe6",
+      "new": "b16344cd3bcd5d6aa5efa3a295f0526b18923bc3",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "8756f3f026e7d0a761df1098b056598c899a5ef3",
+      "new": "b56e90b85b2a8ac7cdebfaef7a32ad372a87d615",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "750e9babdc5166feabafba8b2918f587935c6975",
+      "new": "34e36a1f161f16a535d03ea03f14ba43a2b7dcdc",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "5caeab176c278771a3637b57373cc516bb4ca1a4",
+      "new": "c680c37624ccd353a6a207f7398d6b6bd0042ef5",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "e2c238ecdde5d208f5e8dc1df2c05296d2e2300c",
+      "new": "dc81e26eb16014ad117ee66501571a25095025a0",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "9143e497635470a5621bf580b320d495e53a2710",
+      "new": "768fdf45374d1f6a2e0b1a8196f778766b02f6c8",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "3a2f66a9120f69cfb82aff15cbf5ff6930cc1daf",
+      "new": "94a5df8885c5967b5f430168484ce08f53e0edc4",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "dc39cfeda895a8da0d54ba105654443cb40d5c86",
+      "new": "a9cc4ef104f16d97cb4de9922575c617b1ea5264",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "76ca996c4bf7393560b5409a030f83b1867e6678",
+      "new": "59e59feb4735426a71e6c2b8dfd7bbcd8e3ed89c",
+      "fields": [
+        "AI coauthor trailer"
+      ]
+    },
+    {
+      "old": "ab31be60601e979a1ea797a5dbefdd3afe99e6cf",
+      "new": "252fd0bbd1712f117c5c3134e34f7a4a180c45b6",
+      "fields": [
+        "author",
+        "committer"
+      ]
+    }
+  ],
+  "notes": [
+    "Other changed commit IDs result from updated parents.",
+    "Original commit identifiers remain available through archive tags.",
+    "This does not confirm the GitHub Contributors UI cache has refreshed."
+  ]
+}
