@@ -1,21 +1,24 @@
 {
   "id": "purification/post_fu",
   "title": "실제 FU 뒤 정화 비교",
-  "status": "본 실험 대기",
+  "status": "1차 결과: ASR 억제 / 정상 효용 보존 실패",
   "hypothesis": "삭제 후 새로 커진 변형 반응을 억제하면서 정상 기능을 유지할 수 있다.",
-  "attempt": "post-only, 평균 차분, CVaR, 클래스 제약을 포함한 여섯 비교군을 구현했다.",
-  "observation": "수치·연결 검사와 2R 축소 실행만 확인했다.",
-  "decision": "저장된 실제 BadFU full6→fu_remove5 모델로 본 비교를 진행한다.",
-  "hold_reason": "본 성능·망각 품질·독립 seed는 미확인. CVaR 자체는 새 방법이 아니다.",
+  "attempt": "실제 BadFU 40R→FU 20R 모델의 여섯 비교군, 시험 1,000장·ASR 900장.",
+  "observation": "평균 차분: ASR 99→1.44%, 정확도 85.20→71.70%. CVaR: ASR 1.11%, 정확도 70.40%.",
+  "decision": "단일 쌍의 억제 신호를 관측했다. 제약 arm은 후보 5개 모두 탈락 후 원래 post로 복귀.",
+  "hold_reason": "정상 정확도 손실 2%p와 ASR 억제를 함께 달성하지 못함. FUBA·정상 실제 FU·망각 품질 미검증.",
   "code": [
+    "audit_upload.py",
     "purification_compare.py",
     "purification_math.py",
     "run_purification.py"
   ],
   "archived_source": null,
   "evidence": [
-    "results",
-    "checks"
+    "REVIEW.md",
+    "checks",
+    "results"
   ],
-  "run_configuration": "run_purification.py / example.json"
+  "run_configuration": "run_purification.py / example.json",
+  "latest_review": "checks/review_98eb3de68a0561ea.json"
 }

@@ -1,23 +1,16 @@
-# 현재 실행: 실제 FU 후 정화
+# 실행 상태: BadFU 정화 1차 완료
 
-기존 BadFU 모델을 재사용한다. 학습을 다시 할 필요는 없다.
-진행 중인 실험은 그대로 마치고, 이번 코드로 시작할 때는 새 출력 폴더를 쓴다.
+올린 결과는 검토했다. 같은 실험을 다시 돌릴 필요는 없다.
+평균 차분은 ASR 99→1.44%로 낮췄지만 정상 정확도 13.50%p를 잃었다. 제약 arm은 원래 post로 복귀했다.
 
-```bash
-python -m experiments.purification.post_fu.run_purification --run /기존/경로/badfu_author_s42 --dry-run --math-ablation
-python -m experiments.purification.post_fu.run_purification --run /기존/경로/badfu_author_s42 --out artifacts/purification_badfu_s42_experiment_v3 --math-ablation
-```
+[결과·판단·다음 확인](experiments/purification/post_fu/REVIEW.md) · [가설 다섯 줄 요약](experiments/purification/post_fu/README.md).
+다음 실험은 정상 미세조정부터 효용 손상을 진단하는 방향이며, 새 실행 예산은 아직 정하지 않았다.
 
-필요하면 `--data-root /기존/경로/data --record-root /기존/경로/badnet_dataset`를 붙인다.
-예상 시간은 GPU 수십 분~몇 시간이며 본 예산 실측은 아직 없다. 기존 결과 폴더를 덮어쓰지 않는다.
-
-끝나면 작은 결과만 올린다.
+업로드 검산만 다시 하려면 (모델·학습 불필요):
 
 ```bash
-git add experiments/purification/post_fu/results
-git commit -m "Add saved-model purification comparison"
-git push origin HEAD:purification
+python -m experiments.purification.post_fu.audit_upload experiments/purification/post_fu/results/98eb3de68a0561ea --out artifacts/purification_upload_review.json
 ```
 
-여섯 비교군·필수 입력·중단 후 재개는 [실험 실행 안내](experiments/purification/post_fu/RUN.md)에 있다.
-[가설과 현재 판단](experiments/purification/post_fu/README.md) · [다른 컴퓨터의 기존 checkout 전환](BRANCHES.md#다른-컴퓨터의-기존-실행).
+이전 실행 명령·필수 입력은 [보관한 실행 안내](experiments/purification/post_fu/RUN.md)에 있다.
+새 설정을 시험할 때는 새 출력 폴더를 사용하고 기존 결과를 보존한다.
