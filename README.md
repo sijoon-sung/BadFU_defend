@@ -1,6 +1,6 @@
 # BadFU_defend
 
-**이 브랜치는 탐지 작업(`codex/detection`)입니다.** 이력·삭제 요청의 위험 관측과 정상 Non-IID 대조를 다룹니다.
+**이 브랜치는 탐지 작업(`detection`)입니다.** 이력·삭제 요청의 위험 관측과 정상 Non-IID 대조를 다룹니다.
 
 FL 학습과 FU 삭제를 함께 이용하는 잠복 백도어를 연구합니다. **탐지와 정화를 분리해 관리합니다.** 삭제가 올바르게 수행돼도 잔류 독성 자료 때문에 모델이 위험할 수 있습니다.
 
@@ -8,8 +8,8 @@ FL 학습과 FU 삭제를 함께 이용하는 잠복 백도어를 연구합니�
 
 | 작업 | 브랜치 | 현재 상태 |
 | --- | --- | --- |
-| 탐지 | [codex/detection](https://github.com/sijoon-sung/BadFU_defend/tree/codex/detection) | 특정 관측 신호 확인. 단순 기준선 대비 이득·독립 정상 오탐률 미입증 |
-| 정화 | [codex/purification](https://github.com/sijoon-sung/BadFU_defend/tree/codex/purification) | 여섯 비교군 구현·14개 검사·축소 연결 검사 완료. 본 성능 대기 |
+| 탐지 | [detection](https://github.com/sijoon-sung/BadFU_defend/tree/detection) | 특정 관측 신호 확인. 단순 기준선 대비 이득·독립 정상 오탐률 미입증 |
+| 정화 | [purification](https://github.com/sijoon-sung/BadFU_defend/tree/purification) | 여섯 비교군 구현·14개 검사·축소 연결 검사 완료. 본 성능 대기 |
 
 [문제 정의](docs/current/PROBLEM_STATEMENT.md) · [실행 안내](RUN.md) · [브랜치 안내](BRANCHES.md)
 
@@ -30,6 +30,6 @@ FL 학습과 FU 삭제를 함께 이용하는 잠복 백도어를 연구합니�
 | [legacy/](legacy/README.md) | 초기 탐지·정화·감사 코드. 현재 실행 경로 아님 |
 | artifacts/ | 로컬 모델·궤적·중간 산출물. Git에 올리지 않는 대용량 자료 |
 
-활성 브랜치는 `main`, `codex/detection`, `codex/purification` 세 개입니다. 이전 브랜치는 보관 태그로 옮겼습니다. 다른 컴퓨터에서 갱신할 때는 [전환 안내](BRANCHES.md#다른-컴퓨터의-기존-실행)를 먼저 확인합니다.
+활성 브랜치는 `main`, `detection`, `purification` 세 개입니다. 이전 브랜치는 보관 태그로 옮겼습니다. 다른 컴퓨터에서 갱신할 때는 [전환 안내](BRANCHES.md#다른-컴퓨터의-기존-실행)를 먼저 확인합니다.
 
 이번 코드 정리: 65개 파일 이동, 연구 검사 124개와 FUBA 검사 105개 통과. 이는 코드 연결 검사이며 탐지·정화 성능 향상을 뜻하지 않습니다. [변경·검증 기록](docs/operations/LAYOUT_MIGRATION.md).

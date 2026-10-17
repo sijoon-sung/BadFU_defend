@@ -1,6 +1,6 @@
 # 탐지 브랜치 실행 안내
 
-브랜치: `codex/detection`. 목적은 이력·삭제 요청의 위험 관측과 정상 대조다.
+브랜치: `detection`. 목적은 이력·삭제 요청의 위험 관측과 정상 대조다.
 [문제 정의](docs/current/PROBLEM_STATEMENT.md) · [결과표](RESULTS.md) · [탐지 방법](docs/current/DETECTION.md).
 
 ## 이미 끝난 실험
@@ -39,4 +39,4 @@ python -m reproduction.training.run_deletion_comparison --out artifacts/deletion
 
 ## 정화 실험을 실행하려면
 
-기존 실행이 끝난 뒤 [codex/purification](https://github.com/sijoon-sung/BadFU_defend/tree/codex/purification) 브랜치의 RUN.md를 따른다. 공유 코드는 양쪽에 있으며 실행 모듈은 목적별 폴더로 이동했다.
+기존 실행이 끝난 뒤 [purification](https://github.com/sijoon-sung/BadFU_defend/tree/purification) 브랜치의 RUN.md를 따른다. 공유 코드는 양쪽에 있으며 실행 모듈은 목적별 폴더로 이동했다.
