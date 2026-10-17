@@ -1,0 +1,16 @@
+{
+  "id": "detection/paired_response",
+  "title": "짝지은 반응 관측",
+  "status": "보관",
+  "hypothesis": "같은 입력·요청의 대응 반응을 비교하면 혼동을 줄일 수 있다.",
+  "attempt": "paired audit와 response audit를 시험했다.",
+  "observation": "관측·요약 로그가 남아 있다.",
+  "decision": "후속 이중 차분과 별개인 초기 탐색 기록이다.",
+  "hold_reason": "공식 공격·독립 정상 요청에서 우월성이 확인되지 않았다.",
+  "code": [],
+  "archived_source": "archive",
+  "evidence": [
+    "results"
+  ],
+  "run_configuration": "See CLI defaults and recorded result protocol; no retuning during layout cleanup"
+}

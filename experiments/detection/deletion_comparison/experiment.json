@@ -1,0 +1,24 @@
+{
+  "id": "detection/deletion_comparison",
+  "title": "정상 설명 집합·로짓 이중 차분",
+  "status": "일부 관측 / 가정 실패",
+  "hypothesis": "정상 변화로 설명되지 않는 요청 효과·변형 반응 증가를 찾을 수 있다.",
+  "attempt": "정상 설명 집합과 이중 차분을 11개 사례에서 비교했다.",
+  "observation": "비영 기여 1,110개 모두 설명 실패. 실제 BadFU FU의 탐색 패치 반응은 2.78→73.61%.",
+  "decision": "설명 집합은 보류. 실제 FU의 패치 반응은 정화 비교의 단서로 사용한다.",
+  "hold_reason": "누적 차감은 정상 모델도 붕괴시켰다. 패치 반응 증가만으로 탐지 성공을 입증할 수 없다.",
+  "code": [
+    "audit_deletion_upload.py",
+    "deletion_contrast.py",
+    "history_boundary.py",
+    "replay_deletion_comparison.py",
+    "run_deletion_comparison.py"
+  ],
+  "archived_source": null,
+  "evidence": [
+    "results",
+    "checks",
+    "REVIEW.md"
+  ],
+  "run_configuration": "See CLI defaults and recorded result protocol; no retuning during layout cleanup"
+}

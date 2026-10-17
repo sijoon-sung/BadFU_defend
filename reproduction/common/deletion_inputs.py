@@ -7,6 +7,7 @@ import numpy as np
 import torch
 from torch import nn
 
+from reproduction.common.paths import resolve_recorded, snapshot_file
 from reproduction.common.trajectory import check_state, sha256, verify
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -23,8 +24,7 @@ def write(path, value):
 
 
 def resolve(path):
-    p = Path(path)
-    return p if p.is_absolute() else ROOT / p
+    return resolve_recorded(path)
 
 
 class BadFUModel(nn.Module):
@@ -87,8 +87,8 @@ class Trajectory:
         elif phase == 'fl' or meta['phase'] != phase:
             raise ValueError('BadFU phase mismatch')
         for name, digest in self.protocol['adapter_sha256'].items():
-            path = self.run / 'reproduction' / name
-            if path.parent.resolve() != (self.run / 'reproduction').resolve() or sha256(path) != digest:
+            path = snapshot_file(self.run / 'reproduction', name)
+            if sha256(path) != digest:
                 raise ValueError(f'training snapshot mismatch: {name}')
         if sha256(self.run / 'runtime.patch') != self.protocol['runtime_patch_sha256']:
             raise ValueError('training patch mismatch')
@@ -216,7 +216,7 @@ def public_pool(trajectory, data_root=None, pool=None):
         labels = np.asarray(ds.targets, dtype=np.int64)
         ids = np.asarray([f'{dataset}:test:{i}' for i in range(len(images))])
         if dataset == 'cifar10':
-            excluded = set(read(ROOT / 'FUBA/logs/hrac/unlabeled_excluded_ids_v1.json'))
+            excluded = set(read(ROOT / 'reproduction/common/resources/unlabeled_excluded_ids_v1.json'))
             keep = np.array([i not in excluded for i in ids])
             images, labels, ids = images[keep], labels[keep], ids[keep]
         source = dict(kind=f'public_{dataset}_test_partition', root=str(root),

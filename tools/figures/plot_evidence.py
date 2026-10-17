@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'FUBA/logs/trajectories/registry.json'
+SOURCE = ROOT / 'experiments/shared/trajectory_tools/results/historical/trajectories/registry.json'
 OUT = ROOT / 'docs/figures'
 
 

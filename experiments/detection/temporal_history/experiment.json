@@ -1,0 +1,23 @@
+{
+  "id": "detection/temporal_history",
+  "title": "시계열 GLR",
+  "status": "보류",
+  "hypothesis": "지속되는 기여 관계를 보면 단일 라운드보다 잘 구분할 수 있다.",
+  "attempt": "FUBA 20개·BadFU 10개 점수 경로를 재계산했다.",
+  "observation": "저장 결과와 일치했지만 FUBA 최대값은 한 라운드 점수로 설명됐다.",
+  "decision": "시계열의 우월성 주장을 보류한다.",
+  "hold_reason": "시간을 추가한 이득이 단순 변화량 대비 확인되지 않았다.",
+  "code": [
+    "audit_temporal_uploads.py",
+    "export_badfu_evidence.py",
+    "run_temporal_validation.py",
+    "temporal_history.py",
+    "validate_temporal_history.py"
+  ],
+  "archived_source": null,
+  "evidence": [
+    "results",
+    "checks"
+  ],
+  "run_configuration": "See CLI defaults and recorded result protocol; no retuning during layout cleanup"
+}

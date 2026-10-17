@@ -2,9 +2,9 @@
 
 | 문서 | 상태 |
 | --- | --- |
-| [DELETION_COMPARISON.md](DELETION_COMPARISON.md) | 실제 FU 신호 확인, 차감 붕괴와 정상 설명 집합 실패 |
-| [UNLABELED_PROBES.md](UNLABELED_PROBES.md) | 동일 입력의 패턴 유무 관측. 추가 이득 미입증 |
-| [REQUEST_GUIDED_PROBE.md](REQUEST_GUIDED_PROBE.md) | 이전 요청 조건부 탐색 설계·실행 기록 |
+| [DELETION_COMPARISON.md](../../experiments/detection/deletion_comparison/REVIEW.md) | 실제 FU 신호 확인, 차감 붕괴와 정상 설명 집합 실패 |
+| [UNLABELED_PROBES.md](../../experiments/detection/hrac/REVIEW.md) | 동일 입력의 패턴 유무 관측. 추가 이득 미입증 |
+| [REQUEST_GUIDED_PROBE.md](../../experiments/detection/request_probe/REVIEW.md) | 이전 요청 조건부 탐색 설계·실행 기록 |
 | [EVIDENCE_AUDIT.md](EVIDENCE_AUDIT.md) | 과거 결과 출처와 과장/오판 정정 |
 | [RESEARCH_HISTORY.md](RESEARCH_HISTORY.md) | 이전 수식·가설·시계열·ASR 진단 전체 기록 |
 

@@ -1,0 +1,16 @@
+{
+  "id": "shared/early_reproduction",
+  "title": "초기 자체 구현·점검",
+  "status": "보관",
+  "hypothesis": "단순화한 공격·기울기 점검으로 방어 단서를 얻을 수 있다.",
+  "attempt": "초기 자체 구현과 감사 로그를 남겼다.",
+  "observation": "공식 원본 재현과 다른 가정·구현이 섞여 있다.",
+  "decision": "과정 기록으로만 보관한다.",
+  "hold_reason": "22.53→91.24% 등을 원본 BadFU 재현 성능으로 사용할 수 없다.",
+  "code": [],
+  "archived_source": "archive",
+  "evidence": [
+    "results"
+  ],
+  "run_configuration": "See CLI defaults and recorded result protocol; no retuning during layout cleanup"
+}

@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-17",
+  "purpose": "layout integrity and branch independence, not scientific efficacy",
+  "immutable_moved_files": 806,
+  "changed_evidence_files": 0,
+  "locked_original_files_verified": 368,
+  "original_experiment_tests_in_full_workspace": 223,
+  "common_tests_after_snapshot_path_fix": 9,
+  "isolated_branch_tests": {
+    "detection": {
+      "suites": [
+        165,
+        9
+      ],
+      "skipped": 2
+    },
+    "purification": {
+      "suites": [
+        73,
+        9
+      ],
+      "skipped": 0
+    }
+  },
+  "isolated_detection_skip_reason": "two local model fixtures absent in clean export; both passed in the full workspace",
+  "temporal_source_replay": {
+    "fuba": 20,
+    "badfu": 10,
+    "missing_sources": 0
+  },
+  "deletion_comparison_replayed_cases": 11,
+  "saved_badfu_purification_dry_run": "passed using an external two-round fixture",
+  "branch_entry_navigation": "all README / RUN / experiment summary links resolve in their projected tree or point to the full main tree"
+}
