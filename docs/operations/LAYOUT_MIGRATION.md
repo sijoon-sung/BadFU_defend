@@ -26,7 +26,7 @@ import, 동적 모델 팩터리, 하위 실행 명령, 저장소 기준 경로, 
 
 ## 브랜치와 작성자 기록
 
-활성 브랜치는 main, codex/detection, codex/purification 세 개다. main에도 정리된 코드가 들어간다.
+활성 브랜치는 main, detection, purification 세 개다. main에도 정리된 코드가 들어간다.
 다른 다섯 원격 브랜치는 원래 끝 커밋을 가리키는 보관 태그로 전환한다.
 원격의 정리 전 끝 커밋과 보관 태그는 [보관 목록](branch_archive_20261017.json)에 기록한다.
 

@@ -1,6 +1,6 @@
 # 현재 실행: 실제 삭제 후 백도어 교정 비교
 
-브랜치: `codex/purification`. **이미 실행 중인 작업은 그대로 마친다.** 이번에는 모듈 경로와 커밋 이력을 정리했다. 이전 폴더에서 바로 pull하지 말고 [전환 안내](BRANCHES.md#다른-컴퓨터의-기존-실행)를 따른다. 새로 받은 폴더에서는 기존 모델·데이터·record의 절대 경로를 지정한다.
+브랜치: `purification`. **이미 실행 중인 작업은 그대로 마친다.** 이번에는 모듈 경로와 커밋 이력을 정리했다. 이전 폴더에서 바로 pull하지 말고 [전환 안내](BRANCHES.md#다른-컴퓨터의-기존-실행)를 따른다. 새로 받은 폴더에서는 기존 모델·데이터·record의 절대 경로를 지정한다.
 
 2026-10-17. **이전에 올린 이중 차분·정상 설명 집합 11건은 검토 완료했다. 다시 돌리지 않는다.**
 이번에는 기존 BadFU `full6 → fu_remove5` 모델을 재사용해 정화를 비교한다.
@@ -88,7 +88,7 @@ reproduction/validation/exports/purification/<해시>/
 ```bash
 git add reproduction/validation/exports/purification
 git commit -m "Add saved-model purification comparison"
-git push origin HEAD:codex/purification
+git push origin HEAD:purification
 ```
 
 `fallback_to_post=true`는 클래스별 제약을 통과하는 epoch가 없었다는 뜻이다.
