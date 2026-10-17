@@ -3,8 +3,9 @@ from pathlib import Path
 import sys
 import unittest
 import numpy as np
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from request_geometry import (request_paths, cancellation_geometry, geometry_control,
+from FUBA.research.request_geometry import (request_paths, cancellation_geometry, geometry_control,
                               check_actual_retention, ControlInfeasible, TemporalFUController)
 from unlearn_method.federaser_clientwise import replay
 

@@ -9,9 +9,10 @@ import unittest
 from unittest.mock import patch
 import numpy as np
 import torch
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from model import Net
-from experiment_request_replay import run
+from FUBA.research.experiment_request_replay import run
 
 
 class ReplayIntegrationTests(unittest.TestCase):
@@ -50,7 +51,7 @@ class ReplayIntegrationTests(unittest.TestCase):
                 seed=71, batches=1, batch_size=20, lr=.001, retain=20, evaluate=20, eval_target=None,
                 history_window=2, smoothing=1., risk_ratio=.1, epsilon=100., radius_ratio=.25, min_progress=.05)
             fake_test = torch.utils.data.TensorDataset(images, labels)
-            with patch("experiment_request_replay.datasets.MNIST", return_value=fake_test):
+            with patch("FUBA.research.experiment_request_replay.datasets.MNIST", return_value=fake_test):
                 report = run(args)
             self.assertTrue((root/"report.json").exists())
             self.assertFalse(report["forgetting_verified"])

@@ -1,0 +1,76 @@
+{
+  "date": "2026-10-17",
+  "active": [
+    "main",
+    "codex/detection",
+    "codex/purification"
+  ],
+  "branches": [
+    {
+      "branch": "main",
+      "old_head": "c3290d480afee8239cf900dfbd20d15f1b6ac976",
+      "archive_tag": "archive/2026-10-17/before-main",
+      "action": "keep_active",
+      "commits_outside_purification": 4
+    },
+    {
+      "branch": "codex/detection",
+      "old_head": "dd90dab202d52a5b986e4ca8fd4993d8ed8fdf9c",
+      "archive_tag": "archive/2026-10-17/before-detection",
+      "action": "keep_active",
+      "commits_outside_purification": 1
+    },
+    {
+      "branch": "codex/purification",
+      "old_head": "83792b6a7a457a2e498e5082949689a2737e981a",
+      "archive_tag": "archive/2026-10-17/before-purification",
+      "action": "keep_active",
+      "commits_outside_purification": 0
+    },
+    {
+      "branch": "dev",
+      "old_head": "39ed2b1d20caea4d1067c4f461f8095f60a31971",
+      "archive_tag": "archive/2026-10-17/dev",
+      "action": "archive_branch",
+      "commits_outside_purification": 0
+    },
+    {
+      "branch": "exp/baselines",
+      "old_head": "cde1bc8e204f37889e604236b3db4ed53bcb6ff7",
+      "archive_tag": "archive/2026-10-17/exp-baselines",
+      "action": "archive_branch",
+      "commits_outside_purification": 4
+    },
+    {
+      "branch": "exp/hedge-pilot",
+      "old_head": "ccf6c43750f415b0e8df83cf1b0dc867af1335c4",
+      "archive_tag": "archive/2026-10-17/exp-hedge-pilot",
+      "action": "archive_branch",
+      "commits_outside_purification": 3
+    },
+    {
+      "branch": "codex/structural-latent-defense",
+      "old_head": "7411c6bc781431bf2ff8957c19b649227eb3ca13",
+      "archive_tag": "archive/2026-10-17/structural-latent-defense",
+      "action": "archive_branch",
+      "commits_outside_purification": 0
+    },
+    {
+      "branch": "codex/request-guided-probe",
+      "old_head": "9e22c962ce1289396e048158726bcbad9cbf00ee",
+      "archive_tag": "archive/2026-10-17/request-guided-probe",
+      "action": "archive_branch",
+      "commits_outside_purification": 0
+    }
+  ],
+  "open_pull_requests": [
+    {
+      "number": 2,
+      "head": "codex/structural-latent-defense",
+      "base": "dev",
+      "url": "https://github.com/sijoon-sung/BadFU_defend/pull/2",
+      "note": "Historical code review; both original branch tips retained as archive tags. Current implementation is on the active branches."
+    }
+  ],
+  "backup": "artifacts/layout_20261017/before-cleanup.bundle"
+}

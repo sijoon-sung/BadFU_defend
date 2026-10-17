@@ -26,8 +26,8 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 sys.path.insert(0, str(ROOT/"FUBA"))
 from badfu_common import BadFUData, ResNet18
-from large_geometry import large_control
-from request_geometry import check_actual_retention, ControlInfeasible
+from FUBA.research.large_geometry import large_control
+from FUBA.research.request_geometry import check_actual_retention, ControlInfeasible
 
 
 def sha(path):
@@ -335,7 +335,7 @@ def test_requests(a, model_factory=ResNet18):
         "forgetting_verified": False, "parameter_scope": "all_trainable_parameters",
         "bn_policy": "recompute on fixed clean validation before each event in every arm, freeze during control/evaluation; log BN-only loss changes separately",
         "source_hashes": {str(p.relative_to(ROOT)): sha(p) for p in
-            (HERE/"request_pipeline.py", HERE/"badfu_common.py", ROOT/"FUBA/large_geometry.py", ROOT/"FUBA/request_geometry.py")}}
+            (HERE/"request_pipeline.py", HERE/"badfu_common.py", ROOT/"FUBA/research/large_geometry.py", ROOT/"FUBA/research/request_geometry.py")}}
     del final_state
     last = len(manifest["rounds"])-1
     if a.step is not None and not 0 <= a.step <= last:

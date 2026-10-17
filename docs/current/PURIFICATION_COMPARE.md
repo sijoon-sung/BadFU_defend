@@ -190,8 +190,8 @@ post-FU 효용 제약 아래 교정한다. 도구 조합을 넘으려면 삭제 
 
 ### 일반 실행기의 입력과 재현
 
-`python -m reproduction.purification_compare --config <JSON> --out <새 폴더>`.
-[예제](../../reproduction/purification_example.json)의 경로는 JSON 위치 기준이며 실제 파일로 교체한다.
+`python -m reproduction.purification.purification_compare --config <JSON> --out <새 폴더>`.
+[예제](../../reproduction/purification/example.json)의 경로는 JSON 위치 기준이며 실제 파일로 교체한다.
 모델은 `badfu_cifar10`, `fuba_cifar10`, `fuba_mnist`, `module:function`을 지원한다.
 체크포인트 내부 키가 `gm_after`이면 명시한다. state_dict는 strict하게 읽는다.
 공개 NPZ는 `images: uint8[N,H,W,C]`, `labels: int[N]`, `ids: unique string[N]`이다.

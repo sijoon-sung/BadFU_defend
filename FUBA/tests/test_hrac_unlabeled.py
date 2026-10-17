@@ -13,7 +13,7 @@ from torch import nn
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT/'FUBA'))
 sys.path.insert(0, str(ROOT/'BadFU_src/BadFU-main'))
-from experiment_hrac_unlabeled import (parser, prepare, load_pool, select_indices,
+from FUBA.research.experiment_hrac_unlabeled import (parser, prepare, load_pool, select_indices,
     make_views, measure, collect, analyze, sha, resolve_rounds)
 from request_pipeline import aggregate, save_tensor
 

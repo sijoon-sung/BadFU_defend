@@ -1,28 +1,47 @@
-# 탐지·정화 브랜치
+# 브랜치 안내
 
-| 브랜치 | 역할 | 먼저 읽을 문서 |
-| --- | --- | --- |
-| `codex/detection` | 요청 위험의 관측·탐지, 이력·시계열·정상 대조 | [탐지 정의](docs/current/DETECTION.md) |
-| `codex/purification` | 실제 FU 이후 교정, ASR–효용 절충과 망각 평가 | [정화 설계](docs/current/PURIFICATION_COMPARE.md) |
-| `codex/request-guided-probe` | 기존 실험 폴더와의 호환·분기 시점 보관 | [현재 결과](RESULTS.md) |
-| `main` | 공개 입구와 두 작업의 안내 | 저장소 README |
-| `dev`, `codex/structural-latent-defense`, `exp/baselines`, `exp/hedge-pilot` | 이전 연구/서버 업로드 이력 보관 | 각 시점의 기록. 현재 실행 안내로 사용하지 않음 |
+활성 브랜치는 세 개다. `main`에도 정리한 최신 폴더 구조와 공통 코드를 둔다.
 
-두 작업은 원본 공격 코드, 기록기, 검산 도구를 공유합니다. 공통 코드가 양쪽 브랜치에 있다는 것은 같은 성능 주장을 한다는 뜻이 아닙니다. 각 브랜치의 README와 RUN은 해당 작업을 기준으로 합니다.
+| 브랜치 | 목적 |
+| --- | --- |
+| [main](https://github.com/sijoon-sung/BadFU_defend/tree/main) | 연구 개요·문제 정의·결과표·공통 기준 버전 |
+| [codex/detection](https://github.com/sijoon-sung/BadFU_defend/tree/codex/detection) | 이력·요청 위험 관측과 정상 Non-IID 대조 |
+| [codex/purification](https://github.com/sijoon-sung/BadFU_defend/tree/codex/purification) | 실제 FU 후 정화와 ASR–효용–삭제 효과 평가 |
 
-실험 중에는 작업 폴더를 전환하지 않습니다. 종료 후 결과를 먼저 커밋하고 최신 원격 상태를 가져온 다음 전환합니다.
+두 연구 브랜치의 공통 코드가 같아도 탐지 성능과 정화 성능은 별도로 검증한다. 각 브랜치의 `RUN.md`는 해당 작업을 안내한다.
+
+## 이전 브랜치 보관
+
+다음 브랜치는 브랜치 목록에서 제거하고 동일 커밋을 가리키는 태그로 보관한다. 태그에서 그 시점의 코드·결과·기록을 그대로 확인할 수 있다.
+
+| 이전 브랜치 | 보관 태그 |
+| --- | --- |
+| dev | archive/2026-10-17/dev |
+| exp/baselines | archive/2026-10-17/exp-baselines |
+| exp/hedge-pilot | archive/2026-10-17/exp-hedge-pilot |
+| codex/structural-latent-defense | archive/2026-10-17/structural-latent-defense |
+| codex/request-guided-probe | archive/2026-10-17/request-guided-probe |
+
+정리 전 `main`, 탐지, 정화도 `archive/2026-10-17/before-main`, `before-detection`, `before-purification`에 보관한다.
+자동 작성자·공동 작성자 표기를 수정하면서 활성 이력의 커밋 ID가 바뀐다. 파일 내용·날짜·사람의 작성자 정보는 유지하며,
+이전 커밋을 인용한 실험 증거는 원래 태그에서 확인한다. AI 표기가 든 과거 태그는 복구·출처 확인을 위한 기록이다.
+
+## 다른 컴퓨터의 기존 실행
+
+실행 중에는 기존 작업 폴더를 바꾸지 않는다. 이번 정리는 새 학습을 요구하지 않는다.
+기존 결과는 그대로 보관하고, 갱신할 때 다음 명령으로 원격 정보만 받는다.
 
 ```bash
-git fetch origin
-git switch codex/purification
-# 탐지 작업이면: git switch codex/detection
+git fetch origin --prune --tags '+refs/heads/*:refs/remotes/origin/*'
 ```
 
-원격 브랜치를 찾지 못하는 기존 단일-브랜치 clone이라면 필요한 브랜치만 먼저 가져옵니다.
+이력 변경 전 폴더에서 `git pull`로 병합하지 않는다. 가장 간단한 방법은 **다른 폴더에 새로 받아서** 기존 모델 경로를 입력하는 것이다.
 
 ```bash
-git fetch origin codex/purification:refs/remotes/origin/codex/purification
-git switch --track origin/codex/purification
+git clone --branch codex/purification https://github.com/sijoon-sung/BadFU_defend.git BadFU_defend-clean
+cd BadFU_defend-clean
+# 탐지 작업이면 clone의 branch 값을 codex/detection으로 바꾼다.
 ```
 
-기존 결과 커밋을 다른 작업으로 가져갈 때는 필요한 결과 커밋만 명시적으로 반영합니다. 공유 이력을 강제로 다시 쓰거나 기존 브랜치를 삭제하지 않았습니다.
+모델·데이터는 복사하거나 지울 필요 없이 `--run`, `--data-root`, `--record-root`로 기존 절대 경로를 지정한다.
+이전 실행을 재개해야 하면 해당 보관 태그의 코드와 기존 출력을 사용한다. 새 코드에 이전 정화 `--resume` 출력을 연결하지 않는다.

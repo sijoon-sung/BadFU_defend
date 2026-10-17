@@ -5,9 +5,10 @@ import tempfile
 import unittest
 import numpy as np
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from hrac import attribution_residual, conformal_channel, decide, inter_profile
-from experiment_hrac import request_bundle, evaluate_manifest, import_plan
+from FUBA.research.hrac import attribution_residual, conformal_channel, decide, inter_profile
+from FUBA.research.experiment_hrac import request_bundle, evaluate_manifest, import_plan
 
 
 class AttributionTests(unittest.TestCase):

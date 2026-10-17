@@ -1,6 +1,6 @@
 # BadFU_defend
 
-**이 브랜치는 탐지 작업(`codex/detection`)입니다.** 이력·삭제 요청의 위험 관측과 정상 Non-IID 대조를 다룹니다. 실제 FU 후 모델의 교정 실험은 정화 브랜치에서 진행합니다.
+**이 브랜치는 탐지 작업(`codex/detection`)입니다.** 이력·삭제 요청의 위험 관측과 정상 Non-IID 대조를 다룹니다.
 
 FL 학습과 FU 삭제를 함께 이용하는 잠복 백도어를 연구합니다. **탐지와 정화를 분리해 관리합니다.** 삭제가 올바르게 수행돼도 잔류 독성 자료 때문에 모델이 위험할 수 있습니다.
 
@@ -17,7 +17,7 @@ FL 학습과 FU 삭제를 함께 이용하는 잠복 백도어를 연구합니�
 
 | 폴더 | 무엇을 두는가 |
 | --- | --- |
-| [reproduction/](reproduction/README.md) | 현재 기록기·탐지·정화 실행기와 공통 평가 코드. 실행/재개 경로 유지 |
+| [reproduction/](reproduction/README.md) | training·common·detection·purification·audit·tests 폴더로 분리한 코드 |
 | [reproduction/validation/](reproduction/validation/README.md) | 업로드된 작은 결과, 검산 기록, 축소 검사. 원본 증거 유지 |
 | [docs/current/](docs/current/README.md) | 현재 문제 정의와 두 알고리즘의 설계·한계 |
 | [docs/experiments/](docs/experiments/README.md) | 해본 실험의 상세 관측과 실패/정정 기록 |
@@ -25,8 +25,11 @@ FL 학습과 FU 삭제를 함께 이용하는 잠복 백도어를 연구합니�
 | [docs/paper_reviews/](docs/paper_reviews/README.md) | 선행논문 정리 |
 | docs/paper/ | 기존 논문 초안. 현재 결과의 확정본이 아님 |
 | [docs/archive/](docs/archive/README.md) | 과거 설계와 당시 상태 문서 |
-| FUBA/, BadFU_src/ | 고정한 원본 공격 코드 및 기존 자료 |
+| FUBA/, BadFU_src/ | 고정한 원본 공격 코드 및 기존 자료. 추가 FUBA 분석은 FUBA/research/ |
+| tools/figures/ | 결과 그림 생성 |
 | [legacy/](legacy/README.md) | 초기 탐지·정화·감사 코드. 현재 실행 경로 아님 |
 | artifacts/ | 로컬 모델·궤적·중간 산출물. Git에 올리지 않는 대용량 자료 |
 
-기존 `codex/request-guided-probe`는 실행 중인 작업과의 호환을 위해 남깁니다. 작업이 끝난 뒤 목적에 맞는 브랜치를 사용합니다. 기존 결과나 원본 모델을 새 방법의 성공 근거로 재분류하지 않습니다.
+활성 브랜치는 `main`, `codex/detection`, `codex/purification` 세 개입니다. 이전 브랜치는 보관 태그로 옮겼습니다. 다른 컴퓨터에서 갱신할 때는 [전환 안내](BRANCHES.md#다른-컴퓨터의-기존-실행)를 먼저 확인합니다.
+
+이번 코드 정리: 65개 파일 이동, 연구 검사 124개와 FUBA 검사 105개 통과. 이는 코드 연결 검사이며 탐지·정화 성능 향상을 뜻하지 않습니다. [변경·검증 기록](docs/operations/LAYOUT_MIGRATION.md).
