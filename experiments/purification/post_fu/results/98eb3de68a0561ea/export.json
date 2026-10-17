@@ -1,0 +1,17 @@
+{
+  "schema": "purification-summary-v1",
+  "zip_sha256": "80d6b8715ad28f4ba8a14113f8a29f6ee082f4ae49be776a69d9d880e9cde81a",
+  "files": {
+    "clean_ft_search.json": "7bafc60bf5e389a978c8a1c536f47442a4ab79edfd2a8168194ec1ef12882473",
+    "comparison.png": "d198234581b2fbe396f215b0a5db4d4eace275e6d03ef64779d06b6c01421cf2",
+    "differential_cvar_constrained_search.json": "776ceae12079306ccff3cd97280fed0da555a99aa5eccfc3b3d6b9227ff38398",
+    "differential_cvar_search.json": "338fab39709051594fc634212e70410a5fd05d1054cab83b8cf9c140ae2f484f",
+    "differential_search.json": "67a490992dd50e7112a7aa3b91d0b64528fa5c2df7e65d1cf5baa1bc4580f03d",
+    "post_only_search.json": "25a0bd8882489ceca6be170ea0624ee23849dbbfc24d8171da578aba9d71b49d",
+    "protocol.json": "98eb3de68a0561ea16bb1a5ed6c50b4feaf8439ab1b0d7bfaefd216d2cb25157",
+    "report.md": "ba6d06ec1636c05a0713d855749b5f4f3346669efd3b83d060e4c5372cb5750c",
+    "results.json": "503b75370cafdcebc62741adce094bf842c8736962797968cf816e9c8f7a693b",
+    "preparation.json": "2522130357223296a40cab05afaaac42d2586ae872a3b94e128914d1f68097cd"
+  },
+  "limitation": "summary replay only; checkpoints, input images and private training data stay local"
+}

@@ -228,6 +228,8 @@ def repair(post, x, y, patterns, cfg, constrained=False, validation=None, trace=
             if not torch.isfinite(loss):
                 raise ValueError('nonfinite repair loss')
             loss.backward()
+            if constrained:
+                torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
             optimizer.step()
         if constrained:
             ce = class_means(F.cross_entropy(logits(model, x, cfg['batch_size']), y, reduction='none'), y, classes)
