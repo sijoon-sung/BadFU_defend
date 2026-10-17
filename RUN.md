@@ -1,5 +1,7 @@
 # 현재 실행: 실제 삭제 후 백도어 교정 비교
 
+브랜치: `codex/purification`. 이미 실행 중인 `codex/request-guided-probe` 작업은 그대로 마치고, 결과를 보관한 뒤 전환한다. 두 브랜치의 현재 실험 코드는 동일하다.
+
 2026-10-17. **이전에 올린 이중 차분·정상 설명 집합 11건은 검토 완료했다. 다시 돌리지 않는다.**
 이번에는 기존 BadFU `full6 → fu_remove5` 모델을 재사용해 정화를 비교한다.
 FL 학습·FU 실행·다운로드는 하지 않는다. [수학·비교군·한계](docs/current/PURIFICATION_COMPARE.md).
@@ -9,7 +11,7 @@ FL 학습·FU 실행·다운로드는 하지 않는다. [수학·비교군·한�
 학습 때 사용한 Python 환경을 켠 뒤 저장소 루트에서:
 
 ```bash
-git pull --ff-only origin codex/request-guided-probe
+git pull --ff-only origin codex/purification
 python -m reproduction.run_purification --dry-run --math-ablation
 python -m reproduction.run_purification --out artifacts/purification_badfu_s42_v1 --math-ablation
 ```
@@ -87,7 +89,7 @@ reproduction/validation/exports/purification/<해시>/
 ```bash
 git add reproduction/validation/exports/purification
 git commit -m "Add saved-model purification comparison"
-git push origin HEAD:codex/request-guided-probe
+git push origin HEAD:codex/purification
 ```
 
 `fallback_to_post=true`는 클래스별 제약을 통과하는 epoch가 없었다는 뜻이다.
