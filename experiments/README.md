@@ -19,7 +19,7 @@
 | [짝지은 반응 관측](detection/paired_response/) | 보관 | 공식 공격·독립 정상 요청에서 우월성이 확인되지 않았다. |
 | [초기 탐지 비교군](detection/legacy_baselines/) | 보관 | 같은 원본 모델·요청·자료 분할·튜닝 예산으로 다시 맞춰야 한다. |
 | [초기 패턴 역탐색](detection/trigger_inversion/) | 보관 | 발견 패턴의 반응을 원본 트리거 ASR과 혼동할 수 있다. |
-| [실제 FU 뒤 정화 비교](purification/post_fu/) | 본 실험 대기 | 본 성능·망각 품질·독립 seed는 미확인. CVaR 자체는 새 방법이 아니다. |
+| [실제 FU 뒤 정화 비교](purification/post_fu/) | ASR 억제 / 정상 보존 실패 | 평균 차분 1.44% ASR, 정확도 13.50%p 손실. 제약은 원래 post로 복귀. |
 | [요청 처리·기여 제어](purification/request_control/) | 초기 방식 보류 | 요청 처리 변경의 망각 품질과 정상 효용을 별도로 검증해야 한다. |
 | [초기 삭제량·복구 제어](purification/dose_repair/) | 보관 | FU 자체 변경과 정화 효과가 섞이며 삭제 효과를 보존했는지 미확인이다. |
 | [초기 LoRA·지연 재활성화](purification/early_lora_activation/) | 보관 | 공식 원본 공격·동일 삭제·정상 대조로 연결되지 않은 결과다. |

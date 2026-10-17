@@ -1,0 +1,119 @@
+{
+  "schema": 1,
+  "archive_sha256": "80d6b8715ad28f4ba8a14113f8a29f6ee082f4ae49be776a69d9d880e9cde81a",
+  "inventory_verified": true,
+  "published_copies": {
+    "results.json": "line_endings_only; ZIP remains the byte-authoritative record",
+    "report.md": "line_endings_only; ZIP remains the byte-authoritative record",
+    "comparison.png": "byte_identical"
+  },
+  "source_identity": {
+    "purification_compare.py": {
+      "recorded_sha256": "ab8cb49cefa20e3cd1cc6789e44ab66d90164dfb3ed58b7c302e88a54ccc65c5",
+      "current_sha256": "ab8cb49cefa20e3cd1cc6789e44ab66d90164dfb3ed58b7c302e88a54ccc65c5",
+      "identical": true
+    },
+    "purification_math.py": {
+      "recorded_sha256": "67885d636a3cbf1f10af316fc5386b7f6df1ad9abae89282311d805f26d9455d",
+      "current_sha256": "67885d636a3cbf1f10af316fc5386b7f6df1ad9abae89282311d805f26d9455d",
+      "identical": true
+    },
+    "run_purification.py": {
+      "recorded_sha256": "2a705890131b2bb6bc12388d97092d93d5439490d66207684d87d094bbb9bcd0",
+      "current_sha256": "2a705890131b2bb6bc12388d97092d93d5439490d66207684d87d094bbb9bcd0",
+      "identical": true
+    }
+  },
+  "scope": "checksums, recorded pair bindings, report arithmetic and fallback consistency; no model inference replay",
+  "evidence_scope": "single_saved_model_pair_pilot",
+  "smoke": false,
+  "source_rounds": {
+    "full6": 40,
+    "fu_remove5": 20,
+    "bd5": 40
+  },
+  "public_counts_per_class": [
+    16,
+    16,
+    100
+  ],
+  "clean_n": 1000,
+  "asr_n": 900,
+  "metrics": {
+    "pre": {
+      "clean_percent": 87.30000257492065,
+      "asr_percent": 80.1111102104187,
+      "clean_drop_pp": -2.1000027656555176,
+      "inferred_asr_count": 721
+    },
+    "post": {
+      "clean_percent": 85.19999980926514,
+      "asr_percent": 99.00000095367432,
+      "clean_drop_pp": 0.0,
+      "inferred_asr_count": 891
+    },
+    "bd5": {
+      "clean_percent": 84.7000002861023,
+      "asr_percent": 100.0,
+      "clean_drop_pp": 0.4999995231628418,
+      "inferred_asr_count": 900
+    },
+    "clean_ft": {
+      "clean_percent": 69.90000009536743,
+      "asr_percent": 82.55555629730225,
+      "clean_drop_pp": 15.299999713897705,
+      "inferred_asr_count": 743
+    },
+    "post_only": {
+      "clean_percent": 68.4000015258789,
+      "asr_percent": 2.222222276031971,
+      "clean_drop_pp": 16.79999828338623,
+      "inferred_asr_count": 20
+    },
+    "differential": {
+      "clean_percent": 71.70000076293945,
+      "asr_percent": 1.4444444328546524,
+      "clean_drop_pp": 13.499999046325684,
+      "inferred_asr_count": 13
+    },
+    "differential_cvar": {
+      "clean_percent": 70.39999961853027,
+      "asr_percent": 1.1111111380159855,
+      "clean_drop_pp": 14.800000190734863,
+      "inferred_asr_count": 10
+    },
+    "differential_cvar_constrained": {
+      "clean_percent": 85.19999980926514,
+      "asr_percent": 99.00000095367432,
+      "clean_drop_pp": 0.0,
+      "inferred_asr_count": 891
+    }
+  },
+  "constraint": {
+    "rejected_epochs": 5,
+    "selected_epoch": 0,
+    "fallback_to_post": true,
+    "certificate": "empirical class CE on observed public splits only"
+  },
+  "objective": {
+    "correct_weight": 0.0,
+    "tail_mass": 0.25,
+    "class_ce_tolerance": 0.05,
+    "clean_tolerance": 0.02
+  },
+  "timing_seconds": {
+    "clean_ft": 0.8811504000332206,
+    "post_only": 80.76200180011801,
+    "differential": 350.2980313000735,
+    "differential_cvar": 371.06905489997007,
+    "differential_cvar_constrained": 2.49962170002982
+  },
+  "limits": [
+    "one BadFU model pair; no FUBA or benign actual-FU repair comparison",
+    "models and public image arrays are not in the uploaded archive",
+    "initial per-class CE and per-example predictions are not exported",
+    "same public benchmark reused; not a new untouched test set",
+    "constrained arm also clips gradients; not a pure constraint-only ablation",
+    "forgetting quality and a history advantage are not measured"
+  ]
+}

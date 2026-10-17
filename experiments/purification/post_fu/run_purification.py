@@ -123,9 +123,12 @@ def author_attack_loader(run_root, record_root):
             if int(info['other_info'][1]) != int(test[1][j]):
                 raise ValueError('author original label disagrees with clean test label')
             parts = str(info['path']).replace('\\', '/').split('/')
-            if 'badnet_dataset' not in parts:
+            if 'bd_test_dataset' in parts:
+                image_path = record_root.joinpath(*parts[parts.index('bd_test_dataset'):]).resolve()
+            elif 'badnet_dataset' in parts:
+                image_path = record_root.joinpath(*parts[parts.index('badnet_dataset')+1:]).resolve()
+            else:
                 raise ValueError('unknown author image path')
-            image_path = record_root.joinpath(*parts[parts.index('badnet_dataset')+1:]).resolve()
             rel = image_path.relative_to(record_root).as_posix()
             digest = sha256(image_path)
             if image_hashes.get(rel) != digest:

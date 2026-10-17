@@ -1,4 +1,6 @@
-# 현재 실행: 실제 삭제 후 백도어 교정 비교
+# 1차 실행 기록: 실제 삭제 후 백도어 교정 비교
+
+**1차 결과 업로드·검토 완료. 아래는 당시 실행 명령이며 재실행 요청이 아니다.** [결과 검토](REVIEW.md).
 
 브랜치: `purification`. **이미 실행 중인 작업은 그대로 마친다.** 이번에는 모듈 경로와 커밋 이력을 정리했다. 이전 폴더에서 바로 pull하지 말고 [전환 안내](../../../BRANCHES.md#다른-컴퓨터의-기존-실행)를 따른다. 새로 받은 폴더에서는 기존 모델·데이터·record의 절대 경로를 지정한다.
 
@@ -106,4 +108,4 @@ python -m unittest experiments.purification.post_fu.tests.test_purification_comp
 ```
 
 14개 테스트와 2라운드 BadFU 저장 모델 전체 연결을 확인했다. 이전 관측은
-[결과 검토](../../../experiments/detection/deletion_comparison/REVIEW.md), 원본 학습은 [공식 코드 실행 문서](../../../docs/operations/FRESH_UPSTREAM.md)에 있다.
+[결과 검토](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/deletion_comparison/REVIEW.md), 원본 학습은 [공식 코드 실행 문서](../../../docs/operations/FRESH_UPSTREAM.md)에 있다.
