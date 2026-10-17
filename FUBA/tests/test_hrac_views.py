@@ -4,8 +4,9 @@ from pathlib import Path
 import unittest
 import numpy as np
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from experiment_hrac_views import crossfit_residual, folds_by_class, coordinates
+from FUBA.research.experiment_hrac_views import crossfit_residual, folds_by_class, coordinates
 
 
 class ViewsTests(unittest.TestCase):

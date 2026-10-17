@@ -8,9 +8,10 @@ import sys
 import tempfile
 import unittest
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from benchmark_tension import request_family
-from report_detection import CONFIG, METHODS, CONTROL_METHODS, build_report, rate
+from FUBA.research.benchmark_tension import request_family
+from FUBA.research.report_detection import CONFIG, METHODS, CONTROL_METHODS, build_report, rate
 
 
 def fixture(ncal=19):
@@ -138,7 +139,7 @@ class DetectionReportTests(unittest.TestCase):
             root = Path(folder)
             (root/"manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
             (root/"scores.json").write_text(json.dumps(scores), encoding="utf-8")
-            command = [sys.executable, str(Path(__file__).resolve().parents[1]/"report_detection.py"),
+            command = [sys.executable, str(Path(__file__).resolve().parents[1]/"research/report_detection.py"),
                        "--experiment", str(root)]
             subprocess.run(command, check=True, capture_output=True, text=True)
             report_path = root/"detection_report.json"

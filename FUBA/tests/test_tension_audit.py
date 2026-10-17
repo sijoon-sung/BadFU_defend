@@ -3,8 +3,9 @@ from pathlib import Path
 import sys
 import unittest
 import numpy as np
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from tension_audit import boundary_profile, score_request
+from FUBA.research.tension_audit import boundary_profile, score_request
 
 
 class TensionTests(unittest.TestCase):

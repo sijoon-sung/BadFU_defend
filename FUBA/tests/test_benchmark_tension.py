@@ -4,9 +4,10 @@ import sys
 import tempfile
 import unittest
 import numpy as np
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from benchmark_tension import clean_threshold, methods, score_ledger, validate_jobs, summarize, METHODS
-from experiment_tension import make_jobs
+from FUBA.research.benchmark_tension import clean_threshold, methods, score_ledger, validate_jobs, summarize, METHODS
+from FUBA.research.experiment_tension import make_jobs
 
 
 class BenchmarkTests(unittest.TestCase):

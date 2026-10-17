@@ -2,7 +2,7 @@
 
 **목록 작성 시점: 2026-10-16.** 아래 '미공유/확인 예정'은 당시 상태다. 이후 BadFU·FUBA 관측 업로드와 점수 검산을 완료했으며 최신 판단은 [결과표](../../RESULTS.md), [11건 관측 검토](../experiments/DELETION_COMPARISON.md)에 있다. DISLAB의 전체 가중치를 이 PC에서 직접 다시 읽었다는 뜻은 아니다. 현재 실행은 [RUN.md](../../RUN.md)를 따른다.
 
-새 학습 경로는 [RUN.md](../../RUN.md)의 `reproduction/run.py`로 교체했다. 공식 소스 재다운로드 후 BadFU 전체 단계·FUBA MNIST/CIFAR의 **축소 실행과 전체 상태 저장**을 확인했다. [검증 기록](../../reproduction/validation/summary.json). 아래 기존 실험 자료는 유지하며, 새 원본 실행의 성능 결과로 다시 이름 붙이지 않는다.
+새 학습 경로는 [RUN.md](../../RUN.md)의 `reproduction/training/run.py`로 교체했다. 공식 소스 재다운로드 후 BadFU 전체 단계·FUBA MNIST/CIFAR의 **축소 실행과 전체 상태 저장**을 확인했다. [검증 기록](../../reproduction/validation/summary.json). 아래 기존 실험 자료는 유지하며, 새 원본 실행의 성능 결과로 다시 이름 붙이지 않는다.
 
 **직접 검사한 로컬 궤적은 저장 파일·집계 검사를 통과했다. 궤적 생성이 잘못됐다는 근거는 발견하지 못했다.** 파일 무결성, 원본과의 실행·평가 조건 일치, 공격 효과 재현은 별도로 판단한다. ASR 하나만으로 궤적을 부적합하다고 한 이전 판정은 철회한다.
 

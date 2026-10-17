@@ -12,9 +12,9 @@ from torch import nn
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT/"FUBA"))
 sys.path.insert(0, str(ROOT/"BadFU_src/BadFU-main"))
-from large_geometry import large_control
-from request_geometry import cancellation_geometry, geometry_control
-from request_geometry import ControlInfeasible
+from FUBA.research.large_geometry import large_control
+from FUBA.research.request_geometry import cancellation_geometry, geometry_control
+from FUBA.research.request_geometry import ControlInfeasible
 from request_pipeline import (parser, prepare, test_requests, load_tensor, save_tensor,
                               load_event, BNSpace, recalibrate_bn, aggregate)
 

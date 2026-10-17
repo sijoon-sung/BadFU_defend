@@ -4,8 +4,9 @@ import sys
 import unittest
 import numpy as np
 import torch
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from tension_control import control_step, select_coordinates, paired_logits, ParameterSpace
+from FUBA.research.tension_control import control_step, select_coordinates, paired_logits, ParameterSpace
 from unlearn_method.federaser_clientwise import calibrated_aggregate, replay
 
 

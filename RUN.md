@@ -1,6 +1,6 @@
 # 현재 실행: 실제 삭제 후 백도어 교정 비교
 
-브랜치: `codex/purification`. 이미 실행 중인 `codex/request-guided-probe` 작업은 그대로 마치고, 결과를 보관한 뒤 전환한다. 두 브랜치의 현재 실험 코드는 동일하다.
+브랜치: `codex/purification`. **이미 실행 중인 작업은 그대로 마친다.** 이번에는 모듈 경로와 커밋 이력을 정리했다. 이전 폴더에서 바로 pull하지 말고 [전환 안내](BRANCHES.md#다른-컴퓨터의-기존-실행)를 따른다. 새로 받은 폴더에서는 기존 모델·데이터·record의 절대 경로를 지정한다.
 
 2026-10-17. **이전에 올린 이중 차분·정상 설명 집합 11건은 검토 완료했다. 다시 돌리지 않는다.**
 이번에는 기존 BadFU `full6 → fu_remove5` 모델을 재사용해 정화를 비교한다.
@@ -11,12 +11,11 @@ FL 학습·FU 실행·다운로드는 하지 않는다. [수학·비교군·한�
 학습 때 사용한 Python 환경을 켠 뒤 저장소 루트에서:
 
 ```bash
-git pull --ff-only origin codex/purification
-python -m reproduction.run_purification --dry-run --math-ablation
-python -m reproduction.run_purification --out artifacts/purification_badfu_s42_v1 --math-ablation
+python -m reproduction.purification.run_purification --dry-run --math-ablation
+python -m reproduction.purification.run_purification --out artifacts/purification_badfu_s42_layout_v2 --math-ablation
 ```
 
-기본 입력은 `artifacts/badfu_author_s42`다. `dry-run`은 실행 기록·모델 해시·삭제 대상 연결 및
+기본 입력은 `artifacts/badfu_author_s42`다. 새 checkout에 모델이 없다면 아래 절대 경로 지정 예제를 사용한다. `dry-run`은 실행 기록·모델 해시·삭제 대상 연결 및
 원본 공격 record를 확인한다. 공개 데이터 로딩과 정화는 하지 않는다.
 모델이 없으면 학습하지 않고 중단한다. 결과 ZIP만 있는 컴퓨터에서는 실행할 수 없다.
 
@@ -31,7 +30,7 @@ python -m reproduction.run_purification --out artifacts/purification_badfu_s42_v
 경로가 다를 때만 명시한다.
 
 ```bash
-python -m reproduction.run_purification --run /실제/경로/badfu_author_s42 --data-root /실제/경로/data --record-root /실제/경로/badnet_dataset --out artifacts/purification_badfu_s42_v1 --math-ablation
+python -m reproduction.purification.run_purification --run /실제/경로/badfu_author_s42 --data-root /실제/경로/data --record-root /실제/경로/badnet_dataset --out artifacts/purification_badfu_s42_layout_v2 --math-ablation
 ```
 
 `cover5 → fu_remove1`은 다른 요청이므로 섞지 않는다. 원본 학습 모델·궤적·record를 덮어쓰지 않는다.
@@ -58,13 +57,13 @@ GPU 자동 사용. PyTorch 2.4.1, torchvision 0.19.1, NumPy, SciPy, Pillow, matp
 연결만 작게 확인할 때는 별도 폴더를 쓴다. 성능 평가용이 아니다.
 
 ```bash
-python -m reproduction.run_purification --smoke --math-ablation --out artifacts/purification_badfu_quick_v1
+python -m reproduction.purification.run_purification --smoke --math-ablation --out artifacts/purification_badfu_quick_layout_v2
 ```
 
 중간에 끊겼으면 같은 명령에 `--resume`을 추가한다.
 
 ```bash
-python -m reproduction.run_purification --out artifacts/purification_badfu_s42_v1 --math-ablation --resume
+python -m reproduction.purification.run_purification --out artifacts/purification_badfu_s42_layout_v2 --math-ablation --resume
 ```
 
 완료 arm만 해시를 확인해 재사용하며 중단된 arm은 처음부터 한다.
@@ -75,7 +74,7 @@ python -m reproduction.run_purification --out artifacts/purification_badfu_s42_v
 완료하면 다음 경로를 출력한다.
 
 ```text
-artifacts/purification_badfu_s42_v1/
+artifacts/purification_badfu_s42_layout_v2/
   preparation.json / development.npz / validation.npz / test.npz
   comparison/report.md / results.json / comparison.png / protocol.json
   comparison/*_search.json / *_patterns.pt / 정화_모델.pt
@@ -103,7 +102,7 @@ ASR이 낮아도 정상 정확도가 무너지거나 post 자체의 ASR이 낮�
 FUBA 실제 FU·정화도 이미 검증됐다는 뜻은 아니다.
 
 ```bash
-python -m unittest reproduction.test_purification_compare reproduction.test_purification_math -v
+python -m unittest reproduction.tests.test_purification_compare reproduction.tests.test_purification_math -v
 ```
 
 14개 테스트와 2라운드 BadFU 저장 모델 전체 연결을 확인했다. 이전 관측은
