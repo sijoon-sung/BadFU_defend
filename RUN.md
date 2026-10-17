@@ -1,167 +1,108 @@
-# 두 방법의 업로드 검토 완료 — 재현 안내
+# 현재 실행: 실제 삭제 후 백도어 교정 비교
 
-**2026-10-17: `845803e`에 업로드한 11건 모두 검산 완료. 아래 본 실험을 다시 실행할 필요는 없습니다.** 실제 BadFU FU에서 삭제 후 탐색 패치 반응 증가가 확인됐습니다. 반면 누적 차감 근사에서는 정상 모델 정확도까지 무너졌고, 정상 설명 집합은 비영 기여를 모두 설명하지 못했습니다. FUBA의 기존 coverage 29.5~32.5%는 알려진 0 기여를 포함한 값입니다. [결과·원인·그래프](docs/DELETION_COMPARISON.md).
+2026-10-17. **이전에 올린 이중 차분·정상 설명 집합 11건은 검토 완료했다. 다시 돌리지 않는다.**
+이번에는 기존 BadFU `full6 → fu_remove5` 모델을 재사용해 정화를 비교한다.
+FL 학습·FU 실행·다운로드는 하지 않는다. [수학·비교군·한계](docs/PURIFICATION_COMPARE.md).
 
-이번 검토를 위해 새 학습·FU·모델 추론을 실행하지 않았습니다. 원본 관측만으로 점수/구간/순위표와 보류 원인을 검산했습니다. 검토를 재현할 때만 아래를 사용합니다(새 `--out` 경로 필요).
+## 1. DISLAB에서 실행
 
-~~~bash
-python -m reproduction.audit_deletion_upload reproduction/validation/exports/deletion_comparison/07ad0aefbb22ddc8/deletion_comparison.zip --out artifacts/deletion_upload_review
-~~~
+학습 때 사용한 Python 환경을 켠 뒤 저장소 루트에서:
 
-**아래는 이미 완료한 실험의 재현 방법입니다.** 후속 실제 정상 FU/FUBA FU 검사는 아직 이 명령에 추가하지 않았습니다.
-
-**2026-10-17. 한 실행에 두 알고리즘과 BadFU·FUBA·정상 삭제 비교가 모두 포함된다.**
-저장된 전체 궤적을 사용한다. **FL 재학습·FU 실행·다운로드는 하지 않는다.**
-이전 학습용 명령 대신 아래 명령을 사용한다.
-
-## 1. 입력 확인과 실행
-
-저장소 루트에서 기존 학습용 Python 환경을 활성화한 뒤:
-
-~~~bash
+```bash
 git pull --ff-only origin codex/request-guided-probe
-python -m reproduction.run_deletion_comparison --dry-run
-python -m reproduction.run_deletion_comparison --out artifacts/deletion_comparison_v1
-~~~
+python -m reproduction.run_purification --dry-run --math-ablation
+python -m reproduction.run_purification --out artifacts/purification_badfu_s42_v1 --math-ablation
+```
 
-dry-run의 입력 경로를 확인한 뒤 마지막 명령을 실행한다. 없는 입력은 missing에 표시하고 학습하지 않는다.
+기본 입력은 `artifacts/badfu_author_s42`다. `dry-run`은 실행 기록·모델 해시·삭제 대상 연결 및
+원본 공격 record를 확인한다. 공개 데이터 로딩과 정화는 하지 않는다.
+모델이 없으면 학습하지 않고 중단한다. 결과 ZIP만 있는 컴퓨터에서는 실행할 수 없다.
 
-| 기본 저장 경로 | 검사 |
+| 필요한 입력 | 용도 |
 | --- | --- |
-| artifacts/badfu_author_s42/full6 | client 5 삭제, 이력 차감 근사 |
-| 같은 실행의 clean5 | 정상 client 0~4 삭제, 이력 차감 근사 |
-| 같은 실행의 fu_remove5 | 실제 FU 후 모델, 별도 검사 |
-| artifacts/fuba_cifar10_s42/fl | client 4 삭제, 이력 차감 근사 |
-| artifacts/fuba_cifar10_benign_s42/fl | 같은 삭제의 정상 대조 |
-| 같은 이름의 benign_s43, benign_s44 | 추가 정상 실행 |
+| full6 마지막 round, fu_remove5 마지막 round | 같은 client 5 삭제의 실제 전후 모델 |
+| protocol.json, split.json, runtime.patch, reproduction 스냅샷, 각 manifest | 입력 출처 확인 |
+| bd5 마지막 round, manifest (있으면 연결) | 잔류 자료 학습의 참조. 망각 보장 아님 |
+| 원래 badnet_dataset/pert_result.pt와 bd_test_dataset 이미지, record_inputs.json | 정화 완료 후 실제 트리거 평가 |
+| CIFAR-10 공개 시험 자료 | 개발·검증·평가 분할 |
 
-**작은 관측 ZIP만으로는 부족하다. 실제 round 체크포인트가 필요하다.**
-공개 데이터는 학습 protocol의 data_root 또는 FUBA/data에서 찾는다.
-경로가 다르면 --data-root /실제/데이터/상위폴더를 추가한다.
-PyTorch 2.4.1/torchvision 0.19.1 환경에서 확인했으며 NumPy·SciPy·matplotlib을 사용한다. MPI 학습은 없다.
+경로가 다를 때만 명시한다.
 
-설치/메모리 확인을 위한 작은 탐색을 먼저 할 때만:
+```bash
+python -m reproduction.run_purification --run /실제/경로/badfu_author_s42 --data-root /실제/경로/data --record-root /실제/경로/badnet_dataset --out artifacts/purification_badfu_s42_v1 --math-ablation
+```
 
-~~~bash
-python -m reproduction.run_deletion_comparison --smoke --out artifacts/deletion_comparison_quick_v1
-~~~
+`cover5 → fu_remove1`은 다른 요청이므로 섞지 않는다. 원본 학습 모델·궤적·record를 덮어쓰지 않는다.
 
-**--smoke도 저장된 모든 라운드를 읽는다.** 이미지와 탐색 예산만 줄이며 성능 평가용이 아니다.
-기본값은 참조/검색/평가 각각 클래스당 8장(총 240장), 20스텝×2시작점이다.
-10개 표적에 대해 가산 변형 1종과 모서리 4×4 패치 4위치를 탐색한다.
-모든 정상·공격 사례는 같은 예산을 사용한다. GPU가 있으면 자동으로 사용한다.
+## 2. 비교 내용과 예상 시간
 
-이 PC의 **2라운드** 모델 5건은 작은 예산으로 약 1~2분이었다.
-본 실행은 수십 GiB 궤적 검산과 더 많은 탐색·JVP 때문에 **수십 분~몇 시간의 여유가 필요할 수 있다**.
-본 실험 실측 시간은 아니며 완료 후 사례별 elapsed_seconds를 기록한다.
-CPU에서는 더 느릴 수 있다. FL 학습 시간은 추가되지 않는다.
+한 번 실행하면 다음 **여섯 arm**을 비교한다. pre와 bd5는 별도 참조로 출력한다.
 
-완료한 사례는 코드·설정·입출력 해시가 같으면 재사용한다.
-설정 변경 또는 중간 실패 폴더는 덮어쓰지 않으므로 새로운 --out 이름을 쓴다.
+1. 실제 FU 후 그대로.
+2. 공개 정상 자료 미세조정.
+3. post-only 패치 탐색 후 정화.
+4. pre/post 평균 차분 탐색 후 같은 정화.
+5. 차분의 상위 25% 위험(CVaR) 탐색 후 같은 정화.
+6. 5번과 동일 패턴으로 클래스별 정상 CE 제약 정화.
 
-## 2. 비교군과 판정 범위
+개발/검증/시험은 클래스당 16/16/100장이다. 네 모서리 4×4 패치·표적 10개를
+20스텝×2시작점으로 탐색하고 5 epoch 정화한다. 실제 트리거·공격 표적은
+탐색/정화/epoch 선택에 주지 않는다. 실제 ASR과 고정 탐색 패턴 반응을 구분한다.
 
-| 점수 | 내용 |
-| --- | --- |
-| logit_dd | 로짓 이중 차분만 사용 |
-| endpoint_normal_set | 끝점 변화에 정상 설명 집합 적용 |
-| history_raw | 정상 설명 제거 없이 이력 관계 사용 |
-| history_normal_set_single_block | 정상 설명 제거 후 전체 이력을 한 구간으로 합침 |
-| history_normal_set | 정상 설명 제거 + 3개 시간 구간의 지속성 |
-| logit_plus_history | 이중 차분과 이력 증거를 함께 요구하는 고정 비교 |
+GPU 자동 사용. PyTorch 2.4.1, torchvision 0.19.1, NumPy, SciPy, Pillow, matplotlib에서 확인했다.
+처음에는 **수십 분~몇 시간의 여유**를 둔다. 본 예산의 실측은 아직 없으며 CPU는 더 오래 걸릴 수 있다.
+각 arm의 탐색·정화 시간을 저장한다. 기존 FL 학습 시간은 추가되지 않는다.
 
-깨끗한 **공개 이미지와 라벨**이 필요하다. 클라이언트에게 새 데이터/라벨을 받지 않는다.
-참조·검색·평가 이미지 중복을 검사하고 실제 공격 트리거·생성기·표적은 사용하지 않는다.
-모든 방법은 같은 검색에서 고정한 변형·출력 좌표를 평가한다.
+연결만 작게 확인할 때는 별도 폴더를 쓴다. 성능 평가용이 아니다.
 
-정상 설명 집합이 비면 unknown(판단 보류)이다. 정상·공격 어느 쪽으로도 판정하지 않는다.
-설명 가능 비율과 최소 필요한 설명 오차도 저장한다.
-같은 요청에서 둘 다 점수를 낸 경우의 AUC와 보류 건수를 함께 보고한다.
-이미지 수나 한 모델의 여러 삭제를 독립 실험 수로 세지 않는다. 보정된 FPR/FNR은 아직 없다.
+```bash
+python -m reproduction.run_purification --smoke --math-ablation --out artifacts/purification_badfu_quick_v1
+```
 
-**중요한 범위:**
+중간에 끊겼으면 같은 명령에 `--resume`을 추가한다.
 
-- FUBA의 기본 저장 자료에는 실제 FU 후 모델이 없어 이력 차감 근사를 쓴다. FedEraser 실행이 아니다.
-- BadFU 실제 FU는 별도 결과다. 실제 정상 FU가 없으면 실제-FU AUC는 null이며 근사 대조를 섞지 않는다.
-- BadFU clean5와 full6는 구성 차이가 있는 정상 대조다. 완전히 일치한 대조라고 해석하지 않는다.
-- 이번 BadFU는 공개 코드의 별도 client 5 삭제다. 논문의 내부 위장 샘플 삭제 검증이 아니다.
-- 변형 표적 응답률은 진짜 공격 트리거의 ASR이 아니다.
+```bash
+python -m reproduction.run_purification --out artifacts/purification_badfu_s42_v1 --math-ablation --resume
+```
 
-[수식·추가 가정·실패 조건](docs/DELETION_COMPARISON.md)
+완료 arm만 해시를 확인해 재사용하며 중단된 arm은 처음부터 한다.
+코드·입력·설정이 달라졌으면 새 `--out`을 쓴다.
 
-## 3. 결과 업로드
+## 3. 업로드
 
-완료 후 다음 폴더를 출력한다.
+완료하면 다음 경로를 출력한다.
 
-~~~text
-artifacts/deletion_comparison_v1/
-  report.md / comparison.json / comparison.png / plan.json
-  각_사례/protocol.json / scores.json / observations.npz
+```text
+artifacts/purification_badfu_s42_v1/
+  preparation.json / development.npz / validation.npz / test.npz
+  comparison/report.md / results.json / comparison.png / protocol.json
+  comparison/*_search.json / *_patterns.pt / 정화_모델.pt
 
-reproduction/validation/exports/deletion_comparison/<해시>/
-  deletion_comparison.zip / export.json
-  report.md / comparison.json / comparison.png
-~~~
+reproduction/validation/exports/purification/<해시>/
+  purification.zip / export.json / report.md / results.json / comparison.png
+```
 
-ZIP에는 로짓·JVP 관측·LP 구간·공개 ID/라벨·탐색 변형이 들어간다.
-**이미지와 모델 가중치는 포함하지 않는다.** 다음처럼 작은 결과만 업로드한다.
+작은 결과만 올린다. 모델·이미지는 ZIP에서 제외하며 실행 컴퓨터에 보관한다.
 
-~~~bash
-git add reproduction/validation/exports/deletion_comparison
-git commit -m "Add logit and normal-explanation history comparison"
+```bash
+git add reproduction/validation/exports/purification
+git commit -m "Add saved-model purification comparison"
 git push origin HEAD:codex/request-guided-probe
-~~~
+```
 
-모델 없이 점수와 구간을 다시 검산할 수 있다.
+`fallback_to_post=true`는 클래스별 제약을 통과하는 epoch가 없었다는 뜻이다.
+ASR이 낮아도 정상 정확도가 무너지거나 post 자체의 ASR이 낮으면 정화 성공으로 해석하지 않는다.
+망각 검증·공식 SAU 비교·정상 실제-FU 대조·독립 seed·정화 후 재탐색은 후속 실험이다.
 
-~~~bash
-python -m reproduction.replay_deletion_comparison reproduction/validation/exports/deletion_comparison/<해시>/deletion_comparison.zip
-~~~
+## 4. FUBA와 코드 검사
 
-## 경로나 예산을 바꿀 때만
+현재 자동 명령은 BadFU용이다. **FUBA의 실제 동일 요청 전후 모델과 생성기 평가 자료가 있을 때만**
+[일반 실행기 입력](docs/PURIFICATION_COMPARE.md#일반-실행기의-입력과-재현)으로 연결한다.
+FUBA 실제 FU·정화도 이미 검증됐다는 뜻은 아니다.
 
-~~~bash
-python -m reproduction.run_deletion_comparison --badfu-run /경로/badfu_author_s42 --fuba-run /경로/fuba_cifar10_s42 --fuba-benign-run /경로/fuba_cifar10_benign_s42 --data-root /경로/data --out artifacts/deletion_comparison_custom_v1
-~~~
+```bash
+python -m unittest reproduction.test_purification_compare reproduction.test_purification_math -v
+```
 
---fuba-benign-run 뒤에 정상 실행 경로를 여러 개 줄 수 있다.
-설정을 편집하려면 계획을 먼저 저장한다.
-
-~~~bash
-python -m reproduction.run_deletion_comparison --write-plan artifacts/deletion_plan.json
-python -m reproduction.run_deletion_comparison --plan artifacts/deletion_plan.json --out artifacts/deletion_comparison_custom_v2
-~~~
-
-두 명령 사이에 JSON을 편집한다. 상대 경로는 저장소 루트 기준이다.
-settings.batch_size를 8로 낮추면 메모리 부담을 줄인다.
-probe_mode는 both/additive/patch 중 하나다. 참조/검색/평가 수, steps, restarts, blocks도 명시돼 있다.
-정상 설명 집합의 coefficient_bound/clean_relative/probe_error를 바꾸면 별도 실험이다.
-공격 결과를 보고 좋은 설정만 선택해 최종 성능으로 보고하지 않는다.
-
-이미 실제 FUBA FU 모델이 있다면 해당 사례에 다음 형식의 actual_state를 추가한다.
-정상 사례에도 실제 FU 모델을 연결해야 실제 정상·공격 비교가 가능하다.
-
-~~~json
-{
-  "actual_state": {
-    "path": "/경로/actual_fu.pt",
-    "sha256": "실제 모델 파일의 SHA256",
-    "pre_manifest_sha256": "원본 FL manifest.json의 SHA256",
-    "request_clients": [4],
-    "key": "gm_after"
-  }
-}
-~~~
-
-파일이 state_dict 자체라면 key를 생략한다.
-해시·요청 결합은 검사하지만 외부 FU 절차 자체의 정당성까지 자동 인증하지 않는다.
-외부 공개 풀은 각 사례의 pool에 images(uint8 NHWC), labels(정수), ids(고유 문자열)를 담은 NPZ 경로를 지정한다.
-
-로컬 검사를 재현할 때:
-
-~~~bash
-python -m unittest reproduction.test_deletion_comparison reproduction.test_history_boundary reproduction.test_request_probe -v
-~~~
-
-초기 연결 검사에서는 **FUBA 이력 점수 0, BadFU 정상 설명 불가로 보류**가 관측됐다.
-소규모 모델 결과는 성능 증거가 아니다. 본 실험에서도 보류가 많으면 정상 설명 집합의 가정부터 수정해야 한다.
+14개 테스트와 2라운드 BadFU 저장 모델 전체 연결을 확인했다. 이전 관측은
+[결과 검토](docs/DELETION_COMPARISON.md), 원본 학습은 [공식 코드 실행 문서](docs/FRESH_UPSTREAM.md)에 있다.
