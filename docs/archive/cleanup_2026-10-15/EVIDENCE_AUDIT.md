@@ -6,7 +6,7 @@
 
 | 자료 | 확인한 출처 | 사용할 수 있는 주장 | 사용하면 안 되는 주장 |
 |---|---|---|---|
-| ASR 22.53→91.24%, ACC 97.48→97.54% | `legacy/logs/02_fullscale_40rounds_benchmark.log`, `legacy/compare_badfu_and_defense.py` | 자체 MNIST SimpleNN 구현의 기록 | BadFU 공식 코드 그대로 재현, FedEraser 재현, 논문 수치 일치 |
+| ASR 22.53→91.24%, ACC 97.48→97.54% | `experiments/shared/early_reproduction/results/02_fullscale_40rounds_benchmark.log`, `legacy/compare_badfu_and_defense.py` | 자체 MNIST SimpleNN 구현의 기록 | BadFU 공식 코드 그대로 재현, FedEraser 재현, 논문 수치 일치 |
 | `badfu_2`의 원본 재현 작업 | 별도 저장소의 `codex/original-reproduction` README | upstream 함수 정의를 보존하는 실행 방식과 준비 예외의 문서화 | 위 MNIST 수치의 출처, 현재 완료 성능의 추정 |
 | FUBA 6개 개발 궤적·장부 적중 | R-012/013/034 등 | 같은 개발 자료에서 발견한 상쇄 패턴 | 독립 정상 FPR=0%, 보편적 공모 탐지 |
 | 새 CIFAR 3개 및 clean 4개 | `dev` 90d2f33, registry, 자동 EXPERIMENT_LOG | 궤적 생성·기여 빼기 진단 결과 | 새 탐지기의 검증 완료, ASR 0% 완전 방어 |

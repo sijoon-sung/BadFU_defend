@@ -1,0 +1,16 @@
+{
+  "id": "detection/contribution_structure",
+  "title": "초기 기여 구조·잔류 위험",
+  "status": "보관",
+  "hypothesis": "상쇄·잔류 기여의 구조로 위험을 설명할 수 있다.",
+  "attempt": "ledger, equilibrium, pair 역할, structural guard를 탐색했다.",
+  "observation": "여러 탐색 로그가 있으나 현재 기준의 독립 검증과 구분해야 한다.",
+  "decision": "HRAC 이전의 가설·구현 기록으로 보관한다.",
+  "hold_reason": "점수 크기만으로 정상 Non-IID와 공격 의도를 분리할 수 없다.",
+  "code": [],
+  "archived_source": "archive",
+  "evidence": [
+    "results"
+  ],
+  "run_configuration": "See CLI defaults and recorded result protocol; no retuning during layout cleanup"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "detection/asr_diagnosis",
+  "title": "FUBA ASR 원인 분해",
+  "status": "진단 완료",
+  "hypothesis": "높은 ASR에 독성 학습 외의 입력·클래스 쏠림이 섞일 수 있다.",
+  "attempt": "정상 대조와 같은 생성기 반응, 클래스별 쏠림을 검사했다.",
+  "observation": "정상 대조도 같은 생성기에 높은 반응을 보였다.",
+  "decision": "ASR 전체를 공격 학습의 효과로 해석하지 않는다.",
+  "hold_reason": "보류 아님. 실제 FU·정상 대조를 함께 보는 평가가 필요하다.",
+  "code": [
+    "diagnose_fuba_asr.py"
+  ],
+  "archived_source": null,
+  "evidence": [
+    "results",
+    "checks"
+  ],
+  "run_configuration": "See CLI defaults and recorded result protocol; no retuning during layout cleanup"
+}

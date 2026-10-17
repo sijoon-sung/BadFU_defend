@@ -1,0 +1,36 @@
+{
+  "id": "detection/hrac",
+  "title": "HRAC·기여 관계 관측",
+  "status": "추가 이득 미입증",
+  "hypothesis": "요청과 과거 기여 관계를 함께 보면 위험 요청을 우선시할 수 있다.",
+  "attempt": "BadFU·FUBA, 공개 입력·패턴 유무, 요청자·표적 순위를 비교했다.",
+  "observation": "BadFU 요청자는 패턴 관측에서 1위지만 단순 기준선도 1위. FUBA 표적은 HRAC 9/10/9위였다.",
+  "decision": "관측 신호는 남기고 우월성 주장은 보류한다.",
+  "hold_reason": "긴 이력의 추가 이득과 독립 정상 오탐률이 확인되지 않았다.",
+  "code": [
+    "benchmark_tension.py",
+    "compare_hrac_views.py",
+    "diagnose_hrac_badfu.py",
+    "experiment_hrac.py",
+    "experiment_hrac_unlabeled.py",
+    "experiment_hrac_views.py",
+    "experiment_tension.py",
+    "hrac.py",
+    "hrac_request_gate.py",
+    "plot_hrac_views.py",
+    "replay_tension.py",
+    "report_detection.py",
+    "run_fuba_experiment.py",
+    "validate_detection.py",
+    "validate_fuba_detection.py",
+    "validate_hrac_requests.py",
+    "validate_hrac_views.py"
+  ],
+  "archived_source": null,
+  "evidence": [
+    "results",
+    "checks",
+    "REVIEW.md"
+  ],
+  "run_configuration": "See CLI defaults and recorded result protocol; no retuning during layout cleanup"
+}

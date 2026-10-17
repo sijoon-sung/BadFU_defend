@@ -64,7 +64,7 @@ legacy 데이터는 원래 seed42/dominant.7/전체표본 설정으로 재구성
 
 | 번호 | 자료 | 실행 | 결과/코드 | 관측과 범위 | 상태 |
 |---|---|---|---|---|---|
-| R-037 | 해석적 최적해·부분 참여·관측 사각지대 fixture | unittest discover | `FUBA/tests/test_tension_control.py` 등, 전체88개 통과 | 개별 보정 후 집계, 삭제 단위 호출 금지, 실제 replay 상태 제어, 국소 제약, 클래스 bias 소거, 밝기 관측에 보이지 않는 트리거 방향. 성능 실험 아님 | 확정 |
+| R-037 | 해석적 최적해·부분 참여·관측 사각지대 fixture | unittest discover | `experiments/purification/request_control/tests/test_tension_control.py` 등, 전체88개 통과 | 개별 보정 후 집계, 삭제 단위 호출 금지, 실제 replay 상태 제어, 국소 제약, 클래스 bias 소거, 밝기 관측에 보이지 않는 트리거 방향. 성능 실험 아님 | 확정 |
 | R-038 | 기존 `loc_k20paper_s0`, MNIST/LeNet, K20 seed522 | `experiment_tension_control.py`, 100단계 수정 전/후 및99단계; 요청4, 최근20전이 | `FUBA/logs/tension_control/*step100*.json`, `*step99_req4_action.json` | 밝기 관측32개/보존128개/평가512개; 보정2batch. 99에서 요청4 제외7명,100에서는 요청4 원래 불참하여8명. 해당 단계에서 대리 좌표를 제어하는 동작만 검사; 전체 FU·ASR 아님 | 확정 (개발 스모크) |
 | R-039 | 같은 모델·같은99단계, 정답 트리거 및 밝기 관측 | `--eval-target 8`, `--probe-view brightness/oracle-trigger` | `*step99_req4_brightness_eval.json`, `*step99_req4_oracle_eval.json` | ASR 분모458개: 단계 전12.45%, 무방어20.74%, 밝기 history_action10.70%, linear_action10.70%, history_free11.79%; 각각 후3군 ACC99.02%. oracle B 상위8좌표 모두 표적8, 밝기 B 상위8은 표적8 없음. 관측 가정 진단이며 전체 FU·망각·신규성 입증 아님. 두 후속 실행 시간은 병렬 영향 있어 비용 비교에 사용하지 않음 | 확정 (동일 개발 모델의 진단) |
 
@@ -74,7 +74,7 @@ R-039는 대리 좌표의 부진을 장력 이론의 실패로 해석하지 않�
 
 | 번호 | 자료 | 실행 | 결과/코드 | 관측과 범위 | 상태 |
 |---|---|---|---|---|---|
-| R-034 | 기존 FUBA IID/owner 각3개 학습 캐시 | `python FUBA/replay_tension.py`; `python FUBA/benchmark_tension.py` | `FUBA/logs/tension_audit/cache_replay_v3.json`, `historical_ablation_v3.json` | v3 요청자·표적 동시1위 10/20/40/99시점 4/6,6/6,6/6,6/6. v2는3/6,5/6,5/6,5/6. 단순 선형 삭제 영향은0/6,0/6,3/6,4/6. 같은 개발 자료 재생이며 정상 보정/ASR/새 공격 검증 아님. 불완전 상쇄 동일비율 삭제 반례를 기준으로 수식 수정 | 확정 |
+| R-034 | 기존 FUBA IID/owner 각3개 학습 캐시 | `python FUBA/replay_tension.py`; `python FUBA/benchmark_tension.py` | `experiments/detection/hrac/results/historical/tension_audit/cache_replay_v3.json`, `historical_ablation_v3.json` | v3 요청자·표적 동시1위 10/20/40/99시점 4/6,6/6,6/6,6/6. v2는3/6,5/6,5/6,5/6. 단순 선형 삭제 영향은0/6,0/6,3/6,4/6. 같은 개발 자료 재생이며 정상 보정/ASR/새 공격 검증 아님. 불완전 상쇄 동일비율 삭제 반례를 기준으로 수식 수정 | 확정 |
 | R-035 | 전체 동작검사, 별도 보관 실제 `loc_k20paper_s0` 체크포인트 | 69 tests; `collect_tension.py --rounds 3 --probe 16` | `FUBA/tests/`, `FUBA/logs/tension_v3/smoke_loc_k20paper_s0.{npz,json}` | FL 전이2개·입력16개, 양의 실제 학습 갱신에 대한 입력별 logprob/중심화 logit 관측. FedAvg 갱신 상대 복원오차 최댓값3.94374e-7. FU·JVP·정상학습 새 실행 아님 | 확정 |
 | R-036 | 정상/공격 독립 학습, IID/owner | `experiment_tension.py --profile pilot --stage all` (18개); 이후 `confirm` (68개) | `RUN.md`, 새 수집기/비교기/실행기 | 예비는 조건별 정상 보정3개로5% 문턱 불가. 확인은19개 보정/10개 정상 시험/5개 새 공격. 시간·클래스·요청 최대값 보정. 원래 BadFU/실제 FU·복구는 별도 | 예정 |
 
@@ -101,7 +101,7 @@ R-039는 대리 좌표의 부진을 장력 이론의 실패로 해석하지 않�
 ## 공동삭제 검증 추가 실행 (2026-10-13)
 
 결과가 완료됐다는 뜻의 ‘확정’이며 일반화된 성능 주장을 뜻하지 않는다.
-수학·범위·실패는 `docs/paper/REVISION_REPORT.md`, 소스 해시와 소거표는 `FUBA/logs/paired_audit/summary.json`.
+수학·범위·실패는 `docs/paper/REVISION_REPORT.md`, 소스 해시와 소거표는 `experiments/detection/paired_response/results/historical/paired_audit/summary.json`.
 
 | 번호 | 자료 | 실행 | 결과 파일 (FUBA/logs/paired_audit/) | 관측과 범위 | 상태 |
 |---|---|---|---|---|---|

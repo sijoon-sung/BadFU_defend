@@ -1,0 +1,16 @@
+{
+  "id": "detection/early_proxies",
+  "title": "초기 반상관·프록시 탐지",
+  "status": "보관",
+  "hypothesis": "기울기 반대 방향이나 프록시 공간에서 공격을 찾을 수 있다.",
+  "attempt": "반상관·스펙트럼·프록시 탐지 변형을 시험했다.",
+  "observation": "초기 코드와 로그가 남아 있다.",
+  "decision": "현재 성능 근거에서 제외한다.",
+  "hold_reason": "원본 공격·강한 Non-IID·독립 정상 대조로 같은 결론을 검증하지 못했다.",
+  "code": [],
+  "archived_source": "archive",
+  "evidence": [
+    "results"
+  ],
+  "run_configuration": "See CLI defaults and recorded result protocol; no retuning during layout cleanup"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "purification/dose_repair",
+  "title": "초기 삭제량·복구 제어",
+  "status": "보관",
+  "hypothesis": "삭제량·보정량·복구 단계를 조절해 효용과 위험을 절충할 수 있다.",
+  "attempt": "dose/cancel/unified, progressive FU, pipeline 정화를 탐색했다.",
+  "observation": "초기 비교 로그가 남아 있다.",
+  "decision": "현재 실제 FU 완료 후 정화 성능과 합치지 않는다.",
+  "hold_reason": "FU 자체 변경과 정화 효과가 섞이며 삭제 효과를 보존했는지 미확인이다.",
+  "code": [],
+  "archived_source": "archive",
+  "evidence": [
+    "results"
+  ],
+  "run_configuration": "See CLI defaults and recorded result protocol; no retuning during layout cleanup"
+}

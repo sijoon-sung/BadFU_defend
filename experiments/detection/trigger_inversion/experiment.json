@@ -1,0 +1,16 @@
+{
+  "id": "detection/trigger_inversion",
+  "title": "초기 패턴 역탐색",
+  "status": "보관",
+  "hypothesis": "입력 변형에 대한 출력 차이로 잠재 패턴을 찾을 수 있다.",
+  "attempt": "패치·보편 변형·샘플별 역탐색을 비교했다.",
+  "observation": "역탐색 및 클래스별 ASR 기록이 남아 있다.",
+  "decision": "최신 실제 FU 이중 차분과 분리하여 보관한다.",
+  "hold_reason": "발견 패턴의 반응을 원본 트리거 ASR과 혼동할 수 있다.",
+  "code": [],
+  "archived_source": "archive",
+  "evidence": [
+    "results"
+  ],
+  "run_configuration": "See CLI defaults and recorded result protocol; no retuning during layout cleanup"
+}

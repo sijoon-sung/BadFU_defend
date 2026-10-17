@@ -192,7 +192,7 @@ ASR 8.3 -> 6.5  (변화 작음)
 
 - `BadFU_src/BadFU-main/data_prepare/utils/save_load_attack.py`, `data_prepare/uba/uba_utils/basic_utils.py`: `torch.load(..., weights_only=False)`. torch ≥ 2.6 기본값 변경으로 `attack_result.pt`(numpy 스칼라가 든 데이터셋 상태) 로드가 실패하던 것. 없으면 UBA 단계가 시작조차 못 한다.
 - `BadFU_src/BadFU-main/fl_detect_badfu.py`: 선택 인자 `--max_per_client`, `--test_n`(축소 설정용 고정 시드 부분집합; 기본 0 = 전체), `--keep_traj`(끝나고 `logs/traj/*.pt` 를 지우지 않음; `unlearn_from_traj.py` 에 넘기려면 필요), `client_data_counts` 출력. 기본값이면 동작은 종전과 같다.
-- `BadFU_src/BadFU-main/unlearn_from_traj.py`: 하드코딩이던 `logs/traj_keep`, 5 에폭을 `--traj_dir`, `--local_epochs`(+ 위와 같은 `--max_per_client`, `--test_n`) 인자로. 기본값 동일.
+- `experiments/purification/dose_repair/archive/unlearn_from_traj.py`: 하드코딩이던 `logs/traj_keep`, 5 에폭을 `--traj_dir`, `--local_epochs`(+ 위와 같은 `--max_per_client`, `--test_n`) 인자로. 기본값 동일.
 - FUBA 쪽은 변경 없음. 설치만: (처음 CPU 시도용 venv 에 mpi4py/impi-rt/psycopg2-binary/pandas/matplotlib/imageio 를 넣었으나 최종 실행은 위 conda env, 추가 설치 없음.)
 
 실행 산출물(`checkpoints/`, `record/`, `data/`, `logs/traj/`, `logs/*/loc_fuba.json`, `logs/badfu_detect.json`)은 커밋하지 않았다(대부분 gitignore).

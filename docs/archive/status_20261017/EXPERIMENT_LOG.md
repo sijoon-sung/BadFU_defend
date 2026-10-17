@@ -126,7 +126,7 @@
 
 - FUBA (DISLAB): `cd FUBA && bash make_trajectories.sh` (그룹 하나만: `ONLY=k20_paper bash make_trajectories.sh`, 명령만 보기: `DRY=1`)
 - BadFU (노트북): `cd BadFU_src/BadFU-main && bash make_badfu_trajectories.sh`
-- 만들고 나면 이 파일과 `FUBA/logs/trajectories/registry.json` 을 커밋한다.
+- 만들고 나면 이 파일과 `experiments/shared/trajectory_tools/results/historical/trajectories/registry.json` 을 커밋한다.
 
 <details><summary>미생성 궤적의 정확한 명령 (21 개)</summary>
 

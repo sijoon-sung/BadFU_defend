@@ -4,11 +4,11 @@
 
 | 브랜치 | 목적 |
 | --- | --- |
-| [main](https://github.com/sijoon-sung/BadFU_defend/tree/main) | 연구 개요·문제 정의·결과표·공통 기준 버전 |
-| [detection](https://github.com/sijoon-sung/BadFU_defend/tree/detection) | 이력·요청 위험 관측과 정상 Non-IID 대조 |
-| [purification](https://github.com/sijoon-sung/BadFU_defend/tree/purification) | 실제 FU 후 정화와 ASR–효용–삭제 효과 평가 |
+| [main](https://github.com/sijoon-sung/BadFU_defend/tree/main) | 전체 실험 폴더·결과·공통 기준 버전 |
+| [detection](https://github.com/sijoon-sung/BadFU_defend/tree/detection) | experiments/detection + experiments/shared |
+| [purification](https://github.com/sijoon-sung/BadFU_defend/tree/purification) | experiments/purification + experiments/shared |
 
-두 연구 브랜치의 공통 코드가 같아도 탐지 성능과 정화 성능은 별도로 검증한다. 각 브랜치의 `RUN.md`는 해당 작업을 안내한다.
+각 브랜치의 실제 파일도 분리했다. 반대 분야 실험은 다른 브랜치 또는 main에서 본다. 공통 코드는 양쪽에 동일하게 둔다. 각 브랜치의 `RUN.md`는 해당 작업을 안내한다.
 
 ## 이전 브랜치 보관
 

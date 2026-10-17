@@ -1,0 +1,18 @@
+{
+  "id": "detection/history_relations",
+  "title": "이력 관계 원인 분석",
+  "status": "관측 보관",
+  "hypothesis": "공격 방식별로 내부·외부 기여 관계가 다를 수 있다.",
+  "attempt": "저장 이력에서 요청자·다른 기여자의 관계를 따로 분석했다.",
+  "observation": "관계 관측 자료를 확보했다. 독립 탐지 성공률은 아니다.",
+  "decision": "원인 분석 자료로 사용한다.",
+  "hold_reason": "같은 관계가 정상 Non-IID에서도 발생할 수 있어 식별 기준이 더 필요하다.",
+  "code": [
+    "analyze_history_relations.py"
+  ],
+  "archived_source": null,
+  "evidence": [
+    "results"
+  ],
+  "run_configuration": "See CLI defaults and recorded result protocol; no retuning during layout cleanup"
+}

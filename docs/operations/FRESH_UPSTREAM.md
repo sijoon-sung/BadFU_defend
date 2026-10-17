@@ -27,7 +27,7 @@ FUBA의 CIFAR-10 Dirichlet 분할에서 `dataset.targets`는 리스트이므로 
 - FUBA MNIST/CNN과 CIFAR-10/ResNet-18을 원본 MPI로 축소 실행했다. 공격자, 억제자와 정상 클라이언트를 포함하는 Non-IID 검사도 수행했다.
 - 최초 상태, 라운드 연속성, 참여자 ID, 유한값, 전체 모델 형상, 파일 해시와 FL 집계 재계산을 검사했다. FU는 구조·연속성·유한값 검증이며 별도 재학습과의 삭제 동등성 검증은 아니다.
 - 새 BadFU 궤적을 기존 라벨 없는 관측기로 읽는 연결도 실제 모델에서 확인했다. 축소 실행의 순위/ASR로 탐지 성능을 주장하지 않는다.
-- 기존 연구 테스트 105개와 새 무결성·원본 함수 보존 테스트를 별도로 실행했다. [검증 기록](../../reproduction/validation/summary.json).
+- 기존 연구 테스트 105개와 새 무결성·원본 함수 보존 테스트를 별도로 실행했다. [검증 기록](../../experiments/shared/attack_reproduction/checks/summary.json).
 
 40R BadFU 원본 전체 순서와 100R FUBA의 공격 성능은 이 새 실행기로 아직 검증하지 않았다. 기존 seed42/43/44 결과와 새 결과를 같은 실행으로 합치지 않는다. BadFU의 clean5는 공격 full6와 참여자 수·구성이 달라 일치된 정상 대조군이 아니다.
 

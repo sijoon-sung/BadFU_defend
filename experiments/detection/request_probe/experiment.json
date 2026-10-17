@@ -1,0 +1,20 @@
+{
+  "id": "detection/request_probe",
+  "title": "요청 기반 입력 탐색",
+  "status": "측정 도구",
+  "hypothesis": "요청 방향에 민감한 공개 입력 변형을 찾아 관측 신호를 키울 수 있다.",
+  "attempt": "입력 탐색·평가 분리와 이력 방향의 응답 계산을 구현했다.",
+  "observation": "실행·수치 검사를 확보했으나 독립 탐지 성능은 미입증이다.",
+  "decision": "이중 차분 비교의 측정 도구로 사용한다.",
+  "hold_reason": "탐색 반응을 실제 트리거 ASR이나 정상/공격 구분으로 볼 수 없다.",
+  "code": [
+    "request_probe.py",
+    "run_request_probe.py"
+  ],
+  "archived_source": null,
+  "evidence": [
+    "checks",
+    "REVIEW.md"
+  ],
+  "run_configuration": "See CLI defaults and recorded result protocol; no retuning during layout cleanup"
+}
