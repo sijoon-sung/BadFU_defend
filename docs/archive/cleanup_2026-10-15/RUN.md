@@ -251,7 +251,7 @@ python FUBA/replay_tension.py
 python FUBA/benchmark_tension.py
 ```
 
-결과: `FUBA/logs/tension_audit/cache_replay_v3.json`, `historical_ablation_v3.json`.
+결과: `experiments/detection/hrac/results/historical/tension_audit/cache_replay_v3.json`, `historical_ablation_v3.json`.
 기존 학습 캐시 6개만 재생한다. 새 학습·FU 호출은 0회다. 마지막 시점의 요청자·표적 동시 1위는 v3 **6/6**, v2 **5/6**, 단순 선형 삭제 영향 **4/6**이었다. 이미 관찰한 개발 자료이므로 이 차이를 정상 오탐률이나 확인 실험으로 보고하지 않는다.
 
 ### 2. 먼저 돌릴 것: 예비 묶음 하나
@@ -369,7 +369,7 @@ unzip -o small_traj.zip -d checkpoints/
 
 실험은 저장된 궤적 파일만 읽는다. 궤적은 저자 코드가 만든다 (FUBA 는 `main.py`, BadFU 는 저자 루프를 옮긴 `fl_detect_badfu.py`). 우리는 flag(클라 수·참여율·라운드·시드·방어)만 정한다.
 만들 목록은 `FUBA/trajectories.json` 하나에 다 있다. 하나 만들 때마다 `verify_trajectories.py` 가 검사하고, 틀리면 거기서 멈춘다.
-결과는 `docs/EXPERIMENT_LOG.md` 에 자동 기록된다 (`FUBA/logs/trajectories/registry.json` 과 같이 커밋).
+결과는 `docs/EXPERIMENT_LOG.md` 에 자동 기록된다 (`experiments/shared/trajectory_tools/results/historical/trajectories/registry.json` 과 같이 커밋).
 
 ### DISLAB (FUBA, MNIST)
 ```bash

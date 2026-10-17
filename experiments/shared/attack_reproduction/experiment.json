@@ -1,0 +1,16 @@
+{
+  "id": "shared/attack_reproduction",
+  "title": "원본 공격·궤적 저장",
+  "status": "확인",
+  "hypothesis": "저자 코드에 기록만 추가하면 이후 비교의 입력을 고정할 수 있다.",
+  "attempt": "BadFU·FUBA 원본 고정, 라운드 모델·클라이언트 기여·집계 검사를 구현했다.",
+  "observation": "원본 파일과 저장·재계산 연결을 확인했다.",
+  "decision": "공통 재현 기반으로 사용한다.",
+  "hold_reason": "보류 아님. 저장 무결성만으로 잠복 공격의 성공을 주장하지 않는다.",
+  "code": [],
+  "archived_source": null,
+  "evidence": [
+    "checks"
+  ],
+  "run_configuration": "See CLI defaults and recorded result protocol; no retuning during layout cleanup"
+}

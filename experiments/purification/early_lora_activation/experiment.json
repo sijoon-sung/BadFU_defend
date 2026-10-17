@@ -1,0 +1,16 @@
+{
+  "id": "purification/early_lora_activation",
+  "title": "초기 LoRA·지연 재활성화",
+  "status": "보관",
+  "hypothesis": "저차원 보정·후속 학습에서 백도어 억제와 재발을 관측할 수 있다.",
+  "attempt": "LoRA 설정과 지연 활성화·재학습 시나리오를 시험했다.",
+  "observation": "초기 자체 구현의 코드·로그가 남아 있다.",
+  "decision": "후속 연구 단서로만 보관한다.",
+  "hold_reason": "공식 원본 공격·동일 삭제·정상 대조로 연결되지 않은 결과다.",
+  "code": [],
+  "archived_source": "archive",
+  "evidence": [
+    "results"
+  ],
+  "run_configuration": "See CLI defaults and recorded result protocol; no retuning during layout cleanup"
+}

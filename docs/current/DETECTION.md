@@ -13,11 +13,11 @@
 
 ## 코드와 결과
 
-- `reproduction/detection/validate_hrac_requests.py`, `hrac_request_gate.py`: 요청과 이력 관계.
-- `reproduction/detection/validate_temporal_history.py`, `temporal_history.py`: 시계열 분석.
-- `reproduction/detection/run_deletion_comparison.py`, `history_boundary.py`, `deletion_contrast.py`: 차분/정상 설명 집합 비교.
-- `reproduction/audit/audit_deletion_upload.py`, `audit_temporal_uploads.py`: 업로드 관측 검산.
-- [완료 비교](../experiments/DELETION_COMPARISON.md), [이전 전체 기록](../experiments/RESEARCH_HISTORY.md).
+- `experiments/detection/hrac/validate_hrac_requests.py`, `hrac_request_gate.py`: 요청과 이력 관계.
+- `experiments/detection/temporal_history/validate_temporal_history.py`, `temporal_history.py`: 시계열 분석.
+- `experiments/detection/deletion_comparison/run_deletion_comparison.py`, `history_boundary.py`, `deletion_contrast.py`: 차분/정상 설명 집합 비교.
+- `experiments/detection/deletion_comparison/audit_deletion_upload.py`, `audit_temporal_uploads.py`: 업로드 관측 검산.
+- [완료 비교](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/deletion_comparison/REVIEW.md), [이전 전체 기록](../experiments/RESEARCH_HISTORY.md).
 
 ## 다음 판단
 

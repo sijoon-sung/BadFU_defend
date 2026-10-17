@@ -60,9 +60,9 @@
 
 ## 이전 관측 실험과 설계 기록
 
-**본 실험 검토(2026-10-17):** 로짓 이중 차분/정상 설명 집합 비교 11건을 원본 관측에서 재계산했다. 실제 BadFU FU에서는 깨끗한 정확도를 유지하며 탐색 패치의 표적 응답이 2.78→73.61%로 증가했다. 실제 정상 FU 대조는 미측정이다. FUBA 등 차감 근사의 큰 점수는 정상 정확도 붕괴와 함께 나왔고, 비영 이력 기여 1,110개 모두 정상 설명 집합에 들어가지 못했다. **아래 집합 기반 설계의 정상 표현 가정은 현재 실험에서 충족되지 않았다.** 이력 추가 이득은 입증되지 않았으며 [구체적인 결과·실패 원인](DELETION_COMPARISON.md)을 우선 참고한다.
+**본 실험 검토(2026-10-17):** 로짓 이중 차분/정상 설명 집합 비교 11건을 원본 관측에서 재계산했다. 실제 BadFU FU에서는 깨끗한 정확도를 유지하며 탐색 패치의 표적 응답이 2.78→73.61%로 증가했다. 실제 정상 FU 대조는 미측정이다. FUBA 등 차감 근사의 큰 점수는 정상 정확도 붕괴와 함께 나왔고, 비영 이력 기여 1,110개 모두 정상 설명 집합에 들어가지 못했다. **아래 집합 기반 설계의 정상 표현 가정은 현재 실험에서 충족되지 않았다.** 이력 추가 이득은 입증되지 않았으며 [구체적인 결과·실패 원인](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/deletion_comparison/REVIEW.md)을 우선 참고한다.
 
-**2026-10-17 실행 연결:** 아래 정상 설명 집합의 제안을 실제 저장 모델의 JVP 관측과 연결하고 로짓 이중 차분과 비교하도록 구현했다. [현재 구현의 수식·한계](DELETION_COMPARISON.md)와 [현재 실행 명령](../../RUN.md)을 따른다. 아래의 이론적 설계와 달리 이번 구현은 최종 모델 기준의 두 집합 기여와 pooled 출력 좌표를 사용한다. 실제 공격 탐지 성능이나 정상 설명 집합의 타당성은 아직 검증된 주장이 아니다.
+**2026-10-17 실행 연결:** 아래 정상 설명 집합의 제안을 실제 저장 모델의 JVP 관측과 연결하고 로짓 이중 차분과 비교하도록 구현했다. [현재 구현의 수식·한계](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/deletion_comparison/REVIEW.md)와 [현재 실행 명령](../../RUN.md)을 따른다. 아래의 이론적 설계와 달리 이번 구현은 최종 모델 기준의 두 집합 기여와 pooled 출력 좌표를 사용한다. 실제 공격 탐지 성능이나 정상 설명 집합의 타당성은 아직 검증된 주장이 아니다.
 
 ## 이전 연구 주장과 알고리즘 개정 — 2026-10-16
 
@@ -189,9 +189,9 @@ $$S_U=\left[\min_{b,\ s\in S}\{L_{R,b,\phi,s,k},\ -U_{D,b,\phi,s,k}\}\right]_+.$
 
 **기존 증거:** 고정 좌표의 지속적 반대 기여는 정상에서도 나타났다. FUBA의 기존 선택 좌표는 실제 표적과 달랐고 잔류 정상 클라이언트가 반대 기여의 주요 원천이었다. GLR의 단순 변화량 대비 추가 이득도 확인되지 않았다. 이 결과가 정상 설명과 기능 관측을 개정하는 이유다.
 
-**이번 구현:** [history_boundary.py](../../reproduction/history_boundary.py)는 정상 설명 집합의 구간과 고정 블록의 경계 점수만 계산한다. [반례 검사 12개](../../reproduction/test_history_boundary.py)에서 정상 지속 상쇄의 제거, 정상 관측의 null space에 따른 불확실성, 기준 부적합의 미판정, 잘못된 삭제 경계, 한 라운드 급증, 출발 클래스 범위, 내부 원자 선택을 검증했다. 기존 프로브 검사 10개와 함께 총 22개가 통과했다. [검사 범위·코드 해시 기록](../../reproduction/validation/history_boundary_validation_20261016.json). **합성/수학 커널 검사이며 실제 FL 탐지 성능은 아니다.**
+**이번 구현:** [history_boundary.py](../../reproduction/history_boundary.py)는 정상 설명 집합의 구간과 고정 블록의 경계 점수만 계산한다. [반례 검사 12개](../../reproduction/test_history_boundary.py)에서 정상 지속 상쇄의 제거, 정상 관측의 null space에 따른 불확실성, 기준 부적합의 미판정, 잘못된 삭제 경계, 한 라운드 급증, 출발 클래스 범위, 내부 원자 선택을 검증했다. 기존 프로브 검사 10개와 함께 총 22개가 통과했다. [검사 범위·코드 해시 기록](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/deletion_comparison/checks/history_boundary_validation_20261016.json). **합성/수학 커널 검사이며 실제 FL 탐지 성능은 아니다.**
 
-현재 [요청 유도 프로브 v1](REQUEST_GUIDED_PROBE.md)은 누적 업데이트를 차감한 대리 모델을 사용하며 무라벨이다. 새 $\mathcal C$·라벨 마진·이력 분할 목적함수를 아직 사용하지 않는다. 이를 새 알고리즘의 실험 실행기로 부르지 않는다.
+현재 [요청 유도 프로브 v1](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/request_probe/REVIEW.md)은 누적 업데이트를 차감한 대리 모델을 사용하며 무라벨이다. 새 $\mathcal C$·라벨 마진·이력 분할 목적함수를 아직 사용하지 않는다. 이를 새 알고리즘의 실험 실행기로 부르지 않는다.
 
 검증은 아래 순서로 진행한다. 전체 재학습보다 관측 가능성 확인이 우선이다.
 
@@ -383,11 +383,11 @@ $$z^{(g)}_{i,t}=\frac1n\sum_{x\in X}\left[d_{i,t}(P_gx)-d_{i,t}(x)\right].$$
 | 합성 원자, 정상 보정 99개 + 정상 시험 200개/조건 | 균형 조건 경보 12/200(6.0%, 95% CI 3.14–10.25%); 클래스 집중 조건 3/200(1.5%, CI .31–4.32%) | 정상 선택 삭제를 허용하는 모형의 검사. 유한 시험에서 5% 이하가 항상 나온다는 주장이 아님 |
 | 같은 크기·이차 모멘트를 가진 부호 반전 요청 | 합성 두 조건 각각 200/200 경보; 요청 크기 기준선 각각 6/200·8/200 | 구성한 대립가설 검증. FUBA/BadFU 공격 성공률이나 탐지율로 인용 금지 |
 
-원본: [FUBA replay](../../FUBA/logs/hrac/fuba_replay_v1.json), [BadFU replay](../../FUBA/logs/hrac/badfu_replay_v1.json), [BadFU 진단](../../FUBA/logs/hrac/badfu_measurement_ablation_v1.json), [합성 검사](../../FUBA/logs/hrac/synthetic_stress_v1.json). 모든 결과에는 코드 해시가 있고 실제 자료에는 입력 해시가 있다. 합성 검사에서 대외 채널은 0으로 고정했으므로 대내 분기만 검증한다. 실제 정상 궤적 부족으로 실제 공격의 보정된 FPR/TPR은 보고하지 않는다. 기존 76개와 새 19개를 포함한 테스트 95개가 통과했다. 테스트 수를 성능 표본 수로 세지 않는다.
+원본: [FUBA replay](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/hrac/results/historical/hrac/fuba_replay_v1.json), [BadFU replay](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/hrac/results/historical/hrac/badfu_replay_v1.json), [BadFU 진단](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/hrac/results/historical/hrac/badfu_measurement_ablation_v1.json), [합성 검사](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/hrac/results/historical/hrac/synthetic_stress_v1.json). 모든 결과에는 코드 해시가 있고 실제 자료에는 입력 해시가 있다. 합성 검사에서 대외 채널은 0으로 고정했으므로 대내 분기만 검증한다. 실제 정상 궤적 부족으로 실제 공격의 보정된 FPR/TPR은 보고하지 않는다. 기존 76개와 새 19개를 포함한 테스트 95개가 통과했다. 테스트 수를 성능 표본 수로 세지 않는다.
 
 ### BadFU 미식별 요청의 사후 평가 — 2026-10-15
 
-탐지 캐시와 기존 FU 실험의 manifest·데이터 해시를 연결하고, 저장 모델을 다시 평가했다. 새 학습이나 FU는 실행하지 않았다. [재평가 원본](../../FUBA/logs/hrac/badfu_retrospective_v1.json), [재현 스크립트](../../FUBA/diagnose_hrac_badfu.py).
+탐지 캐시와 기존 FU 실험의 manifest·데이터 해시를 연결하고, 저장 모델을 다시 평가했다. 새 학습이나 FU는 실행하지 않았다. [재평가 원본](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/hrac/results/historical/hrac/badfu_retrospective_v1.json), [재현 스크립트](../../FUBA/diagnose_hrac_badfu.py).
 
 | 저장 모델 | ASR (원래 비표적 클래스 512개) | 정상 정확도 |
 |---|---:|---:|
@@ -440,7 +440,7 @@ FU 결과 비교에서는 같은 시작 모델에서 요청자 5·정상 요청�
 
 ![같은 logit 좌표에서 원시 반응과 입력 쌍 차이, 새 입력·패턴의 비교](../figures/hrac_probe_comparison.png)
 
-원본: [초기 프로토콜](../../FUBA/logs/hrac/views_badfu_v1/protocol.json) · [전체 관측 비교](../../FUBA/logs/hrac/views_badfu_v1/analysis.json) · [후속 프로토콜](../../FUBA/logs/hrac/views_holdout_v1/protocol.json) · [후속 결과](../../FUBA/logs/hrac/views_holdout_v1/analysis.json) · [동일 관측의 점수 기준선](../../FUBA/logs/hrac/views_score_ablation_v1.json) · [float32 점검](../../FUBA/logs/hrac/views_badfu_v1/numerical_check.json) · [float64 점검](../../FUBA/logs/hrac/views_badfu_v1/derivative_float64_check.json). 모델 응답 캐시도 같은 디렉터리에 저장했다.
+원본: [초기 프로토콜](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/hrac/results/historical/hrac/views_badfu_v1/protocol.json) · [전체 관측 비교](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/hrac/results/historical/hrac/views_badfu_v1/analysis.json) · [후속 프로토콜](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/hrac/results/historical/hrac/views_holdout_v1/protocol.json) · [후속 결과](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/hrac/results/historical/hrac/views_holdout_v1/analysis.json) · [동일 관측의 점수 기준선](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/hrac/results/historical/hrac/views_score_ablation_v1.json) · [float32 점검](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/hrac/results/historical/hrac/views_badfu_v1/numerical_check.json) · [float64 점검](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/hrac/results/historical/hrac/views_badfu_v1/derivative_float64_check.json). 모델 응답 캐시도 같은 디렉터리에 저장했다.
 
 ### 정답 라벨 없는 공개 이미지 관측 — 2026-10-15
 
@@ -460,7 +460,7 @@ FU 결과 비교에서는 같은 시작 모델에서 요청자 5·정상 요청�
 
 라벨 없는 같은 벤치마크 이미지에서 결과가 유지되었다는 증거다. 공개 데이터의 도메인 차이, 신뢰성, 정상 Non-IID 오탐률은 아직 검증하지 않았다. 이미지 seed 3개 × 패턴 seed 3개는 독립 공격 학습 9회가 아니다. 현재 모델 어댑터는 BadFU CIFAR-10/ResNet-18이며, FUBA에 대한 라벨 없는 관측 전이는 별도 구현·실험이 필요하다.
 
-[프로토콜](../../FUBA/logs/hrac/unlabeled_badfu_v1/protocol.json) · [전체 결과](../../FUBA/logs/hrac/unlabeled_badfu_v1/analysis.json) · [라운드별 시간·캐시 해시](../../FUBA/logs/hrac/unlabeled_badfu_v1/progress.json) · [실행·긴 검사 안내](../../RUN.md#라벨-없이-공개-이미지로-검사--현재-실행-경로).
+[프로토콜](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/hrac/results/historical/hrac/unlabeled_badfu_v1/protocol.json) · [전체 결과](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/hrac/results/historical/hrac/unlabeled_badfu_v1/analysis.json) · [라운드별 시간·캐시 해시](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/hrac/results/historical/hrac/unlabeled_badfu_v1/progress.json) · [실행·긴 검사 안내](../../RUN.md#라벨-없이-공개-이미지로-검사--현재-실행-경로).
 
 ### FUBA CIFAR-10 100R 업로드 검토 — 2026-10-16
 
@@ -488,7 +488,7 @@ ZIP 체크섬과 내부 파일 해시를 확인하고 **저장된 관측 평균�
 
 ![FUBA 100R 학습 지표, 표적 순위, 후보 순위와 부호 진단](../figures/fuba_cifar10_s42_review.png)
 
-[수치·재계산 검토 기록](../../reproduction/validation/fuba_cifar10_s42_review.json) · [업로드 원본 요약](../../reproduction/validation/exports/fuba_cifar10_s42/cf7fb77d25525183/summary.json) · [재계산 가능한 ZIP](../../reproduction/validation/exports/fuba_cifar10_s42/cf7fb77d25525183/fuba_hrac_evidence_b1deadcd4113.zip).
+[수치·재계산 검토 기록](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/hrac/checks/fuba_cifar10_s42_review.json) · [업로드 원본 요약](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/hrac/results/fuba_cifar10_s42/cf7fb77d25525183/summary.json) · [재계산 가능한 ZIP](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/hrac/results/fuba_cifar10_s42/cf7fb77d25525183/fuba_hrac_evidence_b1deadcd4113.zip).
 
 ### ASR 해석 보완: Non-IID 표적 편향부터 분리
 
@@ -540,7 +540,7 @@ ZIP 체크섬과 내부 파일 해시를 확인하고 **저장된 관측 평균�
 
 ![전체 테스트 ASR의 기존 편향과 생성기 조건 분리](../figures/fuba_cifar10_s42_asr_diagnosis.png)
 
-[독립 재계산 검토 기록](../../reproduction/validation/fuba_cifar10_s42_asr_review.json) · [전체 테스트 원본 결과](../../reproduction/validation/exports/fuba_cifar10_s42/asr_diagnostic_full/diagnosis.json) · [1,000장 원본 결과](../../reproduction/validation/exports/fuba_cifar10_s42/asr_diagnostic_v1/diagnosis.json).
+[독립 재계산 검토 기록](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/asr_diagnosis/checks/fuba_cifar10_s42_asr_review.json) · [전체 테스트 원본 결과](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/asr_diagnosis/results/fuba_cifar10_s42/asr_diagnostic_full/diagnosis.json) · [1,000장 원본 결과](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/asr_diagnosis/results/fuba_cifar10_s42/asr_diagnostic_v1/diagnosis.json).
 
 ### 정상 대조와 복구 평가 기준 — 2026-10-16
 
@@ -575,7 +575,7 @@ FU로 인한 증가를 별도로 평가하려면 같은 고정 변형으로 `(A_
 
 **다음 검증:** 이미 학습한 공격·정상 모델을 재사용해 같은 요청의 FU 전후와 정화 후를 수집한다. IID 재학습은 Non-IID 자체의 효과를 주장할 때 필요한 추가 실험이며, 현재 Non-IID 안에서 정상 기준 대비 복구를 먼저 평가하는 데 필수 선행 조건은 아니다. 정상 기준 모델은 실험 평가용으로 사용하고, 실제 배포 탐지기가 접근할 수 있는 정보라고 가정하지 않는다.
 
-[검산·표본별 비교 기록](../../reproduction/validation/fuba_cifar10_s42_benign_review.json) · [전체 정상 대조 원본](../../reproduction/validation/exports/fuba_cifar10_s42/asr_diagnostic_benign_full/diagnosis.json).
+[검산·표본별 비교 기록](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/hrac/checks/fuba_cifar10_s42_benign_review.json) · [전체 정상 대조 원본](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/asr_diagnosis/results/fuba_cifar10_s42/asr_diagnostic_benign_full/diagnosis.json).
 
 ### 삭제 단위와 관계 시계열 재검토 — 2026-10-16
 
@@ -629,7 +629,7 @@ x, y의 라운드별 값과 누적 이력을 그렸다. x<0, y>0인 공동 관�
 - 미완료: BadFU 원논문의 내부 삭제/유지 기여 실측. FUBA ZIP의 20개 요청은 `prospective_full_client_requests`이며 intra payload는 0개다. BadFU ZIP에도 내부 원자/독립 요청 자료가 없다. `intra=null`을 정상 판정으로 바꾸지 않았다.
 - 다음은 **요청 단위에 맞는 관측을 확보**하는 일이다. FUBA는 클라이언트 이력의 기능 관측을 개선할 문제, BadFU 샘플 삭제는 내부 기여를 확보할 문제다. 내부 로그가 없으면 기존 체크포인트·데이터로 새 관측을 만들 수 있는지 먼저 확인한다. 새 gradient proxy를 실제 과거 내부 업데이트로 부르지 않으며 현재 결과만으로 전체 재학습을 요구하지 않는다.
 
-[분석 코드](../../reproduction/analyze_history_relations.py) · [수치·삭제 단위](../../reproduction/validation/exports/history_relations/81e1e1f1fe570e71/summary.json) · [91개 후보](../../reproduction/validation/exports/history_relations/81e1e1f1fe570e71/fixed_coordinate_clients.csv) · [BadFU 그래프](../../reproduction/validation/exports/history_relations/81e1e1f1fe570e71/badfu_fixed_relation.png) · [FUBA 그래프](../../reproduction/validation/exports/history_relations/81e1e1f1fe570e71/fuba_fixed_relation.png) · [표적 좌표 전체](../../reproduction/validation/exports/history_relations/81e1e1f1fe570e71/target_relation_signs.png).
+[분석 코드](../../reproduction/analyze_history_relations.py) · [수치·삭제 단위](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/history_relations/results/81e1e1f1fe570e71/summary.json) · [91개 후보](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/history_relations/results/81e1e1f1fe570e71/fixed_coordinate_clients.csv) · [BadFU 그래프](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/history_relations/results/81e1e1f1fe570e71/badfu_fixed_relation.png) · [FUBA 그래프](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/history_relations/results/81e1e1f1fe570e71/fuba_fixed_relation.png) · [표적 좌표 전체](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/history_relations/results/81e1e1f1fe570e71/target_relation_signs.png).
 
 ### 시계열 파일럿 업로드 검토 — 2026-10-16
 
@@ -657,7 +657,7 @@ x, y의 라운드별 값과 누적 이력을 그렸다. x<0, y>0인 공동 관�
 
 **판정:** 기록 오류 때문에 결과가 무효인 상황이 아니다. 이력에는 구분 가능한 변화가 있으나, 현재 정규화·구간 누적이 단순 변화량보다 낫다는 증거는 없다. 알고리즘을 이번 결과에 맞춰 바꾸지 않고 v1을 그대로 보존한다. 양쪽 원본 검산을 마쳤으며 다음 설계 검토에서는 같은 정규화 아래의 단일 시점/구간 누적 비교와 요청자 특정/공모자 특정 목표를 분리해야 한다. 이후 바뀐 방법의 성능 평가는 새 실행으로 해야 한다. 이번 추가 원본의 검산으로 FU·정화 방법의 복구 성과까지 검증한 것은 아니다.
 
-[양쪽 원본 검산 완료 기록](../../reproduction/validation/temporal_pilot_complete_review_20261016.json) · [원본 추가 전 검토 기록](../../reproduction/validation/temporal_pilot_review_20261016.json) · [FUBA 원본 요약](../../reproduction/validation/exports/temporal_history/c939c4f11272c550/summary.json) · [BadFU 원본 요약](../../reproduction/validation/exports/temporal_history/aeb01d3b125f892e/summary.json) · [FUBA 그래프](../../reproduction/validation/exports/temporal_history/c939c4f11272c550/temporal_history.png).
+[양쪽 원본 검산 완료 기록](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/temporal_history/checks/temporal_pilot_complete_review_20261016.json) · [원본 추가 전 검토 기록](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/temporal_history/checks/temporal_pilot_review_20261016.json) · [FUBA 원본 요약](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/temporal_history/results/c939c4f11272c550/summary.json) · [BadFU 원본 요약](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/temporal_history/results/aeb01d3b125f892e/summary.json) · [FUBA 그래프](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/temporal_history/results/c939c4f11272c550/temporal_history.png).
 
 ### 이력의 시계열 분석 v1 — 2026-10-16
 
@@ -715,7 +715,7 @@ FUBA CIFAR-10 seed 42의 공격·정상 ZIP 해시를 검사하고 GPU·모델 �
 
 21개 검사에서 GLR의 직접 구간 열거 일치, 지속적 평균 이동의 누적, 미래 접미부 변경 시 이전 점수 불변, 클라이언트 순열 일관성, 0/미참여 처리, 원래 HRAC 값 보존, 입력 해시 변조 거부, 정상 순위의 정확한 유한 경우 열거, 실행 중복·조건 불일치 거부, 기존 ZIP 재실행을 확인했다. 로컬 BadFU 2R 자료는 로딩·좌표 호환을 확인하고 너무 짧은 적합을 거부했다. BadFU 긴 이력의 성능 검증은 원격 결과가 필요하다.
 
-현재 결과: [summary.json](../../reproduction/validation/exports/temporal_history/9d2eac2c21bd39b7/summary.json) · [그래프](../../reproduction/validation/exports/temporal_history/9d2eac2c21bd39b7/temporal_history.png) · [검사 코드](../../reproduction/test_temporal_history.py). 새 검사 21개와 기존 실행기 검사 7개, 총 28개가 통과했다.
+현재 결과: [summary.json](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/temporal_history/results/9d2eac2c21bd39b7/summary.json) · [그래프](https://github.com/sijoon-sung/BadFU_defend/tree/main/experiments/detection/temporal_history/results/9d2eac2c21bd39b7/temporal_history.png) · [검사 코드](../../reproduction/test_temporal_history.py). 새 검사 21개와 기존 실행기 검사 7개, 총 28개가 통과했다.
 
 **다음 실험은 정상 seed 43·44를 새로 학습하고 v1을 변경 없이 적용하는 것**이다. 여기서 정상 점수도 크게 튀면 현재 적합 모형의 일반화 문제부터 수정한다. 분리가 유지되어도 2회로 FPR을 주장하지 않고, 그때 별도 보정·새 공격 반복을 설계한다. 긴 검증은 시간과 수백 GiB 이상의 저장 공간을 추가로 요구하므로 파일럿 결과 확인 뒤 진행한다. 현재 방법의 논문 기여 후보는 삭제 경계의 과거 관계에 조건부로 정상 변화와 다른 변화를 식별하는 데 있다. GLR·회귀·순위 보정의 단순 결합만으로 노벨티가 확정되었다고 주장하지 않는다.
 
