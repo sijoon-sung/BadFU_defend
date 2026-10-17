@@ -44,6 +44,6 @@
 **탐지:** 완료된 관측을 보관한다. 새 알고리즘이 단순 기준선보다 나은지와 독립 정상 오탐률이 다음 과제다.
 FUBA는 실제 같은 요청의 FU 후 모델을 확보해야 정화 비교에 넣을 수 있다.
 
-[탐지 브랜치](https://github.com/sijoon-sung/BadFU_defend/tree/codex/detection) ·
-[정화 브랜치](https://github.com/sijoon-sung/BadFU_defend/tree/codex/purification) ·
+[탐지 브랜치](https://github.com/sijoon-sung/BadFU_defend/tree/detection) ·
+[정화 브랜치](https://github.com/sijoon-sung/BadFU_defend/tree/purification) ·
 [현재 실행 안내](RUN.md).
