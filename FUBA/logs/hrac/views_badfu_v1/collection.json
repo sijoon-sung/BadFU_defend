@@ -1,0 +1,194 @@
+{
+  "protocol_sha256": "394952a5c264e498268aa271d1683bdaadb7ab8dc7a1551b8de9d6ddf3ee567e",
+  "cache_sha256": "ec14f4c5d718bf469cf974fc82a51df4b53bfcd21f1e7294ee98164604c32978",
+  "source_rounds": [
+    {
+      "event": 0,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_0.pt",
+        "sha256": "80a5c619ea1bff7ad1058aa25911a4c5190044c580c714438c30f7c6e27ab549"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_0.pt",
+        "sha256": "a82814c09f43bcfc34ce0e32d881eac81ab911943ebcee35b9cb3b8ae769ba4f"
+      }
+    },
+    {
+      "event": 1,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_1.pt",
+        "sha256": "0b3bd07c0f220f0c08270100ec6a6ee4456d891ca86034b40475a2fa3caba1de"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_1.pt",
+        "sha256": "ed499727d0d9993f1cb7c6419cdadeaa7520a95ddc5441d3b07ac5ccf1e8039d"
+      }
+    },
+    {
+      "event": 2,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_2.pt",
+        "sha256": "8c36dd1959bc8f8492333fe42bb23474df9a8c72eb229d71fd299519af9d2e35"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_2.pt",
+        "sha256": "e39ce1f01eb62cefb15b67179d1761b7be7a9a46a2e6eb41eb43a12488c5793a"
+      }
+    },
+    {
+      "event": 3,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_3.pt",
+        "sha256": "f950d70f8d25648b7d3f7fce47708f53b63a6bd24bb61d01d54abb523498889e"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_3.pt",
+        "sha256": "8724a9a58aa741b924c96b4a92dba4f398e7aeaa31a39e4c542f78885534e7ac"
+      }
+    },
+    {
+      "event": 4,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_4.pt",
+        "sha256": "4c62576e1e394d5f31460515985d738fbb601a95022d7b2d42d898fffdc51cd9"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_4.pt",
+        "sha256": "0f626ede3089face49c1e7c02ad5791932a0442865bb9f2df284a7d07caeaeac"
+      }
+    },
+    {
+      "event": 5,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_5.pt",
+        "sha256": "b04c511db7e56d9ab285f762812aa9fb3a230ba19598abc3908bdd7cf36b5b52"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_5.pt",
+        "sha256": "f171ec4567643aa519bf953643ac3e0ad5006681f6e3d5d805c933e4c63d28c9"
+      }
+    },
+    {
+      "event": 6,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_6.pt",
+        "sha256": "de295e56cf542aadb462df7c908899d84d60c8e951f7f2127d1855e6fe0fdbe8"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_6.pt",
+        "sha256": "c0a5c49f8543834ad243e08e5312b844070487ebd95f75ffc2f143d55a0534b3"
+      }
+    },
+    {
+      "event": 7,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_7.pt",
+        "sha256": "826e9c17af14ee0ee45ec077d7985d6347c2d8e5d7aca8169c4642d8f78e4051"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_7.pt",
+        "sha256": "c7364177ad55013e5ed131d836a9768ba9d74df01726498bfad7747523c329a6"
+      }
+    },
+    {
+      "event": 8,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_8.pt",
+        "sha256": "5ec8b2a0d9fc9690f4cd2d01e83039b3c8b0985844163d5b7affbb4bc1488276"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_8.pt",
+        "sha256": "c2d986d3f704ff3b9d2dbfd433ba9960d19a01eb42a46f3d1c63215dfbf53061"
+      }
+    },
+    {
+      "event": 9,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_9.pt",
+        "sha256": "4c72952faeaffd2dd4d3710e28520f326b36578b2f0793a794a4526f3f10e1fb"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_9.pt",
+        "sha256": "6780e5e89405c2b9811c339def5ff9c0a3ac7071ee58017f3064fdf889288959"
+      }
+    },
+    {
+      "event": 10,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_10.pt",
+        "sha256": "b702a68a5091fcc19e44f26a8182e7ef24f111b6ea144879676ebe00f2850ab6"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_10.pt",
+        "sha256": "088e9c365bf10b002bc8b67637bf1c542580ae4867f5ea0bb9ab630708f7d70a"
+      }
+    },
+    {
+      "event": 11,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_11.pt",
+        "sha256": "e7f0a24175ac3d090b19cef681bcce3bffa27a6822441d932df2425cebf7d932"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_11.pt",
+        "sha256": "433e0787cc86cb5ba3e01c7f59a9939f566a1e1649c70fe038e937bcbb0d706f"
+      }
+    },
+    {
+      "event": 12,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_12.pt",
+        "sha256": "c681fdc0949ea9926b6d39cbe576c138fddfca5bfddd63f76b767d2b1abe63b6"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_12.pt",
+        "sha256": "5f0ad43f4af931a49258af3660ee61e5b7901793fc78ababeb3377fd7cc172a8"
+      }
+    },
+    {
+      "event": 13,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_13.pt",
+        "sha256": "e92875a2c7e74415d6bce1b6ae6f953015e7c1d2e6ed0fd3374ca43638c57b55"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_13.pt",
+        "sha256": "7bb8762d5020c004acfbcaa5ffd6b25e5ec3d4f795355b2c6abb0c3262a98e4e"
+      }
+    },
+    {
+      "event": 14,
+      "history": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\round_14.pt",
+        "sha256": "6e713e3bd776681539fa91a73ccc6a94919c346e329b307c101bb3da80e3de2d"
+      },
+      "after": {
+        "path": "C:\\Users\\sijoo\\AppData\\Local\\Temp\\bfu\\repo-rfu\\BadFU_src\\BadFU-main\\logs\\traj_full\\glob_14.pt",
+        "sha256": "1c690abd03f7a4c41b64bbff6caffc37c00fff62273ef4489306fe7f4f575757"
+      }
+    }
+  ],
+  "dataset": {
+    "path": "C:\\Users\\sijoo\\Documents\\ChatGPT\\badFU\\review_BadFU_defend\\artifacts\\badfu\\imported_traj_full\\data.pt",
+    "sha256": "e7192fa49c678303f987a4a452ce1e51241dcdc3b27221a0c866b9b32a6ff52e"
+  },
+  "training_calls": 0,
+  "model_unlearning_calls": 0,
+  "clean_reference_gradient_calls": 150,
+  "measurement": "positive finite FL update and local Jacobian-vector product; frozen recorded BN",
+  "diagnostic_checks": [
+    {
+      "kind": "JVP_vs_central_difference",
+      "epsilon": 0.01,
+      "relative_error": 0.08975457400083542
+    }
+  ],
+  "seconds": 118.3064194000035,
+  "torch": "2.4.1+cu118",
+  "device": "cuda:0",
+  "hardware": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "dependencies": {
+    "BadFU_src\\BadFU-main\\request_pipeline.py": "1077c44a17823e6cafc34f6ea3e4a12456c94064ff20edc1902c50eca23d6890",
+    "BadFU_src\\BadFU-main\\badfu_common.py": "24fb201cef04e5869b781d0c9715a4718ffc05e1b64c629d581141d292bd75be"
+  }
+}

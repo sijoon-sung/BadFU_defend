@@ -1,0 +1,5412 @@
+{
+ "version": 1,
+ "records": {
+  "badfu_r15_s42": {
+   "name": "badfu_r15_s42",
+   "attack": "badfu",
+   "group": "badfu",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 30,
+    "found": 0
+   },
+   "thresholds": {
+    "dormant_asr_max": 35,
+    "dormant_acc_min": 75,
+    "stepwise_asr_min": 40,
+    "benign_asr_max": 35,
+    "collapse_acc": 20,
+    "provisional": false,
+    "basis": "traj_full(15R, seed 42): 잠복 ACC 82.7 / ASR 27.1, FedEraser 단계 언러닝 후 ASR 52.2. 40R 값은 미측정",
+    "benign_check": [
+     1
+    ]
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "f24e3aa9303c7327",
+   "seconds": 0.0
+  },
+  "loc_fuba": {
+   "name": "loc_fuba",
+   "attack": "fuba",
+   "group": "local_smoke",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 21,
+    "found": 0
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "c40ffd8f6e540c30",
+   "seconds": 0.0
+  },
+  "bd_iid_k20_s0": {
+   "name": "bd_iid_k20_s0",
+   "attack": "fuba",
+   "group": "k20_reduced",
+   "status": "weak",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "운반자 0 제거: 92.5 / 3.6"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20
+     ],
+     "expected": 20
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 7.520666756022365e-09,
+     "mean_resid_min": 4.425082966719174e-09,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 92.92,
+     "asr": 4.86
+    },
+    "sup_all": {
+     "acc": 90.29,
+     "asr": 9.18
+    },
+    "sup_each": {
+     "4": {
+      "acc": 90.29,
+      "asr": 9.18
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 92.85,
+      "asr": 5.29
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 92.53,
+     "asr": 3.65
+    },
+    "U_norm": {
+     "0": 0.271,
+     "1": 0.2623,
+     "2": 0.2555,
+     "3": 0.2777,
+     "4": 0.9368,
+     "5": 0.2115,
+     "6": 0.2082,
+     "7": 0.213,
+     "8": 0.211,
+     "9": 0.2236,
+     "10": 0.2012,
+     "11": 0.2026,
+     "12": 0.2096,
+     "13": 0.2062,
+     "14": 0.2116,
+     "15": 0.2101,
+     "16": 0.2074,
+     "17": 0.2112,
+     "18": 0.2091,
+     "19": 0.2092
+    }
+   },
+   "files": {
+    "expected": 21,
+    "found": 21,
+    "K_found": 20
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 20,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "attack_required": false,
+    "basis": "로컬 실측 bd_iid_k20_s0 (2026-10-12): 잠복 92.7 / 5.4, 위장자 4 제거 90.1 / 11.5, 정상 5 제거 92.5 / 6.2, 운반자 0 제거 92.2 / 4.4. K=20 에 8 라운드(공격 5 라운드)로는 백도어가 안 심어진다 → 이 그룹은 파이프라인 점검용(attack_required=false, 상태 △). 실험 근거는 k20_paper 로",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 20
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-12 21:26",
+   "verifier_version": 1,
+   "sig": "004d15b36b647c49",
+   "weak": "위장자 제거 후 ASR 9.2 < 20 (공격이 재현되지 않음)",
+   "seconds": 2.6
+  },
+  "bd_iid_s0": {
+   "name": "bd_iid_s0",
+   "attack": "fuba",
+   "group": "k8_main",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "운반자 0 제거: 94.6 / 4.9"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 5.7829709909640314e-09,
+     "mean_resid_min": 2.8992555023421573e-09,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 94.64,
+     "asr": 8.57
+    },
+    "sup_all": {
+     "acc": 75.76,
+     "asr": 62.13
+    },
+    "sup_each": {
+     "4": {
+      "acc": 75.76,
+      "asr": 62.13
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 93.01,
+      "asr": 20.3
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 94.64,
+     "asr": 4.87
+    },
+    "U_norm": {
+     "0": 0.5579,
+     "1": 0.5857,
+     "2": 0.6058,
+     "3": 0.6205,
+     "4": 2.1478,
+     "5": 0.5145,
+     "6": 0.5169,
+     "7": 0.5366
+    }
+   },
+   "files": {
+    "expected": 21,
+    "found": 21,
+    "K_found": 8
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-12 19:04",
+   "verifier_version": 1,
+   "sig": "dccce25f96aeff0f",
+   "seconds": 2.8
+  },
+  "bd_iid_s1": {
+   "name": "bd_iid_s1",
+   "attack": "fuba",
+   "group": "k8_main",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "운반자 0 제거: 95.0 / 3.4"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 4.532388242495244e-09,
+     "mean_resid_min": 3.0510700632646603e-09,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 95.23,
+     "asr": 5.22
+    },
+    "sup_all": {
+     "acc": 81.74,
+     "asr": 42.88
+    },
+    "sup_each": {
+     "4": {
+      "acc": 81.74,
+      "asr": 42.88
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 94.18,
+      "asr": 12.53
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 95.01,
+     "asr": 3.41
+    },
+    "U_norm": {
+     "0": 0.5242,
+     "1": 0.5421,
+     "2": 0.5686,
+     "3": 0.5735,
+     "4": 2.0905,
+     "5": 0.4764,
+     "6": 0.4606,
+     "7": 0.4778
+    }
+   },
+   "files": {
+    "expected": 21,
+    "found": 21,
+    "K_found": 8
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-12 19:04",
+   "verifier_version": 1,
+   "sig": "50f2940758180930",
+   "seconds": 1.2
+  },
+  "bd_iid_s2": {
+   "name": "bd_iid_s2",
+   "attack": "fuba",
+   "group": "k8_main",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "운반자 0 제거: 95.3 / 1.9"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 6.714199418667022e-09,
+     "mean_resid_min": 5.1519566390823e-09,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 95.26,
+     "asr": 4.56
+    },
+    "sup_all": {
+     "acc": 80.75,
+     "asr": 38.61
+    },
+    "sup_each": {
+     "4": {
+      "acc": 80.75,
+      "asr": 38.61
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 94.52,
+      "asr": 8.8
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 95.31,
+     "asr": 1.91
+    },
+    "U_norm": {
+     "0": 0.5131,
+     "1": 0.572,
+     "2": 0.5892,
+     "3": 0.5667,
+     "4": 2.0793,
+     "5": 0.4866,
+     "6": 0.5068,
+     "7": 0.499
+    }
+   },
+   "files": {
+    "expected": 21,
+    "found": 21,
+    "K_found": 8
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-12 19:04",
+   "verifier_version": 1,
+   "sig": "96937bc5409e7c76",
+   "seconds": 1.2
+  },
+  "bd_owner_s0": {
+   "name": "bd_owner_s0",
+   "attack": "fuba",
+   "group": "k8_main",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "운반자 0 제거: 92.9 / 8.1"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 5.819437820520079e-09,
+     "mean_resid_min": 3.7643523853603256e-09,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 92.98,
+     "asr": 9.27
+    },
+    "sup_all": {
+     "acc": 66.89,
+     "asr": 62.75
+    },
+    "sup_each": {
+     "4": {
+      "acc": 66.89,
+      "asr": 62.75
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 89.63,
+      "asr": 25.19
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 92.92,
+     "asr": 8.06
+    },
+    "U_norm": {
+     "0": 0.4791,
+     "1": 0.5944,
+     "2": 0.509,
+     "3": 0.5477,
+     "4": 2.1606,
+     "5": 0.5506,
+     "6": 0.5475,
+     "7": 0.6068
+    }
+   },
+   "files": {
+    "expected": 21,
+    "found": 21,
+    "K_found": 8
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 88,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "basis": "summary_owner: subtract req4 54.3±6.0 / req5 15.5±7.0 (소유자 7 은 29.4±5.4 라 정상 검사에 안 씀), 삭제 전 ACC 92.5±0.8",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-12 19:04",
+   "verifier_version": 1,
+   "sig": "b5a39d2934009157",
+   "seconds": 1.2
+  },
+  "bd_owner_s1": {
+   "name": "bd_owner_s1",
+   "attack": "fuba",
+   "group": "k8_main",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "운반자 0 제거: 93.4 / 4.5"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 5.140644798728999e-09,
+     "mean_resid_min": 3.0341813506140625e-09,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 93.19,
+     "asr": 6.61
+    },
+    "sup_all": {
+     "acc": 73.4,
+     "asr": 50.14
+    },
+    "sup_each": {
+     "4": {
+      "acc": 73.4,
+      "asr": 50.14
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 92.43,
+      "asr": 11.97
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 93.41,
+     "asr": 4.49
+    },
+    "U_norm": {
+     "0": 0.4571,
+     "1": 0.5437,
+     "2": 0.483,
+     "3": 0.5144,
+     "4": 2.1131,
+     "5": 0.5058,
+     "6": 0.51,
+     "7": 0.5623
+    }
+   },
+   "files": {
+    "expected": 21,
+    "found": 21,
+    "K_found": 8
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 88,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "basis": "summary_owner: subtract req4 54.3±6.0 / req5 15.5±7.0 (소유자 7 은 29.4±5.4 라 정상 검사에 안 씀), 삭제 전 ACC 92.5±0.8",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-12 19:04",
+   "verifier_version": 1,
+   "sig": "26ee4b1d2096941d",
+   "seconds": 1.3
+  },
+  "bd_owner_s2": {
+   "name": "bd_owner_s2",
+   "attack": "fuba",
+   "group": "k8_main",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "운반자 0 제거: 91.8 / 5.7"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 5.856034324125403e-09,
+     "mean_resid_min": 4.100484396474258e-09,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 91.34,
+     "asr": 8.24
+    },
+    "sup_all": {
+     "acc": 67.87,
+     "asr": 49.7
+    },
+    "sup_each": {
+     "4": {
+      "acc": 67.87,
+      "asr": 49.7
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 91.06,
+      "asr": 9.26
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 91.85,
+     "asr": 5.7
+    },
+    "U_norm": {
+     "0": 0.4183,
+     "1": 0.5239,
+     "2": 0.3989,
+     "3": 0.5474,
+     "4": 2.1067,
+     "5": 0.54,
+     "6": 0.5451,
+     "7": 0.5548
+    }
+   },
+   "files": {
+    "expected": 21,
+    "found": 21,
+    "K_found": 8
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 88,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "basis": "summary_owner: subtract req4 54.3±6.0 / req5 15.5±7.0 (소유자 7 은 29.4±5.4 라 정상 검사에 안 씀), 삭제 전 ACC 92.5±0.8",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-12 19:04",
+   "verifier_version": 1,
+   "sig": "416da06b4954face",
+   "seconds": 1.3
+  },
+  "bd_iid_r100w5_k20paper_s0": {
+   "name": "bd_iid_r100w5_k20paper_s0",
+   "attack": "fuba",
+   "group": "k20_paper",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "ρ=1.0 빼기 붕괴로 작동점 ρ=0.2 에서 판정",
+    "운반자 0 제거: 98.3 / 0.6"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 8.446174426524067e-09,
+     "mean_resid_min": 2.600860415924444e-09,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 98.75,
+     "asr": 7.4
+    },
+    "sup_all": {
+     "acc": 68.69,
+     "asr": 92.58
+    },
+    "sup_each": {
+     "4": {
+      "acc": 9.83,
+      "asr": 100.0
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 97.76,
+      "asr": 3.9
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 98.32,
+     "asr": 0.63
+    },
+    "U_norm": {
+     "0": 1.2802,
+     "1": 0.8769,
+     "2": 1.3626,
+     "3": 0.8227,
+     "4": 11.6938,
+     "5": 1.3764,
+     "6": 1.315,
+     "7": 1.8311,
+     "8": 1.5355,
+     "9": 1.5786,
+     "10": 1.445,
+     "11": 1.5659,
+     "12": 1.4518,
+     "13": 1.8386,
+     "14": 1.6198,
+     "15": 1.7553,
+     "16": 1.7786,
+     "17": 1.4876,
+     "18": 1.4127,
+     "19": 1.8602
+    }
+   },
+   "files": {
+    "expected": 295,
+    "found": 295,
+    "K_found": 20
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 20,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "basis": "실측 (DISLAB f8b1079, 6 궤적): 잠복 ACC 98.1–98.8 / ASR 3.1–7.8; 위장자 제거(작동점 ρ=0.2, ρ=1.0 은 붕괴) ASR 46–93, ACC 68.7–97.6; 정상 5 제거 ASR 2.4–9.8, ACC 94.8–97.8; 운반자 0 제거 ASR 0.2–1.4",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 00:54",
+   "verifier_version": 1,
+   "sig": "63e09ea3281fe0bf",
+   "seconds": 4.9
+  },
+  "bd_iid_r100w5_k20paper_s1": {
+   "name": "bd_iid_r100w5_k20paper_s1",
+   "attack": "fuba",
+   "group": "k20_paper",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "ρ=1.0 빼기 붕괴로 작동점 ρ=0.2 에서 판정",
+    "운반자 0 제거: 98.1 / 0.6"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 6.968763344161744e-09,
+     "mean_resid_min": 2.5718132068419663e-09,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 98.69,
+     "asr": 3.15
+    },
+    "sup_all": {
+     "acc": 97.62,
+     "asr": 46.17
+    },
+    "sup_each": {
+     "4": {
+      "acc": 9.83,
+      "asr": 100.0
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 96.47,
+      "asr": 2.4
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 98.14,
+     "asr": 0.58
+    },
+    "U_norm": {
+     "0": 1.2893,
+     "1": 1.2981,
+     "2": 1.5294,
+     "3": 0.9185,
+     "4": 8.6075,
+     "5": 1.7701,
+     "6": 1.5101,
+     "7": 1.5824,
+     "8": 1.476,
+     "9": 1.0871,
+     "10": 2.075,
+     "11": 1.3743,
+     "12": 1.5433,
+     "13": 1.6509,
+     "14": 1.5838,
+     "15": 1.9013,
+     "16": 1.2906,
+     "17": 1.3085,
+     "18": 1.4405,
+     "19": 1.8206
+    }
+   },
+   "files": {
+    "expected": 295,
+    "found": 295,
+    "K_found": 20
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 20,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "basis": "실측 (DISLAB f8b1079, 6 궤적): 잠복 ACC 98.1–98.8 / ASR 3.1–7.8; 위장자 제거(작동점 ρ=0.2, ρ=1.0 은 붕괴) ASR 46–93, ACC 68.7–97.6; 정상 5 제거 ASR 2.4–9.8, ACC 94.8–97.8; 운반자 0 제거 ASR 0.2–1.4",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 00:54",
+   "verifier_version": 1,
+   "sig": "4ea9ebbfccff05cc",
+   "seconds": 3.5
+  },
+  "bd_iid_r100w5_k20paper_s2": {
+   "name": "bd_iid_r100w5_k20paper_s2",
+   "attack": "fuba",
+   "group": "k20_paper",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "ρ=1.0 빼기 붕괴로 작동점 ρ=0.2 에서 판정",
+    "운반자 0 제거: 97.3 / 0.6"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 7.458056394682444e-09,
+     "mean_resid_min": 2.6806770137000058e-09,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 98.59,
+     "asr": 4.81
+    },
+    "sup_all": {
+     "acc": 86.63,
+     "asr": 82.3
+    },
+    "sup_each": {
+     "4": {
+      "acc": 9.83,
+      "asr": 100.0
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 94.81,
+      "asr": 4.93
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 97.27,
+     "asr": 0.61
+    },
+    "U_norm": {
+     "0": 1.4745,
+     "1": 1.4094,
+     "2": 2.643,
+     "3": 1.3877,
+     "4": 7.5807,
+     "5": 1.5251,
+     "6": 1.283,
+     "7": 1.3889,
+     "8": 1.4582,
+     "9": 1.6539,
+     "10": 1.5292,
+     "11": 1.5808,
+     "12": 1.6522,
+     "13": 1.7445,
+     "14": 1.583,
+     "15": 1.5806,
+     "16": 1.467,
+     "17": 1.2003,
+     "18": 1.7489,
+     "19": 1.6701
+    }
+   },
+   "files": {
+    "expected": 295,
+    "found": 295,
+    "K_found": 20
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 20,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "basis": "실측 (DISLAB f8b1079, 6 궤적): 잠복 ACC 98.1–98.8 / ASR 3.1–7.8; 위장자 제거(작동점 ρ=0.2, ρ=1.0 은 붕괴) ASR 46–93, ACC 68.7–97.6; 정상 5 제거 ASR 2.4–9.8, ACC 94.8–97.8; 운반자 0 제거 ASR 0.2–1.4",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 00:54",
+   "verifier_version": 1,
+   "sig": "4e07bc88f51b480e",
+   "seconds": 4.0
+  },
+  "bd_owner_r100w5_k20paper_s0": {
+   "name": "bd_owner_r100w5_k20paper_s0",
+   "attack": "fuba",
+   "group": "k20_paper",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "ρ=1.0 빼기 붕괴로 작동점 ρ=0.2 에서 판정",
+    "운반자 0 제거: 98.0 / 1.4"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 8.709597487666088e-09,
+     "mean_resid_min": 3.07300296320534e-09,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 98.2,
+     "asr": 7.77
+    },
+    "sup_all": {
+     "acc": 73.14,
+     "asr": 85.71
+    },
+    "sup_each": {
+     "4": {
+      "acc": 9.83,
+      "asr": 100.0
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 96.09,
+      "asr": 9.75
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 98.03,
+     "asr": 1.4
+    },
+    "U_norm": {
+     "0": 0.9338,
+     "1": 1.264,
+     "2": 0.9813,
+     "3": 1.0966,
+     "4": 10.5457,
+     "5": 1.4476,
+     "6": 1.3424,
+     "7": 1.7699,
+     "8": 1.5703,
+     "9": 1.5467,
+     "10": 1.5718,
+     "11": 1.6242,
+     "12": 1.5458,
+     "13": 1.9009,
+     "14": 1.6388,
+     "15": 1.7078,
+     "16": 1.8529,
+     "17": 1.4286,
+     "18": 1.4786,
+     "19": 2.3942
+    }
+   },
+   "files": {
+    "expected": 295,
+    "found": 295,
+    "K_found": 20
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 20,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "basis": "실측 (DISLAB f8b1079, 6 궤적): 잠복 ACC 98.1–98.8 / ASR 3.1–7.8; 위장자 제거(작동점 ρ=0.2, ρ=1.0 은 붕괴) ASR 46–93, ACC 68.7–97.6; 정상 5 제거 ASR 2.4–9.8, ACC 94.8–97.8; 운반자 0 제거 ASR 0.2–1.4",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 00:54",
+   "verifier_version": 1,
+   "sig": "42bf66f0b142864a",
+   "seconds": 3.9
+  },
+  "bd_owner_r100w5_k20paper_s1": {
+   "name": "bd_owner_r100w5_k20paper_s1",
+   "attack": "fuba",
+   "group": "k20_paper",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "ρ=1.0 빼기 붕괴로 작동점 ρ=0.2 에서 판정",
+    "운반자 0 제거: 96.5 / 0.2"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 6.265868712773681e-09,
+     "mean_resid_min": 2.7619793119271208e-09,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 98.28,
+     "asr": 3.6
+    },
+    "sup_all": {
+     "acc": 96.71,
+     "asr": 50.0
+    },
+    "sup_each": {
+     "4": {
+      "acc": 9.83,
+      "asr": 100.0
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 95.82,
+      "asr": 5.79
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 96.45,
+     "asr": 0.18
+    },
+    "U_norm": {
+     "0": 1.7649,
+     "1": 1.1624,
+     "2": 1.8834,
+     "3": 0.8252,
+     "4": 7.9436,
+     "5": 1.7229,
+     "6": 1.5693,
+     "7": 1.6178,
+     "8": 1.5177,
+     "9": 1.0834,
+     "10": 1.9797,
+     "11": 1.3177,
+     "12": 1.5889,
+     "13": 1.6181,
+     "14": 1.7304,
+     "15": 1.9793,
+     "16": 1.3485,
+     "17": 1.3608,
+     "18": 1.4999,
+     "19": 2.595
+    }
+   },
+   "files": {
+    "expected": 295,
+    "found": 295,
+    "K_found": 20
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 20,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "basis": "실측 (DISLAB f8b1079, 6 궤적): 잠복 ACC 98.1–98.8 / ASR 3.1–7.8; 위장자 제거(작동점 ρ=0.2, ρ=1.0 은 붕괴) ASR 46–93, ACC 68.7–97.6; 정상 5 제거 ASR 2.4–9.8, ACC 94.8–97.8; 운반자 0 제거 ASR 0.2–1.4",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 00:54",
+   "verifier_version": 1,
+   "sig": "faeb68f529c803fc",
+   "seconds": 3.7
+  },
+  "bd_owner_r100w5_k20paper_s2": {
+   "name": "bd_owner_r100w5_k20paper_s2",
+   "attack": "fuba",
+   "group": "k20_paper",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "ρ=1.0 빼기 붕괴로 작동점 ρ=0.2 에서 판정",
+    "운반자 0 제거: 94.5 / 0.2"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 6.719434786361944e-09,
+     "mean_resid_min": 2.7784561318355827e-09,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 98.09,
+     "asr": 5.71
+    },
+    "sup_all": {
+     "acc": 82.47,
+     "asr": 78.86
+    },
+    "sup_each": {
+     "4": {
+      "acc": 9.83,
+      "asr": 100.0
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 96.0,
+      "asr": 4.42
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 94.51,
+     "asr": 0.22
+    },
+    "U_norm": {
+     "0": 1.6693,
+     "1": 1.4538,
+     "2": 1.989,
+     "3": 1.2351,
+     "4": 7.5288,
+     "5": 1.423,
+     "6": 1.3016,
+     "7": 1.4086,
+     "8": 1.3698,
+     "9": 1.6775,
+     "10": 1.5252,
+     "11": 1.6161,
+     "12": 1.6668,
+     "13": 1.6761,
+     "14": 1.5736,
+     "15": 1.6394,
+     "16": 1.4577,
+     "17": 1.2639,
+     "18": 1.7824,
+     "19": 2.1764
+    }
+   },
+   "files": {
+    "expected": 295,
+    "found": 295,
+    "K_found": 20
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 20,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "basis": "실측 (DISLAB f8b1079, 6 궤적): 잠복 ACC 98.1–98.8 / ASR 3.1–7.8; 위장자 제거(작동점 ρ=0.2, ρ=1.0 은 붕괴) ASR 46–93, ACC 68.7–97.6; 정상 5 제거 ASR 2.4–9.8, ACC 94.8–97.8; 운반자 0 제거 ASR 0.2–1.4",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 00:54",
+   "verifier_version": 1,
+   "sig": "4188449335b1eb73",
+   "seconds": 4.0
+  },
+  "bd_iid_k20_s1": {
+   "name": "bd_iid_k20_s1",
+   "attack": "fuba",
+   "group": "k20_reduced",
+   "status": "weak",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "운반자 0 제거: 92.6 / 3.1"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20
+     ],
+     "expected": 20
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 6.543377395473726e-09,
+     "mean_resid_min": 3.744324406085298e-09,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 92.66,
+     "asr": 4.25
+    },
+    "sup_all": {
+     "acc": 90.84,
+     "asr": 8.76
+    },
+    "sup_each": {
+     "4": {
+      "acc": 90.84,
+      "asr": 8.76
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 92.51,
+      "asr": 4.87
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 92.62,
+     "asr": 3.15
+    },
+    "U_norm": {
+     "0": 0.2484,
+     "1": 0.2391,
+     "2": 0.2541,
+     "3": 0.2431,
+     "4": 0.9244,
+     "5": 0.198,
+     "6": 0.1867,
+     "7": 0.1921,
+     "8": 0.1934,
+     "9": 0.1966,
+     "10": 0.1878,
+     "11": 0.1891,
+     "12": 0.1938,
+     "13": 0.1988,
+     "14": 0.1962,
+     "15": 0.201,
+     "16": 0.1984,
+     "17": 0.1873,
+     "18": 0.1792,
+     "19": 0.1947
+    }
+   },
+   "files": {
+    "expected": 21,
+    "found": 21,
+    "K_found": 20
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 20,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "attack_required": false,
+    "basis": "로컬 실측 bd_iid_k20_s0 (2026-10-12): 잠복 92.7 / 5.4, 위장자 4 제거 90.1 / 11.5, 정상 5 제거 92.5 / 6.2, 운반자 0 제거 92.2 / 4.4. K=20 에 8 라운드(공격 5 라운드)로는 백도어가 안 심어진다 → 이 그룹은 파이프라인 점검용(attack_required=false, 상태 △). 실험 근거는 k20_paper 로",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 20
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-12 21:29",
+   "verifier_version": 1,
+   "sig": "8aedc91634fdcd09",
+   "weak": "위장자 제거 후 ASR 8.8 < 20 (공격이 재현되지 않음)",
+   "seconds": 2.8
+  },
+  "bd_iid_k20_s2": {
+   "name": "bd_iid_k20_s2",
+   "attack": "fuba",
+   "group": "k20_reduced",
+   "status": "weak",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "운반자 0 제거: 92.8 / 2.7"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20
+     ],
+     "expected": 20
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 6.7985856944119405e-09,
+     "mean_resid_min": 5.0776343130110035e-09,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 93.25,
+     "asr": 3.71
+    },
+    "sup_all": {
+     "acc": 90.68,
+     "asr": 7.05
+    },
+    "sup_each": {
+     "4": {
+      "acc": 90.68,
+      "asr": 7.05
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 93.01,
+      "asr": 3.65
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 92.78,
+     "asr": 2.71
+    },
+    "U_norm": {
+     "0": 0.2672,
+     "1": 0.259,
+     "2": 0.2646,
+     "3": 0.2521,
+     "4": 0.9247,
+     "5": 0.2081,
+     "6": 0.2036,
+     "7": 0.2112,
+     "8": 0.2122,
+     "9": 0.2042,
+     "10": 0.205,
+     "11": 0.1992,
+     "12": 0.2007,
+     "13": 0.2013,
+     "14": 0.2048,
+     "15": 0.2057,
+     "16": 0.2084,
+     "17": 0.2116,
+     "18": 0.2114,
+     "19": 0.2058
+    }
+   },
+   "files": {
+    "expected": 21,
+    "found": 21,
+    "K_found": 20
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 20,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "attack_required": false,
+    "basis": "로컬 실측 bd_iid_k20_s0 (2026-10-12): 잠복 92.7 / 5.4, 위장자 4 제거 90.1 / 11.5, 정상 5 제거 92.5 / 6.2, 운반자 0 제거 92.2 / 4.4. K=20 에 8 라운드(공격 5 라운드)로는 백도어가 안 심어진다 → 이 그룹은 파이프라인 점검용(attack_required=false, 상태 △). 실험 근거는 k20_paper 로",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 20
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-12 21:31",
+   "verifier_version": 1,
+   "sig": "243d4ba9e7b2d6cc",
+   "weak": "위장자 제거 후 ASR 7.0 < 20 (공격이 재현되지 않음)",
+   "seconds": 2.7
+  },
+  "bd_owner_k20_s0": {
+   "name": "bd_owner_k20_s0",
+   "attack": "fuba",
+   "group": "k20_reduced",
+   "status": "weak",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "운반자 0 제거: 87.6 / 6.3"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20
+     ],
+     "expected": 20
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 7.271599766767167e-09,
+     "mean_resid_min": 4.329117953005834e-09,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 88.32,
+     "asr": 7.23
+    },
+    "sup_all": {
+     "acc": 84.06,
+     "asr": 13.34
+    },
+    "sup_each": {
+     "4": {
+      "acc": 84.06,
+      "asr": 13.34
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 87.03,
+      "asr": 10.46
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 87.6,
+     "asr": 6.27
+    },
+    "U_norm": {
+     "0": 0.2155,
+     "1": 0.2244,
+     "2": 0.2658,
+     "3": 0.1928,
+     "4": 0.9774,
+     "5": 0.2141,
+     "6": 0.2173,
+     "7": 0.2172,
+     "8": 0.2219,
+     "9": 0.2082,
+     "10": 0.2119,
+     "11": 0.2055,
+     "12": 0.2169,
+     "13": 0.21,
+     "14": 0.2186,
+     "15": 0.2169,
+     "16": 0.221,
+     "17": 0.2116,
+     "18": 0.2184,
+     "19": 0.2975
+    }
+   },
+   "files": {
+    "expected": 21,
+    "found": 21,
+    "K_found": 20
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 85,
+    "sup_asr_min": 20,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "attack_required": false,
+    "basis": "로컬 실측 bd_iid_k20_s0 (2026-10-12): 잠복 92.7 / 5.4, 위장자 4 제거 90.1 / 11.5, 정상 5 제거 92.5 / 6.2, 운반자 0 제거 92.2 / 4.4. K=20 에 8 라운드(공격 5 라운드)로는 백도어가 안 심어진다 → 이 그룹은 파이프라인 점검용(attack_required=false, 상태 △). 실험 근거는 k20_paper 로",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 20
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-12 21:36",
+   "verifier_version": 1,
+   "sig": "4aa99526da523a0d",
+   "weak": "위장자 제거 후 ASR 13.3 < 20 (공격이 재현되지 않음)",
+   "seconds": 2.6
+  },
+  "bd_owner_k20_s1": {
+   "name": "bd_owner_k20_s1",
+   "attack": "fuba",
+   "group": "k20_reduced",
+   "status": "weak",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "운반자 0 제거: 86.7 / 7.6"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20
+     ],
+     "expected": 20
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 6.356047244082674e-09,
+     "mean_resid_min": 4.424764554755711e-09,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 87.28,
+     "asr": 8.63
+    },
+    "sup_all": {
+     "acc": 83.63,
+     "asr": 14.03
+    },
+    "sup_each": {
+     "4": {
+      "acc": 83.63,
+      "asr": 14.03
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 86.61,
+      "asr": 9.7
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 86.73,
+     "asr": 7.56
+    },
+    "U_norm": {
+     "0": 0.2411,
+     "1": 0.2215,
+     "2": 0.2549,
+     "3": 0.1689,
+     "4": 0.9106,
+     "5": 0.1959,
+     "6": 0.1955,
+     "7": 0.1991,
+     "8": 0.2003,
+     "9": 0.19,
+     "10": 0.1984,
+     "11": 0.1927,
+     "12": 0.1966,
+     "13": 0.1992,
+     "14": 0.2024,
+     "15": 0.1916,
+     "16": 0.1965,
+     "17": 0.2023,
+     "18": 0.1914,
+     "19": 0.2794
+    }
+   },
+   "files": {
+    "expected": 21,
+    "found": 21,
+    "K_found": 20
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 85,
+    "sup_asr_min": 20,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "attack_required": false,
+    "basis": "로컬 실측 bd_iid_k20_s0 (2026-10-12): 잠복 92.7 / 5.4, 위장자 4 제거 90.1 / 11.5, 정상 5 제거 92.5 / 6.2, 운반자 0 제거 92.2 / 4.4. K=20 에 8 라운드(공격 5 라운드)로는 백도어가 안 심어진다 → 이 그룹은 파이프라인 점검용(attack_required=false, 상태 △). 실험 근거는 k20_paper 로",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 20
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-12 21:40",
+   "verifier_version": 1,
+   "sig": "9a67474cead3750b",
+   "weak": "위장자 제거 후 ASR 14.0 < 20 (공격이 재현되지 않음)",
+   "seconds": 2.8
+  },
+  "bd_owner_k20_s2": {
+   "name": "bd_owner_k20_s2",
+   "attack": "fuba",
+   "group": "k20_reduced",
+   "status": "weak",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "운반자 0 제거: 86.7 / 6.9"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20
+     ],
+     "expected": 20
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 7.721015826689381e-09,
+     "mean_resid_min": 4.373247985967055e-09,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 87.34,
+     "asr": 7.9
+    },
+    "sup_all": {
+     "acc": 82.25,
+     "asr": 14.09
+    },
+    "sup_each": {
+     "4": {
+      "acc": 82.25,
+      "asr": 14.09
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 87.14,
+      "asr": 8.56
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 86.68,
+     "asr": 6.89
+    },
+    "U_norm": {
+     "0": 0.1912,
+     "1": 0.201,
+     "2": 0.2458,
+     "3": 0.2444,
+     "4": 0.9988,
+     "5": 0.2049,
+     "6": 0.2039,
+     "7": 0.2076,
+     "8": 0.2044,
+     "9": 0.2078,
+     "10": 0.1999,
+     "11": 0.201,
+     "12": 0.2108,
+     "13": 0.2064,
+     "14": 0.2106,
+     "15": 0.2143,
+     "16": 0.2001,
+     "17": 0.2096,
+     "18": 0.2077,
+     "19": 0.2777
+    }
+   },
+   "files": {
+    "expected": 21,
+    "found": 21,
+    "K_found": 20
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 85,
+    "sup_asr_min": 20,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "attack_required": false,
+    "basis": "로컬 실측 bd_iid_k20_s0 (2026-10-12): 잠복 92.7 / 5.4, 위장자 4 제거 90.1 / 11.5, 정상 5 제거 92.5 / 6.2, 운반자 0 제거 92.2 / 4.4. K=20 에 8 라운드(공격 5 라운드)로는 백도어가 안 심어진다 → 이 그룹은 파이프라인 점검용(attack_required=false, 상태 △). 실험 근거는 k20_paper 로",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 20
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-12 21:43",
+   "verifier_version": 1,
+   "sig": "8f5906dda8b3e613",
+   "weak": "위장자 제거 후 ASR 14.1 < 20 (공격이 재현되지 않음)",
+   "seconds": 2.7
+  },
+  "bd_iid_k16sup2_s0": {
+   "name": "bd_iid_k16sup2_s0",
+   "attack": "fuba",
+   "group": "sup2",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [
+    "임시 문턱 (provisional) — 실측값을 보고 매니페스트 verify 를 고칠 것"
+   ],
+   "info": [
+    "위장자 각자 제거: 4: 90.2 / 26.5, 8: 89.2 / 31.4",
+    "운반자 0 제거: 94.7 / 7.0"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16
+     ],
+     "expected": 16
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 8.27058865837671e-09,
+     "mean_resid_min": 4.079338644658037e-09,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 94.59,
+     "asr": 9.06
+    },
+    "sup_all": {
+     "acc": 72.27,
+     "asr": 68.77
+    },
+    "sup_each": {
+     "4": {
+      "acc": 90.24,
+      "asr": 26.54
+     },
+     "8": {
+      "acc": 89.17,
+      "asr": 31.44
+     }
+    },
+    "benign": {
+     "10": {
+      "acc": 93.93,
+      "asr": 13.36
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 94.65,
+     "asr": 7.04
+    },
+    "U_norm": {
+     "0": 0.2763,
+     "1": 0.3011,
+     "2": 0.3076,
+     "3": 0.2888,
+     "4": 1.0329,
+     "5": 0.3072,
+     "6": 0.2897,
+     "7": 0.3036,
+     "8": 1.0699,
+     "9": 0.2955,
+     "10": 0.2531,
+     "11": 0.2592,
+     "12": 0.2585,
+     "13": 0.2493,
+     "14": 0.2641,
+     "15": 0.2626
+    }
+   },
+   "files": {
+    "expected": 21,
+    "found": 21,
+    "K_found": 16
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": true,
+    "basis": "미측정 (위장자 2 명을 모두 뺀 모델에 sup_asr_min 적용, 각자 뺀 값은 기록만)",
+    "benign_check": [
+     10
+    ],
+    "participants_per_round": 16
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-12 21:49",
+   "verifier_version": 1,
+   "sig": "96e590e423f04782",
+   "seconds": 3.1
+  },
+  "bd_iid_k16sup2_s1": {
+   "name": "bd_iid_k16sup2_s1",
+   "attack": "fuba",
+   "group": "sup2",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [
+    "임시 문턱 (provisional) — 실측값을 보고 매니페스트 verify 를 고칠 것"
+   ],
+   "info": [
+    "위장자 각자 제거: 4: 91.8 / 19.0, 8: 92.0 / 16.3",
+    "운반자 0 제거: 95.2 / 4.0"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16
+     ],
+     "expected": 16
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 8.778001436837712e-09,
+     "mean_resid_min": 4.6297317091159584e-09,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 95.13,
+     "asr": 5.81
+    },
+    "sup_all": {
+     "acc": 78.6,
+     "asr": 50.35
+    },
+    "sup_each": {
+     "4": {
+      "acc": 91.83,
+      "asr": 18.96
+     },
+     "8": {
+      "acc": 92.03,
+      "asr": 16.32
+     }
+    },
+    "benign": {
+     "10": {
+      "acc": 95.05,
+      "asr": 7.46
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 95.21,
+     "asr": 3.96
+    },
+    "U_norm": {
+     "0": 0.276,
+     "1": 0.3038,
+     "2": 0.2958,
+     "3": 0.292,
+     "4": 1.055,
+     "5": 0.2831,
+     "6": 0.2859,
+     "7": 0.293,
+     "8": 1.1054,
+     "9": 0.293,
+     "10": 0.246,
+     "11": 0.2488,
+     "12": 0.2332,
+     "13": 0.2439,
+     "14": 0.2349,
+     "15": 0.2379
+    }
+   },
+   "files": {
+    "expected": 21,
+    "found": 21,
+    "K_found": 16
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": true,
+    "basis": "미측정 (위장자 2 명을 모두 뺀 모델에 sup_asr_min 적용, 각자 뺀 값은 기록만)",
+    "benign_check": [
+     10
+    ],
+    "participants_per_round": 16
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-12 21:54",
+   "verifier_version": 1,
+   "sig": "ae167afe3f1733da",
+   "seconds": 3.1
+  },
+  "bd_iid_k16sup2_s2": {
+   "name": "bd_iid_k16sup2_s2",
+   "attack": "fuba",
+   "group": "sup2",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [
+    "임시 문턱 (provisional) — 실측값을 보고 매니페스트 verify 를 고칠 것"
+   ],
+   "info": [
+    "위장자 각자 제거: 4: 91.8 / 14.8, 8: 91.5 / 15.6",
+    "운반자 0 제거: 95.0 / 3.0"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16
+     ],
+     "expected": 16
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 8.064115597505861e-09,
+     "mean_resid_min": 4.427215039015664e-09,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 95.11,
+     "asr": 4.77
+    },
+    "sup_all": {
+     "acc": 76.16,
+     "asr": 46.63
+    },
+    "sup_each": {
+     "4": {
+      "acc": 91.78,
+      "asr": 14.81
+     },
+     "8": {
+      "acc": 91.53,
+      "asr": 15.55
+     }
+    },
+    "benign": {
+     "10": {
+      "acc": 94.73,
+      "asr": 6.41
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 95.03,
+     "asr": 3.04
+    },
+    "U_norm": {
+     "0": 0.2708,
+     "1": 0.299,
+     "2": 0.2766,
+     "3": 0.2746,
+     "4": 1.0292,
+     "5": 0.2753,
+     "6": 0.2867,
+     "7": 0.2798,
+     "8": 1.0397,
+     "9": 0.2801,
+     "10": 0.2418,
+     "11": 0.2475,
+     "12": 0.257,
+     "13": 0.2512,
+     "14": 0.2405,
+     "15": 0.2548
+    }
+   },
+   "files": {
+    "expected": 21,
+    "found": 21,
+    "K_found": 16
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": true,
+    "basis": "미측정 (위장자 2 명을 모두 뺀 모델에 sup_asr_min 적용, 각자 뺀 값은 기록만)",
+    "benign_check": [
+     10
+    ],
+    "participants_per_round": 16
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-12 21:59",
+   "verifier_version": 1,
+   "sig": "aa79594b2a264a81",
+   "seconds": 3.1
+  },
+  "bd_iid_r100w5_k20paper_median_s0": {
+   "name": "bd_iid_r100w5_k20paper_median_s0",
+   "attack": "fuba",
+   "group": "tdef_paper",
+   "status": "fail",
+   "collapsed": false,
+   "reasons": [
+    "파일 243/295 개 없음 (예: global_net_model_bd_iid_r100w5_k20paper_median_s0_round_20.pkl) — 생성이 중간에 끊겼거나 라운드/웜업이 매니페스트와 다름"
+   ],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 295,
+    "found": 52
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "median",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "09dff6a9860a3cec",
+   "seconds": 1.2
+  },
+  "bd_iid_r100w5_k20paper_median_s1": {
+   "name": "bd_iid_r100w5_k20paper_median_s1",
+   "attack": "fuba",
+   "group": "tdef_paper",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 295,
+    "found": 0
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "median",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "ba4636dcfa4936cb",
+   "seconds": 0.0
+  },
+  "bd_iid_r100w5_k20paper_median_s2": {
+   "name": "bd_iid_r100w5_k20paper_median_s2",
+   "attack": "fuba",
+   "group": "tdef_paper",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 295,
+    "found": 0
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "median",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "158c68ab5110c3dc",
+   "seconds": 0.0
+  },
+  "bd_iid_r100w5_k20paper_multi_krum_s0": {
+   "name": "bd_iid_r100w5_k20paper_multi_krum_s0",
+   "attack": "fuba",
+   "group": "tdef_paper",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 295,
+    "found": 0
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "multi_krum",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "3a22f40dae6cf257",
+   "seconds": 0.0
+  },
+  "bd_iid_r100w5_k20paper_multi_krum_s1": {
+   "name": "bd_iid_r100w5_k20paper_multi_krum_s1",
+   "attack": "fuba",
+   "group": "tdef_paper",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 295,
+    "found": 0
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "multi_krum",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "ae0714c35a44d551",
+   "seconds": 0.0
+  },
+  "bd_iid_r100w5_k20paper_multi_krum_s2": {
+   "name": "bd_iid_r100w5_k20paper_multi_krum_s2",
+   "attack": "fuba",
+   "group": "tdef_paper",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 295,
+    "found": 0
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "multi_krum",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "caa53f1029f1f729",
+   "seconds": 0.0
+  },
+  "bd_iid_r100w5_k20paper_flame_s0": {
+   "name": "bd_iid_r100w5_k20paper_flame_s0",
+   "attack": "fuba",
+   "group": "tdef_paper",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 295,
+    "found": 0
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "flame",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "4c713b08ef5f4ec1",
+   "seconds": 0.0
+  },
+  "bd_iid_r100w5_k20paper_flame_s1": {
+   "name": "bd_iid_r100w5_k20paper_flame_s1",
+   "attack": "fuba",
+   "group": "tdef_paper",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 295,
+    "found": 0
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "flame",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "54155d6e6eb7bed0",
+   "seconds": 0.0
+  },
+  "bd_iid_r100w5_k20paper_flame_s2": {
+   "name": "bd_iid_r100w5_k20paper_flame_s2",
+   "attack": "fuba",
+   "group": "tdef_paper",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 295,
+    "found": 0
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "flame",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "4563639c04244752",
+   "seconds": 0.0
+  },
+  "bd_iid_r100w5_k20paper_flDetector_s0": {
+   "name": "bd_iid_r100w5_k20paper_flDetector_s0",
+   "attack": "fuba",
+   "group": "tdef_paper",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 295,
+    "found": 0
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "flDetector",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "ee7f409a22997012",
+   "seconds": 0.0
+  },
+  "bd_iid_r100w5_k20paper_flDetector_s1": {
+   "name": "bd_iid_r100w5_k20paper_flDetector_s1",
+   "attack": "fuba",
+   "group": "tdef_paper",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 295,
+    "found": 0
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "flDetector",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "147a7579e8bf8f9b",
+   "seconds": 0.0
+  },
+  "bd_iid_r100w5_k20paper_flDetector_s2": {
+   "name": "bd_iid_r100w5_k20paper_flDetector_s2",
+   "attack": "fuba",
+   "group": "tdef_paper",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 295,
+    "found": 0
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "sup_asr_min": 30,
+    "benign_asr_max": 30,
+    "collapse_acc": 50,
+    "aggregation": "flDetector",
+    "provisional": true,
+    "basis": "논문 Table I MNIST: BA .992 / ASR .092 (삭제 전), KD-FU 후 .700. 1 차 근사 빼기 값은 미측정 → 임시 문턱",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "117ea52e5b539b8e",
+   "seconds": 0.0
+  },
+  "bd_iid_median_s0": {
+   "name": "bd_iid_median_s0",
+   "attack": "fuba",
+   "group": "tdef_reduced",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "운반자 0 제거: 90.9 / 10.6"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "median",
+     "mean_resid_max": 0.083163321018219,
+     "mean_resid_min": 0.011368454433977604,
+     "median_resid_max": 0.0
+    },
+    "dormant": {
+     "acc": 91.73,
+     "asr": 14.48
+    },
+    "sup_all": {
+     "acc": 75.97,
+     "asr": 50.04
+    },
+    "sup_each": {
+     "4": {
+      "acc": 75.97,
+      "asr": 50.04
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 86.23,
+      "asr": 35.45
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 90.87,
+     "asr": 10.64
+    },
+    "U_norm": {
+     "0": 0.5929,
+     "1": 0.6786,
+     "2": 0.7069,
+     "3": 0.6516,
+     "4": 2.3402,
+     "5": 0.5571,
+     "6": 0.5469,
+     "7": 0.5284
+    }
+   },
+   "files": {
+    "expected": 21,
+    "found": 21,
+    "K_found": 8
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 40,
+    "collapse_acc": 50,
+    "aggregation": "median",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-12 22:03",
+   "verifier_version": 1,
+   "sig": "f6b6b550d418ab8b",
+   "seconds": 2.7
+  },
+  "bd_iid_median_s1": {
+   "name": "bd_iid_median_s1",
+   "attack": "fuba",
+   "group": "tdef_reduced",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "운반자 0 제거: 91.9 / 7.2"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "median",
+     "mean_resid_max": 0.05117547884583473,
+     "mean_resid_min": 0.009766323491930962,
+     "median_resid_max": 0.0
+    },
+    "dormant": {
+     "acc": 92.32,
+     "asr": 10.31
+    },
+    "sup_all": {
+     "acc": 54.8,
+     "asr": 74.11
+    },
+    "sup_each": {
+     "4": {
+      "acc": 54.8,
+      "asr": 74.11
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 88.21,
+      "asr": 28.57
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 91.88,
+     "asr": 7.21
+    },
+    "U_norm": {
+     "0": 0.5367,
+     "1": 0.5769,
+     "2": 0.5853,
+     "3": 0.5911,
+     "4": 2.3071,
+     "5": 0.4981,
+     "6": 0.4938,
+     "7": 0.4927
+    }
+   },
+   "files": {
+    "expected": 21,
+    "found": 21,
+    "K_found": 8
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 40,
+    "collapse_acc": 50,
+    "aggregation": "median",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-12 22:06",
+   "verifier_version": 1,
+   "sig": "4366275c4773a711",
+   "seconds": 2.7
+  },
+  "bd_iid_median_s2": {
+   "name": "bd_iid_median_s2",
+   "attack": "fuba",
+   "group": "tdef_reduced",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "ρ=1.0 빼기 붕괴로 작동점 ρ=0.5 에서 판정",
+    "운반자 0 제거: 92.4 / 5.0"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "median",
+     "mean_resid_max": 0.05399137735366821,
+     "mean_resid_min": 0.010583910159766674,
+     "median_resid_max": 0.0
+    },
+    "dormant": {
+     "acc": 92.21,
+     "asr": 9.95
+    },
+    "sup_all": {
+     "acc": 82.59,
+     "asr": 30.47
+    },
+    "sup_each": {
+     "4": {
+      "acc": 42.75,
+      "asr": 78.65
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 88.56,
+      "asr": 20.88
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 92.44,
+     "asr": 5.01
+    },
+    "U_norm": {
+     "0": 0.532,
+     "1": 0.5984,
+     "2": 0.6077,
+     "3": 0.6204,
+     "4": 2.2731,
+     "5": 0.5203,
+     "6": 0.5472,
+     "7": 0.5301
+    }
+   },
+   "files": {
+    "expected": 21,
+    "found": 21,
+    "K_found": 8
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 40,
+    "collapse_acc": 50,
+    "aggregation": "median",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-12 22:09",
+   "verifier_version": 1,
+   "sig": "ffb11ed3e2817f61",
+   "seconds": 2.8
+  },
+  "bd_iid_multi_krum_s0": {
+   "name": "bd_iid_multi_krum_s0",
+   "attack": "fuba",
+   "group": "tdef_reduced",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "운반자 0 제거: 89.1 / 5.3"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "multi_krum",
+     "mean_resid_max": 0.06639586389064789,
+     "mean_resid_min": 0.012841000221669674,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 90.91,
+     "asr": 9.97
+    },
+    "sup_all": {
+     "acc": 75.99,
+     "asr": 35.57
+    },
+    "sup_each": {
+     "4": {
+      "acc": 75.99,
+      "asr": 35.57
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 88.16,
+      "asr": 20.64
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 89.14,
+     "asr": 5.27
+    },
+    "U_norm": {
+     "0": 0.6214,
+     "1": 0.6888,
+     "2": 0.7079,
+     "3": 0.6373,
+     "4": 2.4355,
+     "5": 0.5473,
+     "6": 0.5344,
+     "7": 0.5158
+    }
+   },
+   "files": {
+    "expected": 21,
+    "found": 21,
+    "K_found": 8
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 40,
+    "collapse_acc": 50,
+    "aggregation": "multi_krum",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-12 22:12",
+   "verifier_version": 1,
+   "sig": "4f8abf1477ddd326",
+   "seconds": 2.7
+  },
+  "bd_iid_multi_krum_s1": {
+   "name": "bd_iid_multi_krum_s1",
+   "attack": "fuba",
+   "group": "tdef_reduced",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "운반자 0 제거: 89.7 / 4.7"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "multi_krum",
+     "mean_resid_max": 0.07212859392166138,
+     "mean_resid_min": 0.011956367641687393,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 90.47,
+     "asr": 8.17
+    },
+    "sup_all": {
+     "acc": 75.06,
+     "asr": 37.21
+    },
+    "sup_each": {
+     "4": {
+      "acc": 75.06,
+      "asr": 37.21
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 89.05,
+      "asr": 15.32
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 89.74,
+     "asr": 4.67
+    },
+    "U_norm": {
+     "0": 0.5344,
+     "1": 0.6491,
+     "2": 0.6567,
+     "3": 0.6451,
+     "4": 2.4266,
+     "5": 0.4924,
+     "6": 0.4713,
+     "7": 0.4875
+    }
+   },
+   "files": {
+    "expected": 21,
+    "found": 21,
+    "K_found": 8
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 40,
+    "collapse_acc": 50,
+    "aggregation": "multi_krum",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-12 22:14",
+   "verifier_version": 1,
+   "sig": "ad3ec713a00d1bca",
+   "seconds": 2.6
+  },
+  "bd_iid_multi_krum_s2": {
+   "name": "bd_iid_multi_krum_s2",
+   "attack": "fuba",
+   "group": "tdef_reduced",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "운반자 0 제거: 90.7 / 5.8"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "multi_krum",
+     "mean_resid_max": 0.07489298284053802,
+     "mean_resid_min": 0.012994706630706787,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 90.81,
+     "asr": 13.2
+    },
+    "sup_all": {
+     "acc": 54.81,
+     "asr": 68.59
+    },
+    "sup_each": {
+     "4": {
+      "acc": 54.81,
+      "asr": 68.59
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 87.6,
+      "asr": 24.01
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 90.68,
+     "asr": 5.81
+    },
+    "U_norm": {
+     "0": 0.6092,
+     "1": 0.7016,
+     "2": 0.6419,
+     "3": 0.6699,
+     "4": 2.3857,
+     "5": 0.4995,
+     "6": 0.5275,
+     "7": 0.5116
+    }
+   },
+   "files": {
+    "expected": 21,
+    "found": 21,
+    "K_found": 8
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 40,
+    "collapse_acc": 50,
+    "aggregation": "multi_krum",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-12 22:17",
+   "verifier_version": 1,
+   "sig": "ae7f04acdc0e0f57",
+   "seconds": 2.6
+  },
+  "bd_iid_flame_s0": {
+   "name": "bd_iid_flame_s0",
+   "attack": "fuba",
+   "group": "tdef_reduced",
+   "status": "fail",
+   "collapsed": false,
+   "reasons": [
+    "잠복 ASR 19.1 > 15 (잠복이 아님)",
+    "잠복 ACC 89.5 < 90",
+    "정상 5 제거 후 ASR 50.6 > 40 (정상 삭제로 깨어남)"
+   ],
+   "warnings": [],
+   "info": [
+    "ρ=1.0 빼기 붕괴로 작동점 ρ=0.5 에서 판정",
+    "운반자 0 제거: 88.5 / 15.9"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "flame",
+     "mean_resid_max": 0.0711614191532135,
+     "mean_resid_min": 0.02689352072775364,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 89.55,
+     "asr": 19.1
+    },
+    "sup_all": {
+     "acc": 79.89,
+     "asr": 47.36
+    },
+    "sup_each": {
+     "4": {
+      "acc": 46.59,
+      "asr": 83.41
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 81.15,
+      "asr": 50.61
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 88.46,
+     "asr": 15.89
+    },
+    "U_norm": {
+     "0": 0.6127,
+     "1": 0.6754,
+     "2": 0.6592,
+     "3": 0.5874,
+     "4": 2.4703,
+     "5": 0.5411,
+     "6": 0.56,
+     "7": 0.5633
+    }
+   },
+   "files": {
+    "expected": 21,
+    "found": 21,
+    "K_found": 8
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 40,
+    "collapse_acc": 50,
+    "aggregation": "flame",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-12 22:20",
+   "verifier_version": 1,
+   "sig": "58ae85e6730179d4",
+   "seconds": 2.7
+  },
+  "bd_iid_flame_s1": {
+   "name": "bd_iid_flame_s1",
+   "attack": "fuba",
+   "group": "tdef_reduced",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 21,
+    "found": 0
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 40,
+    "collapse_acc": 50,
+    "aggregation": "flame",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "bd8ded203202589f",
+   "seconds": 0.0
+  },
+  "bd_iid_flame_s2": {
+   "name": "bd_iid_flame_s2",
+   "attack": "fuba",
+   "group": "tdef_reduced",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 21,
+    "found": 0
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 40,
+    "collapse_acc": 50,
+    "aggregation": "flame",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "41a8d966bd7fbd80",
+   "seconds": 0.0
+  },
+  "bd_iid_flDetector_s0": {
+   "name": "bd_iid_flDetector_s0",
+   "attack": "fuba",
+   "group": "tdef_reduced",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 21,
+    "found": 0
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 40,
+    "collapse_acc": 50,
+    "aggregation": "flDetector",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "64298b6658c99b63",
+   "seconds": 0.0
+  },
+  "bd_iid_flDetector_s1": {
+   "name": "bd_iid_flDetector_s1",
+   "attack": "fuba",
+   "group": "tdef_reduced",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 21,
+    "found": 0
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 40,
+    "collapse_acc": 50,
+    "aggregation": "flDetector",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "25886b9e683376be",
+   "seconds": 0.0
+  },
+  "bd_iid_flDetector_s2": {
+   "name": "bd_iid_flDetector_s2",
+   "attack": "fuba",
+   "group": "tdef_reduced",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 21,
+    "found": 0
+   },
+   "thresholds": {
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 90,
+    "sup_asr_min": 30,
+    "benign_asr_max": 40,
+    "collapse_acc": 50,
+    "aggregation": "flDetector",
+    "provisional": false,
+    "basis": "benign_departure summary_iid: subtract req4 48.0±10.2 / req5 14.0±4.8, 삭제 전 ASR 6.2±1.8 ACC 95.1",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "8a308effff95d95b",
+   "seconds": 0.0
+  },
+  "badfu_s42": {
+   "name": "badfu_s42",
+   "attack": "badfu",
+   "group": "badfu",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 80,
+    "found": 0
+   },
+   "thresholds": {
+    "dormant_asr_max": 35,
+    "dormant_acc_min": 75,
+    "stepwise_asr_min": 40,
+    "benign_asr_max": 35,
+    "collapse_acc": 20,
+    "provisional": true,
+    "basis": "traj_full(15R, seed 42): 잠복 ACC 82.7 / ASR 27.1, FedEraser 단계 언러닝 후 ASR 52.2. 40R 값은 미측정",
+    "benign_check": [
+     1
+    ]
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "967767427c9a6c29",
+   "seconds": 0.0
+  },
+  "badfu_s43": {
+   "name": "badfu_s43",
+   "attack": "badfu",
+   "group": "badfu",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 80,
+    "found": 0
+   },
+   "thresholds": {
+    "dormant_asr_max": 35,
+    "dormant_acc_min": 75,
+    "stepwise_asr_min": 40,
+    "benign_asr_max": 35,
+    "collapse_acc": 20,
+    "provisional": true,
+    "basis": "traj_full(15R, seed 42): 잠복 ACC 82.7 / ASR 27.1, FedEraser 단계 언러닝 후 ASR 52.2. 40R 값은 미측정",
+    "benign_check": [
+     1
+    ]
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "11dcfe16de8ff6af",
+   "seconds": 0.0
+  },
+  "badfu_s44": {
+   "name": "badfu_s44",
+   "attack": "badfu",
+   "group": "badfu",
+   "status": "missing",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [],
+   "metrics": {},
+   "files": {
+    "expected": 80,
+    "found": 0
+   },
+   "thresholds": {
+    "dormant_asr_max": 35,
+    "dormant_acc_min": 75,
+    "stepwise_asr_min": 40,
+    "benign_asr_max": 35,
+    "collapse_acc": 20,
+    "provisional": true,
+    "basis": "traj_full(15R, seed 42): 잠복 ACC 82.7 / ASR 27.1, FedEraser 단계 언러닝 후 ASR 52.2. 40R 값은 미측정",
+    "benign_check": [
+     1
+    ]
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-13 17:30",
+   "verifier_version": 1,
+   "sig": "ab674089e5f2f298",
+   "seconds": 0.0
+  },
+  "bd_iid_r100w5_k20paper_cifar_s0": {
+   "name": "bd_iid_r100w5_k20paper_cifar_s0",
+   "attack": "fuba",
+   "group": "k20_paper_cifar",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "운반자 0 제거: 77.9 / 96.5"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 1.8899139198058634e-11,
+     "mean_resid_min": 5.572847413572168e-13,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 78.64,
+     "asr": 97.13
+    },
+    "sup_all": {
+     "acc": 9.93,
+     "asr": 0.0
+    },
+    "sup_each": {
+     "4": {
+      "acc": 9.93,
+      "asr": 0.0
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 58.23,
+      "asr": 44.91
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 77.87,
+     "asr": 96.51
+    },
+    "U_norm": {
+     "0": 727.2739,
+     "1": 849.6956,
+     "2": 955.0854,
+     "3": 713.8173,
+     "4": 17650.9688,
+     "5": 1682.4465,
+     "6": 2068.8186,
+     "7": 3499.781,
+     "8": 2118.627,
+     "9": 1440.6576,
+     "10": 3151.8259,
+     "11": 2795.3848,
+     "12": 1146.6783,
+     "13": 1682.1752,
+     "14": 1184.2682,
+     "15": 1213.6733,
+     "16": 1904.3834,
+     "17": 3814.4077,
+     "18": 1820.6343,
+     "19": 1243.3081
+    }
+   },
+   "files": {
+    "expected": 295,
+    "found": 295,
+    "K_found": 20
+   },
+   "thresholds": {
+    "dormant_asr_max": 100,
+    "dormant_acc_min": 50,
+    "sup_asr_min": 0,
+    "benign_asr_max": 100,
+    "collapse_acc": 5,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "attack_required": false,
+    "basis": "실측 (s0): CIFAR-10/resnet18 잠복 ACC 78.6, 참여율 0.4 로 라운드 100 에 위장자 결석 시 ASR 97.1 (위장자 참여 라운드는 1.3-1.7%). 1차 근사 빼기 붕괴(ACC 9.9)로 재학습 기반 방어(장부) 필요.",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-14 12:25",
+   "verifier_version": 1,
+   "sig": "5c119144e7ba8274",
+   "seconds": 184.3
+  },
+  "bd_iid_r100w5_k20paper_cifar_s1": {
+   "name": "bd_iid_r100w5_k20paper_cifar_s1",
+   "attack": "fuba",
+   "group": "k20_paper_cifar",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "운반자 0 제거: 9.9 / 0.0"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 1.9040009152648807e-11,
+     "mean_resid_min": 5.069537454757689e-13,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 77.34,
+     "asr": 89.3
+    },
+    "sup_all": {
+     "acc": 9.93,
+     "asr": 0.0
+    },
+    "sup_each": {
+     "4": {
+      "acc": 9.93,
+      "asr": 0.0
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 41.03,
+      "asr": 7.51
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 9.93,
+     "asr": 0.0
+    },
+    "U_norm": {
+     "0": 785.6994,
+     "1": 705.3868,
+     "2": 676.9063,
+     "3": 775.4102,
+     "4": 11978.0811,
+     "5": 2544.9087,
+     "6": 1970.3435,
+     "7": 2646.5938,
+     "8": 1933.7527,
+     "9": 3269.6543,
+     "10": 1100.9497,
+     "11": 1384.991,
+     "12": 1660.5986,
+     "13": 1142.5573,
+     "14": 1643.9246,
+     "15": 1764.6495,
+     "16": 1768.5762,
+     "17": 1140.4984,
+     "18": 2131.3796,
+     "19": 1414.4419
+    }
+   },
+   "files": {
+    "expected": 295,
+    "found": 295,
+    "K_found": 20
+   },
+   "thresholds": {
+    "dormant_asr_max": 100,
+    "dormant_acc_min": 50,
+    "sup_asr_min": 0,
+    "benign_asr_max": 100,
+    "collapse_acc": 5,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "attack_required": false,
+    "basis": "실측 (s0): CIFAR-10/resnet18 잠복 ACC 78.6, 참여율 0.4 로 라운드 100 에 위장자 결석 시 ASR 97.1 (위장자 참여 라운드는 1.3-1.7%). 1차 근사 빼기 붕괴(ACC 9.9)로 재학습 기반 방어(장부) 필요.",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-14 17:24",
+   "verifier_version": 1,
+   "sig": "47e77bd48b6a2701",
+   "seconds": 165.1
+  },
+  "bd_iid_r100w5_k20paper_cifar_s2": {
+   "name": "bd_iid_r100w5_k20paper_cifar_s2",
+   "attack": "fuba",
+   "group": "k20_paper_cifar",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "운반자 0 제거: 78.8 / 96.5"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 1.879118215197817e-11,
+     "mean_resid_min": 7.013050079898719e-13,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 79.31,
+     "asr": 96.53
+    },
+    "sup_all": {
+     "acc": 9.93,
+     "asr": 0.0
+    },
+    "sup_each": {
+     "4": {
+      "acc": 9.93,
+      "asr": 0.0
+     }
+    },
+    "benign": {
+     "5": {
+      "acc": 47.77,
+      "asr": 43.94
+     }
+    },
+    "carrier0": {
+     "client": 0,
+     "acc": 78.84,
+     "asr": 96.47
+    },
+    "U_norm": {
+     "0": 699.7411,
+     "1": 598.0094,
+     "2": 911.8496,
+     "3": 607.1295,
+     "4": 10776.2227,
+     "5": 1108.4618,
+     "6": 1533.5168,
+     "7": 1330.6223,
+     "8": 934.4738,
+     "9": 960.6732,
+     "10": 1209.1873,
+     "11": 913.5875,
+     "12": 1182.1012,
+     "13": 1500.4189,
+     "14": 840.0457,
+     "15": 859.9991,
+     "16": 1406.1757,
+     "17": 983.5869,
+     "18": 1014.9445,
+     "19": 1264.0232
+    }
+   },
+   "files": {
+    "expected": 295,
+    "found": 295,
+    "K_found": 20
+   },
+   "thresholds": {
+    "dormant_asr_max": 100,
+    "dormant_acc_min": 50,
+    "sup_asr_min": 0,
+    "benign_asr_max": 100,
+    "collapse_acc": 5,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "attack_required": false,
+    "basis": "실측 (s0): CIFAR-10/resnet18 잠복 ACC 78.6, 참여율 0.4 로 라운드 100 에 위장자 결석 시 ASR 97.1 (위장자 참여 라운드는 1.3-1.7%). 1차 근사 빼기 붕괴(ACC 9.9)로 재학습 기반 방어(장부) 필요.",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-14 23:04",
+   "verifier_version": 1,
+   "sig": "c5f6999a69d1ce16",
+   "seconds": 177.2
+  },
+  "clean_iid_r100_k20paper_s0": {
+   "name": "clean_iid_r100_k20paper_s0",
+   "attack": "fuba",
+   "group": "clean_paper",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "공격 없는 궤적 (clean): 생성기가 없어 ASR 은 채점하지 않음; 위장자·운반자 검사 없음"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 7.611093977288874e-09,
+     "mean_resid_min": 2.635363482994535e-09,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 98.81,
+     "asr": null
+    },
+    "benign": {
+     "5": {
+      "acc": 97.61,
+      "asr": null
+     }
+    },
+    "U_norm": {
+     "0": 1.3981,
+     "1": 1.6914,
+     "2": 1.5248,
+     "3": 1.499,
+     "4": 1.7811,
+     "5": 1.3394,
+     "6": 1.3639,
+     "7": 1.8173,
+     "8": 1.4989,
+     "9": 1.5391,
+     "10": 1.4653,
+     "11": 1.4752,
+     "12": 1.4692,
+     "13": 1.7524,
+     "14": 1.5845,
+     "15": 1.6618,
+     "16": 1.7461,
+     "17": 1.342,
+     "18": 1.3287,
+     "19": 1.7712
+    }
+   },
+   "files": {
+    "expected": 200,
+    "found": 200,
+    "K_found": 20
+   },
+   "thresholds": {
+    "clean": true,
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "benign_asr_max": 20,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "attack_required": false,
+    "basis": "공격 없음: 잠복 ASR 낮음(트리거 생성기는 학습되지 않아 ASR 은 우연 수준)·ACC·정상 제거 무해만 본다",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-14 23:07",
+   "verifier_version": 1,
+   "sig": "9f05bf4ee96168e6",
+   "seconds": 3.8
+  },
+  "clean_iid_r100_k20paper_cifar_s0": {
+   "name": "clean_iid_r100_k20paper_cifar_s0",
+   "attack": "fuba",
+   "group": "clean_paper",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [
+    "임시 문턱 (provisional)"
+   ],
+   "info": [
+    "공격 없는 궤적 (clean): 생성기가 없어 ASR 은 채점하지 않음; 위장자·운반자 검사 없음"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 2.095634776821953e-11,
+     "mean_resid_min": 6.136360950620423e-13,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 82.43,
+     "asr": null
+    },
+    "benign": {
+     "5": {
+      "acc": 49.91,
+      "asr": null
+     }
+    },
+    "U_norm": {
+     "0": 1634.5824,
+     "1": 1445.3915,
+     "2": 1768.8656,
+     "3": 1557.8651,
+     "4": 1113.5873,
+     "5": 1594.6274,
+     "6": 2005.8815,
+     "7": 2425.1245,
+     "8": 2001.5323,
+     "9": 1213.6477,
+     "10": 1097.6095,
+     "11": 1676.38,
+     "12": 1257.6814,
+     "13": 1748.4021,
+     "14": 1493.4349,
+     "15": 1369.61,
+     "16": 1567.0579,
+     "17": 1810.7921,
+     "18": 989.265,
+     "19": 1307.063
+    }
+   },
+   "files": {
+    "expected": 200,
+    "found": 200,
+    "K_found": 20
+   },
+   "thresholds": {
+    "clean": true,
+    "dormant_asr_max": 20,
+    "dormant_acc_min": 50,
+    "benign_asr_max": 20,
+    "collapse_acc": 25,
+    "aggregation": "fedavg",
+    "provisional": true,
+    "attack_required": false,
+    "basis": "공격 없음: 잠복 ASR 낮음(트리거 생성기는 학습되지 않아 ASR 은 우연 수준)·ACC·정상 제거 무해만 본다",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-14 23:19",
+   "verifier_version": 1,
+   "sig": "c26ac8ea4ac4ced6",
+   "seconds": 155.7
+  },
+  "clean_owner_r100_k20paper_s0": {
+   "name": "clean_owner_r100_k20paper_s0",
+   "attack": "fuba",
+   "group": "clean_paper",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [],
+   "info": [
+    "공격 없는 궤적 (clean): 생성기가 없어 ASR 은 채점하지 않음; 위장자·운반자 검사 없음"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 6.740081381906293e-09,
+     "mean_resid_min": 2.798942189130571e-09,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 98.61,
+     "asr": null
+    },
+    "benign": {
+     "5": {
+      "acc": 95.86,
+      "asr": null
+     }
+    },
+    "U_norm": {
+     "0": 1.4231,
+     "1": 1.7011,
+     "2": 1.6736,
+     "3": 1.6603,
+     "4": 1.6833,
+     "5": 1.4177,
+     "6": 1.2889,
+     "7": 1.81,
+     "8": 1.5076,
+     "9": 1.5221,
+     "10": 1.6011,
+     "11": 1.521,
+     "12": 1.4745,
+     "13": 1.7646,
+     "14": 1.5931,
+     "15": 1.6446,
+     "16": 1.8274,
+     "17": 1.3574,
+     "18": 1.3833,
+     "19": 2.4748
+    }
+   },
+   "files": {
+    "expected": 200,
+    "found": 200,
+    "K_found": 20
+   },
+   "thresholds": {
+    "clean": true,
+    "dormant_asr_max": 15,
+    "dormant_acc_min": 95,
+    "benign_asr_max": 20,
+    "collapse_acc": 50,
+    "aggregation": "fedavg",
+    "provisional": false,
+    "attack_required": false,
+    "basis": "공격 없음: 잠복 ASR 낮음(트리거 생성기는 학습되지 않아 ASR 은 우연 수준)·ACC·정상 제거 무해만 본다",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-14 23:23",
+   "verifier_version": 1,
+   "sig": "e8c76360fb9c7128",
+   "seconds": 3.8
+  },
+  "clean_owner_r100_k20paper_cifar_s0": {
+   "name": "clean_owner_r100_k20paper_cifar_s0",
+   "attack": "fuba",
+   "group": "clean_paper",
+   "status": "ok",
+   "collapsed": false,
+   "reasons": [],
+   "warnings": [
+    "임시 문턱 (provisional)"
+   ],
+   "info": [
+    "공격 없는 궤적 (clean): 생성기가 없어 ASR 은 채점하지 않음; 위장자·운반자 검사 없음"
+   ],
+   "metrics": {
+    "participation": {
+     "per_round": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+     ],
+     "expected": 8
+    },
+    "aggregation": {
+     "rule": "fedavg",
+     "mean_resid_max": 1.3472189509811106e-11,
+     "mean_resid_min": 4.598001124810069e-13,
+     "median_resid_max": null
+    },
+    "dormant": {
+     "acc": 79.52,
+     "asr": null
+    },
+    "benign": {
+     "5": {
+      "acc": 59.62,
+      "asr": null
+     }
+    },
+    "U_norm": {
+     "0": 1340.201,
+     "1": 2119.1892,
+     "2": 1125.5859,
+     "3": 1024.2773,
+     "4": 2322.0208,
+     "5": 959.8068,
+     "6": 924.7989,
+     "7": 1488.0804,
+     "8": 1036.2042,
+     "9": 1072.8324,
+     "10": 1361.3588,
+     "11": 993.9473,
+     "12": 1128.2263,
+     "13": 1637.6083,
+     "14": 1377.8489,
+     "15": 1224.1133,
+     "16": 1277.7865,
+     "17": 1264.9302,
+     "18": 867.4398,
+     "19": 13525.0645
+    }
+   },
+   "files": {
+    "expected": 200,
+    "found": 200,
+    "K_found": 20
+   },
+   "thresholds": {
+    "clean": true,
+    "dormant_asr_max": 20,
+    "dormant_acc_min": 50,
+    "benign_asr_max": 20,
+    "collapse_acc": 25,
+    "aggregation": "fedavg",
+    "provisional": true,
+    "attack_required": false,
+    "basis": "공격 없음: 잠복 ASR 낮음(트리거 생성기는 학습되지 않아 ASR 은 우연 수준)·ACC·정상 제거 무해만 본다",
+    "benign_check": [
+     5
+    ],
+    "participants_per_round": 8
+   },
+   "host": "DESKTOP-QUB35TD",
+   "date": "2026-10-14 23:35",
+   "verifier_version": 1,
+   "sig": "eb8ca360168dc145",
+   "seconds": 156.2
+  }
+ },
+ "updated": "2026-10-14 23:37"
+}

@@ -1,0 +1,251 @@
+{
+  "name": "bd_iid_s1",
+  "fmt": "fuba",
+  "args": {
+    "fmt": "fuba",
+    "name": "bd_iid_s1",
+    "rounds": 8,
+    "K": 8,
+    "ckpt_dir": "checkpoints",
+    "traj_dir": null,
+    "counts": null,
+    "data_root": "./data",
+    "badfu_record": null,
+    "requesters": [
+      4,
+      7,
+      5
+    ],
+    "defender": 4,
+    "defenders": [
+      4
+    ],
+    "attackers": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "target": 8,
+    "n_classes": 10,
+    "probe": 500,
+    "probe_mode": "forget",
+    "forget_n": 500,
+    "screen": "off",
+    "tau_screen": 1.5,
+    "stat": "flow",
+    "cap": 0.3,
+    "tau": 3.0,
+    "tau_mode": "fixed",
+    "tau_margin": 1.0,
+    "m": 0,
+    "zmode": "std",
+    "delta_min": 0.1,
+    "op": "subtract",
+    "kd_steps": 30,
+    "kd_lr": 0.01,
+    "lams": [
+      0.5,
+      1,
+      2,
+      4,
+      8
+    ],
+    "lam_rule": "first",
+    "min_act": 10,
+    "max_purify": 2,
+    "rep_steps": 50,
+    "rep_lr": 0.01,
+    "rep_bs": 128,
+    "rep_every": 0,
+    "rep_stop": 1.0,
+    "mia_n": 1000,
+    "seed": 523,
+    "split_seed": 523,
+    "non_iid": false,
+    "non_iid_type": null,
+    "alpha": 1,
+    "sigma": 1,
+    "shift_ratio": 0.4,
+    "owner_client": -1,
+    "owner_class": 3,
+    "owner_frac": 0.9,
+    "train_epoch": 100,
+    "batch_size": 64,
+    "noise_thread": 0.04,
+    "atk_eps": 1.0,
+    "n_gpu": 1,
+    "out": null,
+    "resume": true
+  },
+  "K": 8,
+  "roles": {
+    "0": "carrier",
+    "1": "carrier",
+    "2": "carrier",
+    "3": "carrier",
+    "4": "suppressor",
+    "5": "benign",
+    "6": "benign",
+    "7": "benign"
+  },
+  "before": {
+    "acc": 95.23,
+    "asr": 5.22
+  },
+  "results": {
+    "4": {
+      "role": "suppressor",
+      "decision": "purified(antidote)",
+      "confirm": {
+        "trace": [
+          {
+            "delta": 1.0,
+            "removed": 1.0,
+            "h": 0.02,
+            "n_healthy": 7,
+            "stat": 0.1456,
+            "to_class": 8,
+            "src_div": 0.9581,
+            "flip_conf": 0.4441,
+            "z": 13.37,
+            "tau": 3.0,
+            "flagged": true,
+            "repaired": true,
+            "hard_collapse": false,
+            "how": "antidote"
+          }
+        ],
+        "removed": 1.0,
+        "aborted": false,
+        "flagged": true
+      },
+      "purify": [
+        {
+          "delta_c": 1.0,
+          "carriers": [
+            3,
+            2
+          ],
+          "carrier_roles": [
+            "carrier",
+            "carrier"
+          ],
+          "map": {
+            "0": 0.0655,
+            "1": 0.0588,
+            "2": 0.0701,
+            "3": 0.0885,
+            "5": null,
+            "6": -0.2007,
+            "7": -0.2158
+          },
+          "c_star": 8,
+          "n_act": 152,
+          "variants": [
+            {
+              "lam": 0.5,
+              "z": 2.45,
+              "health": 0.127
+            }
+          ],
+          "frac_of_carrier": {
+            "3": 0.0689,
+            "2": 0.0585
+          },
+          "chosen_lam": 0.5
+        }
+      ],
+      "final": {
+        "acc": 90.26,
+        "retain_change": 6.51,
+        "alpha": 0.0003,
+        "asr": 14.57,
+        "forget_acc": 89.08
+      },
+      "cost": {
+        "pop_models": 8,
+        "forwards": 15,
+        "seconds": 0.5
+      }
+    },
+    "7": {
+      "role": "benign",
+      "decision": "accept(confirm)",
+      "confirm": {
+        "trace": [
+          {
+            "delta": 1.0,
+            "removed": 1.0,
+            "h": 0.02,
+            "n_healthy": 7,
+            "stat": 0.0181,
+            "to_class": 8,
+            "src_div": 0.9041,
+            "flip_conf": 0.4508,
+            "z": 0.29,
+            "tau": 3.0,
+            "flagged": false,
+            "repaired": false,
+            "hard_collapse": false
+          }
+        ],
+        "removed": 1.0,
+        "aborted": false,
+        "flagged": false
+      },
+      "purify": [],
+      "final": {
+        "acc": 94.76,
+        "retain_change": 1.84,
+        "alpha": 0.0,
+        "asr": 8.13,
+        "forget_acc": 94.2
+      },
+      "cost": {
+        "pop_models": 0,
+        "forwards": 7,
+        "seconds": 0.3
+      }
+    },
+    "5": {
+      "role": "benign",
+      "decision": "accept(confirm)",
+      "confirm": {
+        "trace": [
+          {
+            "delta": 1.0,
+            "removed": 1.0,
+            "h": 0.02,
+            "n_healthy": 7,
+            "stat": 0.0249,
+            "to_class": 8,
+            "src_div": 0.9218,
+            "flip_conf": 0.4589,
+            "z": 0.39,
+            "tau": 3.0,
+            "flagged": false,
+            "repaired": false,
+            "hard_collapse": false
+          }
+        ],
+        "removed": 1.0,
+        "aborted": false,
+        "flagged": false
+      },
+      "purify": [],
+      "final": {
+        "acc": 94.18,
+        "retain_change": 2.75,
+        "alpha": 0.0,
+        "asr": 12.53,
+        "forget_acc": 93.67
+      },
+      "cost": {
+        "pop_models": 0,
+        "forwards": 7,
+        "seconds": 0.3
+      }
+    }
+  }
+}

@@ -89,10 +89,8 @@ class dataset_wrapper_with_transform(torch.utils.data.Dataset):
     def __getattr__(self, attr):
         # # https://github.com/python-babel/flask-babel/commit/8319a7f44f4a0b97298d20ad702f7618e6bdab6a
         # # https://stackoverflow.com/questions/47299243/recursionerror-when-python-copy-deepcopy
-        # Windows(spawn) unpickling/deepcopy 중 wrapped_dataset 가 아직 없으면
-        # getattr(self.wrapped_dataset, ...) 가 무한 재귀한다. 이를 끊는다.
-        if attr == "wrapped_dataset" or (attr.startswith("__") and attr.endswith("__")):
-            raise AttributeError(attr)
+        # if attr == "__setstate__":
+        #     raise AttributeError(attr)
         if attr in self.__dict__:
             return getattr(self, attr)
         return getattr(self.wrapped_dataset, attr)

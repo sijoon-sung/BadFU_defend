@@ -1,0 +1,844 @@
+{
+  "schema": 1,
+  "variant": "badfu_public_code_six_client",
+  "scope": "one_actual_step",
+  "settings": {
+    "phase": "test",
+    "run_dir": "artifacts/badfu/imported_traj_full",
+    "out": "FUBA/logs/badfu_request/traj_full_step14_eval_fixed.json",
+    "legacy_traj": null,
+    "data_root": "C:\\Users\\sijoo\\Documents\\ChatGPT\\badFU\\review_BadFU_defend\\BadFU_src\\BadFU-main\\data",
+    "record_root": "C:\\Users\\sijoo\\Documents\\ChatGPT\\badFU\\review_BadFU_defend\\BadFU_src\\BadFU-main\\record\\badnet_dataset",
+    "no_pretrained": false,
+    "device": "cuda:0",
+    "seed": 42,
+    "rounds": 40,
+    "local_epochs": 5,
+    "train_batches": 0,
+    "max_per_client": 0,
+    "batch_size": 64,
+    "retain_per_class": 8,
+    "evaluate": 512,
+    "target": 0,
+    "fu_epochs": 1,
+    "fu_batches": 2,
+    "history_window": 3,
+    "threads": 2,
+    "dominant_ratio": 0.7,
+    "smoothing": 1.0,
+    "risk_ratio": 0.1,
+    "epsilon": 0.01,
+    "radius_ratio": 0.25,
+    "min_progress": 0.1,
+    "step": 14,
+    "requests": [
+      5,
+      1
+    ],
+    "modes": [
+      "no_defense",
+      "retention_only",
+      "temporal"
+    ]
+  },
+  "manifest_sha256": "b79ad5097601b53449bf7ee0ec62c45b14d159c3646971bd2de1a9b38814ec49",
+  "dataset_sha256": "e7192fa49c678303f987a4a452ce1e51241dcdc3b27221a0c866b9b32a6ff52e",
+  "data_matching": "reconstructed from explicit legacy seed/split/subset settings; original data hash unavailable",
+  "before_fu": {
+    "accuracy": 0.87890625,
+    "class_accuracy": {
+      "0": 0.8620689511299133,
+      "1": 1.0,
+      "2": 0.8367347121238708,
+      "3": 0.739130437374115,
+      "4": 0.8809523582458496,
+      "5": 0.7735849022865295,
+      "6": 0.9180327653884888,
+      "7": 0.9166666865348816,
+      "8": 0.9454545378684998,
+      "9": 0.920634925365448
+    },
+    "clean_target_rate": 0.008810572326183319,
+    "asr": 0.240234375,
+    "asr_samples": 512
+  },
+  "results": {
+    "request_5/no_defense": {
+      "status": "candidate_requires_verification",
+      "failure": null,
+      "completed_selected_events": true,
+      "forgetting_verified": false,
+      "actual_recalibration_calls": 5,
+      "seconds": 6.1218417000000045,
+      "steps": [
+        {
+          "event": 14,
+          "retained_participants": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "bn_recalibration_loss_change": [
+            -0.09310530871152878,
+            -0.23216968774795532,
+            0.006559461355209351,
+            -0.2345203161239624,
+            0.056363821029663086,
+            0.0677560567855835,
+            -0.0002930197515524924,
+            0.2295469045639038,
+            -0.008163712918758392,
+            0.00013062168727628887
+          ],
+          "status": "uncontrolled",
+          "actual_loss_change": [
+            1.3376535847783089,
+            2.1946547627449036,
+            -0.09384146332740784,
+            -0.14073139429092407,
+            -0.2990049123764038,
+            -0.06849217414855957,
+            -0.00032029020076151937,
+            -0.13900208473205566,
+            -0.06843502074480057,
+            0.0018035569810308516
+          ]
+        }
+      ],
+      "starting_metrics": {
+        "accuracy": 0.875,
+        "class_accuracy": {
+          "0": 0.8448275923728943,
+          "1": 1.0,
+          "2": 0.795918345451355,
+          "3": 0.782608687877655,
+          "4": 0.8809523582458496,
+          "5": 0.7735849022865295,
+          "6": 0.868852436542511,
+          "7": 0.9166666865348816,
+          "8": 0.9272727370262146,
+          "9": 0.9682539701461792
+        },
+        "clean_target_rate": 0.008810572326183319,
+        "asr": 0.21875,
+        "asr_samples": 512
+      },
+      "after_initial_bn_recalibration": {
+        "accuracy": 0.865234375,
+        "class_accuracy": {
+          "0": 0.8793103694915771,
+          "1": 0.9459459185600281,
+          "2": 0.7755101919174194,
+          "3": 0.8260869383811951,
+          "4": 0.8095238208770752,
+          "5": 0.7547169923782349,
+          "6": 0.9016393423080444,
+          "7": 0.875,
+          "8": 0.9090909361839294,
+          "9": 0.9523809552192688
+        },
+        "clean_target_rate": 0.013215859420597553,
+        "asr": 0.3671875,
+        "asr_samples": 512
+      },
+      "candidate_metrics": {
+        "accuracy": 0.759765625,
+        "class_accuracy": {
+          "0": 0.6206896305084229,
+          "1": 0.5675675868988037,
+          "2": 0.6938775777816772,
+          "3": 0.695652186870575,
+          "4": 0.8571428656578064,
+          "5": 0.5849056839942932,
+          "6": 0.9344262480735779,
+          "7": 0.6666666865348816,
+          "8": 0.9272727370262146,
+          "9": 0.9365079402923584
+        },
+        "clean_target_rate": 0.008810572326183319,
+        "asr": 0.91015625,
+        "asr_samples": 512
+      },
+      "checkpoint": {
+        "path": "C:\\Users\\sijoo\\Documents\\ChatGPT\\badFU\\review_BadFU_defend\\artifacts\\badfu\\imported_traj_full\\fu\\traj_full_step14_eval_fixed\\request_5_no_defense.pt",
+        "sha256": "68162a8045f0714429291afb316070aa854dac00f8e019bca1646cd339d90829"
+      }
+    },
+    "request_5/retention_only": {
+      "status": "control_not_accepted",
+      "failure": {
+        "event": 14,
+        "reason": "actual validation loss and minimum progress cannot both be met by backtracking",
+        "solver": {
+          "status": "local_step_only",
+          "forgetting_verified": false,
+          "progress": 0.2498503244740053,
+          "min_progress": 0.1,
+          "proposal_norm": 0.47044605216036495,
+          "step_norm": 0.1176115130400913,
+          "rank": 11,
+          "iterations": 6,
+          "normalized_objective": 0.281399675525995,
+          "normalized_risk_before": 0.0,
+          "normalized_risk_after": 0.0,
+          "risk_ratio_budget": 0.1,
+          "retain_linear_change": [
+            0.009999999999999287,
+            0.01000000000000012,
+            -0.1945394270668625,
+            -0.18694219876998408,
+            -0.040816156624185834,
+            -0.08657882033544617,
+            -0.0003316878443079998,
+            0.01000000000000223,
+            0.010000000000000064,
+            -0.0002995228730438195
+          ],
+          "max_normalized_violation": 5.551115123125783e-17,
+          "kkt_stationarity": 8.71033035947671e-15,
+          "kkt_objective_gap_bound": 1.2004340936327847e-19,
+          "solver_reported_success": true,
+          "active_constraints": 5,
+          "geometry": {
+            "rank": 0
+          },
+          "row_space_rank": 11,
+          "row_space_max_residual": 3.332000937312528e-08,
+          "row_storage_dtype": "float32",
+          "gram_dtype": "float64",
+          "gram_rank_tolerance": 1e-12
+        },
+        "loss_trials": [
+          {
+            "progress": 0.2498503245101306,
+            "class_loss_change": [
+              0.03464563190937042,
+              0.03867858648300171,
+              -0.0979313850402832,
+              -0.09925633668899536,
+              -0.12049496173858643,
+              -0.03315627574920654,
+              -0.00021138839656487107,
+              -0.05593562126159668,
+              0.004193246364593506,
+              -0.00015345760039053857
+            ]
+          },
+          {
+            "progress": 0.1249251622550653,
+            "class_loss_change": [
+              0.0089150071144104,
+              0.010628104209899902,
+              -0.06167927384376526,
+              -0.05934995412826538,
+              -0.057108163833618164,
+              -0.029340386390686035,
+              -0.00012292034807614982,
+              -0.03864634037017822,
+              0.0016816481947898865,
+              -0.00010468112304806709
+            ]
+          }
+        ],
+        "bn_recalibration_loss_change": [
+          -0.09310530871152878,
+          -0.23216968774795532,
+          0.006559461355209351,
+          -0.2345203161239624,
+          0.056363821029663086,
+          0.0677560567855835,
+          -0.0002930197515524924,
+          0.2295469045639038,
+          -0.008163712918758392,
+          0.00013062168727628887
+        ]
+      },
+      "completed_selected_events": false,
+      "forgetting_verified": false,
+      "actual_recalibration_calls": 5,
+      "seconds": 8.800918199999614,
+      "steps": [],
+      "starting_metrics": {
+        "accuracy": 0.875,
+        "class_accuracy": {
+          "0": 0.8448275923728943,
+          "1": 1.0,
+          "2": 0.795918345451355,
+          "3": 0.782608687877655,
+          "4": 0.8809523582458496,
+          "5": 0.7735849022865295,
+          "6": 0.868852436542511,
+          "7": 0.9166666865348816,
+          "8": 0.9272727370262146,
+          "9": 0.9682539701461792
+        },
+        "clean_target_rate": 0.008810572326183319,
+        "asr": 0.21875,
+        "asr_samples": 512
+      },
+      "after_initial_bn_recalibration": {
+        "accuracy": 0.865234375,
+        "class_accuracy": {
+          "0": 0.8793103694915771,
+          "1": 0.9459459185600281,
+          "2": 0.7755101919174194,
+          "3": 0.8260869383811951,
+          "4": 0.8095238208770752,
+          "5": 0.7547169923782349,
+          "6": 0.9016393423080444,
+          "7": 0.875,
+          "8": 0.9090909361839294,
+          "9": 0.9523809552192688
+        },
+        "clean_target_rate": 0.013215859420597553,
+        "asr": 0.3671875,
+        "asr_samples": 512
+      },
+      "candidate_metrics": null
+    },
+    "request_5/temporal": {
+      "status": "candidate_requires_verification",
+      "failure": null,
+      "completed_selected_events": true,
+      "forgetting_verified": false,
+      "actual_recalibration_calls": 5,
+      "seconds": 13.776287400000001,
+      "steps": [
+        {
+          "event": 14,
+          "retained_participants": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "bn_recalibration_loss_change": [
+            -0.09310530871152878,
+            -0.23216968774795532,
+            0.006559461355209351,
+            -0.2345203161239624,
+            0.056363821029663086,
+            0.0677560567855835,
+            -0.0002930197515524924,
+            0.2295469045639038,
+            -0.008163712918758392,
+            0.00013062168727628887
+          ],
+          "status": "local_step_only",
+          "forgetting_verified": false,
+          "progress": 0.2487151986396552,
+          "min_progress": 0.1,
+          "proposal_norm": 0.4704460521603653,
+          "step_norm": 0.11761151306261751,
+          "rank": 14,
+          "iterations": 10,
+          "normalized_objective": 0.2825348013723154,
+          "normalized_risk_before": 0.006870188564822709,
+          "normalized_risk_after": 6.870188582060426e-05,
+          "risk_ratio_budget": 0.1,
+          "retain_linear_change": [
+            0.009184252185059387,
+            0.010000000000001655,
+            -0.1989918670872781,
+            -0.1702601585090306,
+            -0.049046504844451576,
+            -0.07626189159958927,
+            -0.0003405674609782909,
+            0.009999999999998883,
+            0.009999999999999894,
+            -0.00027094599783968455
+          ],
+          "max_normalized_violation": 1.2545312011447152e-10,
+          "kkt_stationarity": 3.2060840115241523e-06,
+          "kkt_objective_gap_bound": 5.139487428817079e-12,
+          "solver_reported_success": true,
+          "active_constraints": 5,
+          "geometry": {
+            "rank": 3,
+            "eigenvalues": [
+              0.006051598819642722,
+              0.026068331504783597,
+              0.2705310555671254
+            ],
+            "smoothing": 1.0,
+            "history_steps": 3,
+            "input_scale": 0.23855626817684003,
+            "trace": 0.30265098589155176,
+            "raw_min_eigenvalue": -0.1954306509641446,
+            "operator_norm": 0.2705310555671254
+          },
+          "row_space_rank": 17,
+          "row_space_max_residual": 3.7990655851310376e-08,
+          "row_storage_dtype": "float32",
+          "gram_dtype": "float64",
+          "gram_rank_tolerance": 1e-12,
+          "actual_retention_verified": true,
+          "backtracks": 1,
+          "accepted_fraction": 0.5,
+          "accepted_progress": 0.12435759934001961,
+          "actual_loss_change": [
+            0.00813804566860199,
+            0.008355319499969482,
+            -0.06230422854423523,
+            -0.05188196897506714,
+            -0.06124734878540039,
+            -0.028913378715515137,
+            -0.00012134239659644663,
+            -0.03697359561920166,
+            0.0019111186265945435,
+            -9.341919212602079e-05
+          ],
+          "accepted_step_norm": 0.058805756531308775
+        }
+      ],
+      "starting_metrics": {
+        "accuracy": 0.875,
+        "class_accuracy": {
+          "0": 0.8448275923728943,
+          "1": 1.0,
+          "2": 0.795918345451355,
+          "3": 0.782608687877655,
+          "4": 0.8809523582458496,
+          "5": 0.7735849022865295,
+          "6": 0.868852436542511,
+          "7": 0.9166666865348816,
+          "8": 0.9272727370262146,
+          "9": 0.9682539701461792
+        },
+        "clean_target_rate": 0.008810572326183319,
+        "asr": 0.21875,
+        "asr_samples": 512
+      },
+      "after_initial_bn_recalibration": {
+        "accuracy": 0.865234375,
+        "class_accuracy": {
+          "0": 0.8793103694915771,
+          "1": 0.9459459185600281,
+          "2": 0.7755101919174194,
+          "3": 0.8260869383811951,
+          "4": 0.8095238208770752,
+          "5": 0.7547169923782349,
+          "6": 0.9016393423080444,
+          "7": 0.875,
+          "8": 0.9090909361839294,
+          "9": 0.9523809552192688
+        },
+        "clean_target_rate": 0.013215859420597553,
+        "asr": 0.3671875,
+        "asr_samples": 512
+      },
+      "candidate_metrics": {
+        "accuracy": 0.861328125,
+        "class_accuracy": {
+          "0": 0.8448275923728943,
+          "1": 0.9459459185600281,
+          "2": 0.7551020383834839,
+          "3": 0.8260869383811951,
+          "4": 0.8333333134651184,
+          "5": 0.7547169923782349,
+          "6": 0.9016393423080444,
+          "7": 0.875,
+          "8": 0.9090909361839294,
+          "9": 0.9523809552192688
+        },
+        "clean_target_rate": 0.013215859420597553,
+        "asr": 0.451171875,
+        "asr_samples": 512
+      },
+      "checkpoint": {
+        "path": "C:\\Users\\sijoo\\Documents\\ChatGPT\\badFU\\review_BadFU_defend\\artifacts\\badfu\\imported_traj_full\\fu\\traj_full_step14_eval_fixed\\request_5_temporal.pt",
+        "sha256": "1e14b9b2ca9d733ceed23deca740732c880218a675cd3f686b847166fa1aca18"
+      }
+    },
+    "request_1/no_defense": {
+      "status": "candidate_requires_verification",
+      "failure": null,
+      "completed_selected_events": true,
+      "forgetting_verified": false,
+      "actual_recalibration_calls": 5,
+      "seconds": 5.85642899999948,
+      "steps": [
+        {
+          "event": 14,
+          "retained_participants": [
+            0,
+            2,
+            3,
+            4,
+            5
+          ],
+          "bn_recalibration_loss_change": [
+            -0.09310530871152878,
+            -0.23216968774795532,
+            0.006559461355209351,
+            -0.2345203161239624,
+            0.056363821029663086,
+            0.0677560567855835,
+            -0.0002930197515524924,
+            0.2295469045639038,
+            -0.008163712918758392,
+            0.00013062168727628887
+          ],
+          "status": "uncontrolled",
+          "actual_loss_change": [
+            1.0944816544651985,
+            1.5525478720664978,
+            0.15954259037971497,
+            0.10384094715118408,
+            -0.5307472944259644,
+            -0.1224365234375,
+            -0.0002615883422549814,
+            -1.041507601737976,
+            -0.05860500782728195,
+            0.0023488507722504437
+          ]
+        }
+      ],
+      "starting_metrics": {
+        "accuracy": 0.875,
+        "class_accuracy": {
+          "0": 0.8448275923728943,
+          "1": 1.0,
+          "2": 0.795918345451355,
+          "3": 0.782608687877655,
+          "4": 0.8809523582458496,
+          "5": 0.7735849022865295,
+          "6": 0.868852436542511,
+          "7": 0.9166666865348816,
+          "8": 0.9272727370262146,
+          "9": 0.9682539701461792
+        },
+        "clean_target_rate": 0.008810572326183319,
+        "asr": 0.21875,
+        "asr_samples": 512
+      },
+      "after_initial_bn_recalibration": {
+        "accuracy": 0.865234375,
+        "class_accuracy": {
+          "0": 0.8793103694915771,
+          "1": 0.9459459185600281,
+          "2": 0.7755101919174194,
+          "3": 0.8260869383811951,
+          "4": 0.8095238208770752,
+          "5": 0.7547169923782349,
+          "6": 0.9016393423080444,
+          "7": 0.875,
+          "8": 0.9090909361839294,
+          "9": 0.9523809552192688
+        },
+        "clean_target_rate": 0.013215859420597553,
+        "asr": 0.3671875,
+        "asr_samples": 512
+      },
+      "candidate_metrics": {
+        "accuracy": 0.765625,
+        "class_accuracy": {
+          "0": 0.7068965435028076,
+          "1": 0.7297297120094299,
+          "2": 0.5918367505073547,
+          "3": 0.5652173757553101,
+          "4": 0.8809523582458496,
+          "5": 0.6226415038108826,
+          "6": 0.9508196711540222,
+          "7": 0.6458333134651184,
+          "8": 0.9272727370262146,
+          "9": 0.9365079402923584
+        },
+        "clean_target_rate": 0.026431718841195107,
+        "asr": 0.740234375,
+        "asr_samples": 512
+      },
+      "checkpoint": {
+        "path": "C:\\Users\\sijoo\\Documents\\ChatGPT\\badFU\\review_BadFU_defend\\artifacts\\badfu\\imported_traj_full\\fu\\traj_full_step14_eval_fixed\\request_1_no_defense.pt",
+        "sha256": "c179f926760fde46d695616533facc6f0e8cb8d39e1d1dea1c3d4531a4f931b5"
+      }
+    },
+    "request_1/retention_only": {
+      "status": "control_not_accepted",
+      "failure": {
+        "event": 14,
+        "reason": "actual validation loss and minimum progress cannot both be met by backtracking",
+        "solver": {
+          "status": "local_step_only",
+          "forgetting_verified": false,
+          "progress": 0.249908752882646,
+          "min_progress": 0.1,
+          "proposal_norm": 0.4449088708033466,
+          "step_norm": 0.11122721770083685,
+          "rank": 11,
+          "iterations": 7,
+          "normalized_objective": 0.2813412471173543,
+          "normalized_risk_before": 0.0,
+          "normalized_risk_after": 0.0,
+          "risk_ratio_budget": 0.1,
+          "retain_linear_change": [
+            0.005326413872900254,
+            0.010000000000000453,
+            -0.14851897224514923,
+            -0.001412208621322547,
+            -0.02946270905176515,
+            -0.06512370492340414,
+            -0.00030670309718276533,
+            -0.1838115511360818,
+            0.005109465393750352,
+            -0.00015821933230522134
+          ],
+          "max_normalized_violation": 3.3306690738754696e-16,
+          "kkt_stationarity": 3.3684663807632274e-14,
+          "kkt_objective_gap_bound": 5.673282879166058e-28,
+          "solver_reported_success": true,
+          "active_constraints": 2,
+          "geometry": {
+            "rank": 0
+          },
+          "row_space_rank": 11,
+          "row_space_max_residual": 2.5809568279517847e-08,
+          "row_storage_dtype": "float32",
+          "gram_dtype": "float64",
+          "gram_rank_tolerance": 1e-12
+        },
+        "loss_trials": [
+          {
+            "progress": 0.24990875288542536,
+            "class_loss_change": [
+              0.014592140913009644,
+              0.01909986138343811,
+              -0.06511464715003967,
+              0.031181693077087402,
+              -0.15120303630828857,
+              0.035370826721191406,
+              -0.0001932256418513134,
+              -0.19441115856170654,
+              0.01047765463590622,
+              -7.584673585370183e-05
+            ]
+          },
+          {
+            "progress": 0.12495437644271268,
+            "class_loss_change": [
+              0.005316980183124542,
+              0.0066435933113098145,
+              -0.04229280352592468,
+              0.030394673347473145,
+              -0.06738495826721191,
+              -0.00972890853881836,
+              -0.00011646037455648184,
+              -0.11131155490875244,
+              0.004714019596576691,
+              -5.39810280315578e-05
+            ]
+          }
+        ],
+        "bn_recalibration_loss_change": [
+          -0.09310530871152878,
+          -0.23216968774795532,
+          0.006559461355209351,
+          -0.2345203161239624,
+          0.056363821029663086,
+          0.0677560567855835,
+          -0.0002930197515524924,
+          0.2295469045639038,
+          -0.008163712918758392,
+          0.00013062168727628887
+        ]
+      },
+      "completed_selected_events": false,
+      "forgetting_verified": false,
+      "actual_recalibration_calls": 5,
+      "seconds": 8.403517200000351,
+      "steps": [],
+      "starting_metrics": {
+        "accuracy": 0.875,
+        "class_accuracy": {
+          "0": 0.8448275923728943,
+          "1": 1.0,
+          "2": 0.795918345451355,
+          "3": 0.782608687877655,
+          "4": 0.8809523582458496,
+          "5": 0.7735849022865295,
+          "6": 0.868852436542511,
+          "7": 0.9166666865348816,
+          "8": 0.9272727370262146,
+          "9": 0.9682539701461792
+        },
+        "clean_target_rate": 0.008810572326183319,
+        "asr": 0.21875,
+        "asr_samples": 512
+      },
+      "after_initial_bn_recalibration": {
+        "accuracy": 0.865234375,
+        "class_accuracy": {
+          "0": 0.8793103694915771,
+          "1": 0.9459459185600281,
+          "2": 0.7755101919174194,
+          "3": 0.8260869383811951,
+          "4": 0.8095238208770752,
+          "5": 0.7547169923782349,
+          "6": 0.9016393423080444,
+          "7": 0.875,
+          "8": 0.9090909361839294,
+          "9": 0.9523809552192688
+        },
+        "clean_target_rate": 0.013215859420597553,
+        "asr": 0.3671875,
+        "asr_samples": 512
+      },
+      "candidate_metrics": null
+    },
+    "request_1/temporal": {
+      "status": "control_not_accepted",
+      "failure": {
+        "event": 14,
+        "reason": "actual validation loss and minimum progress cannot both be met by backtracking",
+        "solver": {
+          "status": "local_step_only",
+          "forgetting_verified": false,
+          "progress": 0.2495581764163254,
+          "min_progress": 0.1,
+          "proposal_norm": 0.44490887080334657,
+          "step_norm": 0.11122721770366108,
+          "rank": 14,
+          "iterations": 8,
+          "normalized_objective": 0.28169182358526135,
+          "normalized_risk_before": 0.003279303900545085,
+          "normalized_risk_after": 3.279303908798451e-05,
+          "risk_ratio_budget": 0.1,
+          "retain_linear_change": [
+            0.005975191991941891,
+            0.010000000000002264,
+            -0.16606424544328854,
+            -0.030125964577428926,
+            -0.038031819658685614,
+            -0.0653437150226881,
+            -0.00029889005755451053,
+            -0.15845518790627172,
+            0.005778459166661242,
+            -0.00017427332457431866
+          ],
+          "max_normalized_violation": 1.2584028263873392e-10,
+          "kkt_stationarity": 3.894615418714975e-06,
+          "kkt_objective_gap_bound": 7.58401462984621e-12,
+          "solver_reported_success": true,
+          "active_constraints": 3,
+          "geometry": {
+            "rank": 3,
+            "eigenvalues": [
+              0.009625707848557303,
+              0.03669259095356423,
+              0.4288702998819729
+            ],
+            "smoothing": 1.0,
+            "history_steps": 3,
+            "input_scale": 0.218272649861503,
+            "trace": 0.4751885986840944,
+            "raw_min_eigenvalue": -0.24578920418891476,
+            "operator_norm": 0.4288702998819729
+          },
+          "row_space_rank": 17,
+          "row_space_max_residual": 3.332000937312528e-08,
+          "row_storage_dtype": "float32",
+          "gram_dtype": "float64",
+          "gram_rank_tolerance": 1e-12
+        },
+        "loss_trials": [
+          {
+            "progress": 0.24955817642133316,
+            "class_loss_change": [
+              0.014490336179733276,
+              0.021476268768310547,
+              -0.08108821511268616,
+              0.006639361381530762,
+              -0.15553510189056396,
+              0.03496885299682617,
+              -0.00019201924442313612,
+              -0.17926466464996338,
+              0.010098971426486969,
+              -8.278407040052116e-05
+            ]
+          },
+          {
+            "progress": 0.12477908821066658,
+            "class_loss_change": [
+              0.004765637218952179,
+              0.0063499510288238525,
+              -0.05083218216896057,
+              0.015557289123535156,
+              -0.0724172592163086,
+              -0.013823986053466797,
+              -0.00011276936857029796,
+              -0.10106039047241211,
+              0.004547618329524994,
+              -5.811633309349418e-05
+            ]
+          }
+        ],
+        "bn_recalibration_loss_change": [
+          -0.09310530871152878,
+          -0.23216968774795532,
+          0.006559461355209351,
+          -0.2345203161239624,
+          0.056363821029663086,
+          0.0677560567855835,
+          -0.0002930197515524924,
+          0.2295469045639038,
+          -0.008163712918758392,
+          0.00013062168727628887
+        ]
+      },
+      "completed_selected_events": false,
+      "forgetting_verified": false,
+      "actual_recalibration_calls": 5,
+      "seconds": 12.888358799999878,
+      "steps": [],
+      "starting_metrics": {
+        "accuracy": 0.875,
+        "class_accuracy": {
+          "0": 0.8448275923728943,
+          "1": 1.0,
+          "2": 0.795918345451355,
+          "3": 0.782608687877655,
+          "4": 0.8809523582458496,
+          "5": 0.7735849022865295,
+          "6": 0.868852436542511,
+          "7": 0.9166666865348816,
+          "8": 0.9272727370262146,
+          "9": 0.9682539701461792
+        },
+        "clean_target_rate": 0.008810572326183319,
+        "asr": 0.21875,
+        "asr_samples": 512
+      },
+      "after_initial_bn_recalibration": {
+        "accuracy": 0.865234375,
+        "class_accuracy": {
+          "0": 0.8793103694915771,
+          "1": 0.9459459185600281,
+          "2": 0.7755101919174194,
+          "3": 0.8260869383811951,
+          "4": 0.8095238208770752,
+          "5": 0.7547169923782349,
+          "6": 0.9016393423080444,
+          "7": 0.875,
+          "8": 0.9090909361839294,
+          "9": 0.9523809552192688
+        },
+        "clean_target_rate": 0.013215859420597553,
+        "asr": 0.3671875,
+        "asr_samples": 512
+      },
+      "candidate_metrics": null
+    }
+  },
+  "forgetting_verified": false,
+  "parameter_scope": "all_trainable_parameters",
+  "bn_policy": "recompute on fixed clean validation before each event in every arm, freeze during control/evaluation; log BN-only loss changes separately",
+  "source_hashes": {
+    "BadFU_src\\BadFU-main\\request_pipeline.py": "1077c44a17823e6cafc34f6ea3e4a12456c94064ff20edc1902c50eca23d6890",
+    "BadFU_src\\BadFU-main\\badfu_common.py": "24fb201cef04e5869b781d0c9715a4718ffc05e1b64c629d581141d292bd75be",
+    "FUBA\\large_geometry.py": "b595a0feef4339b6054c04732a50b4ccda14dcd581d6d78d4473c97e87e7b7ad",
+    "FUBA\\request_geometry.py": "efb21677e9019c251778208dfb72b52c59888e7bb5d0756f65b6a9009dbb162a"
+  }
+}

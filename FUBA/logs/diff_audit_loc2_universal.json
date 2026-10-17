@@ -1,0 +1,3019 @@
+{
+  "args": {
+    "name": "loc2",
+    "ckpt_dir": "checkpoints",
+    "rounds": 8,
+    "K": 8,
+    "atk": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "req": 4,
+    "target": 8,
+    "delete": null,
+    "probe": 1000,
+    "inv": "universal",
+    "eps": 0.04,
+    "steps": 100,
+    "lam": 0.01,
+    "rank_by": [
+      "logit_shift",
+      "h0_prob"
+    ],
+    "m": 2,
+    "alphas": [
+      2.0,
+      4.0
+    ],
+    "dis_modes": [
+      "universal",
+      "per_sample"
+    ],
+    "skip_class_audit": false,
+    "asr_eps": 1.0,
+    "asr_thr": 0.04,
+    "seed": 0,
+    "out": null,
+    "smoke": false
+  },
+  "h0_baseline": {
+    "0": {
+      "ease": 0.0089,
+      "reach": 0.0089,
+      "target_prob": 0.0148,
+      "seconds": 1.7197,
+      "grad_steps": 100
+    },
+    "1": {
+      "ease": 0.0044,
+      "reach": 0.0044,
+      "target_prob": 0.0066,
+      "seconds": 1.7047,
+      "grad_steps": 100
+    },
+    "2": {
+      "ease": 0.0155,
+      "reach": 0.0155,
+      "target_prob": 0.0302,
+      "seconds": 1.7414,
+      "grad_steps": 100
+    },
+    "3": {
+      "ease": 0.0066,
+      "reach": 0.0066,
+      "target_prob": 0.0211,
+      "seconds": 1.8527,
+      "grad_steps": 100
+    },
+    "4": {
+      "ease": 0.0045,
+      "reach": 0.0045,
+      "target_prob": 0.0211,
+      "seconds": 1.7831,
+      "grad_steps": 100
+    },
+    "5": {
+      "ease": 0.0044,
+      "reach": 0.0044,
+      "target_prob": 0.015,
+      "seconds": 1.6683,
+      "grad_steps": 100
+    },
+    "6": {
+      "ease": 0.0154,
+      "reach": 0.0154,
+      "target_prob": 0.0209,
+      "seconds": 1.7182,
+      "grad_steps": 100
+    },
+    "7": {
+      "ease": 0.0137,
+      "reach": 0.0137,
+      "target_prob": 0.0208,
+      "seconds": 1.9277,
+      "grad_steps": 100
+    },
+    "8": {
+      "ease": 0.0241,
+      "reach": 0.0241,
+      "target_prob": 0.0655,
+      "seconds": 2.0159,
+      "grad_steps": 100
+    },
+    "9": {
+      "ease": 0.0134,
+      "reach": 0.0134,
+      "target_prob": 0.0254,
+      "seconds": 1.9887,
+      "grad_steps": 100
+    }
+  },
+  "scenarios": [
+    {
+      "client": 0,
+      "role": "attacker",
+      "truth": {
+        "h0": {
+          "acc": 95.98,
+          "asr": 6.41
+        },
+        "h1": {
+          "acc": 95.96,
+          "asr": 3.25
+        },
+        "h_a2.0": {
+          "acc": 95.12,
+          "asr": 1.47
+        },
+        "h_a4.0": {
+          "acc": 90.14,
+          "asr": 0.21
+        }
+      },
+      "localize": {
+        "logit_shift": {
+          "ranking": [
+            1,
+            4,
+            6,
+            7,
+            0,
+            5,
+            9,
+            3,
+            2,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            0.16572,
+            0.99448,
+            -0.48424,
+            -0.35186,
+            0.70639,
+            -0.18334,
+            0.66231,
+            0.37773,
+            -1.6241,
+            -0.2631
+          ]
+        },
+        "head_row": {
+          "ranking": [
+            6,
+            1,
+            0,
+            3,
+            5,
+            4,
+            9,
+            7,
+            2,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            0.04242,
+            0.04886,
+            0.02789,
+            0.04002,
+            0.03961,
+            0.03975,
+            0.05345,
+            0.02951,
+            0.01739,
+            0.03557
+          ]
+        },
+        "svd_head": {
+          "ranking": [
+            6,
+            0,
+            5,
+            1,
+            3,
+            7,
+            2,
+            9,
+            8,
+            4
+          ],
+          "target_rank": 8,
+          "scores": [
+            0.03338,
+            0.01047,
+            0.00512,
+            0.00888,
+            0.00381,
+            0.0279,
+            0.04924,
+            0.0077,
+            0.00408,
+            0.00475
+          ]
+        },
+        "h0_ease": {
+          "ranking": [
+            8,
+            2,
+            6,
+            7,
+            9,
+            0,
+            3,
+            4,
+            1,
+            5
+          ],
+          "target_rank": 0,
+          "scores": [
+            0.00891,
+            0.00444,
+            0.01545,
+            0.00661,
+            0.00447,
+            0.00443,
+            0.01542,
+            0.01373,
+            0.02407,
+            0.01339
+          ]
+        },
+        "h0_prob": {
+          "ranking": [
+            8,
+            2,
+            9,
+            3,
+            4,
+            6,
+            7,
+            5,
+            0,
+            1
+          ],
+          "target_rank": 0,
+          "scores": [
+            0.01485,
+            0.00664,
+            0.03021,
+            0.02109,
+            0.02107,
+            0.01498,
+            0.02091,
+            0.02075,
+            0.06547,
+            0.02541
+          ]
+        }
+      },
+      "layer_energy": {
+        "conv1": 0.05484,
+        "conv2": 0.07387,
+        "fc1": 0.05633,
+        "fc2": 0.03786,
+        "fc3": 0.04758
+      },
+      "audit": {
+        "disagree[universal]": {
+          "flag_class": 0,
+          "score": 0.01,
+          "disagree": 0.016,
+          "disagree_clean": 0.006,
+          "h1_class_counts": [
+            3,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            2,
+            0,
+            1
+          ],
+          "seconds": 3.858,
+          "per_request_inversions": 1
+        },
+        "disagree_conc[universal]": {
+          "flag_class": 0,
+          "score": 0.006,
+          "disagree": 0.016,
+          "disagree_clean": 0.006,
+          "h1_class_counts": [
+            3,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            2,
+            0,
+            1
+          ],
+          "seconds": 3.858,
+          "per_request_inversions": 1
+        },
+        "disagree[per_sample]": {
+          "flag_class": 7,
+          "score": 0.018,
+          "disagree": 0.024,
+          "disagree_clean": 0.006,
+          "h1_class_counts": [
+            0,
+            2,
+            1,
+            1,
+            0,
+            1,
+            0,
+            6,
+            0,
+            1
+          ],
+          "seconds": 3.762,
+          "per_request_inversions": 1
+        },
+        "disagree_conc[per_sample]": {
+          "flag_class": 7,
+          "score": 0.012,
+          "disagree": 0.024,
+          "disagree_clean": 0.006,
+          "h1_class_counts": [
+            0,
+            2,
+            1,
+            1,
+            0,
+            1,
+            0,
+            6,
+            0,
+            1
+          ],
+          "seconds": 3.762,
+          "per_request_inversions": 1
+        },
+        "full_diff": {
+          "gains": {
+            "0": 0.0089,
+            "1": 0.0022,
+            "2": 0.0,
+            "3": -0.0022,
+            "4": 0.0045,
+            "5": 0.0022,
+            "6": 0.0,
+            "7": 0.0023,
+            "8": -0.0175,
+            "9": 0.0
+          },
+          "flag_class": 0,
+          "score": 0.0089,
+          "per_request_inversions": 10
+        },
+        "post_only": {
+          "anomaly_index": [
+            0.994,
+            -0.673,
+            0.64,
+            -1.011,
+            -0.332,
+            -0.676,
+            0.635,
+            0.725,
+            -0.689,
+            0.332
+          ],
+          "flag_class": 0,
+          "score": 0.994,
+          "per_request_inversions": 10
+        },
+        "localized[logit_shift]": {
+          "gains": {
+            "1": 0.0022,
+            "4": 0.0045
+          },
+          "flag_class": 4,
+          "score": 0.0045,
+          "per_request_inversions": 2
+        },
+        "extrap_a2.0[logit_shift]": {
+          "gains": {
+            "1": 0.0022,
+            "4": 0.0067
+          },
+          "flag_class": 4,
+          "score": 0.0067,
+          "per_request_inversions": 2
+        },
+        "extrap_a4.0[logit_shift]": {
+          "gains": {
+            "1": 0.0133,
+            "4": 0.0246
+          },
+          "flag_class": 4,
+          "score": 0.0246,
+          "per_request_inversions": 2
+        },
+        "localized[h0_prob]": {
+          "gains": {
+            "8": -0.0175,
+            "2": 0.0
+          },
+          "flag_class": 2,
+          "score": 0.0,
+          "per_request_inversions": 2
+        },
+        "extrap_a2.0[h0_prob]": {
+          "gains": {
+            "8": -0.0197,
+            "2": 0.0022
+          },
+          "flag_class": 2,
+          "score": 0.0022,
+          "per_request_inversions": 2
+        },
+        "extrap_a4.0[h0_prob]": {
+          "gains": {
+            "8": -0.0241,
+            "2": 0.0066
+          },
+          "flag_class": 2,
+          "score": 0.0066,
+          "per_request_inversions": 2
+        }
+      }
+    },
+    {
+      "client": 1,
+      "role": "attacker",
+      "truth": {
+        "h0": {
+          "acc": 95.98,
+          "asr": 6.41
+        },
+        "h1": {
+          "acc": 95.69,
+          "asr": 2.56
+        },
+        "h_a2.0": {
+          "acc": 94.32,
+          "asr": 0.79
+        },
+        "h_a4.0": {
+          "acc": 86.98,
+          "asr": 0.05
+        }
+      },
+      "localize": {
+        "logit_shift": {
+          "ranking": [
+            1,
+            4,
+            6,
+            7,
+            0,
+            9,
+            5,
+            3,
+            2,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            0.20668,
+            0.85051,
+            -0.41267,
+            -0.27799,
+            0.70723,
+            -0.11876,
+            0.62036,
+            0.26339,
+            -1.80812,
+            -0.03064
+          ]
+        },
+        "head_row": {
+          "ranking": [
+            6,
+            5,
+            1,
+            0,
+            3,
+            9,
+            4,
+            2,
+            7,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            0.04454,
+            0.04768,
+            0.03516,
+            0.04097,
+            0.03606,
+            0.05075,
+            0.07282,
+            0.02618,
+            0.0157,
+            0.03662
+          ]
+        },
+        "svd_head": {
+          "ranking": [
+            6,
+            0,
+            5,
+            7,
+            4,
+            1,
+            2,
+            8,
+            9,
+            3
+          ],
+          "target_rank": 7,
+          "scores": [
+            0.0357,
+            0.00583,
+            0.00498,
+            0.0022,
+            0.0079,
+            0.02737,
+            0.07057,
+            0.00808,
+            0.00346,
+            0.00271
+          ]
+        },
+        "h0_ease": {
+          "ranking": [
+            8,
+            2,
+            6,
+            7,
+            9,
+            0,
+            3,
+            4,
+            1,
+            5
+          ],
+          "target_rank": 0,
+          "scores": [
+            0.00891,
+            0.00444,
+            0.01545,
+            0.00661,
+            0.00447,
+            0.00443,
+            0.01542,
+            0.01373,
+            0.02407,
+            0.01339
+          ]
+        },
+        "h0_prob": {
+          "ranking": [
+            8,
+            2,
+            9,
+            3,
+            4,
+            6,
+            7,
+            5,
+            0,
+            1
+          ],
+          "target_rank": 0,
+          "scores": [
+            0.01485,
+            0.00664,
+            0.03021,
+            0.02109,
+            0.02107,
+            0.01498,
+            0.02091,
+            0.02075,
+            0.06547,
+            0.02541
+          ]
+        }
+      },
+      "layer_energy": {
+        "conv1": 0.05764,
+        "conv2": 0.07552,
+        "fc1": 0.05996,
+        "fc2": 0.0375,
+        "fc3": 0.05301
+      },
+      "audit": {
+        "disagree[universal]": {
+          "flag_class": 0,
+          "score": 0.014,
+          "disagree": 0.022,
+          "disagree_clean": 0.008,
+          "h1_class_counts": [
+            4,
+            1,
+            0,
+            0,
+            2,
+            0,
+            1,
+            2,
+            0,
+            1
+          ],
+          "seconds": 3.193,
+          "per_request_inversions": 1
+        },
+        "disagree_conc[universal]": {
+          "flag_class": 0,
+          "score": 0.008,
+          "disagree": 0.022,
+          "disagree_clean": 0.008,
+          "h1_class_counts": [
+            4,
+            1,
+            0,
+            0,
+            2,
+            0,
+            1,
+            2,
+            0,
+            1
+          ],
+          "seconds": 3.193,
+          "per_request_inversions": 1
+        },
+        "disagree[per_sample]": {
+          "flag_class": 7,
+          "score": 0.044,
+          "disagree": 0.052,
+          "disagree_clean": 0.008,
+          "h1_class_counts": [
+            3,
+            5,
+            3,
+            1,
+            3,
+            1,
+            0,
+            7,
+            0,
+            3
+          ],
+          "seconds": 3.537,
+          "per_request_inversions": 1
+        },
+        "disagree_conc[per_sample]": {
+          "flag_class": 7,
+          "score": 0.014,
+          "disagree": 0.052,
+          "disagree_clean": 0.008,
+          "h1_class_counts": [
+            3,
+            5,
+            3,
+            1,
+            3,
+            1,
+            0,
+            7,
+            0,
+            3
+          ],
+          "seconds": 3.537,
+          "per_request_inversions": 1
+        },
+        "full_diff": {
+          "gains": {
+            "0": 0.0089,
+            "1": 0.0022,
+            "2": 0.0,
+            "3": -0.0022,
+            "4": 0.0045,
+            "5": 0.0022,
+            "6": 0.0,
+            "7": 0.0023,
+            "8": -0.0175,
+            "9": 0.0022
+          },
+          "flag_class": 0,
+          "score": 0.0089,
+          "per_request_inversions": 10
+        },
+        "post_only": {
+          "anomaly_index": [
+            0.813,
+            -0.796,
+            0.472,
+            -1.122,
+            -0.467,
+            -0.798,
+            0.467,
+            0.553,
+            -0.811,
+            0.496
+          ],
+          "flag_class": 0,
+          "score": 0.813,
+          "per_request_inversions": 10
+        },
+        "localized[logit_shift]": {
+          "gains": {
+            "1": 0.0022,
+            "4": 0.0045
+          },
+          "flag_class": 4,
+          "score": 0.0045,
+          "per_request_inversions": 2
+        },
+        "extrap_a2.0[logit_shift]": {
+          "gains": {
+            "1": 0.0067,
+            "4": 0.0067
+          },
+          "flag_class": 4,
+          "score": 0.0067,
+          "per_request_inversions": 2
+        },
+        "extrap_a4.0[logit_shift]": {
+          "gains": {
+            "1": 0.0356,
+            "4": 0.0112
+          },
+          "flag_class": 1,
+          "score": 0.0356,
+          "per_request_inversions": 2
+        },
+        "localized[h0_prob]": {
+          "gains": {
+            "8": -0.0175,
+            "2": 0.0
+          },
+          "flag_class": 2,
+          "score": 0.0,
+          "per_request_inversions": 2
+        },
+        "extrap_a2.0[h0_prob]": {
+          "gains": {
+            "8": -0.0197,
+            "2": 0.0
+          },
+          "flag_class": 2,
+          "score": 0.0,
+          "per_request_inversions": 2
+        },
+        "extrap_a4.0[h0_prob]": {
+          "gains": {
+            "8": -0.0241,
+            "2": 0.0044
+          },
+          "flag_class": 2,
+          "score": 0.0044,
+          "per_request_inversions": 2
+        }
+      }
+    },
+    {
+      "client": 2,
+      "role": "attacker",
+      "truth": {
+        "h0": {
+          "acc": 95.98,
+          "asr": 6.41
+        },
+        "h1": {
+          "acc": 95.5,
+          "asr": 2.8
+        },
+        "h_a2.0": {
+          "acc": 93.76,
+          "asr": 1.0
+        },
+        "h_a4.0": {
+          "acc": 84.17,
+          "asr": 0.01
+        }
+      },
+      "localize": {
+        "logit_shift": {
+          "ranking": [
+            4,
+            6,
+            1,
+            7,
+            0,
+            9,
+            5,
+            3,
+            2,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            0.21411,
+            0.6404,
+            -0.70597,
+            -0.30522,
+            0.86548,
+            -0.18235,
+            0.81575,
+            0.43032,
+            -1.78842,
+            0.01589
+          ]
+        },
+        "head_row": {
+          "ranking": [
+            6,
+            3,
+            0,
+            4,
+            9,
+            5,
+            1,
+            7,
+            2,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            0.0535,
+            0.03878,
+            0.03084,
+            0.05469,
+            0.04422,
+            0.04272,
+            0.06391,
+            0.03856,
+            0.02007,
+            0.04302
+          ]
+        },
+        "svd_head": {
+          "ranking": [
+            6,
+            0,
+            5,
+            2,
+            7,
+            8,
+            3,
+            9,
+            1,
+            4
+          ],
+          "target_rank": 5,
+          "scores": [
+            0.04169,
+            0.00412,
+            0.01005,
+            0.00746,
+            0.00361,
+            0.02214,
+            0.05665,
+            0.00928,
+            0.0085,
+            0.0044
+          ]
+        },
+        "h0_ease": {
+          "ranking": [
+            8,
+            2,
+            6,
+            7,
+            9,
+            0,
+            3,
+            4,
+            1,
+            5
+          ],
+          "target_rank": 0,
+          "scores": [
+            0.00891,
+            0.00444,
+            0.01545,
+            0.00661,
+            0.00447,
+            0.00443,
+            0.01542,
+            0.01373,
+            0.02407,
+            0.01339
+          ]
+        },
+        "h0_prob": {
+          "ranking": [
+            8,
+            2,
+            9,
+            3,
+            4,
+            6,
+            7,
+            5,
+            0,
+            1
+          ],
+          "target_rank": 0,
+          "scores": [
+            0.01485,
+            0.00664,
+            0.03021,
+            0.02109,
+            0.02107,
+            0.01498,
+            0.02091,
+            0.02075,
+            0.06547,
+            0.02541
+          ]
+        }
+      },
+      "layer_energy": {
+        "conv1": 0.06359,
+        "conv2": 0.0843,
+        "fc1": 0.06449,
+        "fc2": 0.04201,
+        "fc3": 0.05481
+      },
+      "audit": {
+        "disagree[universal]": {
+          "flag_class": 4,
+          "score": 0.01,
+          "disagree": 0.02,
+          "disagree_clean": 0.01,
+          "h1_class_counts": [
+            1,
+            1,
+            0,
+            0,
+            3,
+            1,
+            2,
+            2,
+            0,
+            0
+          ],
+          "seconds": 3.234,
+          "per_request_inversions": 1
+        },
+        "disagree_conc[universal]": {
+          "flag_class": 4,
+          "score": 0.006,
+          "disagree": 0.02,
+          "disagree_clean": 0.01,
+          "h1_class_counts": [
+            1,
+            1,
+            0,
+            0,
+            3,
+            1,
+            2,
+            2,
+            0,
+            0
+          ],
+          "seconds": 3.234,
+          "per_request_inversions": 1
+        },
+        "disagree[per_sample]": {
+          "flag_class": 7,
+          "score": 0.034,
+          "disagree": 0.044,
+          "disagree_clean": 0.01,
+          "h1_class_counts": [
+            1,
+            5,
+            2,
+            1,
+            3,
+            1,
+            0,
+            7,
+            0,
+            2
+          ],
+          "seconds": 3.358,
+          "per_request_inversions": 1
+        },
+        "disagree_conc[per_sample]": {
+          "flag_class": 7,
+          "score": 0.014,
+          "disagree": 0.044,
+          "disagree_clean": 0.01,
+          "h1_class_counts": [
+            1,
+            5,
+            2,
+            1,
+            3,
+            1,
+            0,
+            7,
+            0,
+            2
+          ],
+          "seconds": 3.358,
+          "per_request_inversions": 1
+        },
+        "full_diff": {
+          "gains": {
+            "0": 0.0089,
+            "1": 0.0,
+            "2": -0.0022,
+            "3": -0.0022,
+            "4": 0.0067,
+            "5": 0.0044,
+            "6": 0.0,
+            "7": 0.0023,
+            "8": -0.0175,
+            "9": 0.0
+          },
+          "flag_class": 0,
+          "score": 0.0089,
+          "per_request_inversions": 10
+        },
+        "post_only": {
+          "anomaly_index": [
+            1.057,
+            -1.466,
+            0.194,
+            -1.474,
+            -0.194,
+            -0.631,
+            0.604,
+            0.718,
+            -1.066,
+            0.222
+          ],
+          "flag_class": 0,
+          "score": 1.057,
+          "per_request_inversions": 10
+        },
+        "localized[logit_shift]": {
+          "gains": {
+            "4": 0.0067,
+            "6": 0.0
+          },
+          "flag_class": 4,
+          "score": 0.0067,
+          "per_request_inversions": 2
+        },
+        "extrap_a2.0[logit_shift]": {
+          "gains": {
+            "4": 0.0134,
+            "6": 0.0088
+          },
+          "flag_class": 4,
+          "score": 0.0134,
+          "per_request_inversions": 2
+        },
+        "extrap_a4.0[logit_shift]": {
+          "gains": {
+            "4": 0.0224,
+            "6": 0.0441
+          },
+          "flag_class": 6,
+          "score": 0.0441,
+          "per_request_inversions": 2
+        },
+        "localized[h0_prob]": {
+          "gains": {
+            "8": -0.0175,
+            "2": -0.0022
+          },
+          "flag_class": 2,
+          "score": -0.0022,
+          "per_request_inversions": 2
+        },
+        "extrap_a2.0[h0_prob]": {
+          "gains": {
+            "8": -0.0197,
+            "2": -0.0022
+          },
+          "flag_class": 2,
+          "score": -0.0022,
+          "per_request_inversions": 2
+        },
+        "extrap_a4.0[h0_prob]": {
+          "gains": {
+            "8": -0.0241,
+            "2": -0.0044
+          },
+          "flag_class": 2,
+          "score": -0.0044,
+          "per_request_inversions": 2
+        }
+      }
+    },
+    {
+      "client": 3,
+      "role": "attacker",
+      "truth": {
+        "h0": {
+          "acc": 95.98,
+          "asr": 6.41
+        },
+        "h1": {
+          "acc": 95.62,
+          "asr": 2.92
+        },
+        "h_a2.0": {
+          "acc": 93.81,
+          "asr": 1.05
+        },
+        "h_a4.0": {
+          "acc": 83.69,
+          "asr": 0.02
+        }
+      },
+      "localize": {
+        "logit_shift": {
+          "ranking": [
+            4,
+            6,
+            1,
+            7,
+            0,
+            9,
+            5,
+            2,
+            3,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            0.13884,
+            0.70256,
+            -0.50453,
+            -0.55628,
+            0.91992,
+            -0.16287,
+            0.79431,
+            0.44933,
+            -1.815,
+            0.03373
+          ]
+        },
+        "head_row": {
+          "ranking": [
+            6,
+            3,
+            4,
+            1,
+            9,
+            7,
+            5,
+            0,
+            2,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            0.03435,
+            0.04748,
+            0.03259,
+            0.0495,
+            0.04809,
+            0.03615,
+            0.05828,
+            0.0366,
+            0.02405,
+            0.03929
+          ]
+        },
+        "svd_head": {
+          "ranking": [
+            3,
+            1,
+            7,
+            9,
+            0,
+            2,
+            8,
+            6,
+            4,
+            5
+          ],
+          "target_rank": 6,
+          "scores": [
+            0.02216,
+            0.03268,
+            0.01667,
+            0.03667,
+            0.01246,
+            0.00096,
+            0.01376,
+            0.02829,
+            0.01581,
+            0.02467
+          ]
+        },
+        "h0_ease": {
+          "ranking": [
+            8,
+            2,
+            6,
+            7,
+            9,
+            0,
+            3,
+            4,
+            1,
+            5
+          ],
+          "target_rank": 0,
+          "scores": [
+            0.00891,
+            0.00444,
+            0.01545,
+            0.00661,
+            0.00447,
+            0.00443,
+            0.01542,
+            0.01373,
+            0.02407,
+            0.01339
+          ]
+        },
+        "h0_prob": {
+          "ranking": [
+            8,
+            2,
+            9,
+            3,
+            4,
+            6,
+            7,
+            5,
+            0,
+            1
+          ],
+          "target_rank": 0,
+          "scores": [
+            0.01485,
+            0.00664,
+            0.03021,
+            0.02109,
+            0.02107,
+            0.01498,
+            0.02091,
+            0.02075,
+            0.06547,
+            0.02541
+          ]
+        }
+      },
+      "layer_energy": {
+        "conv1": 0.05433,
+        "conv2": 0.07263,
+        "fc1": 0.05804,
+        "fc2": 0.03865,
+        "fc3": 0.05127
+      },
+      "audit": {
+        "disagree[universal]": {
+          "flag_class": 9,
+          "score": 0.008,
+          "disagree": 0.016,
+          "disagree_clean": 0.008,
+          "h1_class_counts": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            0,
+            4
+          ],
+          "seconds": 3.628,
+          "per_request_inversions": 1
+        },
+        "disagree_conc[universal]": {
+          "flag_class": 9,
+          "score": 0.008,
+          "disagree": 0.016,
+          "disagree_clean": 0.008,
+          "h1_class_counts": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            0,
+            4
+          ],
+          "seconds": 3.628,
+          "per_request_inversions": 1
+        },
+        "disagree[per_sample]": {
+          "flag_class": 7,
+          "score": 0.046,
+          "disagree": 0.054,
+          "disagree_clean": 0.008,
+          "h1_class_counts": [
+            2,
+            4,
+            3,
+            0,
+            2,
+            2,
+            0,
+            10,
+            0,
+            4
+          ],
+          "seconds": 3.901,
+          "per_request_inversions": 1
+        },
+        "disagree_conc[per_sample]": {
+          "flag_class": 7,
+          "score": 0.02,
+          "disagree": 0.054,
+          "disagree_clean": 0.008,
+          "h1_class_counts": [
+            2,
+            4,
+            3,
+            0,
+            2,
+            2,
+            0,
+            10,
+            0,
+            4
+          ],
+          "seconds": 3.901,
+          "per_request_inversions": 1
+        },
+        "full_diff": {
+          "gains": {
+            "0": 0.0089,
+            "1": 0.0022,
+            "2": 0.0022,
+            "3": -0.0022,
+            "4": 0.0045,
+            "5": 0.0089,
+            "6": 0.0,
+            "7": 0.0023,
+            "8": -0.0175,
+            "9": 0.0022
+          },
+          "flag_class": 0,
+          "score": 0.0089,
+          "per_request_inversions": 10
+        },
+        "post_only": {
+          "anomaly_index": [
+            0.69,
+            -1.537,
+            0.659,
+            -1.988,
+            -1.081,
+            -0.211,
+            0.211,
+            0.331,
+            -1.557,
+            0.252
+          ],
+          "flag_class": 0,
+          "score": 0.69,
+          "per_request_inversions": 10
+        },
+        "localized[logit_shift]": {
+          "gains": {
+            "4": 0.0045,
+            "6": 0.0
+          },
+          "flag_class": 4,
+          "score": 0.0045,
+          "per_request_inversions": 2
+        },
+        "extrap_a2.0[logit_shift]": {
+          "gains": {
+            "4": 0.0067,
+            "6": 0.0066
+          },
+          "flag_class": 4,
+          "score": 0.0067,
+          "per_request_inversions": 2
+        },
+        "extrap_a4.0[logit_shift]": {
+          "gains": {
+            "4": 0.0089,
+            "6": 0.033
+          },
+          "flag_class": 6,
+          "score": 0.033,
+          "per_request_inversions": 2
+        },
+        "localized[h0_prob]": {
+          "gains": {
+            "8": -0.0175,
+            "2": 0.0022
+          },
+          "flag_class": 2,
+          "score": 0.0022,
+          "per_request_inversions": 2
+        },
+        "extrap_a2.0[h0_prob]": {
+          "gains": {
+            "8": -0.0219,
+            "2": 0.0066
+          },
+          "flag_class": 2,
+          "score": 0.0066,
+          "per_request_inversions": 2
+        },
+        "extrap_a4.0[h0_prob]": {
+          "gains": {
+            "8": -0.0241,
+            "2": 0.0177
+          },
+          "flag_class": 2,
+          "score": 0.0177,
+          "per_request_inversions": 2
+        }
+      }
+    },
+    {
+      "client": 4,
+      "role": "requester",
+      "truth": {
+        "h0": {
+          "acc": 95.98,
+          "asr": 6.41
+        },
+        "h1": {
+          "acc": 83.73,
+          "asr": 52.35
+        },
+        "h_a2.0": {
+          "acc": 17.63,
+          "asr": 97.28
+        },
+        "h_a4.0": {
+          "acc": 9.81,
+          "asr": 100.0
+        }
+      },
+      "localize": {
+        "logit_shift": {
+          "ranking": [
+            6,
+            1,
+            4,
+            5,
+            0,
+            7,
+            3,
+            2,
+            9,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            0.11805,
+            0.57591,
+            -0.50022,
+            -0.34761,
+            0.50808,
+            0.15207,
+            1.54912,
+            -0.1948,
+            -1.07675,
+            -0.78386
+          ]
+        },
+        "head_row": {
+          "ranking": [
+            6,
+            5,
+            0,
+            9,
+            1,
+            2,
+            7,
+            3,
+            4,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            0.11979,
+            0.11113,
+            0.1102,
+            0.10654,
+            0.08649,
+            0.12655,
+            0.18261,
+            0.11004,
+            0.04529,
+            0.11884
+          ]
+        },
+        "svd_head": {
+          "ranking": [
+            6,
+            0,
+            7,
+            3,
+            4,
+            5,
+            2,
+            9,
+            8,
+            1
+          ],
+          "target_rank": 8,
+          "scores": [
+            0.05921,
+            0.00167,
+            0.01191,
+            0.03913,
+            0.01738,
+            0.01293,
+            0.17875,
+            0.05094,
+            0.00237,
+            0.0044
+          ]
+        },
+        "h0_ease": {
+          "ranking": [
+            8,
+            2,
+            6,
+            7,
+            9,
+            0,
+            3,
+            4,
+            1,
+            5
+          ],
+          "target_rank": 0,
+          "scores": [
+            0.00891,
+            0.00444,
+            0.01545,
+            0.00661,
+            0.00447,
+            0.00443,
+            0.01542,
+            0.01373,
+            0.02407,
+            0.01339
+          ]
+        },
+        "h0_prob": {
+          "ranking": [
+            8,
+            2,
+            9,
+            3,
+            4,
+            6,
+            7,
+            5,
+            0,
+            1
+          ],
+          "target_rank": 0,
+          "scores": [
+            0.01485,
+            0.00664,
+            0.03021,
+            0.02109,
+            0.02107,
+            0.01498,
+            0.02091,
+            0.02075,
+            0.06547,
+            0.02541
+          ]
+        }
+      },
+      "layer_energy": {
+        "conv1": 0.16965,
+        "conv2": 0.24385,
+        "fc1": 0.20945,
+        "fc2": 0.12737,
+        "fc3": 0.14293
+      },
+      "audit": {
+        "disagree[universal]": {
+          "flag_class": 8,
+          "score": 0.014,
+          "disagree": 0.192,
+          "disagree_clean": 0.178,
+          "h1_class_counts": [
+            2,
+            0,
+            4,
+            0,
+            4,
+            0,
+            1,
+            0,
+            84,
+            1
+          ],
+          "seconds": 3.83,
+          "per_request_inversions": 1
+        },
+        "disagree_conc[universal]": {
+          "flag_class": 8,
+          "score": 0.168,
+          "disagree": 0.192,
+          "disagree_clean": 0.178,
+          "h1_class_counts": [
+            2,
+            0,
+            4,
+            0,
+            4,
+            0,
+            1,
+            0,
+            84,
+            1
+          ],
+          "seconds": 3.83,
+          "per_request_inversions": 1
+        },
+        "disagree[per_sample]": {
+          "flag_class": 8,
+          "score": 0.02,
+          "disagree": 0.198,
+          "disagree_clean": 0.178,
+          "h1_class_counts": [
+            3,
+            0,
+            1,
+            0,
+            2,
+            0,
+            0,
+            0,
+            93,
+            0
+          ],
+          "seconds": 3.905,
+          "per_request_inversions": 1
+        },
+        "disagree_conc[per_sample]": {
+          "flag_class": 8,
+          "score": 0.186,
+          "disagree": 0.198,
+          "disagree_clean": 0.178,
+          "h1_class_counts": [
+            3,
+            0,
+            1,
+            0,
+            2,
+            0,
+            0,
+            0,
+            93,
+            0
+          ],
+          "seconds": 3.905,
+          "per_request_inversions": 1
+        },
+        "full_diff": {
+          "gains": {
+            "0": 0.0045,
+            "1": -0.0022,
+            "2": 0.0088,
+            "3": -0.0044,
+            "4": 0.0403,
+            "5": 0.0022,
+            "6": -0.0066,
+            "7": -0.0023,
+            "8": 0.2735,
+            "9": -0.0067
+          },
+          "flag_class": 8,
+          "score": 0.2735,
+          "per_request_inversions": 10
+        },
+        "post_only": {
+          "anomaly_index": [
+            0.384,
+            -0.937,
+            1.678,
+            -0.939,
+            4.104,
+            -0.412,
+            -0.156,
+            0.156,
+            34.082,
+            -0.407
+          ],
+          "flag_class": 8,
+          "score": 34.082,
+          "per_request_inversions": 10
+        },
+        "localized[logit_shift]": {
+          "gains": {
+            "6": -0.0066,
+            "1": -0.0022
+          },
+          "flag_class": 1,
+          "score": -0.0022,
+          "per_request_inversions": 2
+        },
+        "extrap_a2.0[logit_shift]": {
+          "gains": {
+            "6": -0.0154,
+            "1": -0.0044
+          },
+          "flag_class": 1,
+          "score": -0.0044,
+          "per_request_inversions": 2
+        },
+        "extrap_a4.0[logit_shift]": {
+          "gains": {
+            "6": -0.0154,
+            "1": -0.0044
+          },
+          "flag_class": 1,
+          "score": -0.0044,
+          "per_request_inversions": 2
+        },
+        "localized[h0_prob]": {
+          "gains": {
+            "8": 0.2735,
+            "2": 0.0088
+          },
+          "flag_class": 8,
+          "score": 0.2735,
+          "per_request_inversions": 2
+        },
+        "extrap_a2.0[h0_prob]": {
+          "gains": {
+            "8": 0.9081,
+            "2": -0.0155
+          },
+          "flag_class": 8,
+          "score": 0.9081,
+          "per_request_inversions": 2
+        },
+        "extrap_a4.0[h0_prob]": {
+          "gains": {
+            "8": 0.9759,
+            "2": -0.0155
+          },
+          "flag_class": 8,
+          "score": 0.9759,
+          "per_request_inversions": 2
+        }
+      }
+    },
+    {
+      "client": 5,
+      "role": "benign",
+      "truth": {
+        "h0": {
+          "acc": 95.98,
+          "asr": 6.41
+        },
+        "h1": {
+          "acc": 94.91,
+          "asr": 17.99
+        },
+        "h_a2.0": {
+          "acc": 88.23,
+          "asr": 52.56
+        },
+        "h_a4.0": {
+          "acc": 28.66,
+          "asr": 93.52
+        }
+      },
+      "localize": {
+        "logit_shift": {
+          "ranking": [
+            1,
+            6,
+            0,
+            4,
+            7,
+            9,
+            5,
+            2,
+            3,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            0.46878,
+            0.80198,
+            -0.42484,
+            -0.59428,
+            0.37853,
+            -0.3885,
+            0.48555,
+            0.17011,
+            -0.61946,
+            -0.27787
+          ]
+        },
+        "head_row": {
+          "ranking": [
+            1,
+            0,
+            6,
+            4,
+            7,
+            8,
+            2,
+            3,
+            5,
+            9
+          ],
+          "target_rank": 5,
+          "scores": [
+            0.03856,
+            0.04692,
+            0.02802,
+            0.02513,
+            0.03085,
+            0.02474,
+            0.03629,
+            0.02849,
+            0.02832,
+            0.02344
+          ]
+        },
+        "svd_head": {
+          "ranking": [
+            1,
+            6,
+            7,
+            3,
+            8,
+            2,
+            9,
+            5,
+            0,
+            4
+          ],
+          "target_rank": 4,
+          "scores": [
+            0.00047,
+            0.03761,
+            0.01081,
+            0.01505,
+            0.00042,
+            0.00128,
+            0.02462,
+            0.01781,
+            0.01414,
+            0.00964
+          ]
+        },
+        "h0_ease": {
+          "ranking": [
+            8,
+            2,
+            6,
+            7,
+            9,
+            0,
+            3,
+            4,
+            1,
+            5
+          ],
+          "target_rank": 0,
+          "scores": [
+            0.00891,
+            0.00444,
+            0.01545,
+            0.00661,
+            0.00447,
+            0.00443,
+            0.01542,
+            0.01373,
+            0.02407,
+            0.01339
+          ]
+        },
+        "h0_prob": {
+          "ranking": [
+            8,
+            2,
+            9,
+            3,
+            4,
+            6,
+            7,
+            5,
+            0,
+            1
+          ],
+          "target_rank": 0,
+          "scores": [
+            0.01485,
+            0.00664,
+            0.03021,
+            0.02109,
+            0.02107,
+            0.01498,
+            0.02091,
+            0.02075,
+            0.06547,
+            0.02541
+          ]
+        }
+      },
+      "layer_energy": {
+        "conv1": 0.04964,
+        "conv2": 0.06842,
+        "fc1": 0.04888,
+        "fc2": 0.03599,
+        "fc3": 0.0391
+      },
+      "audit": {
+        "disagree[universal]": {
+          "flag_class": 8,
+          "score": 0.036,
+          "disagree": 0.058,
+          "disagree_clean": 0.022,
+          "h1_class_counts": [
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            27,
+            0
+          ],
+          "seconds": 3.797,
+          "per_request_inversions": 1
+        },
+        "disagree_conc[universal]": {
+          "flag_class": 8,
+          "score": 0.054,
+          "disagree": 0.058,
+          "disagree_clean": 0.022,
+          "h1_class_counts": [
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            27,
+            0
+          ],
+          "seconds": 3.797,
+          "per_request_inversions": 1
+        },
+        "disagree[per_sample]": {
+          "flag_class": 8,
+          "score": 0.006,
+          "disagree": 0.028,
+          "disagree_clean": 0.022,
+          "h1_class_counts": [
+            5,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            9,
+            0
+          ],
+          "seconds": 3.817,
+          "per_request_inversions": 1
+        },
+        "disagree_conc[per_sample]": {
+          "flag_class": 8,
+          "score": 0.018,
+          "disagree": 0.028,
+          "disagree_clean": 0.022,
+          "h1_class_counts": [
+            5,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            9,
+            0
+          ],
+          "seconds": 3.817,
+          "per_request_inversions": 1
+        },
+        "full_diff": {
+          "gains": {
+            "0": 0.0089,
+            "1": 0.0,
+            "2": 0.0022,
+            "3": -0.0066,
+            "4": 0.0022,
+            "5": 0.0,
+            "6": -0.0066,
+            "7": -0.0023,
+            "8": 0.0525,
+            "9": 0.0067
+          },
+          "flag_class": 8,
+          "score": 0.0525,
+          "per_request_inversions": 10
+        },
+        "post_only": {
+          "anomaly_index": [
+            0.785,
+            -0.58,
+            0.768,
+            -1.033,
+            -0.348,
+            -0.581,
+            -0.134,
+            0.134,
+            6.779,
+            1.016
+          ],
+          "flag_class": 8,
+          "score": 6.779,
+          "per_request_inversions": 10
+        },
+        "localized[logit_shift]": {
+          "gains": {
+            "1": 0.0,
+            "6": -0.0066
+          },
+          "flag_class": 1,
+          "score": 0.0,
+          "per_request_inversions": 2
+        },
+        "extrap_a2.0[logit_shift]": {
+          "gains": {
+            "1": 0.0022,
+            "6": -0.011
+          },
+          "flag_class": 1,
+          "score": 0.0022,
+          "per_request_inversions": 2
+        },
+        "extrap_a4.0[logit_shift]": {
+          "gains": {
+            "1": 0.0,
+            "6": -0.0154
+          },
+          "flag_class": 1,
+          "score": 0.0,
+          "per_request_inversions": 2
+        },
+        "localized[h0_prob]": {
+          "gains": {
+            "8": 0.0525,
+            "2": 0.0022
+          },
+          "flag_class": 8,
+          "score": 0.0525,
+          "per_request_inversions": 2
+        },
+        "extrap_a2.0[h0_prob]": {
+          "gains": {
+            "8": 0.3129,
+            "2": 0.0022
+          },
+          "flag_class": 8,
+          "score": 0.3129,
+          "per_request_inversions": 2
+        },
+        "extrap_a4.0[h0_prob]": {
+          "gains": {
+            "8": 0.8643,
+            "2": -0.0155
+          },
+          "flag_class": 8,
+          "score": 0.8643,
+          "per_request_inversions": 2
+        }
+      }
+    },
+    {
+      "client": 6,
+      "role": "benign",
+      "truth": {
+        "h0": {
+          "acc": 95.98,
+          "asr": 6.41
+        },
+        "h1": {
+          "acc": 95.07,
+          "asr": 14.49
+        },
+        "h_a2.0": {
+          "acc": 90.52,
+          "asr": 34.58
+        },
+        "h_a4.0": {
+          "acc": 52.78,
+          "asr": 85.56
+        }
+      },
+      "localize": {
+        "logit_shift": {
+          "ranking": [
+            1,
+            7,
+            4,
+            0,
+            6,
+            9,
+            2,
+            3,
+            5,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            0.35456,
+            0.72896,
+            -0.33009,
+            -0.45593,
+            0.50011,
+            -0.70063,
+            0.18215,
+            0.58899,
+            -0.79226,
+            -0.07585
+          ]
+        },
+        "head_row": {
+          "ranking": [
+            1,
+            0,
+            6,
+            4,
+            2,
+            9,
+            3,
+            5,
+            7,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            0.03916,
+            0.04317,
+            0.02916,
+            0.0263,
+            0.03129,
+            0.02518,
+            0.03836,
+            0.02512,
+            0.02458,
+            0.02755
+          ]
+        },
+        "svd_head": {
+          "ranking": [
+            1,
+            6,
+            7,
+            2,
+            3,
+            8,
+            9,
+            5,
+            4,
+            0
+          ],
+          "target_rank": 5,
+          "scores": [
+            0.00354,
+            0.03304,
+            0.01309,
+            0.01241,
+            0.00533,
+            0.00698,
+            0.02765,
+            0.01384,
+            0.01202,
+            0.01178
+          ]
+        },
+        "h0_ease": {
+          "ranking": [
+            8,
+            2,
+            6,
+            7,
+            9,
+            0,
+            3,
+            4,
+            1,
+            5
+          ],
+          "target_rank": 0,
+          "scores": [
+            0.00891,
+            0.00444,
+            0.01545,
+            0.00661,
+            0.00447,
+            0.00443,
+            0.01542,
+            0.01373,
+            0.02407,
+            0.01339
+          ]
+        },
+        "h0_prob": {
+          "ranking": [
+            8,
+            2,
+            9,
+            3,
+            4,
+            6,
+            7,
+            5,
+            0,
+            1
+          ],
+          "target_rank": 0,
+          "scores": [
+            0.01485,
+            0.00664,
+            0.03021,
+            0.02109,
+            0.02107,
+            0.01498,
+            0.02091,
+            0.02075,
+            0.06547,
+            0.02541
+          ]
+        }
+      },
+      "layer_energy": {
+        "conv1": 0.04731,
+        "conv2": 0.06621,
+        "fc1": 0.05073,
+        "fc2": 0.03507,
+        "fc3": 0.03881
+      },
+      "audit": {
+        "disagree[universal]": {
+          "flag_class": 8,
+          "score": 0.034,
+          "disagree": 0.05,
+          "disagree_clean": 0.016,
+          "h1_class_counts": [
+            3,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            1,
+            19,
+            0
+          ],
+          "seconds": 3.766,
+          "per_request_inversions": 1
+        },
+        "disagree_conc[universal]": {
+          "flag_class": 8,
+          "score": 0.038,
+          "disagree": 0.05,
+          "disagree_clean": 0.016,
+          "h1_class_counts": [
+            3,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            1,
+            19,
+            0
+          ],
+          "seconds": 3.766,
+          "per_request_inversions": 1
+        },
+        "disagree[per_sample]": {
+          "flag_class": 8,
+          "score": 0.01,
+          "disagree": 0.026,
+          "disagree_clean": 0.016,
+          "h1_class_counts": [
+            4,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2,
+            6,
+            1
+          ],
+          "seconds": 3.712,
+          "per_request_inversions": 1
+        },
+        "disagree_conc[per_sample]": {
+          "flag_class": 8,
+          "score": 0.012,
+          "disagree": 0.026,
+          "disagree_clean": 0.016,
+          "h1_class_counts": [
+            4,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2,
+            6,
+            1
+          ],
+          "seconds": 3.712,
+          "per_request_inversions": 1
+        },
+        "full_diff": {
+          "gains": {
+            "0": 0.0022,
+            "1": 0.0,
+            "2": -0.0022,
+            "3": -0.0066,
+            "4": 0.0022,
+            "5": 0.0022,
+            "6": -0.0066,
+            "7": 0.0046,
+            "8": 0.0394,
+            "9": 0.0067
+          },
+          "flag_class": 8,
+          "score": 0.0394,
+          "per_request_inversions": 10
+        },
+        "post_only": {
+          "anomaly_index": [
+            0.177,
+            -0.843,
+            0.499,
+            -1.52,
+            -0.497,
+            -0.506,
+            -0.177,
+            1.27,
+            8.152,
+            1.542
+          ],
+          "flag_class": 8,
+          "score": 8.152,
+          "per_request_inversions": 10
+        },
+        "localized[logit_shift]": {
+          "gains": {
+            "1": 0.0,
+            "7": 0.0046
+          },
+          "flag_class": 7,
+          "score": 0.0046,
+          "per_request_inversions": 2
+        },
+        "extrap_a2.0[logit_shift]": {
+          "gains": {
+            "1": 0.0022,
+            "7": 0.0092
+          },
+          "flag_class": 7,
+          "score": 0.0092,
+          "per_request_inversions": 2
+        },
+        "extrap_a4.0[logit_shift]": {
+          "gains": {
+            "1": 0.0022,
+            "7": 0.0366
+          },
+          "flag_class": 7,
+          "score": 0.0366,
+          "per_request_inversions": 2
+        },
+        "localized[h0_prob]": {
+          "gains": {
+            "8": 0.0394,
+            "2": -0.0022
+          },
+          "flag_class": 8,
+          "score": 0.0394,
+          "per_request_inversions": 2
+        },
+        "extrap_a2.0[h0_prob]": {
+          "gains": {
+            "8": 0.1772,
+            "2": -0.0022
+          },
+          "flag_class": 8,
+          "score": 0.1772,
+          "per_request_inversions": 2
+        },
+        "extrap_a4.0[h0_prob]": {
+          "gains": {
+            "8": 0.7046,
+            "2": -0.0155
+          },
+          "flag_class": 8,
+          "score": 0.7046,
+          "per_request_inversions": 2
+        }
+      }
+    },
+    {
+      "client": 7,
+      "role": "benign",
+      "truth": {
+        "h0": {
+          "acc": 95.98,
+          "asr": 6.41
+        },
+        "h1": {
+          "acc": 95.06,
+          "asr": 14.97
+        },
+        "h_a2.0": {
+          "acc": 90.94,
+          "asr": 35.32
+        },
+        "h_a4.0": {
+          "acc": 47.94,
+          "asr": 91.61
+        }
+      },
+      "localize": {
+        "logit_shift": {
+          "ranking": [
+            6,
+            4,
+            1,
+            0,
+            5,
+            7,
+            9,
+            3,
+            2,
+            8
+          ],
+          "target_rank": 9,
+          "scores": [
+            0.28803,
+            0.46118,
+            -0.7519,
+            -0.54956,
+            0.68082,
+            0.07516,
+            0.86837,
+            -0.072,
+            -0.80788,
+            -0.19222
+          ]
+        },
+        "head_row": {
+          "ranking": [
+            1,
+            4,
+            6,
+            0,
+            7,
+            2,
+            8,
+            5,
+            3,
+            9
+          ],
+          "target_rank": 6,
+          "scores": [
+            0.0326,
+            0.03887,
+            0.02892,
+            0.02452,
+            0.0379,
+            0.02584,
+            0.03645,
+            0.03044,
+            0.02869,
+            0.02181
+          ]
+        },
+        "svd_head": {
+          "ranking": [
+            6,
+            7,
+            1,
+            2,
+            3,
+            8,
+            9,
+            5,
+            4,
+            0
+          ],
+          "target_rank": 5,
+          "scores": [
+            0.00185,
+            0.02336,
+            0.01634,
+            0.01265,
+            0.00193,
+            0.00512,
+            0.02957,
+            0.02481,
+            0.01053,
+            0.00958
+          ]
+        },
+        "h0_ease": {
+          "ranking": [
+            8,
+            2,
+            6,
+            7,
+            9,
+            0,
+            3,
+            4,
+            1,
+            5
+          ],
+          "target_rank": 0,
+          "scores": [
+            0.00891,
+            0.00444,
+            0.01545,
+            0.00661,
+            0.00447,
+            0.00443,
+            0.01542,
+            0.01373,
+            0.02407,
+            0.01339
+          ]
+        },
+        "h0_prob": {
+          "ranking": [
+            8,
+            2,
+            9,
+            3,
+            4,
+            6,
+            7,
+            5,
+            0,
+            1
+          ],
+          "target_rank": 0,
+          "scores": [
+            0.01485,
+            0.00664,
+            0.03021,
+            0.02109,
+            0.02107,
+            0.01498,
+            0.02091,
+            0.02075,
+            0.06547,
+            0.02541
+          ]
+        }
+      },
+      "layer_energy": {
+        "conv1": 0.05068,
+        "conv2": 0.06786,
+        "fc1": 0.05161,
+        "fc2": 0.03614,
+        "fc3": 0.03815
+      },
+      "audit": {
+        "disagree[universal]": {
+          "flag_class": 8,
+          "score": 0.028,
+          "disagree": 0.048,
+          "disagree_clean": 0.02,
+          "h1_class_counts": [
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2,
+            0,
+            17,
+            3
+          ],
+          "seconds": 3.781,
+          "per_request_inversions": 1
+        },
+        "disagree_conc[universal]": {
+          "flag_class": 8,
+          "score": 0.034,
+          "disagree": 0.048,
+          "disagree_clean": 0.02,
+          "h1_class_counts": [
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2,
+            0,
+            17,
+            3
+          ],
+          "seconds": 3.781,
+          "per_request_inversions": 1
+        },
+        "disagree[per_sample]": {
+          "flag_class": 8,
+          "score": -0.006,
+          "disagree": 0.014,
+          "disagree_clean": 0.02,
+          "h1_class_counts": [
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            1
+          ],
+          "seconds": 3.915,
+          "per_request_inversions": 1
+        },
+        "disagree_conc[per_sample]": {
+          "flag_class": 8,
+          "score": 0.008,
+          "disagree": 0.014,
+          "disagree_clean": 0.02,
+          "h1_class_counts": [
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            4,
+            1
+          ],
+          "seconds": 3.915,
+          "per_request_inversions": 1
+        },
+        "full_diff": {
+          "gains": {
+            "0": 0.0089,
+            "1": 0.0,
+            "2": -0.0022,
+            "3": -0.0044,
+            "4": 0.0045,
+            "5": 0.0089,
+            "6": -0.0044,
+            "7": -0.0046,
+            "8": 0.0416,
+            "9": 0.0112
+          },
+          "flag_class": 8,
+          "score": 0.0416,
+          "per_request_inversions": 10
+        },
+        "post_only": {
+          "anomaly_index": [
+            0.865,
+            -1.169,
+            0.17,
+            -1.51,
+            -0.484,
+            0.179,
+            -0.17,
+            -0.453,
+            8.14,
+            1.89
+          ],
+          "flag_class": 8,
+          "score": 8.14,
+          "per_request_inversions": 10
+        },
+        "localized[logit_shift]": {
+          "gains": {
+            "6": -0.0044,
+            "4": 0.0045
+          },
+          "flag_class": 4,
+          "score": 0.0045,
+          "per_request_inversions": 2
+        },
+        "extrap_a2.0[logit_shift]": {
+          "gains": {
+            "6": -0.0044,
+            "4": 0.0045
+          },
+          "flag_class": 4,
+          "score": 0.0045,
+          "per_request_inversions": 2
+        },
+        "extrap_a4.0[logit_shift]": {
+          "gains": {
+            "6": -0.0132,
+            "4": -0.0045
+          },
+          "flag_class": 4,
+          "score": -0.0045,
+          "per_request_inversions": 2
+        },
+        "localized[h0_prob]": {
+          "gains": {
+            "8": 0.0416,
+            "2": -0.0022
+          },
+          "flag_class": 8,
+          "score": 0.0416,
+          "per_request_inversions": 2
+        },
+        "extrap_a2.0[h0_prob]": {
+          "gains": {
+            "8": 0.1751,
+            "2": -0.0088
+          },
+          "flag_class": 8,
+          "score": 0.1751,
+          "per_request_inversions": 2
+        },
+        "extrap_a4.0[h0_prob]": {
+          "gains": {
+            "8": 0.7943,
+            "2": -0.0155
+          },
+          "flag_class": 8,
+          "score": 0.7943,
+          "per_request_inversions": 2
+        }
+      }
+    }
+  ],
+  "summary": {
+    "sec_per_inversion": 1.746,
+    "h0_one_time_seconds": 18.14,
+    "methods": {
+      "disagree[universal]": {
+        "benign_scores": {
+          "5": 0.036,
+          "6": 0.034,
+          "7": 0.028
+        },
+        "per_request_inversions": 1,
+        "per_request_seconds_est": 3.636,
+        "requester_score": 0.014,
+        "requester_flag_class": 8,
+        "flag_is_target": true,
+        "detected": false,
+        "margin_over_max_benign": -0.022
+      },
+      "disagree_conc[universal]": {
+        "benign_scores": {
+          "5": 0.054,
+          "6": 0.038,
+          "7": 0.034
+        },
+        "per_request_inversions": 1,
+        "per_request_seconds_est": 3.636,
+        "requester_score": 0.168,
+        "requester_flag_class": 8,
+        "flag_is_target": true,
+        "detected": true,
+        "margin_over_max_benign": 0.114
+      },
+      "disagree[per_sample]": {
+        "benign_scores": {
+          "5": 0.006,
+          "6": 0.01,
+          "7": -0.006
+        },
+        "per_request_inversions": 1,
+        "per_request_seconds_est": 3.738,
+        "requester_score": 0.02,
+        "requester_flag_class": 8,
+        "flag_is_target": true,
+        "detected": true,
+        "margin_over_max_benign": 0.01
+      },
+      "disagree_conc[per_sample]": {
+        "benign_scores": {
+          "5": 0.018,
+          "6": 0.012,
+          "7": 0.008
+        },
+        "per_request_inversions": 1,
+        "per_request_seconds_est": 3.738,
+        "requester_score": 0.186,
+        "requester_flag_class": 8,
+        "flag_is_target": true,
+        "detected": true,
+        "margin_over_max_benign": 0.168
+      },
+      "full_diff": {
+        "benign_scores": {
+          "5": 0.0525,
+          "6": 0.0394,
+          "7": 0.0416
+        },
+        "per_request_inversions": 10,
+        "per_request_seconds_est": 17.46,
+        "requester_score": 0.2735,
+        "requester_flag_class": 8,
+        "flag_is_target": true,
+        "detected": true,
+        "margin_over_max_benign": 0.221
+      },
+      "post_only": {
+        "benign_scores": {
+          "5": 6.779,
+          "6": 8.152,
+          "7": 8.14
+        },
+        "per_request_inversions": 10,
+        "per_request_seconds_est": 17.46,
+        "requester_score": 34.082,
+        "requester_flag_class": 8,
+        "flag_is_target": true,
+        "detected": true,
+        "margin_over_max_benign": 25.93
+      },
+      "localized[logit_shift]": {
+        "benign_scores": {
+          "5": 0.0,
+          "6": 0.0046,
+          "7": 0.0045
+        },
+        "per_request_inversions": 2,
+        "per_request_seconds_est": 3.492,
+        "requester_score": -0.0022,
+        "requester_flag_class": 1,
+        "flag_is_target": false,
+        "detected": false,
+        "margin_over_max_benign": -0.0068
+      },
+      "extrap_a2.0[logit_shift]": {
+        "benign_scores": {
+          "5": 0.0022,
+          "6": 0.0092,
+          "7": 0.0045
+        },
+        "per_request_inversions": 2,
+        "per_request_seconds_est": 3.492,
+        "requester_score": -0.0044,
+        "requester_flag_class": 1,
+        "flag_is_target": false,
+        "detected": false,
+        "margin_over_max_benign": -0.0136
+      },
+      "extrap_a4.0[logit_shift]": {
+        "benign_scores": {
+          "5": 0.0,
+          "6": 0.0366,
+          "7": -0.0045
+        },
+        "per_request_inversions": 2,
+        "per_request_seconds_est": 3.492,
+        "requester_score": -0.0044,
+        "requester_flag_class": 1,
+        "flag_is_target": false,
+        "detected": false,
+        "margin_over_max_benign": -0.041
+      },
+      "localized[h0_prob]": {
+        "benign_scores": {
+          "5": 0.0525,
+          "6": 0.0394,
+          "7": 0.0416
+        },
+        "per_request_inversions": 2,
+        "per_request_seconds_est": 3.492,
+        "requester_score": 0.2735,
+        "requester_flag_class": 8,
+        "flag_is_target": true,
+        "detected": true,
+        "margin_over_max_benign": 0.221
+      },
+      "extrap_a2.0[h0_prob]": {
+        "benign_scores": {
+          "5": 0.3129,
+          "6": 0.1772,
+          "7": 0.1751
+        },
+        "per_request_inversions": 2,
+        "per_request_seconds_est": 3.492,
+        "requester_score": 0.9081,
+        "requester_flag_class": 8,
+        "flag_is_target": true,
+        "detected": true,
+        "margin_over_max_benign": 0.5952
+      },
+      "extrap_a4.0[h0_prob]": {
+        "benign_scores": {
+          "5": 0.8643,
+          "6": 0.7046,
+          "7": 0.7943
+        },
+        "per_request_inversions": 2,
+        "per_request_seconds_est": 3.492,
+        "requester_score": 0.9759,
+        "requester_flag_class": 8,
+        "flag_is_target": true,
+        "detected": true,
+        "margin_over_max_benign": 0.1116
+      }
+    },
+    "localize": {
+      "logit_shift": {
+        "requester_target_rank": 9,
+        "benign_top1": {
+          "5": 1,
+          "6": 1,
+          "7": 6
+        }
+      },
+      "head_row": {
+        "requester_target_rank": 9,
+        "benign_top1": {
+          "5": 1,
+          "6": 1,
+          "7": 1
+        }
+      },
+      "svd_head": {
+        "requester_target_rank": 8,
+        "benign_top1": {
+          "5": 1,
+          "6": 1,
+          "7": 6
+        }
+      },
+      "h0_ease": {
+        "requester_target_rank": 0,
+        "benign_top1": {
+          "5": 8,
+          "6": 8,
+          "7": 8
+        }
+      },
+      "h0_prob": {
+        "requester_target_rank": 0,
+        "benign_top1": {
+          "5": 8,
+          "6": 8,
+          "7": 8
+        }
+      }
+    }
+  }
+}

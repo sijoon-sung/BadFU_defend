@@ -1,0 +1,299 @@
+{
+  "schema": 1,
+  "training_calls": 0,
+  "model_unlearning_calls": 0,
+  "audits": [
+    {
+      "export": "reproduction/validation/exports/temporal_history/c939c4f11272c550",
+      "inventory_verified": true,
+      "method_summaries_checked": 20,
+      "source_replay": true,
+      "missing_sources": [],
+      "single_round_dominance": [
+        {
+          "key": "fit_0",
+          "group": "fuba:cifar10:42",
+          "glr_max": 127.35896202460846,
+          "single_round_score": 127.35896202460843,
+          "entire_episode_max_explained_by_single_round": true
+        },
+        {
+          "key": "test_0",
+          "group": "fuba:cifar10:42",
+          "glr_max": 1429.32435293531,
+          "single_round_score": 1429.32435293531,
+          "entire_episode_max_explained_by_single_round": true
+        },
+        {
+          "key": "test_1",
+          "group": "fuba:cifar10:43",
+          "glr_max": 372.6916455075148,
+          "single_round_score": 372.6916455075149,
+          "entire_episode_max_explained_by_single_round": true
+        },
+        {
+          "key": "test_2",
+          "group": "fuba:cifar10:44",
+          "glr_max": 479.5247018589838,
+          "single_round_score": 479.5247018589839,
+          "entire_episode_max_explained_by_single_round": true
+        }
+      ],
+      "replayed_paths": 20,
+      "max_absolute_replay_error": 7.958078640513122e-13,
+      "comparisons": [
+        {
+          "group": "fuba:cifar10:42",
+          "methods": {
+            "level": {
+              "attack_episode_max": 1.577320055101252,
+              "final_scores": [
+                0.05340757605119325,
+                0.0648035203078439,
+                0.0633574295857267,
+                0.08664312388532745,
+                1.4290121880798052,
+                0.427870022717755,
+                0.5334875445848621,
+                0.5366199765341367,
+                0.6222146130629269,
+                0.3257680033724914,
+                0.39750387177577967,
+                1.0105928545571694,
+                0.6682109070137715,
+                0.49821944107225263,
+                0.584535044243532,
+                0.3644112804277818,
+                0.4784789209082778,
+                0.5294804205816745,
+                0.9817911203410544,
+                0.725090467430089
+              ],
+              "heldout_normal_episode_maxima": [
+                1.0079049796280044,
+                1.0439326042426116
+              ],
+              "first_above_observed_normal_envelope": 81,
+              "max_ratio_to_observed_normal_envelope": 1.5109405039088906
+            },
+            "hrac_windows": {
+              "attack_episode_max": 1.577320055101252,
+              "final_scores": [
+                0.05340757605119325,
+                0.0648035203078439,
+                0.0633574295857267,
+                0.08664312388532745,
+                1.4290121880798052,
+                0.427870022717755,
+                0.5334875445848621,
+                0.5366199765341367,
+                0.6222146130629269,
+                0.3257680033724914,
+                0.39750387177577967,
+                1.0105928545571694,
+                0.6682109070137715,
+                0.49821944107225263,
+                0.584535044243532,
+                0.3644112804277818,
+                0.4784789209082778,
+                0.5294804205816745,
+                0.9817911203410544,
+                0.725090467430089
+              ],
+              "heldout_normal_episode_maxima": [
+                1.0079049796280044,
+                1.0439326042426116
+              ],
+              "first_above_observed_normal_envelope": 81,
+              "max_ratio_to_observed_normal_envelope": 1.5109405039088906
+            },
+            "positive_change": {
+              "attack_episode_max": 0.18323981014465085,
+              "final_scores": [
+                0.002226490265631334,
+                0.004514368285096888,
+                0.0011350478188028468,
+                0.004691730906459517,
+                0.08383539929220996,
+                0.026364653202887223,
+                0.010700516751726619,
+                0.01286929907813622,
+                0.0701492922813329,
+                0.01809436544675208,
+                0.029300676093540964,
+                0.048701526393007455,
+                0.016878125424099555,
+                0.0047996431859179955,
+                0.03071120504822994,
+                0.008543050880612746,
+                0.013741122057337352,
+                0.010849483271789584,
+                0.02693605770795021,
+                0.013815101741492697
+              ],
+              "heldout_normal_episode_maxima": [
+                0.10116237882276802,
+                0.1003717201093765
+              ],
+              "first_above_observed_normal_envelope": 68,
+              "max_ratio_to_observed_normal_envelope": 1.8113434290199801
+            },
+            "innovation": {
+              "attack_episode_max": 53.46633245202648,
+              "final_scores": [
+                0.9706926611742187,
+                0.9782231769073638,
+                1.0090481393041717,
+                1.0985057933485565,
+                27.922890765148562,
+                4.976827416079127,
+                2.1710213789841744,
+                2.1553352433676007,
+                14.210402883403956,
+                5.339182651059118,
+                9.481564332598456,
+                15.981549511236846,
+                4.364941750502227,
+                1.2074853378748593,
+                10.81132349337441,
+                4.531164749282659,
+                2.552897610599642,
+                2.6948551710946806,
+                7.136899280612974,
+                3.8422621180389855
+              ],
+              "heldout_normal_episode_maxima": [
+                27.301708573183287,
+                30.96852278876033
+              ],
+              "first_above_observed_normal_envelope": 76,
+              "max_ratio_to_observed_normal_envelope": 1.7264734523091774
+            },
+            "temporal_glr": {
+              "attack_episode_max": 1429.32435293531,
+              "final_scores": [
+                0.5159541043990444,
+                0.5200591512100349,
+                0.5924735839372458,
+                0.8850973873047357,
+                389.84391434120914,
+                66.62653428001035,
+                88.32808921329064,
+                73.33967928967841,
+                100.96777505432772,
+                64.54976208843748,
+                44.9500310966016,
+                315.31566401351216,
+                45.44517565628661,
+                54.21355943048172,
+                58.44235783919472,
+                42.83279133366216,
+                55.99219404727494,
+                138.75181666593386,
+                110.48268573922674,
+                106.88910736938337
+              ],
+              "heldout_normal_episode_maxima": [
+                372.6916455075148,
+                479.5247018589838
+              ],
+              "first_above_observed_normal_envelope": 76,
+              "max_ratio_to_observed_normal_envelope": 2.98071058152837
+            }
+          }
+        }
+      ],
+      "interpretation": "Observed normal maxima are retrospective descriptive envelopes, not calibrated FPR thresholds.",
+      "source_limit": "Derived-array integrity does not replace source-history replay or checkpoint verification."
+    },
+    {
+      "export": "reproduction/validation/exports/temporal_history/aeb01d3b125f892e",
+      "inventory_verified": true,
+      "method_summaries_checked": 10,
+      "source_replay": true,
+      "missing_sources": [],
+      "single_round_dominance": [
+        {
+          "key": "fit_0",
+          "group": "badfu:cifar10:42",
+          "glr_max": 49.58418449031697,
+          "single_round_score": 49.58418449031695,
+          "entire_episode_max_explained_by_single_round": true
+        },
+        {
+          "key": "test_0",
+          "group": "badfu:cifar10:42",
+          "glr_max": 15394.371189313915,
+          "single_round_score": 2316.808464348909,
+          "entire_episode_max_explained_by_single_round": false
+        }
+      ],
+      "replayed_paths": 10,
+      "max_absolute_replay_error": 4.547473508864641e-13,
+      "comparisons": [
+        {
+          "group": "badfu:cifar10:42",
+          "methods": {
+            "level": {
+              "attack_episode_max": 37.77037875507977,
+              "final_scores": [
+                12.115425680678745,
+                7.202994821366807,
+                5.539578843801945,
+                5.577547397539819,
+                5.21897463271743,
+                37.77037875507977
+              ]
+            },
+            "hrac_windows": {
+              "attack_episode_max": 37.77037875507977,
+              "final_scores": [
+                12.115425680678745,
+                7.202994821366807,
+                5.539578843801945,
+                5.577547397539819,
+                5.21897463271743,
+                37.77037875507977
+              ]
+            },
+            "positive_change": {
+              "attack_episode_max": 1.8088888543912773,
+              "final_scores": [
+                0.7645997675539604,
+                0.3309793724975272,
+                0.2527092595080047,
+                0.22938066827079062,
+                0.2572592427638454,
+                1.2793364189475156
+              ]
+            },
+            "innovation": {
+              "attack_episode_max": 68.07067598237745,
+              "final_scores": [
+                55.21141722175516,
+                8.618982647849895,
+                6.667002879501302,
+                20.012254313773155,
+                20.3255195110119,
+                22.673026787762733
+              ]
+            },
+            "temporal_glr": {
+              "attack_episode_max": 15394.371189313915,
+              "final_scores": [
+                15394.371189313915,
+                409.17153761429813,
+                549.4168540666325,
+                3137.209309749332,
+                996.76084473257,
+                10200.402066126946
+              ]
+            }
+          }
+        }
+      ],
+      "interpretation": "Observed normal maxima are retrospective descriptive envelopes, not calibrated FPR thresholds.",
+      "source_limit": "Derived-array integrity does not replace source-history replay or checkpoint verification."
+    }
+  ]
+}

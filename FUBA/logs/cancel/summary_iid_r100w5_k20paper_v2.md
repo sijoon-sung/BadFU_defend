@@ -1,0 +1,29 @@
+# DOSE+TRACE (cancel_fu) 요약: iid_r100w5_k20paper_v2  n=3
+
+삭제 전 ASR 5.1 ± 1.7 / ACC 98.7 ± 0.1
+
+## 결정과 채점 (DOSE 띠 → TRACE → DEFUSE)
+
+| 요청자 | 역할 | 결정 (시드별) | DOSE z (최대) | ASR | ACC | 유지 변화 | α | 자기 데이터 acc | 순전파 짝 / 빼보기 / 모델 / 초 |
+|---|---|---|---|---|---|---|---|---|---|
+| 4 | suppressor | reject(purify_failed); reject(purify_failed); purified(kd+kd+kd+kd+kd) | 776.1 ± 377.4 | 35.7 ± 28.9 | 88.5 ± 7.0 | 11.38 ± 7.21 | 0.093 ± 0.028 | 86.6 ± 7.9 | 140 ± 50 / 468 ± 194 / 240 ± 99 / 4.6 ± 1.5 |
+| 19 | benign | accept(confirm); accept(confirm); accept(confirm) | 0.9 ± 1.6 | 5.3 ± 2.8 | 96.1 ± 0.4 | 3.45 ± 0.32 | 0.000 ± 0.000 | 94.7 ± 0.3 | 20 ± 0 / 19 ± 0 / 0 ± 0 / 0.5 ± 0.0 |
+| 5 | benign | accept(confirm); purified(antidote)(sim_only); accept(confirm) | 1.9 ± 1.0 | 3.7 ± 1.1 | 96.5 ± 1.2 | 3.02 ± 1.31 | 0.001 ± 0.002 | 95.7 ± 1.5 | 26 ± 9 / 19 ± 0 / 0 ± 0 / 0.5 ± 0.0 |
+
+## TRACE 회전 1: 저장된 기여 위 (θ_T, ω⁰ = 공개 ∪ 지울 데이터)
+
+| 요청자 | 역할 | 짝 (역할, 시드별) | 짝 정밀도 / 재현율 | 상쇄 비율 | 타깃 (몰림) | 크기 | 반대 정렬 | z: 크기 / 몰림 / 상쇄 / 반대 | Fisher p | 회전 1 경보 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 4 | suppressor | [0, 17, 2, 10] ['car', 'ben', 'car', 'ben']; [2, 1, 11, 10] ['car', 'car', 'ben', 'ben']; [2, 1, 19] ['car', 'car', 'ben'] | 0.56 ± 0.08 / 0.50 ± 0.00 | 0.77 ± 0.11 | 8 (46.85); 0 (37.19); 8 (38.59) | 120.49 ± 5.14 | - | 21.2 ± 10.3 / 13.1 ± 5.7 / 1.5 ± 0.2 / - | 0.019 ± 0.005 | 3/3 |
+| 19 | benign | [15, 12, 16, 3] ['ben', 'ben', 'ben', 'car']; [2, 17, 9] ['car', 'ben', 'ben']; [4, 8] ['sup', 'ben'] | 0.19 ± 0.14 / 0.17 ± 0.12 | 0.24 ± 0.07 | 5 (3.50); 0 (4.59); 3 (1.59) | 12.61 ± 1.48 | - | -0.1 ± 0.1 / 0.1 ± 0.1 / -1.1 ± 0.3 / - | 0.704 ± 0.231 | 0/3 |
+| 5 | benign | [0, 13, 8, 11] ['car', 'ben', 'ben', 'ben']; [2, 6, 18, 8] ['car', 'ben', 'ben', 'ben']; [0, 9] ['car', 'ben'] | 0.33 ± 0.12 / 0.25 ± 0.00 | 0.47 ± 0.02 | 7 (2.85); 4 (5.11); 9 (6.58) | 14.38 ± 2.64 | - | 0.0 ± 0.0 / 0.3 ± 0.1 / 0.1 ± 0.4 / - | 0.458 ± 0.056 | 0/3 |
+
+## TRACE 회전 2+ 와 DEFUSE: 활성화 입력 위 (θ' = θ_T − ρU_k, DOSE 경보가 난 요청만)
+
+| 요청자 | 역할 | 짝 (역할, 시드별) | 짝 정밀도 / 재현율 | 정렬 (운반자 / 정상, 시드 평균) | 상쇄 비율 | 회전 1 과 일치 | 클래스 일치 | DEFUSE λ | 방법 |
+|---|---|---|---|---|---|---|---|---|---|
+| 4 | suppressor | [16, 0, 12, 2, 17, 10, 6, 1, 3, 7, 9, 5, 19, 13] ['ben', 'car', 'ben', 'car', 'ben', 'ben', 'ben', 'car', 'car', 'ben', 'ben', 'ben', 'ben', 'ben']; [0, 1, 2, 3, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19] ['car', 'car', 'car', 'car', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben']; [0, 1, 2, 3, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19] ['car', 'car', 'car', 'car', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben']; [0, 1, 2, 3, 5, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19] ['car', 'car', 'car', 'car', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben']; [0, 1, 2, 3, 5, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19] ['car', 'car', 'car', 'car', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben']; [0, 1, 2, 3, 5, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19] ['car', 'car', 'car', 'car', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben']; [0, 1, 2, 3, 5, 7, 9, 10, 11, 12, 13, 15, 16, 17, 18, 19] ['car', 'car', 'car', 'car', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben']; [0, 1, 2, 3, 5, 7, 9, 10, 12, 13, 15, 16, 17, 18, 19] ['car', 'car', 'car', 'car', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben']; [0, 1, 2, 3, 5, 7, 9, 10, 12, 13, 15, 16, 17, 18, 19] ['car', 'car', 'car', 'car', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben']; [0, 1, 2, 3, 5, 7, 9, 10, 12, 13, 15, 16, 17, 18, 19] ['car', 'car', 'car', 'car', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben']; [2, 0, 12, 1, 3, 10, 19, 9, 5, 15, 7, 6, 11] ['car', 'car', 'ben', 'car', 'car', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben']; [0, 1, 2, 3, 5, 7, 9, 10, 12, 15, 19] ['car', 'car', 'car', 'car', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben']; [0, 1, 2, 3, 5, 7, 10, 12, 15, 19] ['car', 'car', 'car', 'car', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben']; [0, 1, 2, 3, 5, 7, 10, 12, 15, 19] ['car', 'car', 'car', 'car', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben']; [2, 3, 0, 1, 13, 7, 14, 15, 16, 19, 18] ['car', 'car', 'car', 'car', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben']; [0, 1, 2, 3, 7, 13, 14, 15, 16, 18, 19] ['car', 'car', 'car', 'car', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben']; [0, 1, 2, 3, 7, 13, 14, 16, 18] ['car', 'car', 'car', 'car', 'ben', 'ben', 'ben', 'ben', 'ben']; [0, 1, 2, 3, 7, 13, 16, 18] ['car', 'car', 'car', 'car', 'ben', 'ben', 'ben', 'ben']; [0, 1, 2, 3, 7, 13] ['car', 'car', 'car', 'car', 'ben', 'ben'] | 0.33 ± 0.11 / 1.00 ± 0.00 | -0.86 ± 0.03 / -0.41 ± 0.28 | 0.86 ± 0.04 | 0.25 ± 0.03 | 15/19 | 0.25; None; None; None; None; None; None; None; None; None; None; None; None; None; None; None; None; None; None | antidote; kd; kd; kd; kd; kd; kd; kd; kd; kd; kd; kd; kd; kd; kd; kd; kd; kd; kd |
+| 19 | benign | - | - | - | - | - | - | - | - |
+| 5 | benign | [12, 17, 11, 18, 14, 9, 8, 15, 13] ['ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben', 'ben'] | 0.00 / 0.00 | 0.31 / -0.31 | 0.82 | 0.18 | 1/1 | 0.25 | antidote |
+
+결정 뜻: accept(confirm)=빼 보기 통과·수락 / accept(attr_suspect)=1 단계 경보지만 빼 보기 통과·수락 / accept(partial)=연산자 한계로 일부만 뺌 / purified(antidote[+polish])=짝의 상쇄 성분 제거[+직교 증류] / purified(kd)=재억제(대체) / (sim_only)=1 단계는 통과했으나 빼 보기에서 경보 / reject(...)=불출

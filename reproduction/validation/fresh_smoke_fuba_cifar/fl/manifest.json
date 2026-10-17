@@ -1,0 +1,49 @@
+{
+  "schema": "full-trajectory-v1",
+  "status": "complete",
+  "expected_rounds": 2,
+  "metadata": {
+    "attack": "fuba",
+    "dataset": "cifar10",
+    "smoke": true,
+    "num_clients": 6,
+    "aggregation": "fuba_uniform",
+    "upstream_commit": "bc233610aca36e1647d0c815597cc7148292139d",
+    "asr_definition": "author evaluator: excludes target labels, last individual generator in train mode"
+  },
+  "initial": {
+    "path": "initial.pt",
+    "sha256": "6ea970b80e2de5caadfae8e1a1a9ee54b4999f9f13768b7c5876825d429d6cd8",
+    "bytes": 44770808
+  },
+  "rounds": [
+    {
+      "path": "round_0001.pt",
+      "sha256": "9b5ee3a4483d550950dc3fb3a334621a60638985e937828fe7e279e361992a61",
+      "bytes": 358166026,
+      "round": 1,
+      "client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "path": "round_0002.pt",
+      "sha256": "2303d7a31db7bf3698ec3a6160b66c66a62dbc1c130c7aa9718906e5ba14b49d",
+      "bytes": 545417792,
+      "round": 2,
+      "client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    }
+  ]
+}

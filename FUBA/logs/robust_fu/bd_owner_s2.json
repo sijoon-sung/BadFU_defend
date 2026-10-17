@@ -1,0 +1,4531 @@
+{
+  "name": "bd_owner_s2",
+  "args": {
+    "name": "bd_owner_s2",
+    "rounds": 8,
+    "K": 8,
+    "requesters": [
+      4,
+      7,
+      5
+    ],
+    "arms": [
+      "plain",
+      "purify_flag",
+      "purify_always",
+      "purify_clean"
+    ],
+    "target": 8,
+    "defender": 4,
+    "attackers": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "seed": 524,
+    "split_seed": 524,
+    "non_iid": true,
+    "non_iid_type": "class_owner",
+    "alpha": 1,
+    "sigma": 1,
+    "shift_ratio": 0.4,
+    "owner_client": -1,
+    "owner_class": 3,
+    "owner_frac": 0.9,
+    "train_epoch": 100,
+    "batch_size": 64,
+    "noise_thread": 0.04,
+    "atk_eps": 1.0,
+    "probe": 500,
+    "eps": 0.04,
+    "pgd_steps": 50,
+    "pgd_lr": 0.005,
+    "purify_steps": 30,
+    "purify_lr": 0.005,
+    "purify_lambda": 1.0,
+    "flag_thr": 0.5,
+    "mia_n": 1000,
+    "ckpt_dir": "checkpoints",
+    "out": null,
+    "resume": true,
+    "n_gpu": 1
+  },
+  "roles": {
+    "attackers": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "defender": 4,
+    "owner": 7,
+    "benign": [
+      5,
+      6,
+      7
+    ]
+  },
+  "probe": {
+    "n": 500,
+    "source": "MNIST test[0:500] (unlabelled)",
+    "eval": "MNIST test[500:]"
+  },
+  "before": {
+    "acc": 90.99,
+    "asr": 8.53,
+    "asr_by_class": {
+      "0": 1.71,
+      "1": 3.93,
+      "2": 9.83,
+      "3": 30.26,
+      "4": 5.61,
+      "5": 10.21,
+      "6": 4.59,
+      "7": 4.8,
+      "9": 6.07
+    },
+    "retain_change": 0.0,
+    "mia": {
+      "4": {
+        "req": {
+          "auroc": 0.5145,
+          "member_rate": 0.052,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.2083,
+          "mean_loss_nonmember": 0.303
+        },
+        "control_client": 5,
+        "control": {
+          "auroc": 0.5031,
+          "member_rate": 0.041,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.2485,
+          "mean_loss_nonmember": 0.303
+        }
+      },
+      "7": {
+        "req": {
+          "auroc": 0.3525,
+          "member_rate": 0.034,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.6234,
+          "mean_loss_nonmember": 0.303
+        },
+        "control_client": 5,
+        "control": {
+          "auroc": 0.5031,
+          "member_rate": 0.041,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.2485,
+          "mean_loss_nonmember": 0.303
+        }
+      },
+      "5": {
+        "req": {
+          "auroc": 0.5151,
+          "member_rate": 0.041,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.2444,
+          "mean_loss_nonmember": 0.303
+        },
+        "control_client": 6,
+        "control": {
+          "auroc": 0.5336,
+          "member_rate": 0.059,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.2202,
+          "mean_loss_nonmember": 0.303
+        }
+      }
+    }
+  },
+  "results": {
+    "4": {
+      "plain": {
+        "acc": 88.49,
+        "asr": 6.99,
+        "asr_by_class": {
+          "0": 0.85,
+          "1": 2.15,
+          "2": 7.06,
+          "3": 19.9,
+          "4": 6.26,
+          "5": 7.96,
+          "6": 3.83,
+          "7": 5.41,
+          "9": 9.84
+        },
+        "retain_change": 6.77,
+        "forget_proxy": {
+          "final": {
+            "loss": 0.321,
+            "acc": 90.44
+          },
+          "before": {
+            "loss": 0.2234,
+            "acc": 93.95
+          },
+          "note": "requester's own split; CE loss / acc, a proxy not an MIA"
+        },
+        "mia": {
+          "req": {
+            "auroc": 0.5191,
+            "member_rate": 0.052,
+            "nonmember_rate": 0.05,
+            "n_member": 1000,
+            "n_nonmember": 1000,
+            "mean_loss_member": 0.3162,
+            "mean_loss_nonmember": 0.3774
+          },
+          "control_client": 5,
+          "control": {
+            "auroc": 0.51,
+            "member_rate": 0.046,
+            "nonmember_rate": 0.05,
+            "n_member": 1000,
+            "n_nonmember": 1000,
+            "mean_loss_member": 0.3436,
+            "mean_loss_nonmember": 0.3774
+          }
+        },
+        "trace": [
+          {
+            "round": 2,
+            "clean": {
+              "diverge": 0.326,
+              "concentration": 0.7546,
+              "to_class": 6,
+              "counts": [
+                6,
+                0,
+                1,
+                0,
+                3,
+                1,
+                123,
+                29,
+                0,
+                0
+              ]
+            },
+            "adv": {
+              "diverge": 0.334,
+              "concentration": 0.7904,
+              "to_class": 6,
+              "counts": [
+                4,
+                0,
+                0,
+                0,
+                0,
+                1,
+                132,
+                30,
+                0,
+                0
+              ]
+            },
+            "score": 0.7904,
+            "flagged": true,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 3,
+            "clean": {
+              "diverge": 0.218,
+              "concentration": 0.2569,
+              "to_class": 0,
+              "counts": [
+                28,
+                23,
+                12,
+                0,
+                1,
+                10,
+                10,
+                2,
+                1,
+                22
+              ]
+            },
+            "adv": {
+              "diverge": 0.208,
+              "concentration": 0.2596,
+              "to_class": 0,
+              "counts": [
+                27,
+                27,
+                13,
+                0,
+                0,
+                6,
+                11,
+                1,
+                0,
+                19
+              ]
+            },
+            "score": 0.2596,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 4,
+            "clean": {
+              "diverge": 0.196,
+              "concentration": 0.1939,
+              "to_class": 2,
+              "counts": [
+                13,
+                15,
+                19,
+                0,
+                0,
+                13,
+                10,
+                15,
+                0,
+                13
+              ]
+            },
+            "adv": {
+              "diverge": 0.204,
+              "concentration": 0.2157,
+              "to_class": 2,
+              "counts": [
+                13,
+                12,
+                22,
+                0,
+                1,
+                13,
+                15,
+                17,
+                0,
+                9
+              ]
+            },
+            "score": 0.2157,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 5,
+            "clean": {
+              "diverge": 0.14,
+              "concentration": 0.3143,
+              "to_class": 9,
+              "counts": [
+                6,
+                9,
+                12,
+                0,
+                0,
+                3,
+                4,
+                14,
+                0,
+                22
+              ]
+            },
+            "adv": {
+              "diverge": 0.156,
+              "concentration": 0.2436,
+              "to_class": 7,
+              "counts": [
+                7,
+                10,
+                13,
+                0,
+                1,
+                3,
+                6,
+                19,
+                0,
+                19
+              ]
+            },
+            "score": 0.2436,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 6,
+            "clean": {
+              "diverge": 0.086,
+              "concentration": 0.2093,
+              "to_class": 1,
+              "counts": [
+                4,
+                9,
+                7,
+                0,
+                0,
+                5,
+                3,
+                5,
+                1,
+                9
+              ]
+            },
+            "adv": {
+              "diverge": 0.108,
+              "concentration": 0.2037,
+              "to_class": 2,
+              "counts": [
+                5,
+                9,
+                11,
+                0,
+                1,
+                4,
+                9,
+                6,
+                2,
+                7
+              ]
+            },
+            "score": 0.2037,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 7,
+            "clean": {
+              "diverge": 0.1,
+              "concentration": 0.24,
+              "to_class": 9,
+              "counts": [
+                3,
+                6,
+                6,
+                0,
+                1,
+                6,
+                4,
+                7,
+                5,
+                12
+              ]
+            },
+            "adv": {
+              "diverge": 0.112,
+              "concentration": 0.2321,
+              "to_class": 7,
+              "counts": [
+                5,
+                2,
+                5,
+                0,
+                1,
+                8,
+                5,
+                13,
+                4,
+                13
+              ]
+            },
+            "score": 0.2321,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 8,
+            "clean": {
+              "diverge": 0.074,
+              "concentration": 0.3243,
+              "to_class": 5,
+              "counts": [
+                0,
+                5,
+                4,
+                2,
+                0,
+                12,
+                4,
+                1,
+                7,
+                2
+              ]
+            },
+            "adv": {
+              "diverge": 0.096,
+              "concentration": 0.2708,
+              "to_class": 5,
+              "counts": [
+                0,
+                5,
+                7,
+                2,
+                5,
+                13,
+                7,
+                1,
+                6,
+                2
+              ]
+            },
+            "score": 0.2708,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          }
+        ],
+        "n_flagged": 1,
+        "n_purified": 0,
+        "max_score": 0.7904,
+        "seconds": 10.4
+      },
+      "purify_flag": {
+        "acc": 87.0,
+        "asr": 6.3,
+        "asr_by_class": {
+          "0": 0.96,
+          "1": 1.22,
+          "2": 10.64,
+          "3": 21.55,
+          "4": 3.78,
+          "5": 7.36,
+          "6": 6.34,
+          "7": 1.74,
+          "9": 3.56
+        },
+        "retain_change": 7.62,
+        "forget_proxy": {
+          "final": {
+            "loss": 0.3255,
+            "acc": 89.83
+          },
+          "before": {
+            "loss": 0.2234,
+            "acc": 93.95
+          },
+          "note": "requester's own split; CE loss / acc, a proxy not an MIA"
+        },
+        "mia": {
+          "req": {
+            "auroc": 0.5217,
+            "member_rate": 0.06,
+            "nonmember_rate": 0.05,
+            "n_member": 1000,
+            "n_nonmember": 1000,
+            "mean_loss_member": 0.3238,
+            "mean_loss_nonmember": 0.4092
+          },
+          "control_client": 5,
+          "control": {
+            "auroc": 0.5143,
+            "member_rate": 0.054,
+            "nonmember_rate": 0.05,
+            "n_member": 1000,
+            "n_nonmember": 1000,
+            "mean_loss_member": 0.343,
+            "mean_loss_nonmember": 0.4092
+          }
+        },
+        "trace": [
+          {
+            "round": 2,
+            "clean": {
+              "diverge": 0.326,
+              "concentration": 0.7546,
+              "to_class": 6,
+              "counts": [
+                6,
+                0,
+                1,
+                0,
+                3,
+                1,
+                123,
+                29,
+                0,
+                0
+              ]
+            },
+            "adv": {
+              "diverge": 0.332,
+              "concentration": 0.7952,
+              "to_class": 6,
+              "counts": [
+                4,
+                0,
+                0,
+                0,
+                0,
+                0,
+                132,
+                30,
+                0,
+                0
+              ]
+            },
+            "score": 0.7952,
+            "flagged": true,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.04938,
+            "kl_last": 0.00257,
+            "after": {
+              "adv_diverge": 0.102,
+              "adv_concentration": 0.549
+            }
+          },
+          {
+            "round": 3,
+            "clean": {
+              "diverge": 0.228,
+              "concentration": 0.2544,
+              "to_class": 0,
+              "counts": [
+                29,
+                21,
+                22,
+                0,
+                10,
+                15,
+                2,
+                10,
+                0,
+                5
+              ]
+            },
+            "adv": {
+              "diverge": 0.24,
+              "concentration": 0.2667,
+              "to_class": 0,
+              "counts": [
+                32,
+                24,
+                28,
+                0,
+                12,
+                13,
+                2,
+                5,
+                0,
+                4
+              ]
+            },
+            "score": 0.2667,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 4,
+            "clean": {
+              "diverge": 0.17,
+              "concentration": 0.2235,
+              "to_class": 2,
+              "counts": [
+                10,
+                16,
+                19,
+                0,
+                9,
+                11,
+                4,
+                14,
+                0,
+                2
+              ]
+            },
+            "adv": {
+              "diverge": 0.172,
+              "concentration": 0.2674,
+              "to_class": 2,
+              "counts": [
+                10,
+                15,
+                23,
+                0,
+                8,
+                8,
+                6,
+                14,
+                1,
+                1
+              ]
+            },
+            "score": 0.2674,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 5,
+            "clean": {
+              "diverge": 0.106,
+              "concentration": 0.2642,
+              "to_class": 2,
+              "counts": [
+                5,
+                8,
+                14,
+                0,
+                0,
+                5,
+                2,
+                13,
+                0,
+                6
+              ]
+            },
+            "adv": {
+              "diverge": 0.12,
+              "concentration": 0.2667,
+              "to_class": 2,
+              "counts": [
+                6,
+                6,
+                16,
+                0,
+                1,
+                4,
+                6,
+                16,
+                0,
+                5
+              ]
+            },
+            "score": 0.2667,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 6,
+            "clean": {
+              "diverge": 0.116,
+              "concentration": 0.3103,
+              "to_class": 7,
+              "counts": [
+                3,
+                7,
+                14,
+                0,
+                0,
+                4,
+                1,
+                18,
+                2,
+                9
+              ]
+            },
+            "adv": {
+              "diverge": 0.136,
+              "concentration": 0.3529,
+              "to_class": 7,
+              "counts": [
+                3,
+                5,
+                18,
+                0,
+                0,
+                6,
+                1,
+                24,
+                1,
+                10
+              ]
+            },
+            "score": 0.3529,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 7,
+            "clean": {
+              "diverge": 0.096,
+              "concentration": 0.2083,
+              "to_class": 2,
+              "counts": [
+                3,
+                5,
+                10,
+                0,
+                3,
+                8,
+                6,
+                3,
+                6,
+                4
+              ]
+            },
+            "adv": {
+              "diverge": 0.132,
+              "concentration": 0.2727,
+              "to_class": 2,
+              "counts": [
+                1,
+                3,
+                18,
+                0,
+                15,
+                8,
+                16,
+                0,
+                4,
+                1
+              ]
+            },
+            "score": 0.2727,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 8,
+            "clean": {
+              "diverge": 0.086,
+              "concentration": 0.3721,
+              "to_class": 5,
+              "counts": [
+                0,
+                7,
+                1,
+                3,
+                1,
+                16,
+                4,
+                3,
+                2,
+                6
+              ]
+            },
+            "adv": {
+              "diverge": 0.102,
+              "concentration": 0.3137,
+              "to_class": 5,
+              "counts": [
+                2,
+                6,
+                0,
+                1,
+                1,
+                16,
+                3,
+                5,
+                6,
+                11
+              ]
+            },
+            "score": 0.3137,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          }
+        ],
+        "n_flagged": 1,
+        "n_purified": 1,
+        "max_score": 0.7952,
+        "seconds": 8.3
+      },
+      "purify_always": {
+        "acc": 88.33,
+        "asr": 10.93,
+        "asr_by_class": {
+          "0": 1.6,
+          "1": 6.27,
+          "2": 13.0,
+          "3": 33.37,
+          "4": 5.83,
+          "5": 17.1,
+          "6": 10.16,
+          "7": 5.21,
+          "9": 6.6
+        },
+        "retain_change": 4.59,
+        "forget_proxy": {
+          "final": {
+            "loss": 0.3047,
+            "acc": 90.43
+          },
+          "before": {
+            "loss": 0.2234,
+            "acc": 93.95
+          },
+          "note": "requester's own split; CE loss / acc, a proxy not an MIA"
+        },
+        "mia": {
+          "req": {
+            "auroc": 0.5118,
+            "member_rate": 0.058,
+            "nonmember_rate": 0.05,
+            "n_member": 1000,
+            "n_nonmember": 1000,
+            "mean_loss_member": 0.2904,
+            "mean_loss_nonmember": 0.3654
+          },
+          "control_client": 5,
+          "control": {
+            "auroc": 0.503,
+            "member_rate": 0.049,
+            "nonmember_rate": 0.05,
+            "n_member": 1000,
+            "n_nonmember": 1000,
+            "mean_loss_member": 0.3216,
+            "mean_loss_nonmember": 0.3654
+          }
+        },
+        "trace": [
+          {
+            "round": 2,
+            "clean": {
+              "diverge": 0.326,
+              "concentration": 0.7546,
+              "to_class": 6,
+              "counts": [
+                6,
+                0,
+                1,
+                0,
+                3,
+                1,
+                123,
+                29,
+                0,
+                0
+              ]
+            },
+            "adv": {
+              "diverge": 0.332,
+              "concentration": 0.7952,
+              "to_class": 6,
+              "counts": [
+                4,
+                0,
+                0,
+                0,
+                0,
+                0,
+                132,
+                30,
+                0,
+                0
+              ]
+            },
+            "score": 0.7952,
+            "flagged": true,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.04938,
+            "kl_last": 0.00257,
+            "after": {
+              "adv_diverge": 0.102,
+              "adv_concentration": 0.549
+            }
+          },
+          {
+            "round": 3,
+            "clean": {
+              "diverge": 0.228,
+              "concentration": 0.2544,
+              "to_class": 0,
+              "counts": [
+                29,
+                21,
+                22,
+                0,
+                10,
+                15,
+                2,
+                10,
+                0,
+                5
+              ]
+            },
+            "adv": {
+              "diverge": 0.24,
+              "concentration": 0.2667,
+              "to_class": 0,
+              "counts": [
+                32,
+                24,
+                28,
+                0,
+                12,
+                13,
+                2,
+                5,
+                0,
+                4
+              ]
+            },
+            "score": 0.2667,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.08379,
+            "kl_last": 0.00672,
+            "after": {
+              "adv_diverge": 0.066,
+              "adv_concentration": 0.303
+            }
+          },
+          {
+            "round": 4,
+            "clean": {
+              "diverge": 0.156,
+              "concentration": 0.2692,
+              "to_class": 2,
+              "counts": [
+                4,
+                10,
+                21,
+                0,
+                0,
+                17,
+                10,
+                3,
+                0,
+                13
+              ]
+            },
+            "adv": {
+              "diverge": 0.16,
+              "concentration": 0.325,
+              "to_class": 2,
+              "counts": [
+                3,
+                10,
+                26,
+                0,
+                0,
+                14,
+                15,
+                2,
+                0,
+                10
+              ]
+            },
+            "score": 0.325,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.07598,
+            "kl_last": 0.00919,
+            "after": {
+              "adv_diverge": 0.054,
+              "adv_concentration": 0.2963
+            }
+          },
+          {
+            "round": 5,
+            "clean": {
+              "diverge": 0.062,
+              "concentration": 0.3226,
+              "to_class": 9,
+              "counts": [
+                5,
+                2,
+                8,
+                0,
+                0,
+                1,
+                3,
+                0,
+                2,
+                10
+              ]
+            },
+            "adv": {
+              "diverge": 0.078,
+              "concentration": 0.2564,
+              "to_class": 2,
+              "counts": [
+                8,
+                3,
+                10,
+                0,
+                1,
+                3,
+                10,
+                0,
+                1,
+                3
+              ]
+            },
+            "score": 0.2564,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.03821,
+            "kl_last": 0.0115,
+            "after": {
+              "adv_diverge": 0.042,
+              "adv_concentration": 0.2381
+            }
+          },
+          {
+            "round": 6,
+            "clean": {
+              "diverge": 0.076,
+              "concentration": 0.4474,
+              "to_class": 8,
+              "counts": [
+                2,
+                4,
+                3,
+                0,
+                1,
+                1,
+                2,
+                1,
+                17,
+                7
+              ]
+            },
+            "adv": {
+              "diverge": 0.072,
+              "concentration": 0.5556,
+              "to_class": 8,
+              "counts": [
+                2,
+                5,
+                4,
+                0,
+                1,
+                0,
+                1,
+                1,
+                20,
+                2
+              ]
+            },
+            "score": 0.5556,
+            "flagged": true,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.03807,
+            "kl_last": 0.01644,
+            "after": {
+              "adv_diverge": 0.028,
+              "adv_concentration": 0.7143
+            }
+          },
+          {
+            "round": 7,
+            "clean": {
+              "diverge": 0.078,
+              "concentration": 0.2564,
+              "to_class": 9,
+              "counts": [
+                3,
+                5,
+                4,
+                1,
+                1,
+                5,
+                5,
+                4,
+                1,
+                10
+              ]
+            },
+            "adv": {
+              "diverge": 0.082,
+              "concentration": 0.2927,
+              "to_class": 6,
+              "counts": [
+                0,
+                2,
+                5,
+                0,
+                9,
+                4,
+                12,
+                2,
+                2,
+                5
+              ]
+            },
+            "score": 0.2927,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.08168,
+            "kl_last": 0.02443,
+            "after": {
+              "adv_diverge": 0.036,
+              "adv_concentration": 0.3333
+            }
+          },
+          {
+            "round": 8,
+            "clean": {
+              "diverge": 0.07,
+              "concentration": 0.2857,
+              "to_class": 9,
+              "counts": [
+                1,
+                3,
+                6,
+                0,
+                2,
+                8,
+                3,
+                1,
+                1,
+                10
+              ]
+            },
+            "adv": {
+              "diverge": 0.08,
+              "concentration": 0.275,
+              "to_class": 2,
+              "counts": [
+                1,
+                4,
+                11,
+                1,
+                1,
+                9,
+                5,
+                1,
+                1,
+                6
+              ]
+            },
+            "score": 0.275,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.06964,
+            "kl_last": 0.0297,
+            "after": {
+              "adv_diverge": 0.05,
+              "adv_concentration": 0.16
+            }
+          }
+        ],
+        "n_flagged": 2,
+        "n_purified": 7,
+        "max_score": 0.7952,
+        "seconds": 9.3
+      },
+      "purify_clean": {
+        "acc": 88.28,
+        "asr": 10.93,
+        "asr_by_class": {
+          "0": 1.71,
+          "1": 6.09,
+          "2": 13.2,
+          "3": 33.68,
+          "4": 5.61,
+          "5": 17.22,
+          "6": 8.52,
+          "7": 5.82,
+          "9": 7.23
+        },
+        "retain_change": 4.65,
+        "forget_proxy": {
+          "final": {
+            "loss": 0.3043,
+            "acc": 90.49
+          },
+          "before": {
+            "loss": 0.2234,
+            "acc": 93.95
+          },
+          "note": "requester's own split; CE loss / acc, a proxy not an MIA"
+        },
+        "mia": {
+          "req": {
+            "auroc": 0.5122,
+            "member_rate": 0.054,
+            "nonmember_rate": 0.05,
+            "n_member": 1000,
+            "n_nonmember": 1000,
+            "mean_loss_member": 0.2903,
+            "mean_loss_nonmember": 0.3645
+          },
+          "control_client": 5,
+          "control": {
+            "auroc": 0.5036,
+            "member_rate": 0.045,
+            "nonmember_rate": 0.05,
+            "n_member": 1000,
+            "n_nonmember": 1000,
+            "mean_loss_member": 0.3244,
+            "mean_loss_nonmember": 0.3645
+          }
+        },
+        "trace": [
+          {
+            "round": 2,
+            "clean": {
+              "diverge": 0.326,
+              "concentration": 0.7546,
+              "to_class": 6,
+              "counts": [
+                6,
+                0,
+                1,
+                0,
+                3,
+                1,
+                123,
+                29,
+                0,
+                0
+              ]
+            },
+            "adv": {
+              "diverge": 0.332,
+              "concentration": 0.7952,
+              "to_class": 6,
+              "counts": [
+                4,
+                0,
+                0,
+                0,
+                0,
+                0,
+                132,
+                30,
+                0,
+                0
+              ]
+            },
+            "score": 0.7952,
+            "flagged": true,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.04745,
+            "kl_last": 0.0026,
+            "after": {
+              "adv_diverge": 0.104,
+              "adv_concentration": 0.5385
+            }
+          },
+          {
+            "round": 3,
+            "clean": {
+              "diverge": 0.226,
+              "concentration": 0.2478,
+              "to_class": 0,
+              "counts": [
+                28,
+                21,
+                22,
+                0,
+                10,
+                15,
+                2,
+                10,
+                0,
+                5
+              ]
+            },
+            "adv": {
+              "diverge": 0.238,
+              "concentration": 0.2689,
+              "to_class": 0,
+              "counts": [
+                32,
+                24,
+                27,
+                0,
+                12,
+                13,
+                2,
+                5,
+                0,
+                4
+              ]
+            },
+            "score": 0.2689,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.07824,
+            "kl_last": 0.00659,
+            "after": {
+              "adv_diverge": 0.068,
+              "adv_concentration": 0.2941
+            }
+          },
+          {
+            "round": 4,
+            "clean": {
+              "diverge": 0.156,
+              "concentration": 0.2692,
+              "to_class": 2,
+              "counts": [
+                4,
+                10,
+                21,
+                0,
+                0,
+                17,
+                10,
+                3,
+                0,
+                13
+              ]
+            },
+            "adv": {
+              "diverge": 0.156,
+              "concentration": 0.3333,
+              "to_class": 2,
+              "counts": [
+                3,
+                10,
+                26,
+                0,
+                0,
+                13,
+                14,
+                2,
+                0,
+                10
+              ]
+            },
+            "score": 0.3333,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.06914,
+            "kl_last": 0.00875,
+            "after": {
+              "adv_diverge": 0.048,
+              "adv_concentration": 0.2917
+            }
+          },
+          {
+            "round": 5,
+            "clean": {
+              "diverge": 0.062,
+              "concentration": 0.3226,
+              "to_class": 9,
+              "counts": [
+                5,
+                2,
+                8,
+                0,
+                0,
+                1,
+                3,
+                0,
+                2,
+                10
+              ]
+            },
+            "adv": {
+              "diverge": 0.084,
+              "concentration": 0.2619,
+              "to_class": 6,
+              "counts": [
+                10,
+                3,
+                10,
+                0,
+                1,
+                3,
+                11,
+                0,
+                1,
+                3
+              ]
+            },
+            "score": 0.2619,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.03378,
+            "kl_last": 0.01098,
+            "after": {
+              "adv_diverge": 0.046,
+              "adv_concentration": 0.3043
+            }
+          },
+          {
+            "round": 6,
+            "clean": {
+              "diverge": 0.072,
+              "concentration": 0.4722,
+              "to_class": 8,
+              "counts": [
+                2,
+                4,
+                3,
+                0,
+                1,
+                1,
+                2,
+                1,
+                17,
+                5
+              ]
+            },
+            "adv": {
+              "diverge": 0.074,
+              "concentration": 0.5135,
+              "to_class": 8,
+              "counts": [
+                2,
+                5,
+                7,
+                0,
+                0,
+                0,
+                1,
+                0,
+                19,
+                3
+              ]
+            },
+            "score": 0.5135,
+            "flagged": true,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.03586,
+            "kl_last": 0.0161,
+            "after": {
+              "adv_diverge": 0.03,
+              "adv_concentration": 0.4667
+            }
+          },
+          {
+            "round": 7,
+            "clean": {
+              "diverge": 0.08,
+              "concentration": 0.25,
+              "to_class": 9,
+              "counts": [
+                3,
+                5,
+                4,
+                1,
+                1,
+                6,
+                5,
+                4,
+                1,
+                10
+              ]
+            },
+            "adv": {
+              "diverge": 0.092,
+              "concentration": 0.3696,
+              "to_class": 6,
+              "counts": [
+                0,
+                3,
+                5,
+                0,
+                9,
+                5,
+                17,
+                1,
+                1,
+                5
+              ]
+            },
+            "score": 0.3696,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.07309,
+            "kl_last": 0.02338,
+            "after": {
+              "adv_diverge": 0.048,
+              "adv_concentration": 0.2917
+            }
+          },
+          {
+            "round": 8,
+            "clean": {
+              "diverge": 0.066,
+              "concentration": 0.2424,
+              "to_class": 9,
+              "counts": [
+                1,
+                3,
+                6,
+                1,
+                2,
+                7,
+                3,
+                1,
+                1,
+                8
+              ]
+            },
+            "adv": {
+              "diverge": 0.074,
+              "concentration": 0.3514,
+              "to_class": 9,
+              "counts": [
+                3,
+                0,
+                5,
+                2,
+                0,
+                9,
+                2,
+                1,
+                2,
+                13
+              ]
+            },
+            "score": 0.3514,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.06169,
+            "kl_last": 0.02847,
+            "after": {
+              "adv_diverge": 0.034,
+              "adv_concentration": 0.2941
+            }
+          }
+        ],
+        "n_flagged": 2,
+        "n_purified": 7,
+        "max_score": 0.7952,
+        "seconds": 11.3
+      }
+    },
+    "7": {
+      "plain": {
+        "acc": 83.89,
+        "asr": 2.11,
+        "asr_by_class": {
+          "0": 0.32,
+          "1": 2.34,
+          "2": 6.24,
+          "3": 7.05,
+          "4": 0.22,
+          "5": 1.9,
+          "6": 0.44,
+          "7": 0.1,
+          "9": 0.1
+        },
+        "retain_change": 15.2,
+        "forget_proxy": {
+          "final": {
+            "loss": 0.71,
+            "acc": 76.35
+          },
+          "before": {
+            "loss": 0.6349,
+            "acc": 78.26
+          },
+          "note": "requester's own split; CE loss / acc, a proxy not an MIA"
+        },
+        "mia": {
+          "req": {
+            "auroc": 0.4083,
+            "member_rate": 0.031,
+            "nonmember_rate": 0.05,
+            "n_member": 1000,
+            "n_nonmember": 1000,
+            "mean_loss_member": 0.7063,
+            "mean_loss_nonmember": 0.4915
+          },
+          "control_client": 5,
+          "control": {
+            "auroc": 0.5205,
+            "member_rate": 0.048,
+            "nonmember_rate": 0.05,
+            "n_member": 1000,
+            "n_nonmember": 1000,
+            "mean_loss_member": 0.4645,
+            "mean_loss_nonmember": 0.4915
+          }
+        },
+        "trace": [
+          {
+            "round": 2,
+            "clean": {
+              "diverge": 0.296,
+              "concentration": 0.5946,
+              "to_class": 6,
+              "counts": [
+                16,
+                19,
+                0,
+                0,
+                17,
+                0,
+                88,
+                4,
+                2,
+                2
+              ]
+            },
+            "adv": {
+              "diverge": 0.298,
+              "concentration": 0.604,
+              "to_class": 6,
+              "counts": [
+                24,
+                16,
+                0,
+                0,
+                14,
+                0,
+                90,
+                1,
+                1,
+                3
+              ]
+            },
+            "score": 0.604,
+            "flagged": true,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 3,
+            "clean": {
+              "diverge": 0.232,
+              "concentration": 0.2845,
+              "to_class": 1,
+              "counts": [
+                10,
+                33,
+                11,
+                0,
+                1,
+                26,
+                8,
+                2,
+                4,
+                21
+              ]
+            },
+            "adv": {
+              "diverge": 0.266,
+              "concentration": 0.3609,
+              "to_class": 1,
+              "counts": [
+                4,
+                48,
+                11,
+                0,
+                0,
+                28,
+                5,
+                7,
+                6,
+                24
+              ]
+            },
+            "score": 0.3609,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 4,
+            "clean": {
+              "diverge": 0.176,
+              "concentration": 0.2955,
+              "to_class": 2,
+              "counts": [
+                8,
+                5,
+                26,
+                0,
+                2,
+                14,
+                7,
+                19,
+                0,
+                7
+              ]
+            },
+            "adv": {
+              "diverge": 0.196,
+              "concentration": 0.2959,
+              "to_class": 7,
+              "counts": [
+                11,
+                5,
+                26,
+                0,
+                4,
+                13,
+                5,
+                29,
+                0,
+                5
+              ]
+            },
+            "score": 0.2959,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 5,
+            "clean": {
+              "diverge": 0.106,
+              "concentration": 0.3585,
+              "to_class": 2,
+              "counts": [
+                1,
+                6,
+                19,
+                0,
+                0,
+                3,
+                8,
+                3,
+                6,
+                7
+              ]
+            },
+            "adv": {
+              "diverge": 0.128,
+              "concentration": 0.3594,
+              "to_class": 2,
+              "counts": [
+                1,
+                6,
+                23,
+                0,
+                1,
+                5,
+                14,
+                2,
+                6,
+                6
+              ]
+            },
+            "score": 0.3594,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 6,
+            "clean": {
+              "diverge": 0.166,
+              "concentration": 0.3494,
+              "to_class": 7,
+              "counts": [
+                5,
+                2,
+                0,
+                5,
+                25,
+                6,
+                3,
+                29,
+                3,
+                5
+              ]
+            },
+            "adv": {
+              "diverge": 0.224,
+              "concentration": 0.4018,
+              "to_class": 4,
+              "counts": [
+                5,
+                1,
+                0,
+                5,
+                45,
+                3,
+                1,
+                42,
+                2,
+                8
+              ]
+            },
+            "score": 0.4018,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 7,
+            "clean": {
+              "diverge": 0.168,
+              "concentration": 0.2738,
+              "to_class": 1,
+              "counts": [
+                1,
+                23,
+                20,
+                0,
+                0,
+                13,
+                4,
+                0,
+                12,
+                11
+              ]
+            },
+            "adv": {
+              "diverge": 0.194,
+              "concentration": 0.433,
+              "to_class": 1,
+              "counts": [
+                0,
+                42,
+                26,
+                0,
+                0,
+                12,
+                4,
+                0,
+                9,
+                4
+              ]
+            },
+            "score": 0.433,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 8,
+            "clean": {
+              "diverge": 0.132,
+              "concentration": 0.4091,
+              "to_class": 4,
+              "counts": [
+                2,
+                0,
+                0,
+                10,
+                27,
+                3,
+                0,
+                8,
+                0,
+                16
+              ]
+            },
+            "adv": {
+              "diverge": 0.176,
+              "concentration": 0.5682,
+              "to_class": 4,
+              "counts": [
+                2,
+                0,
+                0,
+                7,
+                50,
+                0,
+                0,
+                9,
+                0,
+                20
+              ]
+            },
+            "score": 0.5682,
+            "flagged": true,
+            "delta_linf": 0.04,
+            "purified": false
+          }
+        ],
+        "n_flagged": 2,
+        "n_purified": 0,
+        "max_score": 0.604,
+        "seconds": 9.1
+      },
+      "purify_flag": {
+        "acc": 84.0,
+        "asr": 5.32,
+        "asr_by_class": {
+          "0": 0.43,
+          "1": 1.12,
+          "2": 9.21,
+          "3": 28.91,
+          "4": 0.54,
+          "5": 1.9,
+          "6": 0.11,
+          "7": 1.84,
+          "9": 3.25
+        },
+        "retain_change": 12.69,
+        "forget_proxy": {
+          "final": {
+            "loss": 0.905,
+            "acc": 65.33
+          },
+          "before": {
+            "loss": 0.6349,
+            "acc": 78.26
+          },
+          "note": "requester's own split; CE loss / acc, a proxy not an MIA"
+        },
+        "mia": {
+          "req": {
+            "auroc": 0.3498,
+            "member_rate": 0.036,
+            "nonmember_rate": 0.05,
+            "n_member": 1000,
+            "n_nonmember": 1000,
+            "mean_loss_member": 0.9174,
+            "mean_loss_nonmember": 0.4575
+          },
+          "control_client": 5,
+          "control": {
+            "auroc": 0.5256,
+            "member_rate": 0.055,
+            "nonmember_rate": 0.05,
+            "n_member": 1000,
+            "n_nonmember": 1000,
+            "mean_loss_member": 0.3559,
+            "mean_loss_nonmember": 0.4575
+          }
+        },
+        "trace": [
+          {
+            "round": 2,
+            "clean": {
+              "diverge": 0.298,
+              "concentration": 0.5906,
+              "to_class": 6,
+              "counts": [
+                16,
+                19,
+                0,
+                0,
+                18,
+                0,
+                88,
+                4,
+                2,
+                2
+              ]
+            },
+            "adv": {
+              "diverge": 0.3,
+              "concentration": 0.6,
+              "to_class": 6,
+              "counts": [
+                24,
+                16,
+                0,
+                0,
+                15,
+                0,
+                90,
+                1,
+                1,
+                3
+              ]
+            },
+            "score": 0.6,
+            "flagged": true,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.07335,
+            "kl_last": 0.00378,
+            "after": {
+              "adv_diverge": 0.076,
+              "adv_concentration": 0.3158
+            }
+          },
+          {
+            "round": 3,
+            "clean": {
+              "diverge": 0.25,
+              "concentration": 0.288,
+              "to_class": 5,
+              "counts": [
+                15,
+                28,
+                24,
+                0,
+                1,
+                36,
+                5,
+                5,
+                2,
+                9
+              ]
+            },
+            "adv": {
+              "diverge": 0.258,
+              "concentration": 0.2791,
+              "to_class": 5,
+              "counts": [
+                9,
+                34,
+                28,
+                0,
+                0,
+                36,
+                4,
+                6,
+                3,
+                9
+              ]
+            },
+            "score": 0.2791,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 4,
+            "clean": {
+              "diverge": 0.176,
+              "concentration": 0.25,
+              "to_class": 2,
+              "counts": [
+                5,
+                11,
+                22,
+                0,
+                10,
+                14,
+                5,
+                15,
+                1,
+                5
+              ]
+            },
+            "adv": {
+              "diverge": 0.204,
+              "concentration": 0.2745,
+              "to_class": 2,
+              "counts": [
+                6,
+                8,
+                28,
+                0,
+                10,
+                17,
+                6,
+                23,
+                1,
+                3
+              ]
+            },
+            "score": 0.2745,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 5,
+            "clean": {
+              "diverge": 0.136,
+              "concentration": 0.3382,
+              "to_class": 2,
+              "counts": [
+                3,
+                4,
+                23,
+                0,
+                3,
+                0,
+                16,
+                0,
+                19,
+                0
+              ]
+            },
+            "adv": {
+              "diverge": 0.16,
+              "concentration": 0.4375,
+              "to_class": 2,
+              "counts": [
+                3,
+                2,
+                35,
+                0,
+                1,
+                0,
+                24,
+                0,
+                15,
+                0
+              ]
+            },
+            "score": 0.4375,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 6,
+            "clean": {
+              "diverge": 0.1,
+              "concentration": 0.48,
+              "to_class": 7,
+              "counts": [
+                3,
+                5,
+                1,
+                0,
+                9,
+                3,
+                0,
+                24,
+                4,
+                1
+              ]
+            },
+            "adv": {
+              "diverge": 0.136,
+              "concentration": 0.5588,
+              "to_class": 7,
+              "counts": [
+                3,
+                4,
+                5,
+                0,
+                9,
+                3,
+                0,
+                38,
+                3,
+                3
+              ]
+            },
+            "score": 0.5588,
+            "flagged": true,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.17504,
+            "kl_last": 0.03235,
+            "after": {
+              "adv_diverge": 0.054,
+              "adv_concentration": 0.2222
+            }
+          },
+          {
+            "round": 7,
+            "clean": {
+              "diverge": 0.14,
+              "concentration": 0.3857,
+              "to_class": 2,
+              "counts": [
+                1,
+                1,
+                27,
+                0,
+                1,
+                9,
+                0,
+                7,
+                2,
+                22
+              ]
+            },
+            "adv": {
+              "diverge": 0.212,
+              "concentration": 0.3868,
+              "to_class": 2,
+              "counts": [
+                1,
+                0,
+                41,
+                0,
+                0,
+                10,
+                0,
+                17,
+                2,
+                35
+              ]
+            },
+            "score": 0.3868,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 8,
+            "clean": {
+              "diverge": 0.118,
+              "concentration": 0.2712,
+              "to_class": 5,
+              "counts": [
+                1,
+                6,
+                1,
+                1,
+                11,
+                16,
+                15,
+                0,
+                8,
+                0
+              ]
+            },
+            "adv": {
+              "diverge": 0.18,
+              "concentration": 0.3333,
+              "to_class": 4,
+              "counts": [
+                0,
+                8,
+                1,
+                1,
+                30,
+                13,
+                26,
+                1,
+                9,
+                1
+              ]
+            },
+            "score": 0.3333,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          }
+        ],
+        "n_flagged": 2,
+        "n_purified": 2,
+        "max_score": 0.6,
+        "seconds": 7.9
+      },
+      "purify_always": {
+        "acc": 89.65,
+        "asr": 9.75,
+        "asr_by_class": {
+          "0": 1.28,
+          "1": 3.93,
+          "2": 16.07,
+          "3": 30.88,
+          "4": 4.21,
+          "5": 11.4,
+          "6": 9.29,
+          "7": 4.8,
+          "9": 6.18
+        },
+        "retain_change": 4.25,
+        "forget_proxy": {
+          "final": {
+            "loss": 0.6769,
+            "acc": 76.56
+          },
+          "before": {
+            "loss": 0.6349,
+            "acc": 78.26
+          },
+          "note": "requester's own split; CE loss / acc, a proxy not an MIA"
+        },
+        "mia": {
+          "req": {
+            "auroc": 0.3538,
+            "member_rate": 0.03,
+            "nonmember_rate": 0.05,
+            "n_member": 1000,
+            "n_nonmember": 1000,
+            "mean_loss_member": 0.6681,
+            "mean_loss_nonmember": 0.3236
+          },
+          "control_client": 5,
+          "control": {
+            "auroc": 0.5064,
+            "member_rate": 0.05,
+            "nonmember_rate": 0.05,
+            "n_member": 1000,
+            "n_nonmember": 1000,
+            "mean_loss_member": 0.2591,
+            "mean_loss_nonmember": 0.3236
+          }
+        },
+        "trace": [
+          {
+            "round": 2,
+            "clean": {
+              "diverge": 0.296,
+              "concentration": 0.5946,
+              "to_class": 6,
+              "counts": [
+                16,
+                19,
+                0,
+                0,
+                17,
+                0,
+                88,
+                4,
+                2,
+                2
+              ]
+            },
+            "adv": {
+              "diverge": 0.298,
+              "concentration": 0.604,
+              "to_class": 6,
+              "counts": [
+                24,
+                16,
+                0,
+                0,
+                14,
+                0,
+                90,
+                1,
+                1,
+                3
+              ]
+            },
+            "score": 0.604,
+            "flagged": true,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.07336,
+            "kl_last": 0.00378,
+            "after": {
+              "adv_diverge": 0.072,
+              "adv_concentration": 0.3056
+            }
+          },
+          {
+            "round": 3,
+            "clean": {
+              "diverge": 0.248,
+              "concentration": 0.2903,
+              "to_class": 5,
+              "counts": [
+                15,
+                27,
+                24,
+                0,
+                1,
+                36,
+                5,
+                5,
+                2,
+                9
+              ]
+            },
+            "adv": {
+              "diverge": 0.258,
+              "concentration": 0.2791,
+              "to_class": 5,
+              "counts": [
+                9,
+                34,
+                28,
+                0,
+                0,
+                36,
+                4,
+                6,
+                3,
+                9
+              ]
+            },
+            "score": 0.2791,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.12696,
+            "kl_last": 0.00958,
+            "after": {
+              "adv_diverge": 0.098,
+              "adv_concentration": 0.2857
+            }
+          },
+          {
+            "round": 4,
+            "clean": {
+              "diverge": 0.172,
+              "concentration": 0.2907,
+              "to_class": 2,
+              "counts": [
+                2,
+                13,
+                25,
+                0,
+                1,
+                22,
+                4,
+                8,
+                0,
+                11
+              ]
+            },
+            "adv": {
+              "diverge": 0.174,
+              "concentration": 0.2989,
+              "to_class": 2,
+              "counts": [
+                1,
+                15,
+                26,
+                0,
+                0,
+                22,
+                3,
+                10,
+                0,
+                10
+              ]
+            },
+            "score": 0.2989,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.15664,
+            "kl_last": 0.01991,
+            "after": {
+              "adv_diverge": 0.07,
+              "adv_concentration": 0.3143
+            }
+          },
+          {
+            "round": 5,
+            "clean": {
+              "diverge": 0.146,
+              "concentration": 0.3973,
+              "to_class": 8,
+              "counts": [
+                0,
+                5,
+                18,
+                0,
+                0,
+                1,
+                3,
+                0,
+                29,
+                17
+              ]
+            },
+            "adv": {
+              "diverge": 0.174,
+              "concentration": 0.4483,
+              "to_class": 8,
+              "counts": [
+                0,
+                3,
+                22,
+                0,
+                0,
+                2,
+                4,
+                1,
+                39,
+                16
+              ]
+            },
+            "score": 0.4483,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.15686,
+            "kl_last": 0.02026,
+            "after": {
+              "adv_diverge": 0.044,
+              "adv_concentration": 0.4545
+            }
+          },
+          {
+            "round": 6,
+            "clean": {
+              "diverge": 0.1,
+              "concentration": 0.48,
+              "to_class": 8,
+              "counts": [
+                1,
+                4,
+                2,
+                0,
+                7,
+                4,
+                4,
+                4,
+                24,
+                0
+              ]
+            },
+            "adv": {
+              "diverge": 0.124,
+              "concentration": 0.371,
+              "to_class": 4,
+              "counts": [
+                0,
+                5,
+                1,
+                0,
+                23,
+                6,
+                4,
+                2,
+                21,
+                0
+              ]
+            },
+            "score": 0.371,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.09782,
+            "kl_last": 0.01997,
+            "after": {
+              "adv_diverge": 0.046,
+              "adv_concentration": 0.3913
+            }
+          },
+          {
+            "round": 7,
+            "clean": {
+              "diverge": 0.074,
+              "concentration": 0.3243,
+              "to_class": 9,
+              "counts": [
+                2,
+                4,
+                3,
+                1,
+                1,
+                10,
+                3,
+                0,
+                1,
+                12
+              ]
+            },
+            "adv": {
+              "diverge": 0.086,
+              "concentration": 0.3721,
+              "to_class": 9,
+              "counts": [
+                3,
+                4,
+                3,
+                2,
+                1,
+                10,
+                3,
+                1,
+                0,
+                16
+              ]
+            },
+            "score": 0.3721,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.11363,
+            "kl_last": 0.02473,
+            "after": {
+              "adv_diverge": 0.032,
+              "adv_concentration": 0.5
+            }
+          },
+          {
+            "round": 8,
+            "clean": {
+              "diverge": 0.078,
+              "concentration": 0.5128,
+              "to_class": 5,
+              "counts": [
+                2,
+                4,
+                6,
+                0,
+                2,
+                20,
+                2,
+                1,
+                0,
+                2
+              ]
+            },
+            "adv": {
+              "diverge": 0.118,
+              "concentration": 0.4407,
+              "to_class": 5,
+              "counts": [
+                3,
+                3,
+                7,
+                1,
+                7,
+                26,
+                2,
+                7,
+                0,
+                3
+              ]
+            },
+            "score": 0.4407,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.18546,
+            "kl_last": 0.02891,
+            "after": {
+              "adv_diverge": 0.03,
+              "adv_concentration": 0.3333
+            }
+          }
+        ],
+        "n_flagged": 1,
+        "n_purified": 7,
+        "max_score": 0.604,
+        "seconds": 11.7
+      },
+      "purify_clean": {
+        "acc": 89.49,
+        "asr": 10.1,
+        "asr_by_class": {
+          "0": 1.28,
+          "1": 4.31,
+          "2": 16.79,
+          "3": 33.78,
+          "4": 4.21,
+          "5": 10.93,
+          "6": 8.31,
+          "7": 4.9,
+          "9": 6.49
+        },
+        "retain_change": 4.25,
+        "forget_proxy": {
+          "final": {
+            "loss": 0.694,
+            "acc": 75.6
+          },
+          "before": {
+            "loss": 0.6349,
+            "acc": 78.26
+          },
+          "note": "requester's own split; CE loss / acc, a proxy not an MIA"
+        },
+        "mia": {
+          "req": {
+            "auroc": 0.3518,
+            "member_rate": 0.034,
+            "nonmember_rate": 0.05,
+            "n_member": 1000,
+            "n_nonmember": 1000,
+            "mean_loss_member": 0.6825,
+            "mean_loss_nonmember": 0.3272
+          },
+          "control_client": 5,
+          "control": {
+            "auroc": 0.5081,
+            "member_rate": 0.053,
+            "nonmember_rate": 0.05,
+            "n_member": 1000,
+            "n_nonmember": 1000,
+            "mean_loss_member": 0.2567,
+            "mean_loss_nonmember": 0.3272
+          }
+        },
+        "trace": [
+          {
+            "round": 2,
+            "clean": {
+              "diverge": 0.298,
+              "concentration": 0.5906,
+              "to_class": 6,
+              "counts": [
+                16,
+                19,
+                0,
+                0,
+                18,
+                0,
+                88,
+                4,
+                2,
+                2
+              ]
+            },
+            "adv": {
+              "diverge": 0.3,
+              "concentration": 0.6,
+              "to_class": 6,
+              "counts": [
+                24,
+                16,
+                0,
+                0,
+                15,
+                0,
+                90,
+                1,
+                1,
+                3
+              ]
+            },
+            "score": 0.6,
+            "flagged": true,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.07132,
+            "kl_last": 0.00367,
+            "after": {
+              "adv_diverge": 0.078,
+              "adv_concentration": 0.3077
+            }
+          },
+          {
+            "round": 3,
+            "clean": {
+              "diverge": 0.25,
+              "concentration": 0.288,
+              "to_class": 5,
+              "counts": [
+                15,
+                28,
+                24,
+                0,
+                1,
+                36,
+                5,
+                5,
+                2,
+                9
+              ]
+            },
+            "adv": {
+              "diverge": 0.258,
+              "concentration": 0.2791,
+              "to_class": 5,
+              "counts": [
+                9,
+                34,
+                28,
+                0,
+                0,
+                36,
+                4,
+                6,
+                3,
+                9
+              ]
+            },
+            "score": 0.2791,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.11924,
+            "kl_last": 0.00928,
+            "after": {
+              "adv_diverge": 0.094,
+              "adv_concentration": 0.2766
+            }
+          },
+          {
+            "round": 4,
+            "clean": {
+              "diverge": 0.17,
+              "concentration": 0.2941,
+              "to_class": 2,
+              "counts": [
+                1,
+                13,
+                25,
+                0,
+                1,
+                22,
+                4,
+                8,
+                0,
+                11
+              ]
+            },
+            "adv": {
+              "diverge": 0.182,
+              "concentration": 0.2637,
+              "to_class": 2,
+              "counts": [
+                1,
+                16,
+                24,
+                0,
+                0,
+                23,
+                5,
+                12,
+                0,
+                10
+              ]
+            },
+            "score": 0.2637,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.14868,
+            "kl_last": 0.01957,
+            "after": {
+              "adv_diverge": 0.078,
+              "adv_concentration": 0.2821
+            }
+          },
+          {
+            "round": 5,
+            "clean": {
+              "diverge": 0.136,
+              "concentration": 0.3971,
+              "to_class": 8,
+              "counts": [
+                0,
+                5,
+                17,
+                0,
+                0,
+                1,
+                3,
+                0,
+                27,
+                15
+              ]
+            },
+            "adv": {
+              "diverge": 0.172,
+              "concentration": 0.4535,
+              "to_class": 8,
+              "counts": [
+                0,
+                3,
+                22,
+                0,
+                0,
+                2,
+                4,
+                1,
+                39,
+                15
+              ]
+            },
+            "score": 0.4535,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.14174,
+            "kl_last": 0.02021,
+            "after": {
+              "adv_diverge": 0.044,
+              "adv_concentration": 0.3636
+            }
+          },
+          {
+            "round": 6,
+            "clean": {
+              "diverge": 0.102,
+              "concentration": 0.5294,
+              "to_class": 8,
+              "counts": [
+                1,
+                4,
+                1,
+                0,
+                6,
+                2,
+                4,
+                6,
+                27,
+                0
+              ]
+            },
+            "adv": {
+              "diverge": 0.136,
+              "concentration": 0.3824,
+              "to_class": 8,
+              "counts": [
+                0,
+                6,
+                1,
+                0,
+                21,
+                5,
+                7,
+                2,
+                26,
+                0
+              ]
+            },
+            "score": 0.3824,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.08808,
+            "kl_last": 0.01892,
+            "after": {
+              "adv_diverge": 0.042,
+              "adv_concentration": 0.4286
+            }
+          },
+          {
+            "round": 7,
+            "clean": {
+              "diverge": 0.086,
+              "concentration": 0.4186,
+              "to_class": 9,
+              "counts": [
+                2,
+                4,
+                5,
+                2,
+                0,
+                9,
+                3,
+                0,
+                0,
+                18
+              ]
+            },
+            "adv": {
+              "diverge": 0.112,
+              "concentration": 0.4464,
+              "to_class": 9,
+              "counts": [
+                5,
+                3,
+                5,
+                2,
+                1,
+                11,
+                1,
+                2,
+                1,
+                25
+              ]
+            },
+            "score": 0.4464,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.11489,
+            "kl_last": 0.02517,
+            "after": {
+              "adv_diverge": 0.042,
+              "adv_concentration": 0.2857
+            }
+          },
+          {
+            "round": 8,
+            "clean": {
+              "diverge": 0.082,
+              "concentration": 0.4878,
+              "to_class": 5,
+              "counts": [
+                2,
+                5,
+                4,
+                0,
+                5,
+                20,
+                3,
+                1,
+                0,
+                1
+              ]
+            },
+            "adv": {
+              "diverge": 0.122,
+              "concentration": 0.3934,
+              "to_class": 5,
+              "counts": [
+                2,
+                5,
+                6,
+                0,
+                10,
+                24,
+                5,
+                7,
+                0,
+                2
+              ]
+            },
+            "score": 0.3934,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.17138,
+            "kl_last": 0.02701,
+            "after": {
+              "adv_diverge": 0.038,
+              "adv_concentration": 0.3158
+            }
+          }
+        ],
+        "n_flagged": 1,
+        "n_purified": 7,
+        "max_score": 0.6,
+        "seconds": 11.1
+      }
+    },
+    "5": {
+      "plain": {
+        "acc": 86.35,
+        "asr": 0.57,
+        "asr_by_class": {
+          "0": 0.0,
+          "1": 0.47,
+          "2": 3.58,
+          "3": 0.41,
+          "4": 0.22,
+          "5": 0.12,
+          "6": 0.22,
+          "7": 0.0,
+          "9": 0.0
+        },
+        "retain_change": 16.05,
+        "forget_proxy": {
+          "final": {
+            "loss": 0.4691,
+            "acc": 85.46
+          },
+          "before": {
+            "loss": 0.2399,
+            "acc": 93.76
+          },
+          "note": "requester's own split; CE loss / acc, a proxy not an MIA"
+        },
+        "mia": {
+          "req": {
+            "auroc": 0.4958,
+            "member_rate": 0.051,
+            "nonmember_rate": 0.051,
+            "n_member": 1000,
+            "n_nonmember": 1000,
+            "mean_loss_member": 0.4805,
+            "mean_loss_nonmember": 0.4767
+          },
+          "control_client": 6,
+          "control": {
+            "auroc": 0.4911,
+            "member_rate": 0.042,
+            "nonmember_rate": 0.051,
+            "n_member": 1000,
+            "n_nonmember": 1000,
+            "mean_loss_member": 0.4352,
+            "mean_loss_nonmember": 0.4767
+          }
+        },
+        "trace": [
+          {
+            "round": 2,
+            "clean": {
+              "diverge": 0.278,
+              "concentration": 0.6691,
+              "to_class": 6,
+              "counts": [
+                14,
+                3,
+                3,
+                0,
+                14,
+                0,
+                93,
+                12,
+                0,
+                0
+              ]
+            },
+            "adv": {
+              "diverge": 0.284,
+              "concentration": 0.7394,
+              "to_class": 6,
+              "counts": [
+                10,
+                1,
+                3,
+                0,
+                13,
+                0,
+                105,
+                9,
+                0,
+                1
+              ]
+            },
+            "score": 0.7394,
+            "flagged": true,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 3,
+            "clean": {
+              "diverge": 0.2,
+              "concentration": 0.33,
+              "to_class": 1,
+              "counts": [
+                16,
+                33,
+                11,
+                0,
+                1,
+                3,
+                10,
+                4,
+                1,
+                21
+              ]
+            },
+            "adv": {
+              "diverge": 0.208,
+              "concentration": 0.4423,
+              "to_class": 1,
+              "counts": [
+                12,
+                46,
+                13,
+                0,
+                1,
+                1,
+                10,
+                3,
+                0,
+                18
+              ]
+            },
+            "score": 0.4423,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 4,
+            "clean": {
+              "diverge": 0.196,
+              "concentration": 0.2755,
+              "to_class": 7,
+              "counts": [
+                13,
+                5,
+                20,
+                0,
+                1,
+                19,
+                7,
+                27,
+                0,
+                6
+              ]
+            },
+            "adv": {
+              "diverge": 0.214,
+              "concentration": 0.3364,
+              "to_class": 7,
+              "counts": [
+                14,
+                3,
+                20,
+                0,
+                1,
+                18,
+                5,
+                36,
+                0,
+                10
+              ]
+            },
+            "score": 0.3364,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 5,
+            "clean": {
+              "diverge": 0.118,
+              "concentration": 0.2542,
+              "to_class": 8,
+              "counts": [
+                1,
+                5,
+                14,
+                3,
+                1,
+                0,
+                11,
+                3,
+                15,
+                6
+              ]
+            },
+            "adv": {
+              "diverge": 0.134,
+              "concentration": 0.2537,
+              "to_class": 2,
+              "counts": [
+                1,
+                8,
+                17,
+                3,
+                0,
+                0,
+                17,
+                1,
+                16,
+                4
+              ]
+            },
+            "score": 0.2537,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 6,
+            "clean": {
+              "diverge": 0.102,
+              "concentration": 0.3333,
+              "to_class": 7,
+              "counts": [
+                5,
+                2,
+                0,
+                13,
+                8,
+                5,
+                1,
+                17,
+                0,
+                0
+              ]
+            },
+            "adv": {
+              "diverge": 0.126,
+              "concentration": 0.3968,
+              "to_class": 7,
+              "counts": [
+                4,
+                1,
+                1,
+                15,
+                9,
+                5,
+                0,
+                25,
+                1,
+                2
+              ]
+            },
+            "score": 0.3968,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 7,
+            "clean": {
+              "diverge": 0.14,
+              "concentration": 0.4714,
+              "to_class": 8,
+              "counts": [
+                0,
+                10,
+                4,
+                0,
+                0,
+                3,
+                3,
+                0,
+                33,
+                17
+              ]
+            },
+            "adv": {
+              "diverge": 0.182,
+              "concentration": 0.5385,
+              "to_class": 8,
+              "counts": [
+                2,
+                16,
+                3,
+                0,
+                0,
+                1,
+                4,
+                0,
+                49,
+                16
+              ]
+            },
+            "score": 0.5385,
+            "flagged": true,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 8,
+            "clean": {
+              "diverge": 0.126,
+              "concentration": 0.4444,
+              "to_class": 3,
+              "counts": [
+                1,
+                0,
+                0,
+                28,
+                8,
+                12,
+                0,
+                7,
+                0,
+                7
+              ]
+            },
+            "adv": {
+              "diverge": 0.174,
+              "concentration": 0.3563,
+              "to_class": 3,
+              "counts": [
+                2,
+                0,
+                0,
+                31,
+                17,
+                22,
+                0,
+                8,
+                0,
+                7
+              ]
+            },
+            "score": 0.3563,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          }
+        ],
+        "n_flagged": 2,
+        "n_purified": 0,
+        "max_score": 0.7394,
+        "seconds": 6.7
+      },
+      "purify_flag": {
+        "acc": 85.02,
+        "asr": 2.28,
+        "asr_by_class": {
+          "0": 0.96,
+          "1": 0.09,
+          "2": 1.74,
+          "3": 3.73,
+          "4": 0.86,
+          "5": 9.38,
+          "6": 3.61,
+          "7": 0.1,
+          "9": 1.15
+        },
+        "retain_change": 13.55,
+        "forget_proxy": {
+          "final": {
+            "loss": 0.3904,
+            "acc": 86.12
+          },
+          "before": {
+            "loss": 0.2399,
+            "acc": 93.76
+          },
+          "note": "requester's own split; CE loss / acc, a proxy not an MIA"
+        },
+        "mia": {
+          "req": {
+            "auroc": 0.5151,
+            "member_rate": 0.054,
+            "nonmember_rate": 0.05,
+            "n_member": 1000,
+            "n_nonmember": 1000,
+            "mean_loss_member": 0.4136,
+            "mean_loss_nonmember": 0.4276
+          },
+          "control_client": 6,
+          "control": {
+            "auroc": 0.5252,
+            "member_rate": 0.067,
+            "nonmember_rate": 0.05,
+            "n_member": 1000,
+            "n_nonmember": 1000,
+            "mean_loss_member": 0.3884,
+            "mean_loss_nonmember": 0.4276
+          }
+        },
+        "trace": [
+          {
+            "round": 2,
+            "clean": {
+              "diverge": 0.278,
+              "concentration": 0.6691,
+              "to_class": 6,
+              "counts": [
+                14,
+                3,
+                3,
+                0,
+                14,
+                0,
+                93,
+                12,
+                0,
+                0
+              ]
+            },
+            "adv": {
+              "diverge": 0.284,
+              "concentration": 0.7394,
+              "to_class": 6,
+              "counts": [
+                10,
+                1,
+                3,
+                0,
+                13,
+                0,
+                105,
+                9,
+                0,
+                1
+              ]
+            },
+            "score": 0.7394,
+            "flagged": true,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.04614,
+            "kl_last": 0.00224,
+            "after": {
+              "adv_diverge": 0.11,
+              "adv_concentration": 0.5636
+            }
+          },
+          {
+            "round": 3,
+            "clean": {
+              "diverge": 0.188,
+              "concentration": 0.234,
+              "to_class": 5,
+              "counts": [
+                21,
+                21,
+                14,
+                0,
+                1,
+                22,
+                3,
+                1,
+                0,
+                11
+              ]
+            },
+            "adv": {
+              "diverge": 0.208,
+              "concentration": 0.2692,
+              "to_class": 1,
+              "counts": [
+                19,
+                28,
+                14,
+                0,
+                1,
+                24,
+                7,
+                3,
+                0,
+                8
+              ]
+            },
+            "score": 0.2692,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 4,
+            "clean": {
+              "diverge": 0.196,
+              "concentration": 0.2959,
+              "to_class": 7,
+              "counts": [
+                3,
+                11,
+                23,
+                0,
+                10,
+                14,
+                3,
+                29,
+                3,
+                2
+              ]
+            },
+            "adv": {
+              "diverge": 0.23,
+              "concentration": 0.4696,
+              "to_class": 7,
+              "counts": [
+                2,
+                11,
+                22,
+                0,
+                9,
+                13,
+                2,
+                54,
+                2,
+                0
+              ]
+            },
+            "score": 0.4696,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 5,
+            "clean": {
+              "diverge": 0.092,
+              "concentration": 0.3261,
+              "to_class": 9,
+              "counts": [
+                1,
+                0,
+                11,
+                0,
+                0,
+                2,
+                7,
+                7,
+                3,
+                15
+              ]
+            },
+            "adv": {
+              "diverge": 0.13,
+              "concentration": 0.2769,
+              "to_class": 9,
+              "counts": [
+                2,
+                1,
+                13,
+                0,
+                0,
+                4,
+                10,
+                13,
+                4,
+                18
+              ]
+            },
+            "score": 0.2769,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 6,
+            "clean": {
+              "diverge": 0.104,
+              "concentration": 0.3846,
+              "to_class": 7,
+              "counts": [
+                4,
+                6,
+                8,
+                7,
+                5,
+                0,
+                0,
+                20,
+                2,
+                0
+              ]
+            },
+            "adv": {
+              "diverge": 0.14,
+              "concentration": 0.4714,
+              "to_class": 7,
+              "counts": [
+                3,
+                6,
+                11,
+                10,
+                5,
+                0,
+                0,
+                33,
+                2,
+                0
+              ]
+            },
+            "score": 0.4714,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 7,
+            "clean": {
+              "diverge": 0.114,
+              "concentration": 0.2982,
+              "to_class": 9,
+              "counts": [
+                1,
+                0,
+                3,
+                5,
+                0,
+                9,
+                7,
+                0,
+                15,
+                17
+              ]
+            },
+            "adv": {
+              "diverge": 0.112,
+              "concentration": 0.2679,
+              "to_class": 9,
+              "counts": [
+                0,
+                0,
+                2,
+                5,
+                0,
+                13,
+                7,
+                0,
+                14,
+                15
+              ]
+            },
+            "score": 0.2679,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          },
+          {
+            "round": 8,
+            "clean": {
+              "diverge": 0.094,
+              "concentration": 0.3404,
+              "to_class": 7,
+              "counts": [
+                3,
+                10,
+                5,
+                1,
+                10,
+                0,
+                0,
+                16,
+                0,
+                2
+              ]
+            },
+            "adv": {
+              "diverge": 0.134,
+              "concentration": 0.403,
+              "to_class": 7,
+              "counts": [
+                4,
+                13,
+                8,
+                2,
+                9,
+                0,
+                0,
+                27,
+                2,
+                2
+              ]
+            },
+            "score": 0.403,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": false
+          }
+        ],
+        "n_flagged": 1,
+        "n_purified": 1,
+        "max_score": 0.7394,
+        "seconds": 6.9
+      },
+      "purify_always": {
+        "acc": 90.11,
+        "asr": 8.92,
+        "asr_by_class": {
+          "0": 1.17,
+          "1": 3.84,
+          "2": 12.18,
+          "3": 30.36,
+          "4": 4.64,
+          "5": 11.16,
+          "6": 7.43,
+          "7": 4.6,
+          "9": 5.24
+        },
+        "retain_change": 3.46,
+        "forget_proxy": {
+          "final": {
+            "loss": 0.2632,
+            "acc": 92.3
+          },
+          "before": {
+            "loss": 0.2399,
+            "acc": 93.76
+          },
+          "note": "requester's own split; CE loss / acc, a proxy not an MIA"
+        },
+        "mia": {
+          "req": {
+            "auroc": 0.5123,
+            "member_rate": 0.057,
+            "nonmember_rate": 0.05,
+            "n_member": 1000,
+            "n_nonmember": 1000,
+            "mean_loss_member": 0.2747,
+            "mean_loss_nonmember": 0.3148
+          },
+          "control_client": 6,
+          "control": {
+            "auroc": 0.525,
+            "member_rate": 0.066,
+            "nonmember_rate": 0.05,
+            "n_member": 1000,
+            "n_nonmember": 1000,
+            "mean_loss_member": 0.2404,
+            "mean_loss_nonmember": 0.3148
+          }
+        },
+        "trace": [
+          {
+            "round": 2,
+            "clean": {
+              "diverge": 0.278,
+              "concentration": 0.6691,
+              "to_class": 6,
+              "counts": [
+                14,
+                3,
+                3,
+                0,
+                14,
+                0,
+                93,
+                12,
+                0,
+                0
+              ]
+            },
+            "adv": {
+              "diverge": 0.284,
+              "concentration": 0.7465,
+              "to_class": 6,
+              "counts": [
+                10,
+                1,
+                3,
+                0,
+                12,
+                0,
+                106,
+                9,
+                0,
+                1
+              ]
+            },
+            "score": 0.7465,
+            "flagged": true,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.04613,
+            "kl_last": 0.00224,
+            "after": {
+              "adv_diverge": 0.11,
+              "adv_concentration": 0.5636
+            }
+          },
+          {
+            "round": 3,
+            "clean": {
+              "diverge": 0.19,
+              "concentration": 0.2316,
+              "to_class": 5,
+              "counts": [
+                21,
+                21,
+                14,
+                0,
+                1,
+                22,
+                3,
+                1,
+                0,
+                12
+              ]
+            },
+            "adv": {
+              "diverge": 0.208,
+              "concentration": 0.2692,
+              "to_class": 1,
+              "counts": [
+                18,
+                28,
+                14,
+                0,
+                1,
+                24,
+                7,
+                3,
+                0,
+                9
+              ]
+            },
+            "score": 0.2692,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.07233,
+            "kl_last": 0.00599,
+            "after": {
+              "adv_diverge": 0.064,
+              "adv_concentration": 0.4062
+            }
+          },
+          {
+            "round": 4,
+            "clean": {
+              "diverge": 0.202,
+              "concentration": 0.3663,
+              "to_class": 2,
+              "counts": [
+                9,
+                7,
+                37,
+                0,
+                0,
+                22,
+                9,
+                7,
+                0,
+                10
+              ]
+            },
+            "adv": {
+              "diverge": 0.21,
+              "concentration": 0.4095,
+              "to_class": 2,
+              "counts": [
+                11,
+                9,
+                43,
+                0,
+                0,
+                18,
+                10,
+                7,
+                1,
+                6
+              ]
+            },
+            "score": 0.4095,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.18132,
+            "kl_last": 0.01498,
+            "after": {
+              "adv_diverge": 0.056,
+              "adv_concentration": 0.1429
+            }
+          },
+          {
+            "round": 5,
+            "clean": {
+              "diverge": 0.096,
+              "concentration": 0.4167,
+              "to_class": 2,
+              "counts": [
+                1,
+                4,
+                20,
+                0,
+                1,
+                4,
+                1,
+                2,
+                9,
+                6
+              ]
+            },
+            "adv": {
+              "diverge": 0.122,
+              "concentration": 0.3443,
+              "to_class": 2,
+              "counts": [
+                2,
+                3,
+                21,
+                0,
+                0,
+                8,
+                3,
+                3,
+                15,
+                6
+              ]
+            },
+            "score": 0.3443,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.11288,
+            "kl_last": 0.01683,
+            "after": {
+              "adv_diverge": 0.066,
+              "adv_concentration": 0.2727
+            }
+          },
+          {
+            "round": 6,
+            "clean": {
+              "diverge": 0.09,
+              "concentration": 0.6889,
+              "to_class": 8,
+              "counts": [
+                1,
+                3,
+                3,
+                0,
+                2,
+                0,
+                1,
+                4,
+                31,
+                0
+              ]
+            },
+            "adv": {
+              "diverge": 0.098,
+              "concentration": 0.8163,
+              "to_class": 8,
+              "counts": [
+                0,
+                1,
+                1,
+                0,
+                2,
+                0,
+                1,
+                3,
+                40,
+                1
+              ]
+            },
+            "score": 0.8163,
+            "flagged": true,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.0699,
+            "kl_last": 0.0162,
+            "after": {
+              "adv_diverge": 0.032,
+              "adv_concentration": 0.3125
+            }
+          },
+          {
+            "round": 7,
+            "clean": {
+              "diverge": 0.076,
+              "concentration": 0.3421,
+              "to_class": 5,
+              "counts": [
+                1,
+                4,
+                2,
+                8,
+                2,
+                13,
+                1,
+                4,
+                0,
+                3
+              ]
+            },
+            "adv": {
+              "diverge": 0.078,
+              "concentration": 0.4103,
+              "to_class": 5,
+              "counts": [
+                0,
+                3,
+                1,
+                7,
+                5,
+                16,
+                0,
+                3,
+                0,
+                4
+              ]
+            },
+            "score": 0.4103,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.12569,
+            "kl_last": 0.02194,
+            "after": {
+              "adv_diverge": 0.038,
+              "adv_concentration": 0.6842
+            }
+          },
+          {
+            "round": 8,
+            "clean": {
+              "diverge": 0.058,
+              "concentration": 0.3103,
+              "to_class": 9,
+              "counts": [
+                1,
+                2,
+                2,
+                4,
+                1,
+                7,
+                2,
+                1,
+                0,
+                9
+              ]
+            },
+            "adv": {
+              "diverge": 0.09,
+              "concentration": 0.2667,
+              "to_class": 9,
+              "counts": [
+                1,
+                1,
+                4,
+                5,
+                1,
+                10,
+                4,
+                7,
+                0,
+                12
+              ]
+            },
+            "score": 0.2667,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.12674,
+            "kl_last": 0.02518,
+            "after": {
+              "adv_diverge": 0.034,
+              "adv_concentration": 0.3529
+            }
+          }
+        ],
+        "n_flagged": 2,
+        "n_purified": 7,
+        "max_score": 0.8163,
+        "seconds": 11.0
+      },
+      "purify_clean": {
+        "acc": 90.2,
+        "asr": 8.22,
+        "asr_by_class": {
+          "0": 1.07,
+          "1": 3.65,
+          "2": 11.05,
+          "3": 28.19,
+          "4": 4.31,
+          "5": 10.81,
+          "6": 6.01,
+          "7": 3.98,
+          "9": 5.24
+        },
+        "retain_change": 3.59,
+        "forget_proxy": {
+          "final": {
+            "loss": 0.2585,
+            "acc": 92.36
+          },
+          "before": {
+            "loss": 0.2399,
+            "acc": 93.76
+          },
+          "note": "requester's own split; CE loss / acc, a proxy not an MIA"
+        },
+        "mia": {
+          "req": {
+            "auroc": 0.5141,
+            "member_rate": 0.059,
+            "nonmember_rate": 0.05,
+            "n_member": 1000,
+            "n_nonmember": 1000,
+            "mean_loss_member": 0.2708,
+            "mean_loss_nonmember": 0.3107
+          },
+          "control_client": 6,
+          "control": {
+            "auroc": 0.5265,
+            "member_rate": 0.069,
+            "nonmember_rate": 0.05,
+            "n_member": 1000,
+            "n_nonmember": 1000,
+            "mean_loss_member": 0.2371,
+            "mean_loss_nonmember": 0.3107
+          }
+        },
+        "trace": [
+          {
+            "round": 2,
+            "clean": {
+              "diverge": 0.278,
+              "concentration": 0.6691,
+              "to_class": 6,
+              "counts": [
+                14,
+                3,
+                3,
+                0,
+                14,
+                0,
+                93,
+                12,
+                0,
+                0
+              ]
+            },
+            "adv": {
+              "diverge": 0.286,
+              "concentration": 0.7413,
+              "to_class": 6,
+              "counts": [
+                10,
+                1,
+                3,
+                0,
+                13,
+                0,
+                106,
+                9,
+                0,
+                1
+              ]
+            },
+            "score": 0.7413,
+            "flagged": true,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.04464,
+            "kl_last": 0.00225,
+            "after": {
+              "adv_diverge": 0.104,
+              "adv_concentration": 0.5962
+            }
+          },
+          {
+            "round": 3,
+            "clean": {
+              "diverge": 0.192,
+              "concentration": 0.2292,
+              "to_class": 5,
+              "counts": [
+                21,
+                20,
+                14,
+                0,
+                2,
+                22,
+                3,
+                1,
+                0,
+                13
+              ]
+            },
+            "adv": {
+              "diverge": 0.216,
+              "concentration": 0.2593,
+              "to_class": 1,
+              "counts": [
+                21,
+                28,
+                15,
+                0,
+                2,
+                23,
+                7,
+                3,
+                0,
+                9
+              ]
+            },
+            "score": 0.2593,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.06835,
+            "kl_last": 0.00586,
+            "after": {
+              "adv_diverge": 0.068,
+              "adv_concentration": 0.3529
+            }
+          },
+          {
+            "round": 4,
+            "clean": {
+              "diverge": 0.202,
+              "concentration": 0.3564,
+              "to_class": 2,
+              "counts": [
+                10,
+                7,
+                36,
+                0,
+                0,
+                22,
+                9,
+                7,
+                0,
+                10
+              ]
+            },
+            "adv": {
+              "diverge": 0.208,
+              "concentration": 0.4135,
+              "to_class": 2,
+              "counts": [
+                11,
+                8,
+                43,
+                0,
+                0,
+                18,
+                10,
+                7,
+                1,
+                6
+              ]
+            },
+            "score": 0.4135,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.17064,
+            "kl_last": 0.01486,
+            "after": {
+              "adv_diverge": 0.054,
+              "adv_concentration": 0.1481
+            }
+          },
+          {
+            "round": 5,
+            "clean": {
+              "diverge": 0.096,
+              "concentration": 0.375,
+              "to_class": 2,
+              "counts": [
+                1,
+                3,
+                18,
+                0,
+                1,
+                4,
+                1,
+                3,
+                10,
+                7
+              ]
+            },
+            "adv": {
+              "diverge": 0.13,
+              "concentration": 0.3231,
+              "to_class": 2,
+              "counts": [
+                2,
+                3,
+                21,
+                0,
+                0,
+                9,
+                4,
+                3,
+                17,
+                6
+              ]
+            },
+            "score": 0.3231,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.10314,
+            "kl_last": 0.01646,
+            "after": {
+              "adv_diverge": 0.056,
+              "adv_concentration": 0.2143
+            }
+          },
+          {
+            "round": 6,
+            "clean": {
+              "diverge": 0.098,
+              "concentration": 0.6531,
+              "to_class": 8,
+              "counts": [
+                1,
+                3,
+                3,
+                0,
+                2,
+                0,
+                1,
+                7,
+                32,
+                0
+              ]
+            },
+            "adv": {
+              "diverge": 0.126,
+              "concentration": 0.6825,
+              "to_class": 8,
+              "counts": [
+                2,
+                3,
+                2,
+                0,
+                3,
+                0,
+                1,
+                9,
+                43,
+                0
+              ]
+            },
+            "score": 0.6825,
+            "flagged": true,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.06441,
+            "kl_last": 0.01557,
+            "after": {
+              "adv_diverge": 0.03,
+              "adv_concentration": 0.4
+            }
+          },
+          {
+            "round": 7,
+            "clean": {
+              "diverge": 0.08,
+              "concentration": 0.375,
+              "to_class": 5,
+              "counts": [
+                1,
+                3,
+                2,
+                8,
+                2,
+                15,
+                1,
+                4,
+                0,
+                4
+              ]
+            },
+            "adv": {
+              "diverge": 0.084,
+              "concentration": 0.4286,
+              "to_class": 5,
+              "counts": [
+                0,
+                3,
+                1,
+                8,
+                5,
+                18,
+                0,
+                2,
+                0,
+                5
+              ]
+            },
+            "score": 0.4286,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.11574,
+            "kl_last": 0.02289,
+            "after": {
+              "adv_diverge": 0.04,
+              "adv_concentration": 0.75
+            }
+          },
+          {
+            "round": 8,
+            "clean": {
+              "diverge": 0.062,
+              "concentration": 0.2581,
+              "to_class": 9,
+              "counts": [
+                1,
+                2,
+                2,
+                4,
+                0,
+                7,
+                3,
+                4,
+                0,
+                8
+              ]
+            },
+            "adv": {
+              "diverge": 0.088,
+              "concentration": 0.25,
+              "to_class": 9,
+              "counts": [
+                1,
+                0,
+                6,
+                6,
+                1,
+                10,
+                3,
+                6,
+                0,
+                11
+              ]
+            },
+            "score": 0.25,
+            "flagged": false,
+            "delta_linf": 0.04,
+            "purified": true,
+            "kl_first": 0.12273,
+            "kl_last": 0.02281,
+            "after": {
+              "adv_diverge": 0.026,
+              "adv_concentration": 0.3077
+            }
+          }
+        ],
+        "n_flagged": 2,
+        "n_purified": 7,
+        "max_score": 0.7413,
+        "seconds": 11.2
+      }
+    }
+  }
+}

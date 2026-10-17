@@ -10,22 +10,22 @@
 | 탐지 | 정상 Non-IID 삭제와 구분되는 잠복 백도어 활성화 위험을 관측할 수 있는가? | 요청자 순위와 패치 반응을 관측했으나 단순 기준선 대비 이득·독립 오탐률은 미입증 |
 | 정화 | 실제 삭제 뒤 드러난 백도어를 줄이면서 삭제 후 정상 기능과 삭제 효과를 보존할 수 있는가? | 여섯 비교군 구현·축소 연결 검사 완료. 본 성능·망각 품질 검증 대기 |
 
-[문제 정의와 성공 기준](https://github.com/sijoon-sung/BadFU_defend/blob/codex/purification/docs/current/PROBLEM_STATEMENT.md) · [브랜치 안내](https://github.com/sijoon-sung/BadFU_defend/blob/codex/purification/BRANCHES.md).
+[문제 정의와 성공 기준](docs/current/PROBLEM_STATEMENT.md) · [브랜치 안내](BRANCHES.md).
 
 ## 무엇을 해봤고, 무엇이 됐는가
 
 | 시도 | 확인한 결과 | 판정 / 다음에 사용할 부분 | 근거 |
 | --- | --- | --- | --- |
-| 공식 BadFU·FUBA 코드와 궤적 저장 | 원본 코드 고정, 모델·집계 검사 및 업로드 관측 재계산 | **재현 기반 확보.** 저장 검증과 공격 효과 재현은 별개 | [궤적](https://github.com/sijoon-sung/BadFU_defend/blob/codex/purification/docs/operations/TRAJECTORIES.md) |
-| 초기 자체 구현·TEE/스펙트럼 프록시 | 강한 관측 가정과 자체 변경이 포함된 과거 결과 | **공식 공격 재현·완전 탐지 근거로 사용하지 않음.** 22.53→91.24%를 원본 BadFU 결과로 인용하지 않음 | [정정](https://github.com/sijoon-sung/BadFU_defend/blob/codex/purification/docs/experiments/EVIDENCE_AUDIT.md), [보관 코드](https://github.com/sijoon-sung/BadFU_defend/blob/codex/purification/legacy/README.md) |
-| HRAC, 깨끗한 입력의 이력 점수 | BadFU 15R에서 삭제 요청자 5위 | **이 조건에서는 요청자를 제대로 우선시하지 못함** | [연구 기록](https://github.com/sijoon-sung/BadFU_defend/blob/codex/purification/docs/experiments/RESEARCH_HISTORY.md) |
-| 같은 이미지의 패턴 유무 기여 차이 | 같은 BadFU 궤적에서 요청자 5·출력 0이 별도 이미지 3묶음 모두 1위 | **관측 신호는 있음.** 단순 음의 기여·마지막 라운드도 1위이므로 긴 이력/HRAC 이득은 미입증 | [무라벨 관측](https://github.com/sijoon-sung/BadFU_defend/blob/codex/purification/docs/experiments/UNLABELED_PROBES.md) |
-| FUBA 100R HRAC·기준선 | 요청자 client 4는 모두 1위. 표적 8은 HRAC 9/10/9위, 절댓값 기준선은 모두 1위 | **새 점수의 우월성 없음.** 높은 순위 자체를 독립 탐지 성공률로 해석하지 않음 | [검산](https://github.com/sijoon-sung/BadFU_defend/blob/codex/purification/reproduction/validation/fuba_cifar10_s42_review.json) |
-| 시계열 GLR | FUBA 20개·BadFU 10개 경로 재계산 일치. FUBA 최대값은 단일 라운드로 설명됨 | **시간 구간을 보는 추가 이득 미입증** | [검산](https://github.com/sijoon-sung/BadFU_defend/blob/codex/purification/reproduction/validation/temporal_pilot_complete_review_20261016.json) |
-| 정상 설명 집합 + 이력 | 11개 비교 사례의 비영 기여 1,110개 모두 집합으로 설명하지 못함 | **현재 정상 표현 가정 실패.** 보류를 정상/공격 판정으로 바꾸지 않음 | [검토](https://github.com/sijoon-sung/BadFU_defend/blob/codex/purification/docs/experiments/DELETION_COMPARISON.md) |
-| 누적 기여 차감으로 FU 근사 | 정상 BadFU 정확도가 11.25~28.75%, FUBA 대조가 10~20%까지 하락 | **실제 FU 위험 판정의 근거로 부적절.** 붕괴와 백도어 활성화를 혼동하지 않음 | [원본 비교표](https://github.com/sijoon-sung/BadFU_defend/blob/codex/purification/reproduction/validation/reviews/deletion_comparison_20261017/report.md) |
-| 실제 BadFU FU 전후 로짓 이중 차분 | 평가 이미지에서 탐색 패치 표적 반응 2.78→73.61%, 깨끗한 정확도 91.25→95% | **삭제 뒤 강화된 변형 반응 확인.** 진짜 트리거 ASR·정상 삭제 구분·사전 탐지 증명은 아님 | [검토](https://github.com/sijoon-sung/BadFU_defend/blob/codex/purification/docs/experiments/DELETION_COMPARISON.md) |
-| 삭제 후 정화 + CVaR + 클래스 제약 | 14개 검사, 2R BadFU 저장 모델의 실행·원본 트리거 평가·재개 통과 | **구현 연결만 확인.** 본 성능 대기. CVaR는 기존 도구이며 효과 미입증 | [방법](https://github.com/sijoon-sung/BadFU_defend/blob/codex/purification/docs/current/PURIFICATION_COMPARE.md), [검사 기록](https://github.com/sijoon-sung/BadFU_defend/blob/codex/purification/reproduction/validation/purification_checks_20261017.json) |
+| 공식 BadFU·FUBA 코드와 궤적 저장 | 원본 코드 고정, 모델·집계 검사 및 업로드 관측 재계산 | **재현 기반 확보.** 저장 검증과 공격 효과 재현은 별개 | [궤적](docs/operations/TRAJECTORIES.md) |
+| 초기 자체 구현·TEE/스펙트럼 프록시 | 강한 관측 가정과 자체 변경이 포함된 과거 결과 | **공식 공격 재현·완전 탐지 근거로 사용하지 않음.** 22.53→91.24%를 원본 BadFU 결과로 인용하지 않음 | [정정](docs/experiments/EVIDENCE_AUDIT.md), [보관 코드](legacy/README.md) |
+| HRAC, 깨끗한 입력의 이력 점수 | BadFU 15R에서 삭제 요청자 5위 | **이 조건에서는 요청자를 제대로 우선시하지 못함** | [연구 기록](docs/experiments/RESEARCH_HISTORY.md) |
+| 같은 이미지의 패턴 유무 기여 차이 | 같은 BadFU 궤적에서 요청자 5·출력 0이 별도 이미지 3묶음 모두 1위 | **관측 신호는 있음.** 단순 음의 기여·마지막 라운드도 1위이므로 긴 이력/HRAC 이득은 미입증 | [무라벨 관측](docs/experiments/UNLABELED_PROBES.md) |
+| FUBA 100R HRAC·기준선 | 요청자 client 4는 모두 1위. 표적 8은 HRAC 9/10/9위, 절댓값 기준선은 모두 1위 | **새 점수의 우월성 없음.** 높은 순위 자체를 독립 탐지 성공률로 해석하지 않음 | [검산](reproduction/validation/fuba_cifar10_s42_review.json) |
+| 시계열 GLR | FUBA 20개·BadFU 10개 경로 재계산 일치. FUBA 최대값은 단일 라운드로 설명됨 | **시간 구간을 보는 추가 이득 미입증** | [검산](reproduction/validation/temporal_pilot_complete_review_20261016.json) |
+| 정상 설명 집합 + 이력 | 11개 비교 사례의 비영 기여 1,110개 모두 집합으로 설명하지 못함 | **현재 정상 표현 가정 실패.** 보류를 정상/공격 판정으로 바꾸지 않음 | [검토](docs/experiments/DELETION_COMPARISON.md) |
+| 누적 기여 차감으로 FU 근사 | 정상 BadFU 정확도가 11.25~28.75%, FUBA 대조가 10~20%까지 하락 | **실제 FU 위험 판정의 근거로 부적절.** 붕괴와 백도어 활성화를 혼동하지 않음 | [원본 비교표](reproduction/validation/reviews/deletion_comparison_20261017/report.md) |
+| 실제 BadFU FU 전후 로짓 이중 차분 | 평가 이미지에서 탐색 패치 표적 반응 2.78→73.61%, 깨끗한 정확도 91.25→95% | **삭제 뒤 강화된 변형 반응 확인.** 진짜 트리거 ASR·정상 삭제 구분·사전 탐지 증명은 아님 | [검토](docs/experiments/DELETION_COMPARISON.md) |
+| 삭제 후 정화 + CVaR + 클래스 제약 | 14개 검사, 2R BadFU 저장 모델의 실행·원본 트리거 평가·재개 통과 | **구현 연결만 확인.** 본 성능 대기. CVaR는 기존 도구이며 효과 미입증 | [방법](docs/current/PURIFICATION_COMPARE.md), [검사 기록](reproduction/validation/purification_checks_20261017.json) |
 
 ## 우리가 배운 것
 
@@ -46,4 +46,4 @@ FUBA는 실제 같은 요청의 FU 후 모델을 확보해야 정화 비교에 �
 
 [탐지 브랜치](https://github.com/sijoon-sung/BadFU_defend/tree/codex/detection) ·
 [정화 브랜치](https://github.com/sijoon-sung/BadFU_defend/tree/codex/purification) ·
-[현재 실행 안내](https://github.com/sijoon-sung/BadFU_defend/blob/codex/purification/RUN.md).
+[현재 실행 안내](RUN.md).

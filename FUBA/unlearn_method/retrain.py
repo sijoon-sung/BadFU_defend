@@ -355,7 +355,7 @@ def retrain(config: Config):
             )
 
     # Test loader
-    testloader = torch.utils.data.DataLoader(config.testset, batch_size=32, shuffle=True, num_workers=0)
+    testloader = torch.utils.data.DataLoader(config.testset, batch_size=32, shuffle=True, num_workers=12)
 
     # Initialize global model
     if config.pretrained_model is not None:

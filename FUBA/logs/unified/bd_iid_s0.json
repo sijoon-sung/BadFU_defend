@@ -1,0 +1,256 @@
+{
+  "name": "bd_iid_s0",
+  "fmt": "fuba",
+  "args": {
+    "fmt": "fuba",
+    "name": "bd_iid_s0",
+    "rounds": 8,
+    "K": 8,
+    "ckpt_dir": "checkpoints",
+    "traj_dir": null,
+    "counts": null,
+    "data_root": "./data",
+    "badfu_record": null,
+    "requesters": [
+      4,
+      7,
+      5
+    ],
+    "defender": 4,
+    "defenders": [
+      4
+    ],
+    "attackers": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "target": 8,
+    "n_classes": 10,
+    "probe": 500,
+    "probe_mode": "forget",
+    "forget_n": 500,
+    "screen": "off",
+    "tau_screen": 1.5,
+    "stat": "flow",
+    "cap": 0.3,
+    "tau": 3.0,
+    "tau_mode": "fixed",
+    "tau_margin": 1.0,
+    "m": 0,
+    "zmode": "std",
+    "delta_min": 0.1,
+    "op": "subtract",
+    "kd_steps": 30,
+    "kd_lr": 0.01,
+    "lams": [
+      0.5,
+      1,
+      2,
+      4,
+      8
+    ],
+    "lam_rule": "first",
+    "min_act": 10,
+    "max_purify": 2,
+    "rep_steps": 50,
+    "rep_lr": 0.01,
+    "rep_bs": 128,
+    "rep_every": 0,
+    "rep_stop": 1.0,
+    "mia_n": 1000,
+    "seed": 522,
+    "split_seed": 522,
+    "non_iid": false,
+    "non_iid_type": null,
+    "alpha": 1,
+    "sigma": 1,
+    "shift_ratio": 0.4,
+    "owner_client": -1,
+    "owner_class": 3,
+    "owner_frac": 0.9,
+    "train_epoch": 100,
+    "batch_size": 64,
+    "noise_thread": 0.04,
+    "atk_eps": 1.0,
+    "n_gpu": 1,
+    "out": null,
+    "resume": true
+  },
+  "K": 8,
+  "roles": {
+    "0": "carrier",
+    "1": "carrier",
+    "2": "carrier",
+    "3": "carrier",
+    "4": "suppressor",
+    "5": "benign",
+    "6": "benign",
+    "7": "benign"
+  },
+  "before": {
+    "acc": 94.64,
+    "asr": 8.57
+  },
+  "results": {
+    "4": {
+      "role": "suppressor",
+      "decision": "purified(antidote)",
+      "confirm": {
+        "trace": [
+          {
+            "delta": 1.0,
+            "removed": 1.0,
+            "h": 0.026,
+            "n_healthy": 7,
+            "stat": 0.2138,
+            "to_class": 8,
+            "src_div": 0.9334,
+            "flip_conf": 0.4782,
+            "z": 11.83,
+            "tau": 3.0,
+            "flagged": true,
+            "repaired": true,
+            "hard_collapse": false,
+            "how": "antidote"
+          }
+        ],
+        "removed": 1.0,
+        "aborted": false,
+        "flagged": true
+      },
+      "purify": [
+        {
+          "delta_c": 1.0,
+          "carriers": [
+            3,
+            1
+          ],
+          "carrier_roles": [
+            "carrier",
+            "carrier"
+          ],
+          "map": {
+            "0": 0.0763,
+            "1": 0.1014,
+            "2": 0.0772,
+            "3": 0.1054,
+            "5": null,
+            "6": -0.2824,
+            "7": null
+          },
+          "c_star": 8,
+          "n_act": 229,
+          "variants": [
+            {
+              "lam": 0.5,
+              "z": 4.34,
+              "health": 0.146
+            },
+            {
+              "lam": 1,
+              "z": 0.6,
+              "health": 0.229
+            }
+          ],
+          "frac_of_carrier": {
+            "3": 0.0504,
+            "1": 0.0444
+          },
+          "chosen_lam": 1
+        }
+      ],
+      "final": {
+        "acc": 90.67,
+        "retain_change": 5.47,
+        "alpha": 0.0004,
+        "asr": 11.88,
+        "forget_acc": 90.33
+      },
+      "cost": {
+        "pop_models": 8,
+        "forwards": 15,
+        "seconds": 0.5
+      }
+    },
+    "7": {
+      "role": "benign",
+      "decision": "accept(confirm)",
+      "confirm": {
+        "trace": [
+          {
+            "delta": 1.0,
+            "removed": 1.0,
+            "h": 0.026,
+            "n_healthy": 7,
+            "stat": 0.0437,
+            "to_class": 8,
+            "src_div": 0.8745,
+            "flip_conf": 0.4955,
+            "z": 0.48,
+            "tau": 3.0,
+            "flagged": false,
+            "repaired": false,
+            "hard_collapse": false
+          }
+        ],
+        "removed": 1.0,
+        "aborted": false,
+        "flagged": false
+      },
+      "purify": [],
+      "final": {
+        "acc": 92.22,
+        "retain_change": 4.31,
+        "alpha": 0.0,
+        "asr": 21.68,
+        "forget_acc": 92.07
+      },
+      "cost": {
+        "pop_models": 0,
+        "forwards": 7,
+        "seconds": 0.3
+      }
+    },
+    "5": {
+      "role": "benign",
+      "decision": "accept(confirm)",
+      "confirm": {
+        "trace": [
+          {
+            "delta": 1.0,
+            "removed": 1.0,
+            "h": 0.026,
+            "n_healthy": 7,
+            "stat": 0.0403,
+            "to_class": 8,
+            "src_div": 0.9161,
+            "flip_conf": 0.4782,
+            "z": 0.44,
+            "tau": 3.0,
+            "flagged": false,
+            "repaired": false,
+            "hard_collapse": false
+          }
+        ],
+        "removed": 1.0,
+        "aborted": false,
+        "flagged": false
+      },
+      "purify": [],
+      "final": {
+        "acc": 93.01,
+        "retain_change": 3.32,
+        "alpha": 0.0,
+        "asr": 20.3,
+        "forget_acc": 92.71
+      },
+      "cost": {
+        "pop_models": 0,
+        "forwards": 7,
+        "seconds": 0.3
+      }
+    }
+  }
+}

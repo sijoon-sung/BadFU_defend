@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-16",
+  "purpose": "Paired ASR diagnostic execution and accounting checks, not attack efficacy",
+  "tests": {
+    "new_paired_metric_tests": 6,
+    "total_targeted_tests_passed": 22
+  },
+  "actual_model": {
+    "dataset": "cifar10",
+    "source_run": "fuba_pipeline_cifar_gpu_smoke_s42",
+    "source_training_smoke": true,
+    "rounds": [
+      1,
+      2
+    ],
+    "samples": 1000,
+    "diagnosis_complete": true,
+    "all_split_ranks_identical": true,
+    "evaluation_loop_seconds": 4.40506109999842,
+    "round2_clean_target_rate_pct": 100.0,
+    "round2_triggered_rates": {
+      "fixed_reference_eval": 100.0,
+      "permuted_reference_noise": 100.0,
+      "current_individual_eval": 100.0,
+      "current_individual_train": 100.0,
+      "current_aggregate_eval": 100.0
+    },
+    "round2_net_trigger_gains_pp": {
+      "fixed_reference_eval": 0.0,
+      "permuted_reference_noise": 0.0,
+      "current_individual_eval": 0.0,
+      "current_individual_train": 0.0,
+      "current_aggregate_eval": 0.0
+    }
+  },
+  "paired_benign_model_execution_tested": false,
+  "remote_100_round_diagnosis_completed": false,
+  "training_calls": 0,
+  "fu_calls": 0,
+  "code_sha256": {
+    "reproduction/diagnose_fuba_asr.py": "de20f0df0329a7ffe518468ae7c5cb97a0b5ff257edb390b1c4ea87aad8378ad",
+    "FUBA/model/model.py": "6c32ca2ac89b8ee7b673a9e91e7d8d3fe8b63f6250248eb1cd50c5ebd03d1026",
+    "FUBA/model/resnet.py": "91b825f748fd907366670d04cd113f809cddbe6af402225341b424b58a46a179"
+  },
+  "note": "The local 2R smoke collapses to the target even on clean images. This illustrates ASR accounting confounding, not the cause of the remote 100R run."
+}

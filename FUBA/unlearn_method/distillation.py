@@ -78,7 +78,7 @@ def distillation_unlearn(trainset, global_dicts, clients_dicts, idx, config: Con
     cou = -1  # Use last global checkpoint
     testloader = torch.utils.data.DataLoader(
         config.testset, batch_size=config.batch_size,
-        shuffle=False, num_workers=0
+        shuffle=False, num_workers=12
     )
 
     # Create new global model dictionary by removing influence of selected client
@@ -91,7 +91,7 @@ def distillation_unlearn(trainset, global_dicts, clients_dicts, idx, config: Con
 
     trainloader = torch.utils.data.DataLoader(
         trainset, batch_size=config.batch_size,
-        shuffle=True, num_workers=0
+        shuffle=True, num_workers=4
     )
 
     # Initialize student model with modified global weights

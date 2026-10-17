@@ -1,0 +1,153 @@
+{
+  "date": "2026-10-15",
+  "purpose": "Execution and full-state integrity smoke tests; not attack efficacy or detection accuracy",
+  "unit_tests": {
+    "existing_research_tests": 105,
+    "reproduction_tests": 7,
+    "status": "passed"
+  },
+  "runs": [
+    {
+      "run": "fresh_final_badfu",
+      "attack": "badfu",
+      "upstream_commit": "0a2117feab58faf5b7e2a1e5e1759112087d6049",
+      "status": "complete",
+      "smoke": true,
+      "seconds": 117.95300000000134,
+      "device": "cuda:0",
+      "rounds": 2,
+      "dataset": "cifar10",
+      "clients": "5 and 6 by phase",
+      "non_iid": "author dominant ratio 0.7",
+      "alpha": null,
+      "adapter_sha256": {
+        "badfu_adapter.py": "bf038a4bba327633d7deca0392696c957ab59d6e2802397f29e9556f60d84ace",
+        "fuba_adapter.py": "c589ddcd986f3db23c0076643dbf7a2c6495a55ee848e1806778e63a6026f405",
+        "run.py": "4483a40b4272bcb6fc488535da0c6fdddf6dfff6c12b29c2bd1b552b58730b7b",
+        "test_reproduction.py": "1a258a2269cc4193b0337e660d28d6713c2df45bbbf12b9fefebb096944ff232",
+        "trajectory.py": "758633f81d648eaa194ca33c8590fe4e313176af23ce5a07a17e448e6dfe57a7",
+        "__init__.py": "23ce3a418e46ac03335e6370b798a0e5e36ecfaa0976ad34973d1bec2ca19582"
+      },
+      "runtime_patch_sha256": "068b4913c35409fbe9cd486711dd1c17230a986649bbf7ae22e5126db732b322",
+      "protocol_sha256": "10111969013dbd155da334ecd13b3c64bdab81833e9cc535ba9a5da27967f44c",
+      "phases": [
+        {
+          "path": "clean5",
+          "rounds": 2,
+          "status": "verified",
+          "aggregation_checked": true
+        },
+        {
+          "path": "bd5",
+          "rounds": 2,
+          "status": "verified",
+          "aggregation_checked": true
+        },
+        {
+          "path": "cover5",
+          "rounds": 2,
+          "status": "verified",
+          "aggregation_checked": true
+        },
+        {
+          "path": "full6",
+          "rounds": 2,
+          "status": "verified",
+          "aggregation_checked": true
+        },
+        {
+          "path": "fu_remove5",
+          "rounds": 1,
+          "status": "verified",
+          "aggregation_checked": false
+        },
+        {
+          "path": "fu_remove1",
+          "rounds": 1,
+          "status": "verified",
+          "aggregation_checked": false
+        }
+      ]
+    },
+    {
+      "run": "fresh_final_fuba",
+      "attack": "fuba",
+      "upstream_commit": "bc233610aca36e1647d0c815597cc7148292139d",
+      "status": "complete",
+      "smoke": true,
+      "seconds": 22.70300000000134,
+      "device": "cpu",
+      "rounds": 2,
+      "dataset": "mnist",
+      "clients": 6,
+      "non_iid": true,
+      "alpha": 0.5,
+      "adapter_sha256": {
+        "badfu_adapter.py": "bf038a4bba327633d7deca0392696c957ab59d6e2802397f29e9556f60d84ace",
+        "fuba_adapter.py": "c589ddcd986f3db23c0076643dbf7a2c6495a55ee848e1806778e63a6026f405",
+        "run.py": "4483a40b4272bcb6fc488535da0c6fdddf6dfff6c12b29c2bd1b552b58730b7b",
+        "test_reproduction.py": "1a258a2269cc4193b0337e660d28d6713c2df45bbbf12b9fefebb096944ff232",
+        "trajectory.py": "758633f81d648eaa194ca33c8590fe4e313176af23ce5a07a17e448e6dfe57a7",
+        "__init__.py": "23ce3a418e46ac03335e6370b798a0e5e36ecfaa0976ad34973d1bec2ca19582"
+      },
+      "runtime_patch_sha256": "78450ff21a74d49ae089a1883d4c6f57521e760dfec4c5ca3bf64bb73571325b",
+      "protocol_sha256": "bef0c17c3523117cf6ecc77c400929d1191ec36a40d771da77cf234325822c1a",
+      "phases": [
+        {
+          "path": "fl",
+          "rounds": 2,
+          "status": "verified",
+          "aggregation_checked": true
+        }
+      ]
+    },
+    {
+      "run": "fresh_smoke_fuba_cifar",
+      "attack": "fuba",
+      "upstream_commit": "bc233610aca36e1647d0c815597cc7148292139d",
+      "status": "complete",
+      "smoke": true,
+      "seconds": 45.73399999999674,
+      "device": "NVIDIA GeForce RTX 4060 Laptop GPU",
+      "rounds": 2,
+      "dataset": "cifar10",
+      "clients": 6,
+      "non_iid": true,
+      "alpha": 0.5,
+      "adapter_sha256": {
+        "badfu_adapter.py": "a70e7e61c621ed41c74d42014d6d0a38f6ebb00993a14ba1c5e194a9a80251ff",
+        "fuba_adapter.py": "c589ddcd986f3db23c0076643dbf7a2c6495a55ee848e1806778e63a6026f405",
+        "run.py": "15664ea65df16406f7c3f58ae789d2c1d189c5ff2d6ef8861528c228a16bdad0",
+        "test_reproduction.py": "ff55f0b3c04702ec56560421243cf00fc656011fa078b6fe47db2fe4b1cc1685",
+        "trajectory.py": "758633f81d648eaa194ca33c8590fe4e313176af23ce5a07a17e448e6dfe57a7",
+        "__init__.py": "23ce3a418e46ac03335e6370b798a0e5e36ecfaa0976ad34973d1bec2ca19582"
+      },
+      "runtime_patch_sha256": "a659b2e74b8076f305681ddf23e005c7f84b96eb5552d625c2ae5700bf5e2d0e",
+      "protocol_sha256": "d350075870c36dd0c6221e2d6d97c9d4f075e38575c07dde3ec02435e2144278",
+      "phases": [
+        {
+          "path": "fl",
+          "rounds": 2,
+          "status": "verified",
+          "aggregation_checked": true
+        }
+      ]
+    }
+  ],
+  "not_run": [
+    "40-round BadFU full author sequence",
+    "100-round FUBA",
+    "general FUBA FU on non-IID histories",
+    "new independent detection FPR/TPR evaluation"
+  ],
+  "probe_bridge": {
+    "source_run": "fresh_smoke_badfu/full6",
+    "rounds": 2,
+    "images": 8,
+    "image_seed": 101,
+    "pattern_seed": 102,
+    "device": "cpu",
+    "status": "completed",
+    "interpretation": "Path/integration check only; scores are not efficacy evidence"
+  }
+}

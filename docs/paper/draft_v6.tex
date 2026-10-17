@@ -1,0 +1,328 @@
+% Historical paired-audit draft. Current algorithm-led narrative: draft_v7.tex.
+% Standalone: no external figures or bibliography files.
+% Replaces v5's unsupported cancellation-exclusive and joint-tail-probability claims.
+\documentclass[10pt,a4paper]{article}
+\usepackage{kotex}
+\usepackage{fontspec}
+\IfFontExistsTF{Noto Sans CJK KR}{\setmainhangulfont{Noto Sans CJK KR}}{\setmainhangulfont{Malgun Gothic}}
+\usepackage[margin=22mm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,booktabs,tabularx}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\newtheorem{proposition}{명제}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\title{연합 언러닝 잠복 백도어의 요청 조건부 감사:\\공동 삭제 검증과 식별 한계}
+\author{연구 초안}
+\date{v6 / 2026년 10월 13일}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+연합 언러닝에서 학습 중 억제된 백도어가 삭제 요청 후 드러날 수 있다.
+이때 삭제 후 출력의 큰 변화나 클라이언트 간 반대 방향의 기여만으로 악의를 판정하면,
+정상 데이터 이질성 및 비선형 삭제 오차를 공격으로 오인할 수 있다.
+본 연구는 기존 학습 중 감시(CCD), 요청 이상 검사(DOSE), 상대 기여 추정(TRACE)을 유지하면서,
+요청자만 삭제한 모델과 추정 상대까지 함께 삭제한 모델을 별도 입력에서 비교하는
+요청 조건부 공동삭제 검증을 제안한다. 네 개의 실제 개입 모델로 상쇄와 복원을 측정하고,
+선형 설명의 비선형 오차 및 악의의 비식별성을 명시한다.
+추가 검증은 기존 위험 판정을 취소하지 않는 방식으로 통합한다.
+저장된 FUBA, BadFU 변형, 정상 학습 궤적 각 한 개에서 42개 요청--삭제비율 조합을 평가했다.
+FUBA에서는 5\%와 10\% 부분 삭제의 변화를 확인했으나 상대 후보에 정상 클라이언트가 포함되었다.
+BadFU 변형에서는 공동삭제 구조를 확인하지 못했고 기존 DOSE만 요청 뷰에서 경보를 냈다.
+따라서 본 결과는 감사 프로토콜과 제한된 추가 증거를 뒷받침하며,
+보편적 공격 탐지, 정확한 공격자 식별, 또는 망각 인증을 입증하지 않는다.
+\end{abstract}
+
+\section{문제와 핵심 주장}
+FUBA와 BadFU는 학습된 모델의 잠복 성분이 삭제 이후 활성화되는 위협을 다룬다
+\cite{fuba,badfu}. 그러나 두 공격의 삭제 단위는 같지 않다.
+클라이언트 간 역할 분리가 있는 FUBA와 달리 원래 BadFU는 같은 악성 클라이언트의
+backdoor 표본과 camouflage 표본을 사용한다. 공통 방어를 위해서는 공격 이름보다
+\emph{어떤 삭제 단위를 어떤 연산자로 제거하고 어디에서 변화를 관측하는가}를 명시해야 한다.
+
+본 연구의 핵심 주장은 다음과 같다.
+\begin{quote}
+잠복 백도어에 대한 삭제 감사를 요청 조건부 모델 개입으로 정식화하고,
+기존 검사의 위험 신호를 유지하면서 추정 상쇄 관계를 별도 입력과 실제 공동 삭제로 확인한다.
+이 검증은 출력 변화의 설명을 강화하지만 악의나 삭제 완료를 단독으로 증명하지 않는다.
+\end{quote}
+
+추가한 기여 후보는 (i) 삭제 단위를 추상화한 누적 요청 감사,
+(ii) TRACE의 후보 선택과 실제 공동 삭제 확인을 분리한 절차,
+(iii) 비선형 설명 오차와 정상 반대 기여의 식별 한계 분석이다.
+순위 보정, 최소제곱, 반대 정렬 자체는 새로운 이론으로 주장하지 않는다.
+새 절차가 기존 방법보다 일반적으로 우수하다는 주장은 다중 시드와 동일 오탐률 비교 이후에 판단한다.
+
+\section{관련 연구와 재사용 범위}
+\paragraph{개별 언러닝 기반 탐지.}
+MASA는 개별 로컬 모델의 언러닝 행동을 이용해 백도어 모델을 탐지하며,
+비동일 분포의 영향을 완화하는 모델 융합을 포함한다\cite{masa}.
+이를 단순한 악성 삭제 요청 탐지기로 기술하거나 원리적으로 무력하다고 단정할 수 없다.
+UnlearnGuard는 언러닝 과정에서 제출되는 악성 업데이트를 대상으로,
+업데이트 추정과 필터링을 이용한 재구성을 제안한다\cite{unlearnguard}.
+본 연구의 저장된 잠복 성분 제거 위협과의 차이를 명시한 뒤 동일 조건에서 비교해야 한다.
+
+\paragraph{반사실적 관측.}
+BBCaL은 입력에 대한 반사실적 변형과 예측 일관성으로 추론 단계의 백도어 표본을 탐지한다
+\cite{bbcal}. 따라서 반사실적 백도어 방어라는 개념 자체를 최초 기여로 주장하지 않는다.
+여기서는 입력 변형이 아니라 삭제 단위에 대한 모델 개입과 선택 후 검증을 다룬다.
+
+\paragraph{저장소의 기존 구성요소.}
+CCD는 학습 중 누적 기능 기여를 감시하고, DOSE는 동일 삭제량의 비교군을 이용한 요청 검사를,
+TRACE는 제한된 최소제곱으로 상대 기여 후보를 찾는 역할을 유지한다.
+새 구현은 기존 TRACE 전진 선택 및 box-NNLS 함수를 재사용한다.
+FedEraser\cite{federaser}와 재학습은 복구 또는 개입 연산자의 후보다.
+이번 실험의 개입은 근사 감산이며, FedEraser까지 포함한 일반적 성능 비교가 아니다.
+
+\section{모형과 알고리즘}
+\subsection{삭제 단위, 불변 기준, 관측}
+서로 겹치지 않는 삭제 단위를 $\mathcal U=\{1,\dots,K\}$라 하고
+누적 삭제 비율을 $r\in[0,1]^K$라 한다. 단위는 클라이언트 또는 데이터 묶음일 수 있다.
+학습 기록 $\mathcal H$와 고정된 난수 규약 $\xi$ 아래
+\begin{equation}
+ M(r)=\mathcal R(\theta_0,\mathcal H,r;\xi),\qquad M(0)=\theta_0
+\end{equation}
+를 정의한다. 현재 구현은 $M(r)=\theta_0-\sum_jr_jU_j$이며,
+누적 기여 $U_j$의 참여율과 집계 가중치를 반영한다.
+이 식은 후속 학습의 의존성을 정확히 제거하지 않으므로 망각 인증이 아니다.
+요청을 여러 번 나누어 제출해도 $r_t=r_{t-1}+\delta_t$로 누적하며,
+부분 제거된 모델로 기준을 바꾸지 않는다.
+
+공개 뷰 $X_p$와 정당하게 접근 가능한 삭제 대상 뷰 $X_f$를 별도로 평가한다.
+공격 표적, 역할, 트리거 정답은 탐지에 사용하지 않는다.
+삭제 대상 입력이 실제 학습 기록과 일치하는지 확인하는 약정 검증은 별도 전제다.
+클라이언트 기록만으로 같은 클라이언트 내부의 임의 데이터 묶음을 제거할 수 있다고 가정하지 않는다.
+
+\subsection{네 모델과 기능 효과}
+$S=\operatorname{supp}(r)$, 상대 후보 비율 $a$에 대해
+$\operatorname{supp}(a)\cap S=\varnothing$, $a\in[0,1]^K$라 하자.
+\begin{equation}
+ M_0=M(0),\quad M_S=M(r),\quad M_A=M(a),\quad M_{SA}=M(r+a).
+\end{equation}
+모든 모델은 같은 기준과 같은 삭제 연산자로 만든다. 예측 확률 $p$의 표현은
+\begin{equation}
+ \psi_c(p)=\log\max(p_c,\epsilon)-\frac1C\sum_d\log\max(p_d,\epsilon),
+ \quad\epsilon=10^{-7}
+\end{equation}
+이다. 클리핑이 작동하지 않으면 중심화한 로짓과 같다.
+뷰 $v$의 입력별 기능 효과는
+\begin{equation}
+ D_B^v=[\psi(p_{M_B}(x))-\psi(p_{M_0}(x))]_{x\in X_v},\quad B\in\{S,A,SA\}
+\end{equation}
+이다. 입력 및 클래스 차원을 유지하여 평균에 의해 지워지는 국소 변화를 보존한다.
+
+\subsection{선택과 실제 공동 삭제 확인}
+각 뷰를 선택용 $X_v^d$와 확인용 $X_v^h$로 나눈다.
+$\rho=\max_jr_j$이고 $E_j=D^d(\rho e_j)$일 때 기존 TRACE로
+\begin{equation}
+ (\hat A,\hat w)\approx\arg\min_{|A|\le m,\,0\le w_j\le1/\rho}
+ \norm{D_S^d+\sum_{j\in A}w_jE_j}^2,\qquad \hat a_j=\rho\hat w_j
+\end{equation}
+를 계산한다. 뷰별 원소 수의 제곱근으로 정규화한 후 연결한다.
+기본 후보 예산 $m=5$는 공격자 수 가정이 아니며 전진 선택의 전역 최적성은 보장하지 않는다.
+선택한 집합과 가중치를 고정한 후 실제 $M_A,M_{SA}$를 계산한다.
+
+확인 입력에서 $E_B=\norm{D_B^h}^2$라 할 때, 노름 제곱은 원소별 제곱의 평균으로 정의한다.
+\begin{equation}\label{eq:pair}
+ C_{S,A}=\frac{E_S+E_A-E_{SA}}{E_S+E_A},\qquad
+ R_{S,A}=1-\frac{E_{SA}}{E_S}.
+\end{equation}
+분모는 구현에서 $10^{-12}$ 이상으로 두고 $E_S>10^{-6}$을 요구한다.
+$C$는 요청과 상대의 에너지 대비 공동 잔차를, $R$은 요청 단독 변화 대비 복원을 측정한다.
+큰 값은 출력 복원이며 백도어 소멸과 동일하지 않다.
+
+\subsection{위험 판정과 전체 과정}
+동일한 전체 삭제 비율과 단위 수의 비교 요청들에서 에너지 중앙값 $\mu_v$와 MAD 척도 $s_v$를 구한다.
+이는 데이터 크기와 참여량의 자동 일치를 보장하지 않는다.
+\begin{equation}
+ z_v=\frac{E_S^v-\mu_v}{\max(s_v,10^{-6})},\qquad
+ T=\max_v [z_v]_+[C_v]_0^1[R_v]_0^1.
+\end{equation}
+기본 추가 경보는 어느 뷰에서 $z_v\ge3$, $C_v,R_v\ge0.5$이고
+에너지 및 비어 있지 않은 상대 조건을 만족할 때다. 공개 뷰 TV가 0.3을 초과하면 판정 불가로 둔다.
+이 문턱은 휴리스틱이며 $z_v$를 정규분포 유의확률로 해석하지 않는다.
+
+전체 과정은 다음과 같다.
+\begin{enumerate}
+\item CCD로 학습 중 감사 우선순위를 기록한다. 무경보가 요청 검사 면제를 뜻하지 않는다.
+\item 누적 요청에 대해 작은 삭제 단계부터 기존 DOSE와 선택적 공동삭제 검증을 수행한다.
+\item 기존 DOSE 위험, 새 검증 위험, 보존 예산 위반 중 하나라도 있으면 보류한다.
+      공동삭제 미확인은 기존 경보를 취소할 수 없다.
+\item 후보 관계를 증거로 남기고, 요청 전체를 반영한 복구 모델을 별도로 구성한다.
+      후보 집합을 정답 공격자로 간주하여 자동 배제하지 않는다.
+\item 별도 보존·잔여 공격·망각 검증 후에만 모델을 교체한다.
+      재학습 이후에는 새 기준과 기록으로 후속 요청과 재활성화를 감시한다.
+\end{enumerate}
+현 체크포인트 어댑터는 실제 복구와 독립 망각 검증을 제공하지 않으므로
+삭제 완료나 복구 완료 상태를 출력하지 않는다.
+후속 학습의 지연 재활성화는 별도 실험이 필요하다.
+
+\section{분석}
+\begin{proposition}[가법 효과에서의 반대 정렬]
+$D_{SA}=D_S+D_A$이고 $E_S+E_A>0$이면
+\begin{equation}
+ C_{S,A}=\frac{-2\langle D_S,D_A\rangle}{E_S+E_A}\in[-1,1].
+\end{equation}
+같은 크기의 완전 반대 효과에서는 $C=R=1$이다.
+\end{proposition}
+\begin{proof}
+$\norm{D_S+D_A}^2=E_S+E_A+2\langle D_S,D_A\rangle$를 식~\eqref{eq:pair}에 대입한다.
+Cauchy--Schwarz와 $2uv\le u^2+v^2$로 범위를 얻는다.
+\end{proof}
+
+\begin{proposition}[비선형 공동 삭제 오차]
+$q=D_{SA}-(D_S+D_A)$이면
+\begin{equation}
+ \left|C_{S,A}+\frac{2\langle D_S,D_A\rangle}{E_S+E_A}\right|
+ \le\frac{2\norm{D_S+D_A}\norm q+\norm q^2}{E_S+E_A}.
+\end{equation}
+\end{proposition}
+\begin{proof}
+$\norm{D_S+D_A+q}^2$를 전개하여 남는
+$2\langle D_S+D_A,q\rangle+\norm q^2$에 삼각부등식을 적용한다.
+\end{proof}
+따라서 선택용 선형 잔차가 작다는 것만으로 실제 공동 삭제의 복원을 추론할 수 없다.
+일반 비선형 효과에서는 $C$의 하한 $-1$도 성립하지 않는다.
+한편 혼합 차분 $q$만으로 탐지하면 가법적인 완전 상쇄($q=0$)를 놓칠 수 있다.
+
+\begin{proposition}[상쇄 관측만으로 악의를 식별할 수 없음]
+관측 가능한 모든 입력과 네 개입 모델의 예측 분포가 같은 정상 세계와 공격 세계가 존재하면,
+그 관측만을 사용하는 판정기는 두 세계를 항상 구별할 수 없다.
+\end{proposition}
+\begin{proof}
+정상 세계에는 충돌하는 두 학습 목적을, 공격 세계에는 주입과 억제 목적을 배정하되
+기능 효과를 같게 구성한다. 관측 분포가 같으므로 어떤 관측 함수의 출력 분포도 같다.
+\end{proof}
+이 반례는 ``정상 학습에서는 상쇄가 없다''는 전제를 배제한다.
+공개 입력이 트리거 영역의 변화를 관측하지 못하는 경우도 탐지 보장의 범위 밖이다.
+
+\paragraph{정상 에피소드 보정의 조건.}
+전체 선택·확인·뷰/삭제단계 집계를 고정한 점수 $T$와 정상 에피소드 점수 $T_1,\dots,T_n$에 대해
+\begin{equation}
+ p=\frac{1+\sum_i\mathbf1\{T_i\ge T\}}{n+1}
+\end{equation}
+를 사용할 수 있다. 정상 시험/보정 점수가 교환 가능하면 순위 대칭성으로
+$\Pr(p\le\alpha)\le\alpha$이다\cite{exchangeability}.
+이는 알려진 순위 검정의 적용이며 최소 p값은 $1/(n+1)$이다.
+같은 모델의 여러 입력, 동료 클라이언트, 삭제 비율을 독립 학습 에피소드로 세면 안 된다.
+현재 실제 실험에는 정상 에피소드 보정 집합이 없으므로 유의수준 보장은 주장하지 않는다.
+적응적 요청의 반복 검정에는 추가 조건부 유효성이 필요하다.
+
+\paragraph{비용.}
+한 단위 요청에서 예측을 재사용하면 최대 $K+3$개 개입 모델의 순전파가 필요하다.
+다중 요청은 비교 요청 조합만큼 추가된다. 모델 상태 생성과 로딩 비용이 존재한다.
+역전파가 없다는 설명은 근사 감산 연산자에만 해당하며 재학습 연산자에는 적용되지 않는다.
+
+\section{새로 수행한 실험}
+\subsection{프로토콜과 근거 수준}
+결과 장부 R-020--R-027에 기록한 로컬 저장 궤적 세 개 및 합성 에피소드를 사용했다. FUBA는 MNIST/LeNet, $K=20$, 100라운드,
+참여율 0.4의 IID 한 시드이고 요청자는 억제자 4 및 정상 5,19이다.
+BadFU는 CIFAR-10/ResNet-18, 15라운드, 6클라이언트 한 시드의 저장소 변형이며,
+요청자는 camouflage 클라이언트 5 및 정상 1,2이다.
+이 변형은 원래 논문의 같은 클라이언트 내 표본 삭제 재현이 아니다.
+정상 대조군은 MNIST/LeNet, $K=8$, 8라운드, 공격 없는 한 궤적의 전체 8명이다.
+총 $(3+3+8)\times3=42$개 요청--삭제비율 조합을 측정했다.
+
+비율은 $0.05,0.1,0.2$, 각 뷰 입력은 256개로 고정했고 128개씩 선택/확인에 사용했다.
+공개 입력은 시험 집합 앞 256개, 요청 입력은 해당 클라이언트의 훈련 분할에서
+고정 난수로 균등 표집했다. 정확도는 그 다음 1,000개 입력에서 평가했다.
+FUBA ASR은 같은 평가 구간의 비표적 899개에 저장 공격 생성기를 적용하여 계산했다.
+BadFU ASR은 공개 입력 구간을 제외한 저장 백도어 시험 표본 1,000개에서 계산했다.
+역할과 트리거는 개입 선택을 저장한 뒤 채점에만 사용했다.
+평가용 GPU 비결정성으로 BadFU 정확도의 일부 재측정에 0.1\%p 차이가 있었다.
+
+표의 반복 비율은 독립 시드가 아니다. 비교군의 규모와 학습 길이도 서로 다르므로
+정상 대조군 결과를 FUBA 논문 설정 전체의 오탐률로 일반화하지 않는다.
+새로 모델을 학습한 실험이 아니라 저장 궤적에서 실행한 감사 및 평가 실험이다.
+
+\subsection{추가 신호와 한계}
+\begin{table}[ht]\centering\small
+\caption{새 실제 감사의 경보 수. 분모는 요청--비율 조합으로 서로 상관되어 있다.}
+\begin{tabular}{lrrrr}\toprule
+대상 & 에너지 단독 & 기존 DOSE & 공동 검증 & DOSE 또는 공동 검증\\\midrule
+FUBA 억제자 (3) & 3 & 1 & 2 & 3\\
+FUBA 정상 (6) & 0 & 0 & 0 & 0\\
+BadFU 변형 요청자 (3) & 0 & 1 & 0 & 1\\
+BadFU 변형 정상 (6) & 6 & 0 & 0 & 0\\
+공격 없는 정상 (24) & 3 & 0 & 0 & 0\\\bottomrule
+\end{tabular}
+\end{table}
+에너지 단독은 같은 $z\ge3$ 및 최소 에너지 조건을 사용한 소거 실험이다.
+공동 확인은 이 실험에서 에너지 단독의 정상 경보 9개를 남기지 않았다.
+그러나 기존 DOSE에 대한 정상 오탐 개선은 관측되지 않았다(둘 다 정상 경보 0).
+FUBA에서는 기존 flow 기반 검사가 경보를 내지 않은 5\%, 10\%에서 추가 신호가 있었다.
+20\%에서는 공개 출력 붕괴 때문에 공동 검증은 판정 불가였고 DOSE가 경보를 냈다.
+BadFU에서는 상대 후보를 찾지 못했으며, 20\%에서 요청 뷰의 DOSE만 경보를 냈다.
+따라서 두 검사의 AND 결합은 부적절하고 OR 결합의 오탐률은 별도 검증해야 한다.
+
+\begin{table}[ht]\centering\small
+\caption{FUBA 억제자 요청의 실제 개입 모델. ACC/ASR(\%). 배포되거나 삭제 완료로 승인된 모델이 아니다.}
+\begin{tabular}{lrrr}\toprule
+삭제 비율 & 요청만 삭제 ACC/ASR & 공동 삭제 ACC/ASR & 확인 뷰 복원 $R$\\\midrule
+0 (기준) & 98.0 / 9.8 & --- & ---\\
+0.05 & 98.0 / 27.0 & 98.1 / 8.7 & 0.750\\
+0.10 & 96.9 / 49.8 & 98.1 / 9.8 & 0.768\\
+0.20 & 44.6 / 98.8 & 96.7 / 11.9 & 0.705\\\bottomrule
+\end{tabular}
+\end{table}
+공동 삭제는 ASR을 기준 모델 근처로 되돌렸으나 백도어 소멸을 입증하지 못했다.
+10\%에서 선택된 상대는 $\{0,3,17,13,15\}$로 실제 주입자 $\{0,1,2,3\}$와 일치하지 않는다.
+정상 후보가 섞였으므로 자동 배제 근거로 사용할 수 없다.
+별도로 저장되어 있던 정답 집합 제외 재학습 모델은 같은 평가에서 ACC 98.7\%, ASR 0.44\%였다.
+이는 이미 알려진 제외 집합을 쓴 참조이며 새 후보 집합으로 재학습한 결과가 아니다.
+
+BadFU 변형은 삭제 전 ACC 83.8\%, ASR 26.2\%로 충분히 강한 잠복 재현이라고 보기 어렵다.
+요청자의 20\% 삭제 후 ACC 82.5\%, ASR 38.0\%였고 공동 검증은 개선하지 못했다.
+이 음성 결과를 원래 BadFU 방어 성공으로 집계하지 않는다.
+
+\subsection{메커니즘 소거와 반례}
+선형 상쇄, 공개 뷰에 보이지 않는 상쇄, 비선형 공동 개입 실패,
+선택 입력에만 맞는 상대, 정상 반대 기여, 작은 정상 효과를 각 50회 생성했다.
+실제 공동 삭제 확인은 비선형 실패 50/50을, 별도 입력 확인은 선택 과적합 50/50을 거부했다.
+선택용 선형 복원만 사용하면 두 경우 모두 50/50에서 복원을 잘못 예상했다.
+반면 정상 반대 기여는 공격 상쇄와 동일한 관측을 만들었으므로 50/50에서 추가 경보가 났다.
+이는 상쇄의 비식별성에 대한 구성적 반례이며 현실 오탐률 추정이 아니다.
+
+별도 합성 정상 에피소드 199개로 고정 파이프라인 점수를 보정하고
+새 정상 에피소드 200개를 평가했을 때 $\alpha=0.05$에서 4개가 기각되었다.
+이 결과는 해당 합성 생성기에만 해당하며 실제 FL 정상 보정 집합을 대체하지 않는다.
+회복/분할 요청/파일 가중치/새 판정 통합 등을 포함한 동작 검사 37개가 통과했다.
+
+\subsection{기존 결과의 위치}
+기존 CCD의 FUBA 논문 설정 6개 캐시 재생은 저장된 첫 경보 라운드
+IID 13/15/11, non-IID 16/15/11 및 후보 집합과 일치했다.
+이는 기존 구성요소의 재사용 회귀 확인이며 새 공동삭제 검증의 6시드 성능이 아니다.
+기존 복구 결과와 FedEraser 결과도 별도 프로토콜의 기록으로 남기고,
+새 통합 방법의 종단간 결과로 합산하지 않는다.
+
+\section{후속 검증과 결론}
+출판 수준의 성능 주장을 위해서는 다음 검증이 필요하다.
+첫째, 같은 학습 설정의 공격 없는 IID/Dirichlet/클래스 소유자 궤적으로
+문턱 보정과 시험을 분리하고, 기존 DOSE 및 에너지 단독과 동일 오탐률에서 비교해야 한다.
+둘째, 원래 BadFU의 같은 클라이언트 내 묶음 삭제와 충분히 잠복한 모델을 재현해야 한다.
+셋째, 동일 정보·연산자·비용 조건에서 MASA, UnlearnGuard, FedEraser, 전체 재학습을 비교해야 한다.
+넷째, 추정 후보로 실제 복구한 뒤 보존·망각·잔여 ASR·후속 학습 재활성화를 측정해야 한다.
+다섯째, 문턱·뷰·후보 예산을 고정한 뒤 학습 중 방어를 고려하는 적응형 공격을 평가해야 한다.
+저장 업데이트의 단순 배율 조정은 마지막 실험을 대체하지 않는다.
+
+본 연구는 기존 방법을 유지하며 상쇄 설명에 실제 개입과 별도 입력 검증을 추가했다.
+제한된 실험에서 새 검증은 일부 FUBA 요청에 추가 증거를 제공하고 단순 에너지 오경보를 걸렀지만,
+정상 반대 기여와 BadFU 변형의 실패는 보편적 탐지 주장을 배제한다.
+따라서 현 단계의 기여는 검증 가능한 감사 절차와 그 한계이며,
+정확한 공격자 식별 및 안전한 언러닝 완료는 독립된 실증 과제로 남는다.
+
+\begin{thebibliography}{9}
+\bibitem{fuba} FUBA: Backdoor Federated Learning via Federated Unlearning.
+\href{https://ieeexplore.ieee.org/document/11231135/}{IEEE Transactions on Artificial Intelligence, DOI:10.1109/TAI.2025.3630110}.
+\bibitem{badfu} B. Lu et al. BadFU: Backdoor Federated Learning through Adversarial Machine Unlearning.
+\href{https://arxiv.org/abs/2508.15541}{arXiv:2508.15541}, 2025.
+\bibitem{masa} J. Xu, Z. Zhang, R. Hu. Identify Backdoored Model in Federated Learning via Individual Unlearning.
+\href{https://openaccess.thecvf.com/content/WACV2025/html/Xu_Identify_Backdoored_Model_in_Federated_Learning_via_Individual_Unlearning_WACV_2025_paper.html}{WACV}, 7949--7958, 2025.
+\bibitem{unlearnguard} W. Wang et al. Poisoning Attacks and Defenses to Federated Unlearning.
+\href{https://arxiv.org/abs/2501.17396}{WWW / arXiv:2501.17396}, 2025.
+\bibitem{bbcal} BBCaL: Black-box Backdoor Detection under the Causality Lens.
+\href{https://openreview.net/notes/edits/attachment?id=cJ3e8RwIZu\&name=pdf}{공개 심사 원고}; TMLR, 2024.
+\bibitem{federaser} G. Liu et al. FedEraser: Enabling Efficient Client-Level Data Removal from Federated Learning Models. IWQoS, 2021.
+\bibitem{exchangeability} A. K. Kuchibhotla. Exchangeability, Conformal Prediction, and Rank Tests.
+\href{https://arxiv.org/abs/2005.06095}{arXiv:2005.06095}, 2020/2021.
+\end{thebibliography}
+\end{document}

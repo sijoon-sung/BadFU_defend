@@ -1,0 +1,92 @@
+{
+  "name": "bd_iid_s2",
+  "fmt": "fuba",
+  "args": {
+    "fmt": "fuba",
+    "name": "bd_iid_s2",
+    "rounds": 8,
+    "K": 8,
+    "ckpt_dir": "checkpoints",
+    "traj_dir": null,
+    "counts": null,
+    "defender": 4,
+    "attackers": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "T_r": 0,
+    "k_sv": 5,
+    "kappa": 7.0,
+    "out": null
+  },
+  "K": 8,
+  "roles": {
+    "0": "attacker",
+    "1": "attacker",
+    "2": "attacker",
+    "3": "attacker",
+    "4": "defender",
+    "5": "benign",
+    "6": "benign",
+    "7": "benign"
+  },
+  "phi_removal": {
+    "0": 0.35196569561958313,
+    "1": 0.3929685354232788,
+    "2": 0.42115968465805054,
+    "3": 0.3594084680080414,
+    "4": 0.5421234369277954,
+    "5": 0.33184707164764404,
+    "6": 0.3395497500896454,
+    "7": 0.32856178283691406
+  },
+  "flags_removal": {
+    "0": false,
+    "1": false,
+    "2": false,
+    "3": false,
+    "4": true,
+    "5": false,
+    "6": false,
+    "7": false
+  },
+  "phi_training": {
+    "0": 0.5173799438135964,
+    "1": 0.5599870298589978,
+    "2": 0.5690391532012394,
+    "3": 0.5308956929615566,
+    "4": 0.57023543545178,
+    "5": 0.6030388133866447,
+    "6": 0.6081990557057517,
+    "7": 0.5998944640159607
+  },
+  "flags_training": {
+    "0": false,
+    "1": false,
+    "2": false,
+    "3": false,
+    "4": false,
+    "5": false,
+    "6": false,
+    "7": false
+  },
+  "summary": {
+    "removal": {
+      "requester_rank": 1,
+      "requester_flagged": true,
+      "auroc_attacker_vs_benign": 1.0,
+      "n_flagged": 1,
+      "thr": 0.5340656638145447
+    },
+    "training": {
+      "auroc_attacker_vs_benign": 0.0,
+      "defender_rank": 4,
+      "flagged": [],
+      "thr": 0.7924427049500601
+    },
+    "note": "SubID 의 판정 후 조치는 재학습. 잠복형에서 요청자를 뺀 재학습의 ASR 은 benign_departure 의 retrain_attack 참조."
+  },
+  "seconds": 0.2
+}

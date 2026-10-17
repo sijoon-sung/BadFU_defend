@@ -1,0 +1,63 @@
+{
+  "names": [
+    "det3"
+  ],
+  "inv": "per_sample",
+  "methods": {
+    "full_diff": {
+      "detect_rate": 1.0,
+      "flag_is_target_rate": 1.0,
+      "margin_mean": 0.3698,
+      "per_request_inversions": 10,
+      "per_request_seconds_mean": 2.514
+    },
+    "localized": {
+      "detect_rate": 0.0,
+      "flag_is_target_rate": 0.0,
+      "margin_mean": -0.0044,
+      "per_request_inversions": 2,
+      "per_request_seconds_mean": 0.503
+    },
+    "post_only": {
+      "detect_rate": 1.0,
+      "flag_is_target_rate": 1.0,
+      "margin_mean": 27.187,
+      "per_request_inversions": 10,
+      "per_request_seconds_mean": 2.514
+    },
+    "extrap_a2.0": {
+      "detect_rate": 0.0,
+      "flag_is_target_rate": 0.0,
+      "margin_mean": -0.0089,
+      "per_request_inversions": 2,
+      "per_request_seconds_mean": 0.503
+    },
+    "extrap_a4.0": {
+      "detect_rate": 0.0,
+      "flag_is_target_rate": 0.0,
+      "margin_mean": -0.0089,
+      "per_request_inversions": 2,
+      "per_request_seconds_mean": 0.503
+    }
+  },
+  "localize": {
+    "logit_shift": {
+      "requester_target_ranks": [
+        9
+      ],
+      "top1_rate": 0.0
+    },
+    "head_row": {
+      "requester_target_ranks": [
+        9
+      ],
+      "top1_rate": 0.0
+    },
+    "svd_head": {
+      "requester_target_ranks": [
+        9
+      ],
+      "top1_rate": 0.0
+    }
+  }
+}

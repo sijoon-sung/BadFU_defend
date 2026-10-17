@@ -1,0 +1,19 @@
+{
+  "fmt": "badfu_synth",
+  "rounds": 3,
+  "probe": 500,
+  "rows": {
+    "6": {
+      "cheap": 104.0,
+      "clean_only": 68.5
+    },
+    "20": {
+      "cheap": 461.0,
+      "clean_only": 216.3
+    },
+    "50": {
+      "cheap": 5128.3,
+      "clean_only": 2911.2
+    }
+  }
+}

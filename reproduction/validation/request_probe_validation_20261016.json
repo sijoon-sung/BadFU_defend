@@ -1,0 +1,177 @@
+{
+  "date": "2026-10-16",
+  "branch": "codex/request-guided-probe",
+  "unit_tests": {
+    "command": "python -m unittest reproduction.test_request_probe -v",
+    "passed": 10
+  },
+  "runs": [
+    {
+      "directory": "artifacts/request_probe_demo_verified",
+      "config": {
+        "epsilon": 0.12,
+        "steps": 8,
+        "step_size": 0.00784313725490196,
+        "restarts": 1,
+        "batch_size": 32,
+        "seed": 42
+      },
+      "search_images": 16,
+      "evaluation_images": 16,
+      "provenance": {
+        "candidate_kind": "synthetic_known_release_demo_NOT_FL",
+        "dataset": "synthetic",
+        "device": "cpu",
+        "threads": 1,
+        "torch": "2.4.1+cu118",
+        "hardware": "CPU"
+      },
+      "output_sha256": {
+        "scores.json": "25c378b87ed42687d47405e5bc201fd5afcd5d5a98c07c868340074c354abff6",
+        "observations.npz": "d32772ae53324db34eda71bcb810f51a74b4d65854d45698f8948dcf6ba0f852"
+      },
+      "selected_classes": {
+        "request_guided": 2,
+        "post_only": 2,
+        "history_free": 1,
+        "random": 2,
+        "corner": 2
+      },
+      "heldout_release_margin": {
+        "request_guided": 1.8823530673980713,
+        "post_only": 1.8823530673980713,
+        "history_free": -0.04299492761492729,
+        "random": 0.4492928385734558,
+        "corner": 0.4492928385734558
+      }
+    },
+    {
+      "directory": "artifacts/request_probe_mnist_verified",
+      "config": {
+        "epsilon": 0.03137254901960784,
+        "steps": 2,
+        "step_size": 0.00784313725490196,
+        "restarts": 1,
+        "batch_size": 32,
+        "seed": 42
+      },
+      "search_images": 8,
+      "evaluation_images": 8,
+      "provenance": {
+        "dataset": "mnist",
+        "request_clients": [
+          4
+        ],
+        "request_unit": "whole_client",
+        "dose": 1.0,
+        "participation": {
+          "4": 2
+        },
+        "candidate_kind": "historical_parameter_subtraction_surrogate",
+        "candidate_formula": "final - dose * sum_t sum_requested weight_i,t * (local_i,t - pre_t)",
+        "buffer_policy": "final FL buffers copied unchanged; eval mode; no recalibration",
+        "accumulated_parameter_l2": 0.40213944272987606,
+        "manifest_sha256": "b046034f70d9b9cdc663b2c988822203fe49de194344e34b738ba0b4810f7548",
+        "training_protocol_sha256": "bef0c17c3523117cf6ecc77c400929d1191ec36a40d771da77cf234325822c1a",
+        "integrity": {
+          "path": "artifacts\\fresh_final_fuba\\fl",
+          "rounds": 2,
+          "status": "verified",
+          "aggregation_checked": true
+        },
+        "pool_sha256": "d4414b7b8b7335a40829b67ec265f37d2b8fe45201f7d6439437a244c739b62f",
+        "device": "cpu",
+        "threads": 1,
+        "torch": "2.4.1+cu118",
+        "hardware": "CPU"
+      },
+      "output_sha256": {
+        "scores.json": "4a1a00df371f2c1b27d033d691cf52d0127f93f21e39b6e569ba33e096ab3a3b",
+        "observations.npz": "26e4ccabfb204d9d60db33c4b95dce9e14fd9238f1dbb833907e0d6bd236c053"
+      },
+      "selected_classes": {
+        "request_guided": 0,
+        "post_only": 2,
+        "history_free": 2,
+        "random": 0,
+        "corner": 7
+      },
+      "heldout_release_margin": {
+        "request_guided": 0.0022848397493362427,
+        "post_only": -0.0011188089847564697,
+        "history_free": -0.0019144415855407715,
+        "random": 0.0008570849895477295,
+        "corner": 8.165836334228516e-06
+      }
+    },
+    {
+      "directory": "artifacts/request_probe_cifar_verified",
+      "config": {
+        "epsilon": 0.03137254901960784,
+        "steps": 1,
+        "step_size": 0.00784313725490196,
+        "restarts": 1,
+        "batch_size": 4,
+        "seed": 42
+      },
+      "search_images": 4,
+      "evaluation_images": 4,
+      "provenance": {
+        "dataset": "cifar10",
+        "request_clients": [
+          4
+        ],
+        "request_unit": "whole_client",
+        "dose": 1.0,
+        "participation": {
+          "4": 2
+        },
+        "candidate_kind": "historical_parameter_subtraction_surrogate",
+        "candidate_formula": "final - dose * sum_t sum_requested weight_i,t * (local_i,t - pre_t)",
+        "buffer_policy": "final FL buffers copied unchanged; eval mode; no recalibration",
+        "accumulated_parameter_l2": 1.4654610678435276,
+        "manifest_sha256": "d102c5b76d8b6a217b78e184ef76658d62fb86752defc2fbcb3e84d094838230",
+        "training_protocol_sha256": "8a6ca3c37266d44c162b69b58db6f39b266bef599ec11919a5eef1156e594dd8",
+        "integrity": {
+          "path": "artifacts\\fuba_pipeline_cifar_gpu_smoke_s42\\fl",
+          "rounds": 2,
+          "status": "verified",
+          "aggregation_checked": true
+        },
+        "pool_sha256": "42a0cbb7fb30b970bcf6b5633f9f4b9404ccf167f74134017282dfc7d9f34e02",
+        "device": "cuda:0",
+        "threads": 1,
+        "torch": "2.4.1+cu118",
+        "hardware": "NVIDIA GeForce RTX 4060 Laptop GPU"
+      },
+      "output_sha256": {
+        "scores.json": "792074438dbb2d0c0a696c3f62b286f15d4b0de504369be3293b9a4eeab73dfc",
+        "observations.npz": "b145095447532a1aa6d3dd5fe5b5469c187a1bc797ce63825ee2474e7e53b22e"
+      },
+      "selected_classes": {
+        "request_guided": 3,
+        "post_only": 1,
+        "history_free": 0,
+        "random": 6,
+        "corner": 7
+      },
+      "heldout_release_margin": {
+        "request_guided": 0.0005175471305847168,
+        "post_only": 0.00014925003051757812,
+        "history_free": -0.00020503997802734375,
+        "random": 6.073713302612305e-05,
+        "corner": 7.748603820800781e-07
+      }
+    }
+  ],
+  "code_sha256": {
+    "reproduction/run_request_probe.py": "aa6de58efb756c89cc67d350472f46a3aaca1e2b0c05193c897571fd612dee31",
+    "reproduction/request_probe.py": "5560783d0cf69fb515598f37cc65ec20860a6333f6ba2d9e104af00dd63d0dd7",
+    "reproduction/trajectory.py": "2111768391ad8c2fc0670f8d7bdd821aadc44b7274a2198ad47658e21116c2ca",
+    "reproduction/validate_fuba_detection.py": "db2c66e80ebe39a80211e9957c3132ac3c86a4ffbd7f3876cf60481bf4effe9f",
+    "FUBA/model/__init__.py": "03bfe168f84d602e7e7d1e4bdfe683a66094f8f913d248e0baf45788c6368492",
+    "FUBA/model/model.py": "6c32ca2ac89b8ee7b673a9e91e7d8d3fe8b63f6250248eb1cd50c5ebd03d1026",
+    "FUBA/model/resnet.py": "91b825f748fd907366670d04cd113f809cddbe6af402225341b424b58a46a179"
+  },
+  "interpretation": "Implementation/connection checks only. Recorded FUBA runs have two rounds. No actual-FU checkpoint, calibrated FPR, or full attack efficacy evaluation. Synthetic demo ties request_guided and post_only."
+}

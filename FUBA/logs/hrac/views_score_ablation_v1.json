@@ -1,0 +1,978 @@
+{
+  "schema": 1,
+  "stage": "post-hoc score ablation after observing initial and held-out results",
+  "code_sha256": "0a73fac90fc1f389c5f5f45b5ada16befb32fa39b6d4ce1badb08b7d96910bf3",
+  "sources": [
+    {
+      "stage": "initial",
+      "path": "FUBA\\logs\\hrac\\views_badfu_v1\\effects.npz",
+      "sha256": "ec14f4c5d718bf469cf974fc82a51df4b53bfcd21f1e7294ee98164604c32978"
+    },
+    {
+      "stage": "heldout",
+      "path": "FUBA\\logs\\hrac\\views_holdout_v1\\effects.npz",
+      "sha256": "841ad2a20eac3ffb90142e2f2cb5c89fca58c485954b8d729cbad40e468b4b03"
+    }
+  ],
+  "windows": [
+    0,
+    10,
+    20
+  ],
+  "rows": [
+    {
+      "stage": "initial",
+      "family": "oracle_diagnostic",
+      "method": "hrac_windows",
+      "ranking": [
+        {
+          "unit": 5,
+          "score": 9.969793193131023,
+          "coordinate": 0
+        },
+        {
+          "unit": 0,
+          "score": 3.6173769817629453,
+          "coordinate": 6
+        },
+        {
+          "unit": 3,
+          "score": 1.3320980470171324,
+          "coordinate": 7
+        },
+        {
+          "unit": 4,
+          "score": 1.1767637450474402,
+          "coordinate": 8
+        },
+        {
+          "unit": 1,
+          "score": 1.120913630738356,
+          "coordinate": 2
+        },
+        {
+          "unit": 2,
+          "score": 1.0045300703400282,
+          "coordinate": 4
+        }
+      ],
+      "requester5_rank": 1
+    },
+    {
+      "stage": "initial",
+      "family": "oracle_diagnostic",
+      "method": "hrac_full_history_only",
+      "ranking": [
+        {
+          "unit": 5,
+          "score": 9.969793193131023,
+          "coordinate": 0
+        },
+        {
+          "unit": 0,
+          "score": 3.6173769817629453,
+          "coordinate": 6
+        },
+        {
+          "unit": 3,
+          "score": 1.3320980470171324,
+          "coordinate": 7
+        },
+        {
+          "unit": 4,
+          "score": 1.1639769313383481,
+          "coordinate": 8
+        },
+        {
+          "unit": 1,
+          "score": 1.032610111570211,
+          "coordinate": 2
+        },
+        {
+          "unit": 2,
+          "score": 0.9591524536639903,
+          "coordinate": 4
+        }
+      ],
+      "requester5_rank": 1
+    },
+    {
+      "stage": "initial",
+      "family": "oracle_diagnostic",
+      "method": "signed_release_windows",
+      "ranking": [
+        {
+          "unit": 5,
+          "score": 11.672292402945459,
+          "coordinate": 0
+        },
+        {
+          "unit": 0,
+          "score": 5.580967793706804,
+          "coordinate": 1
+        },
+        {
+          "unit": 3,
+          "score": 1.5810530196875334,
+          "coordinate": 7
+        },
+        {
+          "unit": 4,
+          "score": 1.3643309934530408,
+          "coordinate": 8
+        },
+        {
+          "unit": 1,
+          "score": 1.2521537655964492,
+          "coordinate": 2
+        },
+        {
+          "unit": 2,
+          "score": 1.0724212687462569,
+          "coordinate": 4
+        }
+      ],
+      "requester5_rank": 1
+    },
+    {
+      "stage": "initial",
+      "family": "oracle_diagnostic",
+      "method": "absolute_effect_windows",
+      "ranking": [
+        {
+          "unit": 0,
+          "score": 17.403109568171203,
+          "coordinate": 0
+        },
+        {
+          "unit": 5,
+          "score": 11.672292402945459,
+          "coordinate": 0
+        },
+        {
+          "unit": 3,
+          "score": 1.5810530196875334,
+          "coordinate": 7
+        },
+        {
+          "unit": 4,
+          "score": 1.4099130112677813,
+          "coordinate": 6
+        },
+        {
+          "unit": 1,
+          "score": 1.2521537655964492,
+          "coordinate": 2
+        },
+        {
+          "unit": 2,
+          "score": 1.0724212687462569,
+          "coordinate": 4
+        }
+      ],
+      "requester5_rank": 2
+    },
+    {
+      "stage": "initial",
+      "family": "oracle_diagnostic",
+      "method": "signed_release_last_round",
+      "ranking": [
+        {
+          "unit": 5,
+          "score": 1.3651968415826559,
+          "coordinate": 0
+        },
+        {
+          "unit": 0,
+          "score": 0.5989117233082653,
+          "coordinate": 1
+        },
+        {
+          "unit": 4,
+          "score": 0.3268987089395523,
+          "coordinate": 8
+        },
+        {
+          "unit": 1,
+          "score": 0.18962149135768414,
+          "coordinate": 3
+        },
+        {
+          "unit": 3,
+          "score": 0.17635959535837173,
+          "coordinate": 6
+        },
+        {
+          "unit": 2,
+          "score": 0.15067591313272716,
+          "coordinate": 4
+        }
+      ],
+      "requester5_rank": 1
+    },
+    {
+      "stage": "initial",
+      "family": "blind_pattern",
+      "method": "hrac_windows",
+      "ranking": [
+        {
+          "unit": 5,
+          "score": 5.873248497837175,
+          "coordinate": 0
+        },
+        {
+          "unit": 0,
+          "score": 2.6622206031644913,
+          "coordinate": 3
+        },
+        {
+          "unit": 3,
+          "score": 1.8375552351314686,
+          "coordinate": 7
+        },
+        {
+          "unit": 2,
+          "score": 1.4844098265280392,
+          "coordinate": 4
+        },
+        {
+          "unit": 4,
+          "score": 1.3402542954826624,
+          "coordinate": 8
+        },
+        {
+          "unit": 1,
+          "score": 1.1408833006649988,
+          "coordinate": 2
+        }
+      ],
+      "requester5_rank": 1
+    },
+    {
+      "stage": "initial",
+      "family": "blind_pattern",
+      "method": "hrac_full_history_only",
+      "ranking": [
+        {
+          "unit": 5,
+          "score": 5.873248497837175,
+          "coordinate": 0
+        },
+        {
+          "unit": 0,
+          "score": 2.6622206031644913,
+          "coordinate": 3
+        },
+        {
+          "unit": 3,
+          "score": 1.8375552351314686,
+          "coordinate": 7
+        },
+        {
+          "unit": 2,
+          "score": 1.4844098265280392,
+          "coordinate": 4
+        },
+        {
+          "unit": 4,
+          "score": 1.3402542954826624,
+          "coordinate": 8
+        },
+        {
+          "unit": 1,
+          "score": 1.1398300673863813,
+          "coordinate": 2
+        }
+      ],
+      "requester5_rank": 1
+    },
+    {
+      "stage": "initial",
+      "family": "blind_pattern",
+      "method": "signed_release_windows",
+      "ranking": [
+        {
+          "unit": 5,
+          "score": 7.068126308079809,
+          "coordinate": 0
+        },
+        {
+          "unit": 0,
+          "score": 4.167980302637442,
+          "coordinate": 1
+        },
+        {
+          "unit": 3,
+          "score": 1.8913389446213842,
+          "coordinate": 7
+        },
+        {
+          "unit": 2,
+          "score": 1.583432526886463,
+          "coordinate": 4
+        },
+        {
+          "unit": 4,
+          "score": 1.444844431616366,
+          "coordinate": 8
+        },
+        {
+          "unit": 1,
+          "score": 1.3123011939227582,
+          "coordinate": 2
+        }
+      ],
+      "requester5_rank": 1
+    },
+    {
+      "stage": "initial",
+      "family": "blind_pattern",
+      "method": "absolute_effect_windows",
+      "ranking": [
+        {
+          "unit": 0,
+          "score": 12.455460073612631,
+          "coordinate": 0
+        },
+        {
+          "unit": 5,
+          "score": 7.068126308079809,
+          "coordinate": 0
+        },
+        {
+          "unit": 2,
+          "score": 2.5395312640815972,
+          "coordinate": 5
+        },
+        {
+          "unit": 3,
+          "score": 2.0711087249219418,
+          "coordinate": 7
+        },
+        {
+          "unit": 4,
+          "score": 1.8254188884049654,
+          "coordinate": 6
+        },
+        {
+          "unit": 1,
+          "score": 1.3123011939227582,
+          "coordinate": 2
+        }
+      ],
+      "requester5_rank": 2
+    },
+    {
+      "stage": "initial",
+      "family": "blind_pattern",
+      "method": "signed_release_last_round",
+      "ranking": [
+        {
+          "unit": 5,
+          "score": 0.6944575002416968,
+          "coordinate": 0
+        },
+        {
+          "unit": 0,
+          "score": 0.44093931317329405,
+          "coordinate": 1
+        },
+        {
+          "unit": 4,
+          "score": 0.3216369843110442,
+          "coordinate": 2
+        },
+        {
+          "unit": 3,
+          "score": 0.1659272238612175,
+          "coordinate": 7
+        },
+        {
+          "unit": 1,
+          "score": 0.1614338096231222,
+          "coordinate": 3
+        },
+        {
+          "unit": 2,
+          "score": 0.1532853450626135,
+          "coordinate": 4
+        }
+      ],
+      "requester5_rank": 1
+    },
+    {
+      "stage": "heldout",
+      "family": "blind_pattern_20261016",
+      "method": "hrac_windows",
+      "ranking": [
+        {
+          "unit": 5,
+          "score": 6.564179686784392,
+          "coordinate": 0
+        },
+        {
+          "unit": 0,
+          "score": 2.8008023619493967,
+          "coordinate": 6
+        },
+        {
+          "unit": 2,
+          "score": 1.4217655865404055,
+          "coordinate": 4
+        },
+        {
+          "unit": 3,
+          "score": 1.1979655814499532,
+          "coordinate": 7
+        },
+        {
+          "unit": 1,
+          "score": 0.9477600004833634,
+          "coordinate": 2
+        },
+        {
+          "unit": 4,
+          "score": 0.9153866781527367,
+          "coordinate": 9
+        }
+      ],
+      "requester5_rank": 1
+    },
+    {
+      "stage": "heldout",
+      "family": "blind_pattern_20261016",
+      "method": "hrac_full_history_only",
+      "ranking": [
+        {
+          "unit": 5,
+          "score": 6.564179686784392,
+          "coordinate": 0
+        },
+        {
+          "unit": 0,
+          "score": 2.8008023619493967,
+          "coordinate": 6
+        },
+        {
+          "unit": 2,
+          "score": 1.4217655865404055,
+          "coordinate": 4
+        },
+        {
+          "unit": 3,
+          "score": 1.0948749976852536,
+          "coordinate": 7
+        },
+        {
+          "unit": 4,
+          "score": 0.8786288328106638,
+          "coordinate": 9
+        },
+        {
+          "unit": 1,
+          "score": 0.7132058277939713,
+          "coordinate": 2
+        }
+      ],
+      "requester5_rank": 1
+    },
+    {
+      "stage": "heldout",
+      "family": "blind_pattern_20261016",
+      "method": "signed_release_windows",
+      "ranking": [
+        {
+          "unit": 5,
+          "score": 7.600554134044796,
+          "coordinate": 0
+        },
+        {
+          "unit": 0,
+          "score": 3.729854910215363,
+          "coordinate": 6
+        },
+        {
+          "unit": 2,
+          "score": 1.6708817460108552,
+          "coordinate": 4
+        },
+        {
+          "unit": 3,
+          "score": 1.3428324251435695,
+          "coordinate": 7
+        },
+        {
+          "unit": 4,
+          "score": 1.0190695447381586,
+          "coordinate": 9
+        },
+        {
+          "unit": 1,
+          "score": 0.9656082246452569,
+          "coordinate": 3
+        }
+      ],
+      "requester5_rank": 1
+    },
+    {
+      "stage": "heldout",
+      "family": "blind_pattern_20261016",
+      "method": "absolute_effect_windows",
+      "ranking": [
+        {
+          "unit": 0,
+          "score": 11.488852116651834,
+          "coordinate": 0
+        },
+        {
+          "unit": 5,
+          "score": 7.600554134044796,
+          "coordinate": 0
+        },
+        {
+          "unit": 2,
+          "score": 1.6708817460108552,
+          "coordinate": 4
+        },
+        {
+          "unit": 4,
+          "score": 1.4569492818787695,
+          "coordinate": 6
+        },
+        {
+          "unit": 3,
+          "score": 1.3428324251435695,
+          "coordinate": 7
+        },
+        {
+          "unit": 1,
+          "score": 1.2106607446447015,
+          "coordinate": 3
+        }
+      ],
+      "requester5_rank": 2
+    },
+    {
+      "stage": "heldout",
+      "family": "blind_pattern_20261016",
+      "method": "signed_release_last_round",
+      "ranking": [
+        {
+          "unit": 5,
+          "score": 0.7374487398192286,
+          "coordinate": 0
+        },
+        {
+          "unit": 0,
+          "score": 0.3787564503028989,
+          "coordinate": 1
+        },
+        {
+          "unit": 4,
+          "score": 0.2703350548632443,
+          "coordinate": 2
+        },
+        {
+          "unit": 2,
+          "score": 0.16068966910243035,
+          "coordinate": 4
+        },
+        {
+          "unit": 1,
+          "score": 0.14759097322821618,
+          "coordinate": 3
+        },
+        {
+          "unit": 3,
+          "score": 0.14163548182696103,
+          "coordinate": 6
+        }
+      ],
+      "requester5_rank": 1
+    },
+    {
+      "stage": "heldout",
+      "family": "blind_pattern_20261017",
+      "method": "hrac_windows",
+      "ranking": [
+        {
+          "unit": 5,
+          "score": 6.500997610560899,
+          "coordinate": 0
+        },
+        {
+          "unit": 0,
+          "score": 2.8486349972867013,
+          "coordinate": 6
+        },
+        {
+          "unit": 4,
+          "score": 1.2395868890609387,
+          "coordinate": 0
+        },
+        {
+          "unit": 2,
+          "score": 1.0938691412663113,
+          "coordinate": 4
+        },
+        {
+          "unit": 3,
+          "score": 0.9718032913064766,
+          "coordinate": 6
+        },
+        {
+          "unit": 1,
+          "score": 0.8477680549492824,
+          "coordinate": 3
+        }
+      ],
+      "requester5_rank": 1
+    },
+    {
+      "stage": "heldout",
+      "family": "blind_pattern_20261017",
+      "method": "hrac_full_history_only",
+      "ranking": [
+        {
+          "unit": 5,
+          "score": 6.500997610560899,
+          "coordinate": 0
+        },
+        {
+          "unit": 0,
+          "score": 2.8486349972867013,
+          "coordinate": 6
+        },
+        {
+          "unit": 4,
+          "score": 1.2395868890609387,
+          "coordinate": 0
+        },
+        {
+          "unit": 2,
+          "score": 0.8895110323999496,
+          "coordinate": 4
+        },
+        {
+          "unit": 3,
+          "score": 0.84345164006978,
+          "coordinate": 6
+        },
+        {
+          "unit": 1,
+          "score": 0.7433088790926294,
+          "coordinate": 3
+        }
+      ],
+      "requester5_rank": 1
+    },
+    {
+      "stage": "heldout",
+      "family": "blind_pattern_20261017",
+      "method": "signed_release_windows",
+      "ranking": [
+        {
+          "unit": 5,
+          "score": 7.694058864191176,
+          "coordinate": 0
+        },
+        {
+          "unit": 0,
+          "score": 4.0758692061528565,
+          "coordinate": 6
+        },
+        {
+          "unit": 4,
+          "score": 1.4670755264116453,
+          "coordinate": 0
+        },
+        {
+          "unit": 2,
+          "score": 1.405839738668874,
+          "coordinate": 4
+        },
+        {
+          "unit": 3,
+          "score": 1.20682311700657,
+          "coordinate": 6
+        },
+        {
+          "unit": 1,
+          "score": 1.134898923430592,
+          "coordinate": 3
+        }
+      ],
+      "requester5_rank": 1
+    },
+    {
+      "stage": "heldout",
+      "family": "blind_pattern_20261017",
+      "method": "absolute_effect_windows",
+      "ranking": [
+        {
+          "unit": 0,
+          "score": 12.978297696076334,
+          "coordinate": 0
+        },
+        {
+          "unit": 5,
+          "score": 7.694058864191176,
+          "coordinate": 0
+        },
+        {
+          "unit": 2,
+          "score": 1.8475569427013396,
+          "coordinate": 5
+        },
+        {
+          "unit": 4,
+          "score": 1.7041704098694028,
+          "coordinate": 6
+        },
+        {
+          "unit": 3,
+          "score": 1.5036127450875936,
+          "coordinate": 7
+        },
+        {
+          "unit": 1,
+          "score": 1.134898923430592,
+          "coordinate": 3
+        }
+      ],
+      "requester5_rank": 2
+    },
+    {
+      "stage": "heldout",
+      "family": "blind_pattern_20261017",
+      "method": "signed_release_last_round",
+      "ranking": [
+        {
+          "unit": 5,
+          "score": 0.8172117924317718,
+          "coordinate": 0
+        },
+        {
+          "unit": 4,
+          "score": 0.3927034879103303,
+          "coordinate": 2
+        },
+        {
+          "unit": 0,
+          "score": 0.35114910565316676,
+          "coordinate": 1
+        },
+        {
+          "unit": 1,
+          "score": 0.157004277408123,
+          "coordinate": 3
+        },
+        {
+          "unit": 2,
+          "score": 0.1544334650039673,
+          "coordinate": 4
+        },
+        {
+          "unit": 3,
+          "score": 0.12484561335295438,
+          "coordinate": 6
+        }
+      ],
+      "requester5_rank": 1
+    },
+    {
+      "stage": "heldout",
+      "family": "blind_pattern_20261018",
+      "method": "hrac_windows",
+      "ranking": [
+        {
+          "unit": 5,
+          "score": 3.711800969061844,
+          "coordinate": 0
+        },
+        {
+          "unit": 0,
+          "score": 2.1280351847201735,
+          "coordinate": 6
+        },
+        {
+          "unit": 3,
+          "score": 1.4953734242695884,
+          "coordinate": 6
+        },
+        {
+          "unit": 4,
+          "score": 1.3161824806100386,
+          "coordinate": 0
+        },
+        {
+          "unit": 1,
+          "score": 1.2821782833827478,
+          "coordinate": 2
+        },
+        {
+          "unit": 2,
+          "score": 1.0626090709095313,
+          "coordinate": 4
+        }
+      ],
+      "requester5_rank": 1
+    },
+    {
+      "stage": "heldout",
+      "family": "blind_pattern_20261018",
+      "method": "hrac_full_history_only",
+      "ranking": [
+        {
+          "unit": 5,
+          "score": 3.711800969061844,
+          "coordinate": 0
+        },
+        {
+          "unit": 0,
+          "score": 2.1280351847201735,
+          "coordinate": 6
+        },
+        {
+          "unit": 3,
+          "score": 1.401616021637384,
+          "coordinate": 6
+        },
+        {
+          "unit": 4,
+          "score": 1.3161824806100386,
+          "coordinate": 0
+        },
+        {
+          "unit": 1,
+          "score": 1.2613038287564,
+          "coordinate": 2
+        },
+        {
+          "unit": 2,
+          "score": 0.8710624156231809,
+          "coordinate": 4
+        }
+      ],
+      "requester5_rank": 1
+    },
+    {
+      "stage": "heldout",
+      "family": "blind_pattern_20261018",
+      "method": "signed_release_windows",
+      "ranking": [
+        {
+          "unit": 5,
+          "score": 4.827752056252212,
+          "coordinate": 0
+        },
+        {
+          "unit": 0,
+          "score": 3.028921243920922,
+          "coordinate": 6
+        },
+        {
+          "unit": 3,
+          "score": 1.9949785484001044,
+          "coordinate": 6
+        },
+        {
+          "unit": 4,
+          "score": 1.7118920788401737,
+          "coordinate": 0
+        },
+        {
+          "unit": 2,
+          "score": 1.4605007707606998,
+          "coordinate": 4
+        },
+        {
+          "unit": 1,
+          "score": 1.366432978026569,
+          "coordinate": 2
+        }
+      ],
+      "requester5_rank": 1
+    },
+    {
+      "stage": "heldout",
+      "family": "blind_pattern_20261018",
+      "method": "absolute_effect_windows",
+      "ranking": [
+        {
+          "unit": 0,
+          "score": 10.741990678571165,
+          "coordinate": 0
+        },
+        {
+          "unit": 5,
+          "score": 4.827752056252212,
+          "coordinate": 0
+        },
+        {
+          "unit": 3,
+          "score": 1.9949785484001044,
+          "coordinate": 6
+        },
+        {
+          "unit": 4,
+          "score": 1.7118920788401737,
+          "coordinate": 0
+        },
+        {
+          "unit": 2,
+          "score": 1.4605007707606998,
+          "coordinate": 4
+        },
+        {
+          "unit": 1,
+          "score": 1.366432978026569,
+          "coordinate": 2
+        }
+      ],
+      "requester5_rank": 2
+    },
+    {
+      "stage": "heldout",
+      "family": "blind_pattern_20261018",
+      "method": "signed_release_last_round",
+      "ranking": [
+        {
+          "unit": 5,
+          "score": 0.45713251139968636,
+          "coordinate": 0
+        },
+        {
+          "unit": 4,
+          "score": 0.3524196455255151,
+          "coordinate": 0
+        },
+        {
+          "unit": 0,
+          "score": 0.3217387333512306,
+          "coordinate": 1
+        },
+        {
+          "unit": 3,
+          "score": 0.19937782194465398,
+          "coordinate": 6
+        },
+        {
+          "unit": 1,
+          "score": 0.15096352696418763,
+          "coordinate": 3
+        },
+        {
+          "unit": 2,
+          "score": 0.1256399095058441,
+          "coordinate": 4
+        }
+      ],
+      "requester5_rank": 1
+    }
+  ],
+  "calibrated": false,
+  "training_calls": 0,
+  "model_unlearning_calls": 0,
+  "interpretation": "Same probe family, centered-logit coordinates and unit/class maximization for every method. A shared rank-one result does not demonstrate added detection value of the HRAC score. All results reuse one previously inspected attacked trajectory."
+}

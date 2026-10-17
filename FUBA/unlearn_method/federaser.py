@@ -18,7 +18,7 @@ def fedEraser(config:Config):
                                                             shuffle=True, num_workers=0,drop_last=True))
 
     testloader = torch.utils.data.DataLoader(config.testset, batch_size=32,
-                                            shuffle=True, num_workers=0)
+                                            shuffle=True, num_workers=12)
     Old_GMS = []
     Old_CMS = []
     for i in range(len(config.global_nets)):

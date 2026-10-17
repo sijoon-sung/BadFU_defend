@@ -1,0 +1,796 @@
+{
+  "name": "bd_iid_s1",
+  "fmt": "fuba",
+  "args": {
+    "fmt": "fuba",
+    "name": "bd_iid_s1",
+    "rounds": 8,
+    "K": 8,
+    "ckpt_dir": "checkpoints",
+    "traj_dir": null,
+    "counts": null,
+    "data_root": "./data",
+    "badfu_record": null,
+    "requesters": [
+      4,
+      7,
+      5
+    ],
+    "defender": 4,
+    "attackers": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "target": 8,
+    "n_classes": 10,
+    "probe": 500,
+    "cap": 0.3,
+    "tau": 3.0,
+    "tau_mode": "fixed",
+    "tau_margin": 1.0,
+    "m": 0,
+    "stat": "mass",
+    "zmode": "std",
+    "delta_min": 0.1,
+    "probe_mode": "forget",
+    "forget_n": 500,
+    "search_steps": 60,
+    "search_lr": 0.1,
+    "search_lam": 0.5,
+    "search_n": 128,
+    "grid_sizes": [
+      3,
+      5
+    ],
+    "grid_stride": 8,
+    "sim": "",
+    "op": "subtract",
+    "kd_steps": 30,
+    "kd_lr": 0.01,
+    "on_collapse": "abort",
+    "arms": [
+      "plain",
+      "oneshot",
+      "dose",
+      "always"
+    ],
+    "split": 1,
+    "ledger": false,
+    "window": 0,
+    "rep_steps": 50,
+    "rep_lr": 0.01,
+    "rep_bs": 128,
+    "rep_every": 0,
+    "rep_stop": 1.0,
+    "mia_n": 1000,
+    "eval_steps": false,
+    "seed": 523,
+    "split_seed": 523,
+    "non_iid": false,
+    "non_iid_type": null,
+    "alpha": 1,
+    "sigma": 1,
+    "shift_ratio": 0.4,
+    "owner_client": -1,
+    "owner_class": 3,
+    "owner_frac": 0.9,
+    "train_epoch": 100,
+    "batch_size": 64,
+    "noise_thread": 0.04,
+    "atk_eps": 1.0,
+    "n_gpu": 1,
+    "out": null,
+    "resume": true
+  },
+  "K": 8,
+  "tag": "",
+  "sim": [],
+  "roles": {
+    "0": "attacker",
+    "1": "attacker",
+    "2": "attacker",
+    "3": "attacker",
+    "4": "requester(defender)",
+    "5": "benign",
+    "6": "benign",
+    "7": "benign"
+  },
+  "before": {
+    "acc": 95.23,
+    "asr": 5.22
+  },
+  "results": {
+    "4": {
+      "plain": {
+        "role": "requester(defender)",
+        "acc": 81.74,
+        "reinjection_alpha": 0.0,
+        "retain_change": 15.99,
+        "removed": 1.0,
+        "aborted": false,
+        "n_steps": 1,
+        "n_flagged": 0,
+        "n_repaired": 0,
+        "repair_steps_total": 0,
+        "n_hard_collapse": 0,
+        "pop_models": 0,
+        "seconds": 0.1,
+        "trace": [
+          {
+            "piece": 0,
+            "delta": 1.0,
+            "removed": 1.0,
+            "h": null,
+            "healthy_delta": null,
+            "req_changed": 0.158,
+            "hard_collapse": null,
+            "n_healthy": null,
+            "cand": null,
+            "stat": null,
+            "z": null,
+            "tau": 3.0,
+            "z_cum": null,
+            "flagged": false,
+            "repaired": false,
+            "repair_ok": null,
+            "repair_steps": 0,
+            "z_after": null
+          }
+        ],
+        "asr": 42.88,
+        "forget": {
+          "final": {
+            "loss": 0.7189,
+            "acc": 79.4
+          },
+          "before": {
+            "loss": 0.2018,
+            "acc": 94.64
+          }
+        },
+        "mia_req": {
+          "auroc": 0.4815,
+          "member_rate": 0.053,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.7358,
+          "mean_loss_nonmember": 0.6901
+        }
+      },
+      "oneshot": {
+        "role": "requester(defender)",
+        "acc": 92.21,
+        "reinjection_alpha": 0.153,
+        "retain_change": 4.05,
+        "removed": 1.0,
+        "aborted": false,
+        "n_steps": 1,
+        "n_flagged": 1,
+        "n_repaired": 1,
+        "repair_steps_total": 50,
+        "n_hard_collapse": 0,
+        "pop_models": 7,
+        "seconds": 0.5,
+        "trace": [
+          {
+            "piece": 0,
+            "delta": 1.0,
+            "removed": 1.0,
+            "h": 0.02,
+            "healthy_delta": true,
+            "req_changed": 0.158,
+            "hard_collapse": null,
+            "n_healthy": 7,
+            "cand": null,
+            "stat": 0.152,
+            "z": 14.83,
+            "tau": 3.0,
+            "z_cum": null,
+            "flagged": true,
+            "repaired": true,
+            "repair_ok": true,
+            "repair_steps": 50,
+            "z_after": -0.2
+          }
+        ],
+        "asr": 4.73,
+        "forget": {
+          "final": {
+            "loss": 0.3303,
+            "acc": 91.57
+          },
+          "before": {
+            "loss": 0.2018,
+            "acc": 94.64
+          }
+        },
+        "mia_req": {
+          "auroc": 0.484,
+          "member_rate": 0.068,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.3416,
+          "mean_loss_nonmember": 0.3151
+        }
+      },
+      "dose": {
+        "role": "requester(defender)",
+        "acc": 92.21,
+        "reinjection_alpha": 0.153,
+        "retain_change": 4.05,
+        "removed": 1.0,
+        "aborted": false,
+        "n_steps": 1,
+        "n_flagged": 1,
+        "n_repaired": 1,
+        "repair_steps_total": 50,
+        "n_hard_collapse": 0,
+        "pop_models": 0,
+        "seconds": 0.3,
+        "trace": [
+          {
+            "piece": 0,
+            "delta": 1.0,
+            "removed": 1.0,
+            "h": 0.02,
+            "healthy_delta": true,
+            "req_changed": 0.158,
+            "hard_collapse": false,
+            "n_healthy": 7,
+            "cand": null,
+            "stat": 0.152,
+            "z": 14.83,
+            "tau": 3.0,
+            "z_cum": null,
+            "flagged": true,
+            "repaired": true,
+            "repair_ok": true,
+            "repair_steps": 50,
+            "z_after": -0.2
+          }
+        ],
+        "asr": 4.73,
+        "forget": {
+          "final": {
+            "loss": 0.3303,
+            "acc": 91.57
+          },
+          "before": {
+            "loss": 0.2018,
+            "acc": 94.64
+          }
+        },
+        "mia_req": {
+          "auroc": 0.484,
+          "member_rate": 0.068,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.3416,
+          "mean_loss_nonmember": 0.3151
+        }
+      },
+      "always": {
+        "role": "requester(defender)",
+        "acc": 92.21,
+        "reinjection_alpha": 0.153,
+        "retain_change": 4.05,
+        "removed": 1.0,
+        "aborted": false,
+        "n_steps": 1,
+        "n_flagged": 1,
+        "n_repaired": 1,
+        "repair_steps_total": 50,
+        "n_hard_collapse": 0,
+        "pop_models": 0,
+        "seconds": 0.3,
+        "trace": [
+          {
+            "piece": 0,
+            "delta": 1.0,
+            "removed": 1.0,
+            "h": 0.02,
+            "healthy_delta": true,
+            "req_changed": 0.158,
+            "hard_collapse": false,
+            "n_healthy": 7,
+            "cand": null,
+            "stat": 0.152,
+            "z": 14.83,
+            "tau": 3.0,
+            "z_cum": null,
+            "flagged": true,
+            "repaired": true,
+            "repair_ok": true,
+            "repair_steps": 50,
+            "z_after": -0.2
+          }
+        ],
+        "asr": 4.73,
+        "forget": {
+          "final": {
+            "loss": 0.3303,
+            "acc": 91.57
+          },
+          "before": {
+            "loss": 0.2018,
+            "acc": 94.64
+          }
+        },
+        "mia_req": {
+          "auroc": 0.484,
+          "member_rate": 0.068,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.3416,
+          "mean_loss_nonmember": 0.3151
+        }
+      }
+    },
+    "7": {
+      "plain": {
+        "role": "benign",
+        "acc": 94.76,
+        "reinjection_alpha": 0.0,
+        "retain_change": 1.84,
+        "removed": 1.0,
+        "aborted": false,
+        "n_steps": 1,
+        "n_flagged": 0,
+        "n_repaired": 0,
+        "repair_steps_total": 0,
+        "n_hard_collapse": 0,
+        "pop_models": 0,
+        "seconds": 0.1,
+        "trace": [
+          {
+            "piece": 0,
+            "delta": 1.0,
+            "removed": 1.0,
+            "h": null,
+            "healthy_delta": null,
+            "req_changed": 0.022,
+            "hard_collapse": null,
+            "n_healthy": null,
+            "cand": null,
+            "stat": null,
+            "z": null,
+            "tau": 3.0,
+            "z_cum": null,
+            "flagged": false,
+            "repaired": false,
+            "repair_ok": null,
+            "repair_steps": 0,
+            "z_after": null
+          }
+        ],
+        "asr": 8.13,
+        "forget": {
+          "final": {
+            "loss": 0.3077,
+            "acc": 94.2
+          },
+          "before": {
+            "loss": 0.2108,
+            "acc": 94.47
+          }
+        },
+        "mia_req": {
+          "auroc": 0.4955,
+          "member_rate": 0.034,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.3022,
+          "mean_loss_nonmember": 0.2883
+        }
+      },
+      "oneshot": {
+        "role": "benign",
+        "acc": 94.76,
+        "reinjection_alpha": 0.0,
+        "retain_change": 1.84,
+        "removed": 1.0,
+        "aborted": false,
+        "n_steps": 1,
+        "n_flagged": 0,
+        "n_repaired": 0,
+        "repair_steps_total": 0,
+        "n_hard_collapse": 0,
+        "pop_models": 7,
+        "seconds": 0.2,
+        "trace": [
+          {
+            "piece": 0,
+            "delta": 1.0,
+            "removed": 1.0,
+            "h": 0.02,
+            "healthy_delta": true,
+            "req_changed": 0.022,
+            "hard_collapse": null,
+            "n_healthy": 7,
+            "cand": null,
+            "stat": 0.02,
+            "z": 0.25,
+            "tau": 3.0,
+            "z_cum": null,
+            "flagged": false,
+            "repaired": false,
+            "repair_ok": null,
+            "repair_steps": 0,
+            "z_after": null
+          }
+        ],
+        "asr": 8.13,
+        "forget": {
+          "final": {
+            "loss": 0.3077,
+            "acc": 94.2
+          },
+          "before": {
+            "loss": 0.2108,
+            "acc": 94.47
+          }
+        },
+        "mia_req": {
+          "auroc": 0.4955,
+          "member_rate": 0.034,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.3022,
+          "mean_loss_nonmember": 0.2883
+        }
+      },
+      "dose": {
+        "role": "benign",
+        "acc": 94.76,
+        "reinjection_alpha": 0.0,
+        "retain_change": 1.84,
+        "removed": 1.0,
+        "aborted": false,
+        "n_steps": 1,
+        "n_flagged": 0,
+        "n_repaired": 0,
+        "repair_steps_total": 0,
+        "n_hard_collapse": 0,
+        "pop_models": 0,
+        "seconds": 0.1,
+        "trace": [
+          {
+            "piece": 0,
+            "delta": 1.0,
+            "removed": 1.0,
+            "h": 0.02,
+            "healthy_delta": true,
+            "req_changed": 0.022,
+            "hard_collapse": false,
+            "n_healthy": 7,
+            "cand": null,
+            "stat": 0.02,
+            "z": 0.25,
+            "tau": 3.0,
+            "z_cum": null,
+            "flagged": false,
+            "repaired": false,
+            "repair_ok": null,
+            "repair_steps": 0,
+            "z_after": null
+          }
+        ],
+        "asr": 8.13,
+        "forget": {
+          "final": {
+            "loss": 0.3077,
+            "acc": 94.2
+          },
+          "before": {
+            "loss": 0.2108,
+            "acc": 94.47
+          }
+        },
+        "mia_req": {
+          "auroc": 0.4955,
+          "member_rate": 0.034,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.3022,
+          "mean_loss_nonmember": 0.2883
+        }
+      },
+      "always": {
+        "role": "benign",
+        "acc": 95.19,
+        "reinjection_alpha": 0.0708,
+        "retain_change": 1.11,
+        "removed": 1.0,
+        "aborted": false,
+        "n_steps": 1,
+        "n_flagged": 0,
+        "n_repaired": 1,
+        "repair_steps_total": 50,
+        "n_hard_collapse": 0,
+        "pop_models": 0,
+        "seconds": 0.3,
+        "trace": [
+          {
+            "piece": 0,
+            "delta": 1.0,
+            "removed": 1.0,
+            "h": 0.02,
+            "healthy_delta": true,
+            "req_changed": 0.022,
+            "hard_collapse": false,
+            "n_healthy": 7,
+            "cand": null,
+            "stat": 0.02,
+            "z": 0.25,
+            "tau": 3.0,
+            "z_cum": null,
+            "flagged": false,
+            "repaired": true,
+            "repair_ok": true,
+            "repair_steps": 50,
+            "z_after": -0.09
+          }
+        ],
+        "asr": 3.44,
+        "forget": {
+          "final": {
+            "loss": 0.2467,
+            "acc": 94.36
+          },
+          "before": {
+            "loss": 0.2108,
+            "acc": 94.47
+          }
+        },
+        "mia_req": {
+          "auroc": 0.4944,
+          "member_rate": 0.065,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.2502,
+          "mean_loss_nonmember": 0.2349
+        }
+      }
+    },
+    "5": {
+      "plain": {
+        "role": "benign",
+        "acc": 94.18,
+        "reinjection_alpha": 0.0,
+        "retain_change": 2.75,
+        "removed": 1.0,
+        "aborted": false,
+        "n_steps": 1,
+        "n_flagged": 0,
+        "n_repaired": 0,
+        "repair_steps_total": 0,
+        "n_hard_collapse": 0,
+        "pop_models": 0,
+        "seconds": 0.1,
+        "trace": [
+          {
+            "piece": 0,
+            "delta": 1.0,
+            "removed": 1.0,
+            "h": null,
+            "healthy_delta": null,
+            "req_changed": 0.026,
+            "hard_collapse": null,
+            "n_healthy": null,
+            "cand": null,
+            "stat": null,
+            "z": null,
+            "tau": 3.0,
+            "z_cum": null,
+            "flagged": false,
+            "repaired": false,
+            "repair_ok": null,
+            "repair_steps": 0,
+            "z_after": null
+          }
+        ],
+        "asr": 12.53,
+        "forget": {
+          "final": {
+            "loss": 0.326,
+            "acc": 93.67
+          },
+          "before": {
+            "loss": 0.192,
+            "acc": 94.92
+          }
+        },
+        "mia_req": {
+          "auroc": 0.4981,
+          "member_rate": 0.05,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.3194,
+          "mean_loss_nonmember": 0.3192
+        }
+      },
+      "oneshot": {
+        "role": "benign",
+        "acc": 94.18,
+        "reinjection_alpha": 0.0,
+        "retain_change": 2.75,
+        "removed": 1.0,
+        "aborted": false,
+        "n_steps": 1,
+        "n_flagged": 0,
+        "n_repaired": 0,
+        "repair_steps_total": 0,
+        "n_hard_collapse": 0,
+        "pop_models": 7,
+        "seconds": 0.2,
+        "trace": [
+          {
+            "piece": 0,
+            "delta": 1.0,
+            "removed": 1.0,
+            "h": 0.02,
+            "healthy_delta": true,
+            "req_changed": 0.026,
+            "hard_collapse": null,
+            "n_healthy": 7,
+            "cand": null,
+            "stat": 0.027,
+            "z": 0.36,
+            "tau": 3.0,
+            "z_cum": null,
+            "flagged": false,
+            "repaired": false,
+            "repair_ok": null,
+            "repair_steps": 0,
+            "z_after": null
+          }
+        ],
+        "asr": 12.53,
+        "forget": {
+          "final": {
+            "loss": 0.326,
+            "acc": 93.67
+          },
+          "before": {
+            "loss": 0.192,
+            "acc": 94.92
+          }
+        },
+        "mia_req": {
+          "auroc": 0.4981,
+          "member_rate": 0.05,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.3194,
+          "mean_loss_nonmember": 0.3192
+        }
+      },
+      "dose": {
+        "role": "benign",
+        "acc": 94.18,
+        "reinjection_alpha": 0.0,
+        "retain_change": 2.75,
+        "removed": 1.0,
+        "aborted": false,
+        "n_steps": 1,
+        "n_flagged": 0,
+        "n_repaired": 0,
+        "repair_steps_total": 0,
+        "n_hard_collapse": 0,
+        "pop_models": 0,
+        "seconds": 0.1,
+        "trace": [
+          {
+            "piece": 0,
+            "delta": 1.0,
+            "removed": 1.0,
+            "h": 0.02,
+            "healthy_delta": true,
+            "req_changed": 0.026,
+            "hard_collapse": false,
+            "n_healthy": 7,
+            "cand": null,
+            "stat": 0.027,
+            "z": 0.36,
+            "tau": 3.0,
+            "z_cum": null,
+            "flagged": false,
+            "repaired": false,
+            "repair_ok": null,
+            "repair_steps": 0,
+            "z_after": null
+          }
+        ],
+        "asr": 12.53,
+        "forget": {
+          "final": {
+            "loss": 0.326,
+            "acc": 93.67
+          },
+          "before": {
+            "loss": 0.192,
+            "acc": 94.92
+          }
+        },
+        "mia_req": {
+          "auroc": 0.4981,
+          "member_rate": 0.05,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.3194,
+          "mean_loss_nonmember": 0.3192
+        }
+      },
+      "always": {
+        "role": "benign",
+        "acc": 95.21,
+        "reinjection_alpha": 0.0863,
+        "retain_change": 1.08,
+        "removed": 1.0,
+        "aborted": false,
+        "n_steps": 1,
+        "n_flagged": 0,
+        "n_repaired": 1,
+        "repair_steps_total": 50,
+        "n_hard_collapse": 0,
+        "pop_models": 0,
+        "seconds": 0.3,
+        "trace": [
+          {
+            "piece": 0,
+            "delta": 1.0,
+            "removed": 1.0,
+            "h": 0.02,
+            "healthy_delta": true,
+            "req_changed": 0.026,
+            "hard_collapse": false,
+            "n_healthy": 7,
+            "cand": null,
+            "stat": 0.027,
+            "z": 0.36,
+            "tau": 3.0,
+            "z_cum": null,
+            "flagged": false,
+            "repaired": true,
+            "repair_ok": true,
+            "repair_steps": 50,
+            "z_after": -0.09
+          }
+        ],
+        "asr": 3.53,
+        "forget": {
+          "final": {
+            "loss": 0.2341,
+            "acc": 95.01
+          },
+          "before": {
+            "loss": 0.192,
+            "acc": 94.92
+          }
+        },
+        "mia_req": {
+          "auroc": 0.503,
+          "member_rate": 0.052,
+          "nonmember_rate": 0.05,
+          "n_member": 1000,
+          "n_nonmember": 1000,
+          "mean_loss_member": 0.2235,
+          "mean_loss_nonmember": 0.2354
+        }
+      }
+    }
+  }
+}

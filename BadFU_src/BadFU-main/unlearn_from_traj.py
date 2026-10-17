@@ -4,15 +4,26 @@
 dormant 재학습은 생략(이미 r0..11 궤적 있음). 요청자(client5=cv) 제거 후 FedEraser 재구성.
 공격이 진짜면: dormant ASR(낮음) -> 언러닝 후 ASR 점프.
 """
-import os, copy, glob, torch, torch.nn as nn, torch.optim as optim
+import os, copy, glob, argparse, torch, torch.nn as nn, torch.optim as optim
 from torch.utils.data import DataLoader, Dataset, ConcatDataset
 import torchvision.transforms as transforms, torchvision.datasets as datasets, torchvision.models as models
 import numpy as np
 from PIL import Image
 HERE=os.path.dirname(os.path.abspath(__file__)); os.chdir(HERE)
+# 축소 설정(스모크)용 선택 인자 (기본값이면 종전과 같다: logs/traj_keep, 5 에폭, 전체 데이터)
+ap=argparse.ArgumentParser()
+ap.add_argument("--traj_dir", default="logs/traj_keep")
+ap.add_argument("--local_epochs", type=int, default=5)
+ap.add_argument("--max_per_client", type=int, default=0, help="클라이언트별 학습 샘플 상한(0=전체). fl_detect_badfu.py 와 같은 값을 줘야 분할이 일치")
+ap.add_argument("--test_n", type=int, default=0, help="평가용 clean/bd 테스트 샘플 상한(0=전체)")
+args=ap.parse_args()
 device="cuda:0" if torch.cuda.is_available() else "cpu"
 seed=42; np.random.seed(seed); import random; random.seed(seed); torch.manual_seed(seed)
-TRAJ="logs/traj_keep"; ATK,REQ=0,5; TARGET=0; num_clients=5; local_epochs=5; dominant_ratio=0.7
+TRAJ=args.traj_dir; ATK,REQ=0,5; TARGET=0; num_clients=5; local_epochs=args.local_epochs; dominant_ratio=0.7
+def _subset(ds,n,s):
+    if n<=0 or len(ds)<=n: return ds
+    idx=torch.randperm(len(ds),generator=torch.Generator().manual_seed(s))[:n].tolist()
+    return torch.utils.data.Subset(ds,idx)
 
 # ===== 데이터 (fl_detect_badfu.py 와 동일) =====
 data_dict=torch.load("record/badnet_dataset/pert_result.pt", weights_only=False)
@@ -56,10 +67,11 @@ bd_test_dataset=BD(bd_test_dict['bd_data_container']['data_dict'],transform)
 cv_dataset=BD(cv_data_container,transform)
 ul=[copy.deepcopy(client_clean[i]) for i in range(num_clients)]
 ul[0]=ConcatDataset([client_clean[0],bd_dataset]); ul.append(ConcatDataset([client_clean[0],cv_dataset]))
+ul=[_subset(d,args.max_per_client,seed+i) for i,d in enumerate(ul)]   # fl_detect_badfu.py 와 같은 시드/순서
 ul_loaders=[DataLoader(d,batch_size=64,shuffle=True,num_workers=0) for d in ul]
-bd_only0=DataLoader(ConcatDataset([client_clean[0],bd_dataset]),batch_size=64,shuffle=True,num_workers=0)
-test_loader=DataLoader(datasets.CIFAR10(root='./data',train=False,download=True,transform=transform),batch_size=64,num_workers=0)
-bd_test_loader=DataLoader(bd_test_dataset,batch_size=64,num_workers=0)
+bd_only0=DataLoader(_subset(ConcatDataset([client_clean[0],bd_dataset]),args.max_per_client,seed),batch_size=64,shuffle=True,num_workers=0)
+test_loader=DataLoader(_subset(datasets.CIFAR10(root='./data',train=False,download=True,transform=transform),args.test_n,seed),batch_size=64,num_workers=0)
+bd_test_loader=DataLoader(_subset(bd_test_dataset,args.test_n,seed),batch_size=64,num_workers=0)
 
 class ResNet18(nn.Module):
     def __init__(s):

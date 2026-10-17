@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "sha256": "8b917559846a1e9ac4b8917eca35159c3a6818286fadd16a48f071b4ad2b7e71",
+  "files": {
+    "badfu_actual/observations.npz": "2e4ff77826ac31e83a7c3d2db93d70e315648a450b14a6b1618a89a2bb968e17",
+    "badfu_actual/protocol.json": "22fbbe18fe7ba7fa0e955b2458177f49f953411fcf2afff5250015b8eea63e32",
+    "badfu_actual/scores.json": "0d244f452d537a0aeadd8e8f09af6378784456c440d90de096a2bfff930fd921",
+    "badfu_clean/observations.npz": "849f56da2e0451ea5dd694504aa2e9d7a0c8bf2e6ab740df16a7e378a289919a",
+    "badfu_clean/protocol.json": "c8cfcbd8f564c23109a1811952144ab4603abc0dac252981bb5ffd6a88c36b12",
+    "badfu_clean/scores.json": "a3a66965587dac0186decbd5b636d788c73d86403e5c5aa7e324a77cd986f462",
+    "badfu_surrogate/observations.npz": "ae8e21361983e4ef6b6a51c0f69876e30b2feb8e7fb26d527509d56f7609112c",
+    "badfu_surrogate/protocol.json": "00ffa14b6eef99d8057af07d488865ce36fcb7c79f9cdbd12941efcec944222d",
+    "badfu_surrogate/scores.json": "f06ef1e0450e9cdcb8c37d29d371e35ce5c4a33cb5ee7d9b57de09a2b8ffbe9c",
+    "comparison.json": "19869c6c454d3478ab235f99979f2f9a23f80aadf8e742b5aac140526158b873",
+    "comparison.png": "18467c9369a1240cc0ea8f6b960b4df300b58f90d58a1c9025c705ea2e7cbb51",
+    "fuba_cifar/observations.npz": "45279a0041c123e06a0eacd5f076f158d0a7fc8e35268a9dccc72e8a233354a6",
+    "fuba_cifar/protocol.json": "82b3b55ea59e5caac6f4f51eca66888d59fb7986057f8b7b260192a9f05c5d81",
+    "fuba_cifar/scores.json": "0aa281553c710abf95d03fdc8f9845835408f2dc2c16ce6e180fe4044e405722",
+    "fuba_mnist/observations.npz": "938fbf1012dbe5e132a894e885266dd162478956c13320aeda9f652d5266ea24",
+    "fuba_mnist/protocol.json": "8dd5e35b5bef89918050bcfc9477f0dc06784913b30b11581d6085b31c855405",
+    "fuba_mnist/scores.json": "45f53c3556187ed08da650f804f95a2efdd5c0141cbf0bbc259911fef4f3fa62",
+    "plan.json": "a78159a83fc234c6d3fa83d80ad2127de356efb4db481f1d8f0dbd7391ca22e2",
+    "report.md": "7695dff237a275a26cc64756300e392f31daf78d14569dd1f8beff6a5feec8b1"
+  },
+  "contents": "logits, Jacobian observations, intervals, public IDs/labels and synthetic delta; NO images/weights"
+}

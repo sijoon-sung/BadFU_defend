@@ -1,0 +1,64 @@
+{
+  "schema": "full-trajectory-v1",
+  "status": "complete",
+  "expected_rounds": 2,
+  "metadata": {
+    "attack": "badfu",
+    "phase": "full6",
+    "smoke": true,
+    "aggregation": "badfu_sample_weighted",
+    "counts": [
+      32,
+      32,
+      32,
+      32,
+      32,
+      32
+    ],
+    "client_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "asr_definition": "author: predicted target 0 / all bd_test records",
+    "upstream_commit": "0a2117feab58faf5b7e2a1e5e1759112087d6049"
+  },
+  "initial": {
+    "path": "initial.pt",
+    "sha256": "d9e3c759e30ccabe4479de3ac092d48867c7a9774ba2f791abfe568fb5a8292d",
+    "bytes": 44771512
+  },
+  "rounds": [
+    {
+      "path": "round_0001.pt",
+      "sha256": "2051f426ff6a445d786c8f814ff96f45c02d051d86cd638ac82ab8b2afdf05d0",
+      "bytes": 358175498,
+      "round": 1,
+      "client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "path": "round_0002.pt",
+      "sha256": "bb50964aaeda4d6d4f628915ef57c826fd2d55eecbe7c28add584ba51517301b",
+      "bytes": 358175498,
+      "round": 2,
+      "client_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    }
+  ]
+}

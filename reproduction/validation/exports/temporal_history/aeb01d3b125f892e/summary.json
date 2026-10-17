@@ -1,0 +1,566 @@
+{
+  "status": "complete",
+  "signature": "aeb01d3b125f892e379aa1692df7b21651ad9d1d5932fa6d0d97191080e42060",
+  "version": "hrac-temporal-v1",
+  "primary": "temporal_glr",
+  "code_sha256": {
+    "temporal_history.py": "c11c4f083cb62726f03e303df67406ad5d08810e56903469c1ef1e6c1c04837c",
+    "validate_temporal_history.py": "e9c3d1c27cf5e04b1b31631672e1e797c128a8643d9da7abb9216fa8cd1ddd7d"
+  },
+  "alpha": 0.05,
+  "fit_runs": 1,
+  "calibration_runs": 0,
+  "evaluation_runs": 1,
+  "training_calls": 0,
+  "model_unlearning_calls": 0,
+  "labels_used_for_scoring": false,
+  "target_or_client_truth_used_for_scoring": false,
+  "intra_status": "unobserved_independent_request_effect",
+  "evaluation": [
+    {
+      "key": "fit_0",
+      "split": "fit",
+      "group": "badfu:cifar10:42",
+      "phase": "clean5",
+      "benign": true,
+      "independent_of_fit": false,
+      "input_inventory_sha256": "b39e79f8bf3ecaa5d5666e9ed164a4014eec1454d8c9cb6bedc38ca0176d07d2",
+      "stratum": {
+        "dataset": null,
+        "rounds": 40,
+        "clients": null,
+        "participant_rate": null,
+        "non_iid": null,
+        "alpha": null,
+        "smoke": false,
+        "attack": "badfu",
+        "actual_clients": 5
+      },
+      "methods": {
+        "level": {
+          "episode_max": 3.105655100095876,
+          "peak_round": 40,
+          "peak_client": 4,
+          "final_max": 3.105655100095876,
+          "checkpoints": {
+            "8": {
+              "max_score": 0.5550229935211306,
+              "top_clients": [
+                4
+              ],
+              "report_client": null
+            },
+            "16": {
+              "max_score": 1.1532842003378996,
+              "top_clients": [
+                4
+              ],
+              "report_client": null
+            },
+            "26": {
+              "max_score": 1.7786807652476642,
+              "top_clients": [
+                4
+              ],
+              "report_client": null
+            },
+            "40": {
+              "max_score": 3.105655100095876,
+              "top_clients": [
+                4
+              ],
+              "report_client": null
+            }
+          }
+        },
+        "hrac_windows": {
+          "episode_max": 3.105655100095876,
+          "peak_round": 40,
+          "peak_client": 4,
+          "final_max": 3.105655100095876,
+          "checkpoints": {
+            "8": {
+              "max_score": 0.5550229935211306,
+              "top_clients": [
+                4
+              ],
+              "report_client": null
+            },
+            "16": {
+              "max_score": 1.1532842003378996,
+              "top_clients": [
+                4
+              ],
+              "report_client": null
+            },
+            "26": {
+              "max_score": 1.7786807652476642,
+              "top_clients": [
+                4
+              ],
+              "report_client": null
+            },
+            "40": {
+              "max_score": 3.105655100095876,
+              "top_clients": [
+                4
+              ],
+              "report_client": null
+            }
+          }
+        },
+        "positive_change": {
+          "episode_max": 0.37599167144556733,
+          "peak_round": 39,
+          "peak_client": 3,
+          "final_max": 0.22387165486066474,
+          "checkpoints": {
+            "8": {
+              "max_score": 0.17372204612098252,
+              "top_clients": [
+                4
+              ],
+              "report_client": null
+            },
+            "16": {
+              "max_score": 0.2694415959385915,
+              "top_clients": [
+                4
+              ],
+              "report_client": null
+            },
+            "26": {
+              "max_score": 0.16815332252555448,
+              "top_clients": [
+                4
+              ],
+              "report_client": null
+            },
+            "40": {
+              "max_score": 0.22387165486066474,
+              "top_clients": [
+                4
+              ],
+              "report_client": null
+            }
+          }
+        },
+        "innovation": {
+          "episode_max": 9.958331636405463,
+          "peak_round": 40,
+          "peak_client": 4,
+          "final_max": 9.958331636405463,
+          "checkpoints": {
+            "8": {
+              "max_score": 5.712399455790302,
+              "top_clients": [
+                4
+              ],
+              "report_client": null
+            },
+            "16": {
+              "max_score": 6.924266062710976,
+              "top_clients": [
+                4
+              ],
+              "report_client": null
+            },
+            "26": {
+              "max_score": 4.839881035264156,
+              "top_clients": [
+                4
+              ],
+              "report_client": null
+            },
+            "40": {
+              "max_score": 9.958331636405463,
+              "top_clients": [
+                4
+              ],
+              "report_client": null
+            }
+          }
+        },
+        "temporal_glr": {
+          "episode_max": 49.58418449031697,
+          "peak_round": 40,
+          "peak_client": 4,
+          "final_max": 49.58418449031697,
+          "checkpoints": {
+            "8": {
+              "max_score": 16.31575377125667,
+              "top_clients": [
+                4
+              ],
+              "report_client": null
+            },
+            "16": {
+              "max_score": 23.972730253605487,
+              "top_clients": [
+                4
+              ],
+              "report_client": null
+            },
+            "26": {
+              "max_score": 25.963148058299847,
+              "top_clients": [
+                4
+              ],
+              "report_client": null
+            },
+            "40": {
+              "max_score": 49.58418449031697,
+              "top_clients": [
+                4
+              ],
+              "report_client": null
+            }
+          },
+          "peak_interval_start": 40,
+          "peak_coordinate": 232
+        }
+      }
+    },
+    {
+      "key": "test_0",
+      "split": "test",
+      "group": "badfu:cifar10:42",
+      "phase": "full6",
+      "benign": false,
+      "independent_of_fit": false,
+      "input_inventory_sha256": "b39e79f8bf3ecaa5d5666e9ed164a4014eec1454d8c9cb6bedc38ca0176d07d2",
+      "stratum": {
+        "dataset": null,
+        "rounds": 40,
+        "clients": null,
+        "participant_rate": null,
+        "non_iid": null,
+        "alpha": null,
+        "smoke": false,
+        "attack": "badfu",
+        "actual_clients": 6
+      },
+      "methods": {
+        "level": {
+          "episode_max": 37.77037875507977,
+          "peak_round": 40,
+          "peak_client": 5,
+          "final_max": 37.77037875507977,
+          "checkpoints": {
+            "8": {
+              "max_score": 3.0265917110635985,
+              "top_clients": [
+                5
+              ],
+              "report_client": {
+                "score": 3.0265917110635985,
+                "rank_best": 1,
+                "rank_worst": 1
+              }
+            },
+            "16": {
+              "max_score": 9.719986088775672,
+              "top_clients": [
+                5
+              ],
+              "report_client": {
+                "score": 9.719986088775672,
+                "rank_best": 1,
+                "rank_worst": 1
+              }
+            },
+            "26": {
+              "max_score": 19.84943282935278,
+              "top_clients": [
+                5
+              ],
+              "report_client": {
+                "score": 19.84943282935278,
+                "rank_best": 1,
+                "rank_worst": 1
+              }
+            },
+            "40": {
+              "max_score": 37.77037875507977,
+              "top_clients": [
+                5
+              ],
+              "report_client": {
+                "score": 37.77037875507977,
+                "rank_best": 1,
+                "rank_worst": 1
+              }
+            }
+          },
+          "calibration": {
+            "p": null,
+            "alarm": null,
+            "first_alarm_round": null,
+            "n_calibration": 0,
+            "minimum_p": 1.0,
+            "status": "insufficient_independent_runs"
+          }
+        },
+        "hrac_windows": {
+          "episode_max": 37.77037875507977,
+          "peak_round": 40,
+          "peak_client": 5,
+          "final_max": 37.77037875507977,
+          "checkpoints": {
+            "8": {
+              "max_score": 3.0265917110635985,
+              "top_clients": [
+                5
+              ],
+              "report_client": {
+                "score": 3.0265917110635985,
+                "rank_best": 1,
+                "rank_worst": 1
+              }
+            },
+            "16": {
+              "max_score": 9.719986088775672,
+              "top_clients": [
+                5
+              ],
+              "report_client": {
+                "score": 9.719986088775672,
+                "rank_best": 1,
+                "rank_worst": 1
+              }
+            },
+            "26": {
+              "max_score": 19.84943282935278,
+              "top_clients": [
+                5
+              ],
+              "report_client": {
+                "score": 19.84943282935278,
+                "rank_best": 1,
+                "rank_worst": 1
+              }
+            },
+            "40": {
+              "max_score": 37.77037875507977,
+              "top_clients": [
+                5
+              ],
+              "report_client": {
+                "score": 37.77037875507977,
+                "rank_best": 1,
+                "rank_worst": 1
+              }
+            }
+          },
+          "calibration": {
+            "p": null,
+            "alarm": null,
+            "first_alarm_round": null,
+            "n_calibration": 0,
+            "minimum_p": 1.0,
+            "status": "insufficient_independent_runs"
+          }
+        },
+        "positive_change": {
+          "episode_max": 1.8088888543912773,
+          "peak_round": 34,
+          "peak_client": 5,
+          "final_max": 1.2793364189475156,
+          "checkpoints": {
+            "8": {
+              "max_score": 0.6467965390806762,
+              "top_clients": [
+                5
+              ],
+              "report_client": {
+                "score": 0.6467965390806762,
+                "rank_best": 1,
+                "rank_worst": 1
+              }
+            },
+            "16": {
+              "max_score": 0.9006223277638572,
+              "top_clients": [
+                5
+              ],
+              "report_client": {
+                "score": 0.9006223277638572,
+                "rank_best": 1,
+                "rank_worst": 1
+              }
+            },
+            "26": {
+              "max_score": 1.1257151520146707,
+              "top_clients": [
+                5
+              ],
+              "report_client": {
+                "score": 1.1257151520146707,
+                "rank_best": 1,
+                "rank_worst": 1
+              }
+            },
+            "40": {
+              "max_score": 1.2793364189475156,
+              "top_clients": [
+                5
+              ],
+              "report_client": {
+                "score": 1.2793364189475156,
+                "rank_best": 1,
+                "rank_worst": 1
+              }
+            }
+          },
+          "calibration": {
+            "p": null,
+            "alarm": null,
+            "first_alarm_round": null,
+            "n_calibration": 0,
+            "minimum_p": 1.0,
+            "status": "insufficient_independent_runs"
+          }
+        },
+        "innovation": {
+          "episode_max": 68.07067598237745,
+          "peak_round": 25,
+          "peak_client": 5,
+          "final_max": 55.21141722175516,
+          "checkpoints": {
+            "8": {
+              "max_score": 19.105890251099662,
+              "top_clients": [
+                5
+              ],
+              "report_client": {
+                "score": 19.105890251099662,
+                "rank_best": 1,
+                "rank_worst": 1
+              }
+            },
+            "16": {
+              "max_score": 39.445322234186456,
+              "top_clients": [
+                0
+              ],
+              "report_client": {
+                "score": 20.296649815019865,
+                "rank_best": 2,
+                "rank_worst": 2
+              }
+            },
+            "26": {
+              "max_score": 31.42561735726914,
+              "top_clients": [
+                5
+              ],
+              "report_client": {
+                "score": 31.42561735726914,
+                "rank_best": 1,
+                "rank_worst": 1
+              }
+            },
+            "40": {
+              "max_score": 55.21141722175516,
+              "top_clients": [
+                0
+              ],
+              "report_client": {
+                "score": 22.673026787762733,
+                "rank_best": 2,
+                "rank_worst": 2
+              }
+            }
+          },
+          "calibration": {
+            "p": null,
+            "alarm": null,
+            "first_alarm_round": null,
+            "n_calibration": 0,
+            "minimum_p": 1.0,
+            "status": "insufficient_independent_runs"
+          }
+        },
+        "temporal_glr": {
+          "episode_max": 15394.371189313915,
+          "peak_round": 40,
+          "peak_client": 0,
+          "final_max": 15394.371189313915,
+          "checkpoints": {
+            "8": {
+              "max_score": 632.6373382835209,
+              "top_clients": [
+                5
+              ],
+              "report_client": {
+                "score": 632.6373382835209,
+                "rank_best": 1,
+                "rank_worst": 1
+              }
+            },
+            "16": {
+              "max_score": 2467.9838200468457,
+              "top_clients": [
+                0
+              ],
+              "report_client": {
+                "score": 2322.2981150530413,
+                "rank_best": 2,
+                "rank_worst": 2
+              }
+            },
+            "26": {
+              "max_score": 5121.1610869796905,
+              "top_clients": [
+                0
+              ],
+              "report_client": {
+                "score": 4697.996337098326,
+                "rank_best": 2,
+                "rank_worst": 2
+              }
+            },
+            "40": {
+              "max_score": 15394.371189313915,
+              "top_clients": [
+                0
+              ],
+              "report_client": {
+                "score": 10200.402066126946,
+                "rank_best": 2,
+                "rank_worst": 2
+              }
+            }
+          },
+          "peak_interval_start": 16,
+          "peak_coordinate": 111,
+          "calibration": {
+            "p": null,
+            "alarm": null,
+            "first_alarm_round": null,
+            "n_calibration": 0,
+            "minimum_p": 1.0,
+            "status": "insufficient_independent_runs"
+          }
+        }
+      },
+      "order_ablation": {
+        "kind": "reverse rounds and participation together; retrospective only",
+        "final_level_same": true,
+        "temporal_episode_max_reversed": 14337.229007514494,
+        "interpretation": "Sensitivity to order, not evidence that chronological order improves detection; no null-test p-value."
+      }
+    }
+  ],
+  "limitations": [
+    "Client-level inter proxy, not exact FU effects or sample-level intra attribution.",
+    "No Gaussian independence assumption is asserted for measured innovations.",
+    "One normal fitting run cannot establish calibrated FPR or superiority.",
+    "Only independent matched normal run maxima calibrate finite-horizon alarms.",
+    "Each baseline has a separate comparator threshold; do not OR their alarms at alpha.",
+    "Normal calibration requires a trusted attack-free reference population.",
+    "Attack-correlated steady effects predictable from their own past can evade innovations.",
+    "No actual FU, purification, forgetting or ASR recovery is verified here."
+  ],
+  "elapsed_seconds": 0.7970082999672741
+}

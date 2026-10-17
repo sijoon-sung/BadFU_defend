@@ -1,0 +1,60 @@
+# 해야 할 실험 (2026-10-11 밤 기준, 우선순위 순)
+
+원칙: 실험 하나 = 주장 하나. 돌리기 전에 "어떤 표의 어떤 칸을 채우나"가 정해져 있어야 한다. 모두 `dev` 브랜치 코드.
+
+## 1. 본 결과: 제안 기법 (FUBA, 3 시드 × 2 조건)  — **완료 2026-10-11 (dose, pair, masa, subid, release, progressive, adaptive 전부)**
+```
+cd FUBA && STAGES="dose pair masa subid aggregate" CONDS="owner iid" bash run_all.sh
+```
+| 채우는 표 | 주장 | 보는 숫자 |
+|---|---|---|
+| dose: arm × 요청자 (plain/oneshot/dose/always) | P1 정상 요청은 기본 FU 와 동일, P3 위장자 요청의 행동 보존, P4 멀쩡한 모델은 한 단계 | 정상 요청자: dose 의 ASR/ACC/retain == plain, 경보 0. 위장자: ASR 50~60 → ≤10, 단계 수 1 |
+| dose: always 팔 | 문(gate)의 필요성: 항상 수정하면 정상 요청자의 망각이 되돌아간다 | 정상 요청자 forget acc 가 삭제 전으로 복귀 |
+| pair: A, C, 정밀·재현, +운반자 ASR | 쌍→집합이 운반자를 찾고 백도어를 '지운다' | 정밀 1.0, 재현 ≥ 0.75, ASR ≤ 10 |
+| masa / subid 요약 | "왜 학습 때 안 잡히나" (MASA 는 위장자 못 잡음), "SVD 와 뭐가 다른가" (SubID 식도 위장자를 잡음 — 불리하면 그대로 적는다) | AUROC 위장자 vs 정상 |
+결과 올리기: `git add FUBA/logs/dose_fu FUBA/logs/pair_roles FUBA/logs/baseline_masa FUBA/logs/baseline_subid FUBA/logs/baselines FUBA/logs/pipeline && git commit && git push`
+
+## 1-b. 결과가 말하는 것과 바로 이어지는 실험
+- IID: 주장 P1·P3·P4 그대로 성립 (정상 요청 = plain, 위장자 49 → 6, 한 단계).
+- owner: 위장자 53 → 10 은 되지만 **정상 소유자 7 이 2/3 시드에서 오탐** (z 최대 7.2). 수정이 7 의 망각을 되돌림(49 → 70). 이게 교수님이 말한 범용성 문제의 실체다.
+- 다음 실험 (코드 수정 후): 통계를 바꿔 다시 owner 만 돌린다 — (i) `--stat changed` (몰림 대신 변화량), (ii) 새 통계 "흡수": 바뀐 답이 *하나의 다른* 클래스로 가는 비율만 (소유자 제거는 클래스 3 이 여러 클래스로 흩어짐, 백도어는 타깃 하나로 모임), (iii) 탐침에서 소유 클래스 제외(서버가 모집단 예측 분포로 추정). 성공 기준: 7 의 경보 0/3 을 유지하면서 4 의 ASR ≤ 10.
+- SubID 식이 IID 에서 위장자를 1 위로 잡은 것은 그대로 적는다. 차이는 owner 에서 난다(소유자가 2 위를 밀어냄). "갱신 기하 vs 제거 효과"의 대비는 non-IID 에서 보여야 한다.
+- pair (3 시드): IID 에서 지도 Δ 의 운반자 AUROC 1.0, 탐욕 재현 0.58, ASR 49 → 8.6 (ACC 83). 정상 요청은 집합 비움 0/3, 진짜 위장자 4 는 공동 위장자로 3/3 포착. owner 에서는 재현 0.25, ASR 53 → 37 로 약하고, 소유자 7 이 공동 위장자로 오인됨(소유자 오탐과 같은 뿌리).
+- adaptive (3 시드) 결과: 아래 2 번 표 참조. 세 약점이 3 시드에서 확인됨.
+
+## 2. 적응형 공격 (FUBA, 3 시드 × 2 조건) — DISLAB, 재학습 없음
+```
+cd FUBA && STAGES="adaptive aggregate" CONDS="owner iid" bash run_all.sh
+```
+| 시나리오 | 지금 예상 (1 시드 검사) | 고친 뒤 기대 |
+|---|---|---|
+| a 쪼개기 10 조각 | **완료**: IID 버팀 (위장자 1~2 조각째 경보, 정상 0). owner 는 정상 7 이 10 조각 중 6.7 경보(소유자 오탐) | 통계 수정 후 owner 재실행 |
+| b 위장자 분산 (순차) | **완료**: 클라별 검사 뚫림 (IID 경보 0/3, ASR 49). 전체 예산은 2/3 잡아 ASR 19. **그러나 정상 열도 2/3 오탐** | "n 명 제거" 띠로 오탐 제거 후 재실행 |
+| c 미끼 ×2.5 | **완료**: IID z 14 → 2.2, 경보 1/3, ASR 37 (뚫림). owner 는 z 가 66 ± 83 으로 불안정 | 절사 std 후 재실행 |
+| g 기준 오염 0.3 | **완료**: 버팀 (3/3 경보, 수정 뒤 ASR 변화 없음) | β 0.5, 1.0 스윕 |
+| i 운반자 분산 | **완료**: 재현 0.58 → 0.28, +운반자 ASR 8.6 → 27 (뚫림) | 집단 제거 검사 후 재실행 |
+**지금 상태**: '뚫린다' 표는 채워졌다. 다음은 설계 수정 → 같은 표 재실행. 순서: (1) 통계(소유자 오탐·운반자 집합에 같이 영향), (2) 절사 std, (3) n 명 띠.
+
+## 3. 망각을 숫자로 — 설계 결정 필요
+MNIST IID 에서는 MIA AUROC ≈ 0.5 라 정상 요청자가 잊혔는지 못 보인다. 선택지:
+- (a) `owner` 조건의 소유 클래스 정확도: 클라 7 이 클래스 3 의 90 % 를 들고 있으므로, 7 을 빼면 클래스 3 정확도가 떨어져야 '잊힘'. 코드 거의 있음(`retain_change` 옆에 class-3 acc 추가).
+- (b) CIFAR 로 옮김 (MIA 가 동작) — 비용 큼, BadFU 쪽 궤적 재사용 가능.
+권장 (a). 1 번 표에 열 하나 추가.
+
+## 4. BadFU (CIFAR ResNet) — 로컬 GPU, `FUBA\resume_local.bat` 의 [1][2]
+- 증류 보정 v2 + 격자 패치 탐색으로 빼 보기. 지금까지 전부 실패. 성공하면 "탐침 확장"이 답, 실패하면 논문에 **범위 밖**으로 명시.
+- dose_fu 를 `--op kd --delta_mode grid` 로 (코드 있음). 요청자 5 / 정상 1.
+
+## 5. 위장자 2 명 궤적 (FUBA) — DISLAB
+```
+NB_CLIENTS=8 ROUNDS=8 WARMUP=3 EXTRA_ARGS="--clients_ratial 2 --split_seed 522" bash run_real_fuba.sh bd_two_s0 522
+python pair_roles.py --name bd_two_s0 --K 16 --defenders 4 8 --attackers 0 1 2 3 5 6 7 9 --requesters 4 8 --joint
+python schedule_fu.py --name bd_two_s0 --K 16 --defender 4 --attackers 0 1 2 3 5 6 7 9 --requests 4 8 --control 10 11
+```
+옵션(`--clients_ratial`)은 코드만 넣었고 생성은 미확인. 첫 실행에서 깨지면 config.py 의 역할 배정을 봐야 한다.
+
+## 6. 비용 (있음)
+`logs/bench` 에 K=8~100 측정 있음. dose 단계의 '단계 수'와 '가상 모델 수'(pop_models) 열이 1 번 표에서 같이 나오므로 추가 실험 없음.
+
+## 지금 당장
+돌릴 것은 없다. **설계 수정 셋**(통계 → 절사 std → n 명 띠)을 한 뒤 `STAGES="dose pair adaptive aggregate" CONDS="owner iid" FORCE=1 bash run_all.sh` 로 같은 표를 다시 채운다.

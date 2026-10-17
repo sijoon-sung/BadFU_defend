@@ -56,7 +56,7 @@ def main(config: Config):
         with open(config.pretrained_model,"rb") as f:
             model.load_state_dict(pickle.load(f))
         testloader = torch.utils.data.DataLoader(testset, batch_size=config.test_batch_size,
-                                             shuffle=True, num_workers=0)
+                                             shuffle=True, num_workers=12)
         if config.dataset == 'mnist':
             backdoor_model = MNISTAutoencoder().to(config.device)
         elif config.dataset == 'cifar10':
@@ -101,7 +101,7 @@ def main(config: Config):
 
     # Test loader
     testloader = torch.utils.data.DataLoader(testset, batch_size=config.test_batch_size,
-                                             shuffle=True, num_workers=0)
+                                             shuffle=True, num_workers=12)
 
     # Initialize global model
     global_model_dict = config.creat_cls_net().state_dict()

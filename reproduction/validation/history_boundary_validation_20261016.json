@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-16",
+  "tests_run": 22,
+  "failures": 0,
+  "errors": 0,
+  "scope": "Analytical counterexamples and existing probe regression checks; not FL detection validation",
+  "new_boundary_tests": 12,
+  "existing_probe_tests": 10,
+  "real_fl_detection_measured": false,
+  "actual_fu_transfer_measured": false,
+  "calibrated_alarm_available": false,
+  "code_sha256": {
+    "reproduction/history_boundary.py": "3291d10f1ba47a643773c38bf55b5288ed1285f08fd4b636c8d5d1aaa1046ebe",
+    "reproduction/test_history_boundary.py": "46956980e439035c4dfb985a6cf81a313e57fa7a30447179febfae3015a3de0e",
+    "reproduction/request_probe.py": "5560783d0cf69fb515598f37cc65ec20860a6333f6ba2d9e104af00dd63d0dd7",
+    "reproduction/test_request_probe.py": "384fda07e937ae6d58333b977a5db21eab378e00f4c245b8e43eac581bb98c1f"
+  }
+}
