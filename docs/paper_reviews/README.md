@@ -21,7 +21,7 @@
 | FedOSD | [통합본 K](05_defenses_novelty.md#k-fedosd--federated-unlearning-with-gradient-descent-and-conflict-mitigation) |
 | FUCRT | [통합본 L](05_defenses_novelty.md#l-fucrt--forgetting-through-transforming) |
 
-[방어/FU 12편 통합본](05_defenses_novelty.md)은 정보 조건·시계열 선행·가정 완화 비교를 포함한다. [공격 비교표](00_comparison.md)는 역사적 탐색 메모로 읽고 현재 범위는 [연구 요약](../RESEARCH_SUMMARY.md)을 따른다. FoolsGold·FLDetector·GEM은 통합본에서 연결한 선행이며 같은 깊이의 상세 리뷰 완료로 세지 않는다. SubID 원문은 이번 재정리에서 재열람하지 못했으므로 기존 노트의 수치를 외부 인용하기 전 DOI 원문과 재대조한다.
+[방어/FU 12편 통합본](05_defenses_novelty.md)은 정보 조건·시계열 선행·가정 완화 비교를 포함한다. [공격 비교표](00_comparison.md)는 역사적 탐색 메모로 읽고 현재 범위는 [연구 요약](../current/RESEARCH_SUMMARY.md)을 따른다. FoolsGold·FLDetector·GEM은 통합본에서 연결한 선행이며 같은 깊이의 상세 리뷰 완료로 세지 않는다. SubID 원문은 이번 재정리에서 재열람하지 못했으므로 기존 노트의 수치를 외부 인용하기 전 DOI 원문과 재대조한다.
 
 ## 주요 방어 논문에서 가져올 논리 전개
 

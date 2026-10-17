@@ -1,12 +1,12 @@
 # 저장 모델의 로짓 이중 차분과 정상 설명 집합 비교
 
-2026-10-17. 실행은 [RUN.md](../RUN.md). 정상 Non-IID와 공격을 완벽하게 구별한다는 주장은 하지 않는다.
+2026-10-17. 실행은 [RUN.md](../../RUN.md). 정상 Non-IID와 공격을 완벽하게 구별한다는 주장은 하지 않는다.
 
-**현재 연구의 위치:** 이 문서는 완료한 관측 방법 비교의 기록이다. 다음 목표는 [요청한 삭제 이후에 드러나는 잠복 백도어의 교정](RESEARCH_SUMMARY.md#현재-연구-범위와-다음-실험--2026-10-17)이다. 아래 이중차분 신호는 교정할 위험의 후보이며, FU의 망각 정확성이나 정화 성능의 증거는 아니다. BadFU·FUBA의 삭제 단위와 공격 기제는 별도로 검증한다.
+**현재 연구의 위치:** 이 문서는 완료한 관측 방법 비교의 기록이다. 다음 목표는 [요청한 삭제 이후에 드러나는 잠복 백도어의 교정](../current/RESEARCH_SUMMARY.md#현재-연구-범위와-다음-실험--2026-10-17)이다. 아래 이중차분 신호는 교정할 위험의 후보이며, FU의 망각 정확성이나 정화 성능의 증거는 아니다. BadFU·FUBA의 삭제 단위와 공격 기제는 별도로 검증한다.
 
 ## 본 실험 업로드 검토 — 2026-10-17
 
-업로드 커밋 `845803e`의 [원본 ZIP](../reproduction/validation/exports/deletion_comparison/07ad0aefbb22ddc8/deletion_comparison.zip)에는 **11건 모두** 들어 있다. BadFU 40R 및 FUBA 100R, 정상 FUBA seed 42·43·44다. ZIP/파일 체크섬, 로짓 이중 차분, 정상 설명 LP/보류 결과, 이력 점수, AUC 표를 원본 관측에서 재계산해 일치했다. 원격 실행의 측정 코드 해시도 로컬 원본과 같다. 검산기에서 수정된 중심화 로짓의 수치 허용 오차는 GPU/NumPy float32 합산 차이에 관한 것으로, 점수나 탐지 임계값을 바꾼 것이 아니다.
+업로드 커밋 `845803e`의 [원본 ZIP](../../reproduction/validation/exports/deletion_comparison/07ad0aefbb22ddc8/deletion_comparison.zip)에는 **11건 모두** 들어 있다. BadFU 40R 및 FUBA 100R, 정상 FUBA seed 42·43·44다. ZIP/파일 체크섬, 로짓 이중 차분, 정상 설명 LP/보류 결과, 이력 점수, AUC 표를 원본 관측에서 재계산해 일치했다. 원격 실행의 측정 코드 해시도 로컬 원본과 같다. 검산기에서 수정된 중심화 로짓의 수치 허용 오차는 GPU/NumPy float32 합산 차이에 관한 것으로, 점수나 탐지 임계값을 바꾼 것이 아니다.
 
 ### 1. 실제 BadFU FU에서 확인한 신호
 
@@ -31,7 +31,7 @@
 
 **사례별로 집계한 0이 아닌 이력 기여 관측 1,110개 모두 정상 설명 집합이 비었다.** 같은 궤적을 다른 삭제/후보에 재사용한 관측을 포함하며 독립 업데이트 1,110개라는 뜻은 아니다. 따라서 11건 모두 정상 보정 이력 점수와 결합 점수가 보류됐다. 이는 공격 탐지 실패/성공으로 숫자를 낼 단계 이전의 표현 가정 실패다.
 
-기존 출력의 FUBA coverage 29.5~32.5%는 삭제 대상 비참여로 기여가 0인 항목을 포함한다. 총 1,360개 라운드×집합 관측 중 알려진 0은 250개, 실제 설명된 비영 기여는 0개다. **32.5%를 정상 업데이트의 설명 성공률로 읽으면 안 된다.** [검토 표](../reproduction/validation/reviews/deletion_comparison_20261017/report.md)는 두 수치를 분리한다.
+기존 출력의 FUBA coverage 29.5~32.5%는 삭제 대상 비참여로 기여가 0인 항목을 포함한다. 총 1,360개 라운드×집합 관측 중 알려진 0은 250개, 실제 설명된 비영 기여는 0개다. **32.5%를 정상 업데이트의 설명 성공률로 읽으면 안 된다.** [검토 표](../../reproduction/validation/reviews/deletion_comparison_20261017/report.md)는 두 수치를 분리한다.
 
 각 사례·삭제/잔류 집합의 첫·마지막 비영 방향 44개에서 계수 제한을 없애도 깨끗한 관측의 최소 오차는 허용 범위보다 컸고, 제한을 둔 경우와 사실상 같았다. 정상 BadFU의 클래스별 공개 기울기 공간에 대한 최소제곱 잔차 RMS 비율의 사례별 중앙값은 **78.55~85.42%**, 정상 FUBA는 **63.56~66.59%**였다. 따라서 확인한 표본에서는 단순히 계수 제한 B=2가 작은 문제가 아니다. **최종 모델의 공개 클래스 평균 기울기 10개가 실제 정상 기여 방향을 충분히 표현하지 못했다.** 이것을 공격 신호로 사용하면 정상도 함께 오탐한다. ε를 공격 결과에 맞춰 크게 잡는 방식으로 성공을 만들지 않는다.
 
@@ -41,11 +41,11 @@
 2. FUBA는 누적 차감 후보의 큰 점수를 주 결과에서 제외하고 **같은 요청을 수행한 실제 FU 모델**로 다시 평가한다.
 3. 이력 방법은 먼저 정상 실행에서 참조 공간의 설명 가능성을 검증해야 한다. 기존 집합의 실패를 확인한 상태에서 이력 추가 이득이나 새로운 탐지 보장을 주장하지 않는다.
 
-추가 학습·FU·추론 없이 업로드된 관측만으로 검토했다. 상세 수치와 재계산 근거는 [audit.json](../reproduction/validation/reviews/deletion_comparison_20261017/audit.json)에 있다. 기존 원본 결과는 수정하지 않았다.
+추가 학습·FU·추론 없이 업로드된 관측만으로 검토했다. 상세 수치와 재계산 근거는 [audit.json](../../reproduction/validation/reviews/deletion_comparison_20261017/audit.json)에 있다. 기존 원본 결과는 수정하지 않았다.
 
-![실제 BadFU 응답과 근사 삭제의 정상 정확도](../reproduction/validation/reviews/deletion_comparison_20261017/endpoint_review.png)
+![실제 BadFU 응답과 근사 삭제의 정상 정확도](../../reproduction/validation/reviews/deletion_comparison_20261017/endpoint_review.png)
 
-![알려진 0과 실제 설명 가능 비율의 분리](../reproduction/validation/reviews/deletion_comparison_20261017/coverage_review.png)
+![알려진 0과 실제 설명 가능 비율의 분리](../../reproduction/validation/reviews/deletion_comparison_20261017/coverage_review.png)
 
 ## 비교할 두 방법
 

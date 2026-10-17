@@ -2,7 +2,7 @@
 
 2026-10-14. 아래 수치는 **각 원논문이 보고한 해당 조건의 결과**이며 우리의 재현 결과가 아니다. 서로 다른 표의 수치를 묶어 우열을 매기지 않는다. 차이는 상대 개선율이 아닌 퍼센트포인트(pp)로 계산했다. 하드웨어를 확인하지 못한 경우 추정하지 않았다. 각 항목의 ‘우리 해석’은 저자의 주장과 구분한다.
 
-2026-10-16 추가: H의 FLShield, I의 FLTrust와 기존 MASA·BackdoorIndicator·FedREDefense 원문을 대조해 **Non-IID 혼동을 줄이기 위해 무엇을 추가로 관측하는가**를 정리했다. 현재 우리 조건과 구체적인 원인 분리는 [연구 설명](../RESEARCH_SUMMARY.md#논문을-설명하는-현재-문장--2026-10-16)과 [Non-IID 진단 계획](../RESEARCH_SUMMARY.md#non-iid가-탐지를-방해하는-경로와-다음-원인-분리)에 반영했다.
+2026-10-16 추가: H의 FLShield, I의 FLTrust와 기존 MASA·BackdoorIndicator·FedREDefense 원문을 대조해 **Non-IID 혼동을 줄이기 위해 무엇을 추가로 관측하는가**를 정리했다. 현재 우리 조건과 구체적인 원인 분리는 [연구 설명](../experiments/RESEARCH_HISTORY.md#논문을-설명하는-현재-문장--2026-10-16)과 [Non-IID 진단 계획](../experiments/RESEARCH_HISTORY.md#non-iid가-탐지를-방해하는-경로와-다음-원인-분리)에 반영했다.
 
 ## 먼저 비교할 논리
 
@@ -243,9 +243,9 @@ CIFAR-10/TLFA, Table III(b): 클래스별 정확도 변화 대신 LIPC를 쓰면
 
 ## 우리 논문의 주장에 반영할 결정
 
-현재 연구의 기준은 [삭제 후 잠복 백도어 교정의 범위와 다음 실험](../RESEARCH_SUMMARY.md#현재-연구-범위와-다음-실험--2026-10-17)이다. 아래 제어 관련 문단은 이전 확장 구상이며 현재 구현의 성능이나 보장이 아니다. 기존 정상 설명 집합의 관측 실패와 새 교정 가설을 구분한다.
+현재 연구의 기준은 [삭제 후 잠복 백도어 교정의 범위와 다음 실험](../current/RESEARCH_SUMMARY.md#현재-연구-범위와-다음-실험--2026-10-17)이다. 아래 제어 관련 문단은 이전 확장 구상이며 현재 구현의 성능이나 보장이 아니다. 기존 정상 설명 집합의 관측 실패와 새 교정 가설을 구분한다.
 
-**제약 최적화의 직접 선행:** [FedOSD, AAAI 2025](https://arxiv.org/abs/2412.20200)는 FU의 gradient 충돌과 후속 학습의 재기억을 다룬다. [GEM](https://arxiv.org/abs/1706.08840)과 [UPGP](https://www.sciencedirect.com/science/article/pii/S0031320326001767)도 gradient 제약/투영을 사용한다. 따라서 최적화·직교화 자체를 신규성으로 주장하지 않는다. 역사적 상쇄 연산자의 이득은 아직 입증되지 않았고, 현재는 [삭제 전후 변형 탐색·CVaR·post 기준 클래스 제약](../PURIFICATION_COMPARE.md)을 분리해 비교한다. 이는 이 선행 방법들의 정량 재현이 아니다.
+**제약 최적화의 직접 선행:** [FedOSD, AAAI 2025](https://arxiv.org/abs/2412.20200)는 FU의 gradient 충돌과 후속 학습의 재기억을 다룬다. [GEM](https://arxiv.org/abs/1706.08840)과 [UPGP](https://www.sciencedirect.com/science/article/pii/S0031320326001767)도 gradient 제약/투영을 사용한다. 따라서 최적화·직교화 자체를 신규성으로 주장하지 않는다. 역사적 상쇄 연산자의 이득은 아직 입증되지 않았고, 현재는 [삭제 전후 변형 탐색·CVaR·post 기준 클래스 제약](../current/PURIFICATION_COMPARE.md)을 분리해 비교한다. 이는 이 선행 방법들의 정량 재현이 아니다.
 
 - **남길 문제:** FL에서 공동 학습된 주입·억제 중 FU가 억제를 제거하여 활성화하는 백도어.
 - **내릴 주장:** 큰 장력=악성, 모든 non-IID 구분, FU 시뮬레이션 자체의 신규성, 모든 BadFU에 대한 이미 완성된 방어.
@@ -301,7 +301,7 @@ Appendix G Table 2의 그룹 간 이질성 실험에서 label-distribution 설�
 
 ### 5. Takeaway & Next Actions (내 연구/프로젝트와의 접점)
 
-정상 삭제 변화·FU 근사 손상·백도어 초과 위험을 분리한다. 정상 요청 뒤 성능 변화 자체를 공격 라벨로 삼지 않는다. 함께 읽기: K 및 [현재 설계](../RESEARCH_SUMMARY.md).
+정상 삭제 변화·FU 근사 손상·백도어 초과 위험을 분리한다. 정상 요청 뒤 성능 변화 자체를 공격 라벨로 삼지 않는다. 함께 읽기: K 및 [현재 설계](../current/RESEARCH_SUMMARY.md).
 
 ## K. FedOSD — Federated Unlearning with Gradient Descent and Conflict Mitigation
 

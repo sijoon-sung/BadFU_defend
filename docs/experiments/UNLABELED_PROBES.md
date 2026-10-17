@@ -2,7 +2,7 @@
 
 현재 작업 브랜치: `codex/structural-latent-defense`.
 
-이 문서는 `FUBA/experiment_hrac_unlabeled.py`로 저장된 BadFU 궤적을 분석하는 안내입니다. 모든 명령은 저장소 루트에서 실행합니다. FL 학습과 FU를 새로 실행하지 않습니다. 새 궤적 생성은 [RUN.md](../RUN.md)를 따릅니다.
+이 문서는 `FUBA/experiment_hrac_unlabeled.py`로 저장된 BadFU 궤적을 분석하는 안내입니다. 모든 명령은 저장소 루트에서 실행합니다. FL 학습과 FU를 새로 실행하지 않습니다. 새 궤적 생성은 [RUN.md](../../RUN.md)를 따릅니다.
 
 ## 라벨 없이 공개 이미지로 검사 — 현재 실행 경로
 
@@ -79,4 +79,4 @@ python FUBA/experiment_hrac_unlabeled.py run --manifest /path/to/long_manifest.j
 
 기존 15라운드 궤적에서 라벨 없이 고른 이미지 세 묶음 모두 요청자 5·출력 0이 1위였습니다. 단순 누적 음의 기여와 마지막 라운드도 1위였습니다. 같은 학습 궤적 하나의 결과이며 정상 Non-IID 오탐률·타 도메인·다른 트리거는 미검증입니다. 코드 테스트 105개와 중간 저장·재시작을 확인했습니다.
 
-[프로토콜](../FUBA/logs/hrac/unlabeled_badfu_v1/protocol.json) · [전체 결과](../FUBA/logs/hrac/unlabeled_badfu_v1/analysis.json) · [수식과 한계](RESEARCH_SUMMARY.md)
+[프로토콜](../../FUBA/logs/hrac/unlabeled_badfu_v1/protocol.json) · [전체 결과](../../FUBA/logs/hrac/unlabeled_badfu_v1/analysis.json) · [수식과 한계](../current/RESEARCH_SUMMARY.md)
